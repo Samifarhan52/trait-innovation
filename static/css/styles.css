@@ -3,7 +3,10 @@
 /* Global Font Settings */
 html, body {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4, .font-display {
@@ -47,6 +50,7 @@ code, pre, .font-mono {
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(226, 232, 240, 0.9);
   box-shadow: 0 20px 40px -15px rgba(0, 102, 255, 0.05);
+  transform: translateZ(0);
 }
 
 .dark .glass-panel {
@@ -263,14 +267,9 @@ code, pre, .font-mono {
 
 /* Leadership Card Staggered Scroll Reveal */
 .leadership-reveal {
-  opacity: 0;
-  transform: translateY(45px) scale(0.95);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.leadership-reveal.active {
   opacity: 1;
   transform: translateY(0px) scale(1);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Connecting Laser Beam Energy Pulse */
@@ -286,4 +285,20 @@ code, pre, .font-mono {
 .animate-leadership-beam {
   will-change: transform;
   animation: leadership-beam-flow 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Brand Intro Hold Pulse & Ambient Aura Animation */
+@keyframes intro-hold-aura {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.3));
+  }
+  50% {
+    transform: scale(1.02);
+    filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.6));
+  }
+}
+
+.intro-hold-pulse {
+  animation: intro-hold-aura 1.2s ease-in-out infinite;
 }
