@@ -1,14 +1,45 @@
-// Cinematic AI-Powered Cyber Decrypt Intro Reveal Script
-document.addEventListener('DOMContentLoaded', () => {
+// Cinematic AI-Powered Cyber Decrypt Intro Reveal Script (Vercel CDN Ready)
+function initNetflixIntro() {
   const introOverlay = document.getElementById('netflix-intro-overlay');
+  if (!introOverlay) return;
+
   const skipBtn = document.getElementById('skip-intro-btn');
   const introStage = document.getElementById('netflix-intro-stage');
   const introTextWrapper = document.getElementById('intro-text-wrapper');
   const introLetters = document.querySelectorAll('.intro-letter');
 
-  if (!introOverlay) return;
+  let isDismissed = false;
 
-  // Web Audio Synthesizer for Offline Cinematic Netflix Sound Boom ("Ta-dum" + Cyber Synth effect)
+  function dismissIntro() {
+    if (isDismissed) return;
+    isDismissed = true;
+
+    if (introOverlay) {
+      introOverlay.style.transition = 'opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s ease';
+      introOverlay.style.opacity = '0';
+      introOverlay.style.transform = 'scale(1.05)';
+      introOverlay.style.visibility = 'hidden';
+      setTimeout(() => {
+        try {
+          if (introOverlay.parentNode) {
+            introOverlay.parentNode.removeChild(introOverlay);
+          }
+        } catch (e) {}
+      }, 500);
+    }
+  }
+
+  // Absolute Safety Timer: Guarantees intro dismissal after 3.8s max on Vercel CDN or slow networks
+  const absoluteSafetyTimer = setTimeout(dismissIntro, 3800);
+
+  if (skipBtn) {
+    skipBtn.addEventListener('click', () => {
+      clearTimeout(absoluteSafetyTimer);
+      dismissIntro();
+    });
+  }
+
+  // Web Audio Synthesizer for Offline Cinematic Sound Boom ("Ta-dum" + Cyber Synth effect)
   function playCinematicAudio() {
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -66,53 +97,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const cyberGlyphs = ['Δ', 'Ξ', 'Ψ', 'Σ', 'Ω', '0', '1', '⚡', '⌘', 'X', 'Y', 'Z', '9', '8'];
 
   introLetters.forEach((el) => {
-    const delay = parseFloat(el.getAttribute('data-delay') || '0.1');
-    const targetChar = el.textContent.trim();
-    const startTime = 900 + (delay * 1000); // Trigger relative to wrapper expansion
+    try {
+      const delay = parseFloat(el.getAttribute('data-delay') || '0.1');
+      const targetChar = el.textContent.trim();
+      const startTime = 900 + (delay * 1000);
 
-    setTimeout(() => {
-      el.style.opacity = '1';
-      let scrambles = 0;
-      const maxScrambles = 5;
-      const interval = setInterval(() => {
-        if (scrambles >= maxScrambles) {
-          el.textContent = targetChar;
-          clearInterval(interval);
-        } else {
-          el.textContent = cyberGlyphs[Math.floor(Math.random() * cyberGlyphs.length)];
-          scrambles++;
-        }
-      }, 30);
-    }, startTime);
+      setTimeout(() => {
+        el.style.opacity = '1';
+        let scrambles = 0;
+        const maxScrambles = 5;
+        const interval = setInterval(() => {
+          if (scrambles >= maxScrambles) {
+            el.textContent = targetChar;
+            clearInterval(interval);
+          } else {
+            el.textContent = cyberGlyphs[Math.floor(Math.random() * cyberGlyphs.length)];
+            scrambles++;
+          }
+        }, 30);
+      }, startTime);
+    } catch (e) {}
   });
 
-  // Step 3: Trigger Camera Zoom-Out at 2.6s after full decrypt completes
-  const zoomTimer = setTimeout(() => {
+  // Step 3: Trigger Camera Zoom-Out at 2.5s after decrypt completes
+  setTimeout(() => {
     if (introStage) {
       introStage.classList.add('animate-netflix-zoom');
     }
-  }, 2600);
+  }, 2500);
 
-  // Step 4: Dismiss Intro & reveal main application at 3.2s
-  const dismissTimer = setTimeout(() => {
+  // Step 4: Dismiss Intro & reveal main application at 3.1s
+  setTimeout(() => {
     dismissIntro();
-  }, 3200);
+  }, 3100);
+}
 
-  if (skipBtn) {
-    skipBtn.addEventListener('click', () => {
-      clearTimeout(zoomTimer);
-      clearTimeout(dismissTimer);
-      dismissIntro();
-    });
-  }
-
-  function dismissIntro() {
-    introOverlay.style.transition = 'opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s ease';
-    introOverlay.style.opacity = '0';
-    introOverlay.style.transform = 'scale(1.05)';
-    introOverlay.style.visibility = 'hidden';
-    setTimeout(() => {
-      introOverlay.remove();
-    }, 500);
-  }
-});
+// Immediate execution check for ready state (solves Vercel CDN async load issue)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initNetflixIntro);
+} else {
+  initNetflixIntro();
+}
