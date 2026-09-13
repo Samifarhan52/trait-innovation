@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRAIT Innovation — Building What's Next</title>
+  <meta name="description" content="TRAIT Innovation builds technology and AI-driven solutions designed to solve real-world challenges and create practical impact." />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#F0F9FF',
+              500: '#0066FF',
+              600: '#0052CC',
+              accent: '#00F0FF',
+              dark: '#040814',
+              surface: '#0A0F1D',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts & Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  
+  <!-- Three.js Library CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body class="bg-[#F8FAFC] dark:bg-[#040814] text-[#0A0F1D] dark:text-white transition-colors duration-500 font-sans overflow-x-hidden selection:bg-blue-600 selection:text-white">
+
+  <!-- 1. NETFLIX-STYLE CINEMATIC INTRO PRELOADER OVERLAY -->
+  <div id="netflix-intro-overlay" class="fixed inset-0 z-50 bg-[#030611] flex flex-col items-center justify-center overflow-hidden font-sans">
+    
+    <!-- Ambient Soundwave Pulsing Glow (Radial Gradient for 0 Blur Overhead) -->
+    <div class="absolute w-[450px] h-[450px] sm:w-[600px] sm:h-[600px] bg-[radial-gradient(circle,_var(--tw-gradient-stops))] from-cyan-500/20 via-blue-600/15 to-transparent rounded-full pointer-events-none animate-netflix-aura"></div>
+
+    <!-- Cyber HUD Header Badges -->
+    <div class="absolute top-6 left-8 text-[9px] font-mono tracking-widest text-cyan-400/80 uppercase pointer-events-none flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+      <span>TRAIT_AI_CORE // INITIALIZING</span>
+    </div>
+    <div class="absolute top-6 right-8 text-[9px] font-mono tracking-widest text-purple-400/80 uppercase pointer-events-none hidden sm:block">
+      SYS_VER: 2.0.4 &nbsp;|&nbsp; QUANTUM_SYNC: 100%
+    </div>
+
+    <!-- Lens Flare Ray Beams -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none animate-netflix-rays opacity-70">
+      <div class="w-[800px] h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
+      <div class="w-[800px] h-[2px] bg-gradient-to-r from-transparent via-blue-600 to-transparent rotate-45"></div>
+      <div class="w-[800px] h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent rotate-90"></div>
+      <div class="w-[800px] h-[2px] bg-gradient-to-r from-transparent via-purple-500 to-transparent rotate-135"></div>
+    </div>
+
+    <!-- Central Cinematic Stage -->
+    <div id="netflix-intro-stage" class="relative flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 z-10 transition-transform duration-500">
+      
+      <!-- Multi-Color 3D 'T' Ribbon Monogram (Constructs Alone in Dead Center) -->
+      <div id="netflix-t-monogram" class="relative w-16 h-20 sm:w-24 sm:h-28 flex flex-col items-center justify-start shrink-0">
+        
+        <!-- Top Horizontal Ribbon Bar (Cyan to Violet to Pink Spectrum) -->
+        <div class="w-full h-5 sm:h-7 rounded-lg bg-gradient-to-r from-cyan-400 via-blue-500 via-purple-500 to-pink-500 animate-netflix-ribbon-top shadow-lg shadow-cyan-500/50 relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 to-transparent animate-scanline"></div>
+        </div>
+
+        <!-- Vertical Stem Ribbon Bar (Blue to Purple to Amber Accent) -->
+        <div class="w-5 sm:w-7 rounded-b-lg bg-gradient-to-b from-blue-500 via-purple-600 to-amber-500 animate-netflix-ribbon-stem shadow-lg shadow-purple-500/50 relative overflow-hidden -mt-1">
+          <div class="absolute inset-0 bg-gradient-to-b from-transparent via-white/80 to-transparent animate-scanline"></div>
+        </div>
+
+      </div>
+
+      <!-- Cinematic Brand Text Wrapper (Expands dynamically, gliding T to left) -->
+      <div id="intro-text-wrapper" class="max-w-0 opacity-0 overflow-hidden transition-all duration-700 ease-out text-center sm:text-left flex flex-col justify-center">
+        <div class="text-2xl sm:text-4xl md:text-5xl font-black font-display tracking-[0.12em] sm:tracking-[0.18em] uppercase whitespace-nowrap flex items-center gap-2 sm:gap-3">
+          <!-- Remaining Letters of TRAIT (R-A-I-T Decrypts) -->
+          <div class="inline-flex items-center">
+            <span class="intro-letter inline-block bg-gradient-to-r from-cyan-300 to-sky-400 bg-clip-text text-transparent opacity-0" data-delay="0.10">R</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent opacity-0" data-delay="0.18">A</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent opacity-0" data-delay="0.26">I</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-blue-500 to-indigo-400 bg-clip-text text-transparent opacity-0" data-delay="0.34">T</span>
+          </div>
+
+          <!-- Space -->
+          <span class="inline-block w-1.5 sm:w-2.5"></span>
+
+          <!-- INNOVATION (I-N-N-O-V-A-T-I-O-N Decrypts) -->
+          <div class="inline-flex items-center">
+            <span class="intro-letter inline-block bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent opacity-0" data-delay="0.46">I</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent opacity-0" data-delay="0.54">N</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent opacity-0" data-delay="0.62">N</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent opacity-0" data-delay="0.70">O</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-pink-500 to-rose-400 bg-clip-text text-transparent opacity-0" data-delay="0.78">V</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-pink-500 to-amber-400 bg-clip-text text-transparent opacity-0" data-delay="0.86">A</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-amber-400 to-amber-300 bg-clip-text text-transparent opacity-0" data-delay="0.94">T</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-amber-400 to-cyan-300 bg-clip-text text-transparent opacity-0" data-delay="1.02">I</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-cyan-300 to-blue-400 bg-clip-text text-transparent opacity-0" data-delay="1.10">O</span>
+            <span class="intro-letter inline-block bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent opacity-0" data-delay="1.18">N</span>
+          </div>
+        </div>
+        <div class="animate-netflix-tagline text-[10px] sm:text-xs text-slate-300 font-mono tracking-[0.35em] uppercase mt-2.5 opacity-0 flex items-center justify-center sm:justify-start gap-2">
+          <span class="px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/30 text-cyan-300 font-bold">IDEAS</span>
+          <span class="text-slate-600">×</span>
+          <span class="px-2 py-0.5 rounded bg-purple-950/80 border border-purple-500/30 text-purple-300 font-bold">TECHNOLOGY</span>
+          <span class="text-slate-600">×</span>
+          <span class="px-2 py-0.5 rounded bg-pink-950/80 border border-pink-500/30 text-pink-300 font-bold">REAL IMPACT</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Skip Intro Button -->
+    <button id="skip-intro-btn" class="absolute bottom-8 right-8 px-5 py-2.5 rounded-full border border-slate-700/80 bg-slate-900/80 backdrop-blur-md text-xs font-mono text-slate-300 hover:text-white hover:border-cyan-400 hover:bg-slate-900 transition-all flex items-center gap-2 shadow-2xl">
+      SKIP INTRO ➔
+    </button>
+  </div>
+
+  <!-- 2. THREE.JS AMBIENT 3D PARTICLES CANVAS -->
+  <div id="background-3d-canvas-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+  <!-- 3. MAIN APPLICATION CONTENT -->
+  <div class="relative z-10">
+
+    <!-- ULTRA-MODERN FLOATING NAVBAR WITH SOLUTIONS HOVER MEGAMENU -->
+    <header class="sticky top-4 z-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="backdrop-blur-xl bg-white/85 dark:bg-[#0A0F1D]/85 border border-slate-200/90 dark:border-blue-500/30 rounded-full px-6 py-3 flex items-center justify-between shadow-xl shadow-slate-900/5 transition-colors duration-300 relative">
+        
+        <!-- Brand Logo -->
+        <a href="#" class="flex items-center gap-3 group shrink-0">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 flex items-center justify-center text-white font-extrabold font-display text-xl shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
+            T
+          </div>
+          <div class="flex flex-col">
+            <span class="font-display font-black text-lg tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors uppercase">TRAIT <span class="font-normal text-blue-600 dark:text-cyan-400">INNOVATION</span></span>
+            <span class="text-[8px] font-mono text-slate-400 font-bold tracking-widest uppercase -mt-1">IDEAS | TECHNOLOGY | REAL IMPACT</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Pill Links with Hover Dropdown -->
+        <nav class="hidden md:flex items-center gap-6 px-6 py-2 rounded-full bg-slate-100/80 dark:bg-slate-900/80 text-xs font-semibold text-slate-700 dark:text-slate-200">
+          <a href="#" class="flex items-center gap-1.5 text-blue-600 dark:text-cyan-400 font-bold">
+            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-cyan-400"></span> Home
+          </a>
+
+          <!-- SOLUTIONS HOVER MEGAMENU CONTAINER -->
+          <div class="relative group py-1">
+            <a href="#solutions" class="flex items-center gap-1 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors cursor-pointer">
+              Solutions
+              <svg class="w-3 h-3 text-slate-400 group-hover:text-blue-600 dark:group-hover:text-cyan-400 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </a>
+
+            <!-- ALL 9 FLAGSHIP PROJECTS MEGAMENU DROPDOWN -->
+            <div class="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 w-[840px]">
+              <div class="rounded-3xl p-6 bg-white/95 dark:bg-[#0A0F1D]/95 backdrop-blur-2xl border border-slate-200 dark:border-blue-500/30 shadow-2xl shadow-slate-950/20 text-slate-800 dark:text-slate-100 grid grid-cols-12 gap-6">
+                
+                <!-- Category 1: AI & Legal (Projects 1, 2, 3) -->
+                <div class="col-span-3 space-y-3 border-r border-slate-100 dark:border-slate-800/80 pr-4">
+                  <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-blue-600 dark:text-cyan-400 flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    AI & Analytics
+                  </div>
+
+                  <a href="#solutions" class="block p-2.5 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors group/item">
+                    <div class="text-xs font-bold font-display group-hover/item:text-blue-600 dark:group-hover/item:text-cyan-400 transition-colors">1. AdvocatePro AI</div>
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">Legal intelligence & workflow assistance.</div>
+                  </a>
+
+                  <a href="#solutions" class="block p-2.5 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors group/item">
+                    <div class="text-xs font-bold font-display group-hover/item:text-blue-600 dark:group-hover/item:text-cyan-400 transition-colors">2. AI Customer Support Agent</div>
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">Automated support & escalation.</div>
+                  </a>
+
+                  <a href="#solutions" class="block p-2.5 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors group/item">
+                    <div class="text-xs font-bold font-display group-hover/item:text-blue-600 dark:group-hover/item:text-cyan-400 transition-colors">3. AI Data Analysis Agent</div>
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">Data insights & visualizations.</div>
+                  </a>
+                </div>
+
+                <!-- Category 2: HR & Talent Tech (Projects 4, 5) -->
+                <div class="col-span-3 space-y-3 border-r border-slate-100 dark:border-slate-800/80 pr-4">
+                  <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    HR & Talent Tech
+                  </div>
+
+                  <a href="#solutions" class="block p-2.5 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors group/item">
+                    <div class="text-xs font-bold font-display group-hover/item:text-blue-600 dark:group-hover/item:text-cyan-400 transition-colors">4. TRAIT HireAI</div>
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">Recruitment & candidate lifecycle.</div>
+                  </a>
+
+                  <a href="#solutions" class="block p-2.5 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors group/item">
+                    <div class="text-xs font-bold font-display group-hover/item:text-blue-600 dark:group-hover/item:text-cyan-400 transition-colors">5. AI Interview Coach</div>
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">Interview preparation & feedback.</div>
+                  </a>
+                </div>
+
+                <!-- Category 3: Aviation Tech (Projects 8, 9) -->
+                <div class="col-span-3 space-y-3 border-r border-slate-100 dark:border-slate-800/80 pr-4">
+                  <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                    Aviation Solutions
+                  </div>
+
+                  <a href="#solutions" class="block p-2.5 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors group/item">
+                    <div class="text-xs font-bold font-display group-hover/item:text-blue-600 dark:group-hover/item:text-cyan-400 transition-colors">8. TRAIT AirportAI</div>
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">Passenger assistance & navigation.</div>
+                  </a>
+
+                  <a href="#solutions" class="block p-2.5 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors group/item">
+                    <div class="text-xs font-bold font-display group-hover/item:text-blue-600 dark:group-hover/item:text-cyan-400 transition-colors">9. TRAIT Aviation Analytics</div>
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">Flight & operational dashboards.</div>
+                  </a>
+                </div>
+
+                <!-- Category 4: Commerce & Events (Projects 6, 7) -->
+                <div class="col-span-3 space-y-3">
+                  <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                    Commerce & Events
+                  </div>
+
+                  <a href="#solutions" class="block p-2.5 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors group/item">
+                    <div class="text-xs font-bold font-display group-hover/item:text-blue-600 dark:group-hover/item:text-cyan-400 transition-colors">6. TRAIT Event Management</div>
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">End-to-end corporate & family events.</div>
+                  </a>
+
+                  <a href="#solutions" class="block p-2.5 rounded-2xl hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors group/item">
+                    <div class="text-xs font-bold font-display group-hover/item:text-blue-600 dark:group-hover/item:text-cyan-400 transition-colors">7. TRAIT CommerceAI</div>
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">E-commerce recommendations & AI.</div>
+                  </a>
+                </div>
+
+                <!-- Bottom Footer Callout in Megamenu -->
+                <div class="col-span-12 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[10px] font-mono text-slate-400">
+                  <span>9 INITIAL FLAGSHIP PROJECTS PORTFOLIO</span>
+                  <a href="#contact" class="text-blue-600 dark:text-cyan-400 font-bold hover:underline">DISCUSS CUSTOM REQUIREMENTS ➔</a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <a href="#leadership" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Leadership</a>
+          <a href="#why-us" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">Why Choose Us</a>
+          <a href="#faq" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">FAQ</a>
+        </nav>
+
+        <!-- Right Action Controls -->
+        <div class="flex items-center gap-3">
+          <!-- Theme Toggle Switch -->
+          <button id="theme-toggle-btn" class="px-4 py-2 rounded-full border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 text-xs font-bold text-slate-800 dark:text-cyan-400 hover:scale-105 transition-all flex items-center gap-1.5 shadow-sm">
+            <span class="hidden dark:inline">☀️ Light</span>
+            <span class="inline dark:hidden">🌙 Dark</span>
+          </button>
+
+          <!-- Let's Talk CTA Pill -->
+          <a href="#contact" class="hidden sm:inline-flex px-6 py-2.5 rounded-full bg-slate-950 dark:bg-blue-600 text-white font-bold text-xs shadow-lg hover:bg-blue-600 dark:hover:bg-blue-500 hover:scale-105 transition-all items-center gap-1.5">
+            Let's Talk ↗
+          </a>
+
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-btn" class="md:hidden p-2 rounded-full text-slate-700 dark:text-white">
+            ☰
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Dropdown with 9 Flagship Projects -->
+      <div id="mobile-menu" class="hidden md:hidden mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 space-y-3 font-medium shadow-2xl">
+        <a href="#" class="block py-1.5 text-blue-600 font-bold">Home</a>
+        
+        <div>
+          <div class="py-1.5 text-xs font-mono font-bold text-slate-400 uppercase">Solutions (9 Flagship Projects)</div>
+          <div class="pl-2 space-y-1.5 text-xs">
+            <a href="#solutions" class="block text-slate-700 dark:text-slate-300 hover:text-blue-600">1. AdvocatePro AI</a>
+            <a href="#solutions" class="block text-slate-700 dark:text-slate-300 hover:text-blue-600">2. AI Customer Support Agent</a>
+            <a href="#solutions" class="block text-slate-700 dark:text-slate-300 hover:text-blue-600">3. AI Data Analysis Agent</a>
+            <a href="#solutions" class="block text-slate-700 dark:text-slate-300 hover:text-blue-600">4. TRAIT HireAI</a>
+            <a href="#solutions" class="block text-slate-700 dark:text-slate-300 hover:text-blue-600">5. AI Interview Coach</a>
+            <a href="#solutions" class="block text-slate-700 dark:text-slate-300 hover:text-blue-600">6. TRAIT Event Management</a>
+            <a href="#solutions" class="block text-slate-700 dark:text-slate-300 hover:text-blue-600">7. TRAIT CommerceAI</a>
+            <a href="#solutions" class="block text-slate-700 dark:text-slate-300 hover:text-blue-600">8. TRAIT AirportAI</a>
+            <a href="#solutions" class="block text-slate-700 dark:text-slate-300 hover:text-blue-600">9. TRAIT Aviation Analytics</a>
+          </div>
+        </div>
+
+        <a href="#leadership" class="block py-1.5 hover:text-blue-600">Leadership</a>
+        <a href="#why-us" class="block py-1.5 hover:text-blue-600">Why Choose Us</a>
+        <a href="#faq" class="block py-1.5 hover:text-blue-600">FAQ</a>
+        <a href="#contact" class="block py-1.5 text-blue-600 font-bold">Contact ➔</a>
+      </div>
+    </header>
+
+    <!-- 4. HERO SECTION MATCHING REFERENCE MOCKUP AND CONTEXT TEXT -->
+    <section class="relative min-h-[85vh] pt-12 pb-20 flex items-center justify-center">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        
+        <!-- Left Hero Content -->
+        <div class="lg:col-span-6 space-y-6 z-20">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-500/30 text-[10px] sm:text-xs font-mono text-blue-600 dark:text-cyan-400 font-bold uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse"></span>
+            BUILDING WHAT'S NEXT.
+          </div>
+
+          <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.08] font-display text-slate-900 dark:text-white">
+            Ideas <br />
+            Technology <br />
+            <span id="hero-dynamic-text" class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 transition-all duration-300">Real Impact.</span>
+          </h1>
+
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl font-normal leading-relaxed">
+            TRAIT Innovation builds technology and AI-driven solutions designed to solve real-world challenges and create practical impact.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="#contact" class="px-7 py-3.5 rounded-full bg-slate-950 dark:bg-blue-600 text-white font-bold text-xs sm:text-sm shadow-xl shadow-slate-900/10 hover:bg-blue-600 dark:hover:bg-blue-500 hover:scale-105 transition-all flex items-center gap-2 uppercase tracking-wide">
+              LET'S TALK ➔
+            </a>
+            <a href="#solutions" class="px-7 py-3.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md font-bold text-xs sm:text-sm text-slate-800 dark:text-white hover:border-blue-500 transition-all flex items-center gap-2 uppercase tracking-wide">
+              EXPLORE
+            </a>
+          </div>
+
+          <!-- Domain Highlights -->
+          <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200 dark:border-slate-800/80">
+            <div>
+              <div class="text-lg sm:text-xl font-extrabold font-display text-slate-900 dark:text-white">AI & Data</div>
+              <div class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">Solutions</div>
+            </div>
+            <div>
+              <div class="text-lg sm:text-xl font-extrabold font-display text-slate-900 dark:text-white">Multi-Domain</div>
+              <div class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">Capabilities</div>
+            </div>
+            <div>
+              <div class="text-lg sm:text-xl font-extrabold font-display text-slate-900 dark:text-white">Practical</div>
+              <div class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">Impact</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right 3D Revolving Orbit centered around TRAIT 'T' -->
+        <div class="lg:col-span-6 relative flex items-center justify-center w-full">
+          
+          <!-- Handwritten Accent Annotation -->
+          <div class="absolute -top-8 right-4 hidden sm:block z-30 font-handwriting text-2xl text-blue-600 dark:text-cyan-400 transform rotate-[-6deg] leading-tight select-none">
+            Different Industries<br />A Smarter Tomorrow.
+          </div>
+
+          <div id="hero-orbit-container" class="relative w-full h-[460px] sm:h-[540px] md:h-[580px] lg:h-[600px] flex items-center justify-center select-none">
+            
+            <!-- SVG Network Lines -->
+            <svg id="orbit-svg-network" class="absolute inset-0 w-full h-full pointer-events-none z-10" fill="none"></svg>
+
+            <!-- Central Prominent TRAIT Emblem Badge -->
+            <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center group cursor-pointer">
+              <div class="absolute w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] md:w-[300px] md:h-[300px] rounded-full border border-blue-500/50 animate-spin pointer-events-none" style="animation-duration: 14s;"></div>
+              <div class="absolute w-[240px] h-[240px] sm:w-[300px] sm:h-[300px] md:w-[340px] md:h-[340px] rounded-full border border-dashed border-cyan-400/40 animate-spin pointer-events-none" style="animation-duration: 20s; animation-direction: reverse;"></div>
+              <div class="absolute w-44 h-44 sm:w-60 sm:h-60 md:w-68 md:h-68 bg-gradient-to-tr from-blue-600/30 via-cyan-400/25 to-indigo-500/25 blur-[40px] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
+
+              <div class="relative w-36 h-36 sm:w-48 sm:h-48 md:w-52 md:h-52 rounded-3xl p-2 bg-slate-950/90 border-2 border-blue-500 shadow-2xl shadow-blue-500/60 backdrop-blur-md overflow-hidden group-hover:scale-105 transition-all duration-500">
+                <img src="{{ url_for('static', filename='assets/central_t.jpg') }}" alt="TRAIT Innovation Central Emblem" class="w-full h-full object-contain rounded-2xl drop-shadow-[0_0_30px_rgba(0,240,255,0.9)]" />
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent animate-scanline pointer-events-none"></div>
+              </div>
+
+              <!-- Direction Badge -->
+              <div id="orbit-direction-badge" class="absolute -bottom-6 px-3.5 py-1 rounded-full bg-slate-900/90 border border-blue-500/40 text-[8px] sm:text-[9px] font-mono text-cyan-400 font-bold uppercase shadow-lg">
+                ORBIT: CLOCKWISE ↻
+              </div>
+            </div>
+
+            <!-- Revolving Cards Container -->
+            <div id="orbit-cards-wrapper" class="absolute inset-0 pointer-events-none z-30"></div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Domain Ticker Bar -->
+      <div class="absolute bottom-2 inset-x-0 border-t border-slate-200/80 dark:border-slate-800/80 pt-4 pb-2 bg-white/40 dark:bg-slate-950/40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between text-xs font-semibold text-slate-600 dark:text-slate-400 gap-4">
+          <div class="text-[9px] font-mono uppercase tracking-widest text-slate-400">TRUSTED BY FORWARD-THINKING BUSINESSES</div>
+          <div class="flex items-center gap-6 overflow-x-auto py-1 text-xs">
+            <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg> Innovate.</span>
+            <span>×</span>
+            <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg> Create.</span>
+            <span>×</span>
+            <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Automate.</span>
+            <span>×</span>
+            <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg> Scale.</span>
+            <span>×</span>
+            <span class="flex items-center gap-1.5"><svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> Transform.</span>
+            <span>×</span>
+            <span class="text-blue-600 dark:text-cyan-400 font-bold">Together.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. LEADERSHIP SECTION (STAGGERED FLOW FORMAT MATCHING SKETCH) -->
+    <section id="leadership" class="py-24 relative overflow-hidden bg-gradient-to-b from-blue-50/60 via-slate-50 to-white dark:from-[#060C1B] dark:via-[#0A0F1D] dark:to-[#040814] border-y border-slate-200/80 dark:border-slate-800/80">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header Row -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div class="space-y-3">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-100 dark:bg-blue-950/50 text-[10px] font-mono text-blue-600 dark:text-cyan-400 font-bold uppercase tracking-wider">
+              ● OUR LEADERSHIP
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-extrabold font-display text-slate-900 dark:text-white">
+              The People <br />Behind the Vision.
+            </h2>
+            <p class="text-sm text-slate-600 dark:text-slate-300 max-w-md">
+              A leadership team driven by innovation, impact and a commitment to building what's next.
+            </p>
+          </div>
+
+          <div class="text-[9px] font-mono text-slate-400 tracking-widest uppercase">
+            PEOPLE &nbsp;×&nbsp; IDEAS &nbsp;×&nbsp; TECHNOLOGY &nbsp;×&nbsp; IMPACT
+          </div>
+        </div>
+
+        <!-- STAGGERED FLOW LAYOUT (TOP-LEFT -> CENTER-RIGHT -> BOTTOM-LEFT) -->
+        <div class="relative space-y-12 lg:space-y-16">
+          
+          <!-- Connecting Animated Stream Line -->
+          <div class="hidden lg:block absolute left-1/2 top-10 bottom-10 w-1 bg-gradient-to-b from-blue-500 via-indigo-500 to-cyan-400 opacity-30 -translate-x-1/2"></div>
+
+          <!-- 1. Founder Card (Top Left) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7 leadership-reveal rounded-3xl glass-card-leadership p-6 sm:p-8 relative group hover:shadow-2xl transition-all duration-500">
+              <div class="flex flex-col sm:flex-row gap-6 items-center">
+                <!-- Avatar Image -->
+                <div class="w-full sm:w-48 h-64 rounded-2xl overflow-hidden relative bg-slate-900 border border-white/20 shrink-0">
+                  <img src="{{ url_for('static', filename='assets/leader_trisha.jpg') }}" alt="TRISHA RAY N - Founder" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                  <div class="absolute top-3 left-3 text-2xl font-extrabold font-mono text-white/80">01</div>
+                </div>
+                <!-- Details -->
+                <div class="space-y-3 flex-1">
+                  <div class="inline-block px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950/60 text-[10px] font-mono text-blue-600 dark:text-cyan-400 font-bold uppercase">
+                    Founder
+                  </div>
+                  <h3 class="text-2xl font-extrabold font-display text-slate-900 dark:text-white">TRISHA RAY N</h3>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+                    Building the vision, innovation, and technology behind the company, with a focus on AI-driven solutions that solve real-world challenges.
+                  </p>
+                  <div class="text-[10px] font-mono text-slate-400 pt-2 border-t border-slate-200/60 dark:border-slate-800/60">
+                    VISION × INNOVATION × TECHNOLOGY
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hidden lg:block lg:col-span-5"></div>
+          </div>
+
+          <!-- 2. Co-Founder Card (Center Right) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="hidden lg:block lg:col-span-5"></div>
+            <div class="lg:col-span-7 leadership-reveal rounded-3xl glass-card-leadership p-6 sm:p-8 relative group hover:shadow-2xl transition-all duration-500">
+              <div class="flex flex-col sm:flex-row gap-6 items-center">
+                <!-- Avatar Image -->
+                <div class="w-full sm:w-48 h-64 rounded-2xl overflow-hidden relative bg-slate-900 border border-white/20 shrink-0">
+                  <img src="{{ url_for('static', filename='assets/leader_nanjunda.jpg') }}" alt="NANJUNDA RAYA GV - Co-Founder" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                  <div class="absolute top-3 left-3 text-2xl font-extrabold font-mono text-white/80">02</div>
+                </div>
+                <!-- Details -->
+                <div class="space-y-3 flex-1">
+                  <div class="inline-block px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950/60 text-[10px] font-mono text-blue-600 dark:text-cyan-400 font-bold uppercase">
+                    Co-Founder
+                  </div>
+                  <h3 class="text-2xl font-extrabold font-display text-slate-900 dark:text-white">NANJUNDA RAYA GV</h3>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+                    Supporting the company's strategic direction, growth, and long-term vision while helping build a strong foundation for sustainable innovation.
+                  </p>
+                  <div class="text-[10px] font-mono text-slate-400 pt-2 border-t border-slate-200/60 dark:border-slate-800/60">
+                    STRATEGY × GROWTH × SUSTAINABLE FOUNDATION
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. CEO Card (Bottom Left) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7 leadership-reveal rounded-3xl glass-card-leadership p-6 sm:p-8 relative group hover:shadow-2xl transition-all duration-500">
+              <div class="flex flex-col sm:flex-row gap-6 items-center">
+                <!-- Avatar Image -->
+                <div class="w-full sm:w-48 h-64 rounded-2xl overflow-hidden relative bg-slate-900 border border-white/20 shrink-0">
+                  <img src="{{ url_for('static', filename='assets/leader_sumanth.jpg') }}" alt="SUMANTH RANJAN - CEO" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+                  <div class="absolute top-3 left-3 text-2xl font-extrabold font-mono text-white/80">03</div>
+                </div>
+                <!-- Details -->
+                <div class="space-y-3 flex-1">
+                  <div class="inline-block px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-950/60 text-[10px] font-mono text-blue-600 dark:text-cyan-400 font-bold uppercase">
+                    Chief Executive Officer
+                  </div>
+                  <h3 class="text-2xl font-extrabold font-display text-slate-900 dark:text-white">SUMANTH RANJAN</h3>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+                    Driving the company's strategic execution, growth, and development while working closely with the leadership team to turn ideas into meaningful technology solutions.
+                  </p>
+                  <div class="text-[10px] font-mono text-slate-400 pt-2 border-t border-slate-200/60 dark:border-slate-800/60">
+                    EXECUTION × DEVELOPMENT × MEANINGFUL SOLUTIONS
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hidden lg:block lg:col-span-5"></div>
+          </div>
+
+        </div>
+
+        <!-- Quote & Footer Meta -->
+        <div class="mt-16 pt-8 border-t border-slate-200/80 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="font-handwriting text-2xl text-blue-600 dark:text-cyan-400 italic">
+            "Technology moves forward because of people who care."
+          </div>
+          <div class="text-[9px] font-mono text-slate-400 uppercase tracking-widest">
+            ONE TEAM. ONE VISION.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. FLAGSHIP SOLUTIONS SHOWCASE GRID (ALL 9 SOLUTIONS FROM OCR DOCUMENT) -->
+    <section id="solutions" class="py-24 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <span class="text-xs font-mono text-blue-600 dark:text-cyan-400 font-bold uppercase tracking-widest">WHAT TRAIT BUILDS</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 dark:text-white">Flagship Technology Solutions</h2>
+          <p class="text-slate-600 dark:text-slate-300 text-sm">Developing technology solutions across multiple industries and practical real-world use cases.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- Solution 1: AdvocatePro AI -->
+          <div class="p-8 rounded-3xl glass-panel hover:border-blue-400 transition-all group shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l9-4 9 4v6c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V6z"/></svg>
+              </div>
+              <h3 class="text-xl font-bold font-display mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">1. AdvocatePro AI</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4">
+                AI-powered legal intelligence and workflow assistance. Supports legal research, document analysis, case assistance, and legal workflows while keeping human review in the process.
+              </p>
+            </div>
+            <a href="#contact" class="text-xs font-mono font-bold text-blue-600 dark:text-cyan-400 hover:underline">DISCUSS SOLUTION ➔</a>
+          </div>
+
+          <!-- Solution 2: AI Customer Support Agent -->
+          <div class="p-8 rounded-3xl glass-panel hover:border-blue-400 transition-all group shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+              </div>
+              <h3 class="text-xl font-bold font-display mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">2. AI Customer Support Agent</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4">
+                Designed to handle customer questions, FAQs, support requests, ticket handling, and escalation. Complex or unresolved issues are routed smoothly to human support.
+              </p>
+            </div>
+            <a href="#contact" class="text-xs font-mono font-bold text-blue-600 dark:text-cyan-400 hover:underline">DISCUSS SOLUTION ➔</a>
+          </div>
+
+          <!-- Solution 3: AI Data Analysis Agent -->
+          <div class="p-8 rounded-3xl glass-panel hover:border-blue-400 transition-all group shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </div>
+              <h3 class="text-xl font-bold font-display mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">3. AI Data Analysis Agent</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4">
+                Analyses business data and generates actionable insights, visual reports, and operational recommendations to support executive decision-making.
+              </p>
+            </div>
+            <a href="#contact" class="text-xs font-mono font-bold text-blue-600 dark:text-cyan-400 hover:underline">DISCUSS SOLUTION ➔</a>
+          </div>
+
+          <!-- Solution 4: TRAIT HireAI -->
+          <div class="p-8 rounded-3xl glass-panel hover:border-blue-400 transition-all group shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              </div>
+              <h3 class="text-xl font-bold font-display mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">4. TRAIT HireAI</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4">
+                HR technology solution covering candidate sourcing, training, assessment, matching, and recruitment workflows, connecting the entire talent lifecycle.
+              </p>
+            </div>
+            <a href="#contact" class="text-xs font-mono font-bold text-blue-600 dark:text-cyan-400 hover:underline">DISCUSS SOLUTION ➔</a>
+          </div>
+
+          <!-- Solution 5: AI Interview Coach -->
+          <div class="p-8 rounded-3xl glass-panel hover:border-blue-400 transition-all group shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+              </div>
+              <h3 class="text-xl font-bold font-display mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">5. AI Interview Coach</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4">
+                AI-based interview practice solution conducting realistic mock sessions and providing structured feedback to help candidates improve performance.
+              </p>
+            </div>
+            <a href="#contact" class="text-xs font-mono font-bold text-blue-600 dark:text-cyan-400 hover:underline">DISCUSS SOLUTION ➔</a>
+          </div>
+
+          <!-- Solution 6: TRAIT Event Management -->
+          <div class="p-8 rounded-3xl glass-panel hover:border-blue-400 transition-all group shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+              </div>
+              <h3 class="text-xl font-bold font-display mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">6. TRAIT Event Management</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4">
+                End-to-end event service covering weddings, family functions, corporate events, and college occasions — handling planning, logistics, and post-event support.
+              </p>
+            </div>
+            <a href="#contact" class="text-xs font-mono font-bold text-blue-600 dark:text-cyan-400 hover:underline">DISCUSS SOLUTION ➔</a>
+          </div>
+
+          <!-- Solution 7: TRAIT CommerceAI -->
+          <div class="p-8 rounded-3xl glass-panel hover:border-blue-400 transition-all group shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+              </div>
+              <h3 class="text-xl font-bold font-display mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">7. TRAIT CommerceAI</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4">
+                AI-enabled commerce solution supporting e-commerce assistance, analytics, product recommendations, and operational automation to drive sales.
+              </p>
+            </div>
+            <a href="#contact" class="text-xs font-mono font-bold text-blue-600 dark:text-cyan-400 hover:underline">DISCUSS SOLUTION ➔</a>
+          </div>
+
+          <!-- Solution 8: TRAIT AirportAI -->
+          <div class="p-8 rounded-3xl glass-panel hover:border-blue-400 transition-all group shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+              </div>
+              <h3 class="text-xl font-bold font-display mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">8. TRAIT AirportAI</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4">
+                AI-powered airport assistance solution supporting passenger information, terminal navigation, customer support, and airport service guidance.
+              </p>
+            </div>
+            <a href="#contact" class="text-xs font-mono font-bold text-blue-600 dark:text-cyan-400 hover:underline">DISCUSS SOLUTION ➔</a>
+          </div>
+
+          <!-- Solution 9: TRAIT Aviation Analytics -->
+          <div class="p-8 rounded-3xl glass-panel hover:border-blue-400 transition-all group shadow-xl flex flex-col justify-between">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              </div>
+              <h3 class="text-xl font-bold font-display mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">9. TRAIT Aviation Analytics</h3>
+              <p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4">
+                Aviation operational data analytics covering flight, passenger, baggage, and delay telemetry — converting raw data into operational insights.
+              </p>
+            </div>
+            <a href="#contact" class="text-xs font-mono font-bold text-blue-600 dark:text-cyan-400 hover:underline">DISCUSS SOLUTION ➔</a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. WHY CHOOSE US (4 CORE PILLARS FROM CONTEXT) -->
+    <section id="why-us" class="py-20 bg-slate-100/70 dark:bg-slate-950/70 border-y border-slate-200 dark:border-slate-800/80">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <span class="text-xs font-mono text-blue-600 dark:text-cyan-400 font-bold uppercase tracking-widest">OUR APPROACH</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 dark:text-white">Why Choose TRAIT</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          
+          <!-- Pillar 1 -->
+          <div class="p-6 rounded-3xl glass-panel space-y-4">
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            </div>
+            <h3 class="font-bold font-display text-base uppercase text-slate-900 dark:text-white">01 — Innovation-First Thinking</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              TRAIT focuses on identifying meaningful problems and applying modern technology and AI to develop practical solutions.
+            </p>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="p-6 rounded-3xl glass-panel space-y-4">
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <h3 class="font-bold font-display text-base uppercase text-slate-900 dark:text-white">02 — Practical Technology</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              Technology developed with real-world use cases and practical outcomes in mind, addressing genuine needs.
+            </p>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="p-6 rounded-3xl glass-panel space-y-4">
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+            </div>
+            <h3 class="font-bold font-display text-base uppercase text-slate-900 dark:text-white">03 — Multi-Industry Capability</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              TRAIT works across AI, legal tech, HR, e-commerce, aviation, events, customer support, and data analytics.
+            </p>
+          </div>
+
+          <!-- Pillar 4 -->
+          <div class="p-6 rounded-3xl glass-panel space-y-4">
+            <div class="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </div>
+            <h3 class="font-bold font-display text-base uppercase text-slate-900 dark:text-white">04 — Human-Centered Solutions</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              Technology supporting decision-making while keeping people involved in review, decisions, and workflows.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 8. FREQUENTLY ASKED QUESTIONS (5 EXACT QUESTIONS & ANSWERS FROM CONTEXT) -->
+    <section id="faq" class="py-24">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-16 space-y-4">
+          <span class="text-xs font-mono text-blue-600 dark:text-cyan-400 font-bold uppercase tracking-widest">GOT QUESTIONS?</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 dark:text-white">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="space-y-4">
+          
+          <!-- Q1 -->
+          <div class="faq-item rounded-3xl glass-panel p-6 cursor-pointer">
+            <div class="faq-btn flex justify-between items-center font-bold text-base text-slate-900 dark:text-white">
+              <span>What does TRAIT Innovation do?</span>
+              <span class="faq-icon text-blue-600 dark:text-cyan-400 text-xl transition-transform">▼</span>
+            </div>
+            <div class="faq-answer hidden mt-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-800 pt-3">
+              TRAIT Innovation builds AI-powered, data-driven and digital technology solutions designed to address real-world challenges across different industries and use cases.
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="faq-item rounded-3xl glass-panel p-6 cursor-pointer">
+            <div class="faq-btn flex justify-between items-center font-bold text-base text-slate-900 dark:text-white">
+              <span>What industries does TRAIT work with?</span>
+              <span class="faq-icon text-blue-600 dark:text-cyan-400 text-xl transition-transform">▼</span>
+            </div>
+            <div class="faq-answer hidden mt-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-800 pt-3">
+              TRAIT works across multiple areas including artificial intelligence, legal technology, HR and recruitment, e-commerce, aviation, events, customer support and data analytics.
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="faq-item rounded-3xl glass-panel p-6 cursor-pointer">
+            <div class="faq-btn flex justify-between items-center font-bold text-base text-slate-900 dark:text-white">
+              <span>What kind of technology solutions does TRAIT build?</span>
+              <span class="faq-icon text-blue-600 dark:text-cyan-400 text-xl transition-transform">▼</span>
+            </div>
+            <div class="faq-answer hidden mt-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-800 pt-3">
+              TRAIT develops solutions such as AI assistants, data analytics systems, recruitment and HR platforms, interview solutions, customer support agents, commerce solutions, aviation assistance and other digital technology solutions.
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="faq-item rounded-3xl glass-panel p-6 cursor-pointer">
+            <div class="faq-btn flex justify-between items-center font-bold text-base text-slate-900 dark:text-white">
+              <span>Can businesses discuss custom technology solutions?</span>
+              <span class="faq-icon text-blue-600 dark:text-cyan-400 text-xl transition-transform">▼</span>
+            </div>
+            <div class="faq-answer hidden mt-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-800 pt-3">
+              Yes. TRAIT's focus is on applying technology to real-world problems, so businesses and organizations can discuss their specific requirements and explore suitable technology solutions.
+            </div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="faq-item rounded-3xl glass-panel p-6 cursor-pointer">
+            <div class="faq-btn flex justify-between items-center font-bold text-base text-slate-900 dark:text-white">
+              <span>How can I get in touch with TRAIT?</span>
+              <span class="faq-icon text-blue-600 dark:text-cyan-400 text-xl transition-transform">▼</span>
+            </div>
+            <div class="faq-answer hidden mt-4 text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-t border-slate-200 dark:border-slate-800 pt-3">
+              Visitors can use the "Let's Talk" / contact option on the website to start a conversation with the TRAIT Innovation team.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 9. FINAL CALL TO ACTION (LET'S BUILD WHAT'S NEXT) -->
+    <section id="contact" class="py-24 relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-950 text-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-8">
+        <h2 class="text-4xl sm:text-6xl font-black font-display tracking-tight uppercase">
+          LET'S BUILD <br /><span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-300">WHAT'S NEXT.</span>
+        </h2>
+        <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto">
+          Have an idea, challenge or opportunity? Let's start the conversation.
+        </p>
+
+        <!-- Contact Form -->
+        <form id="contact-form" class="max-w-xl mx-auto p-8 rounded-3xl bg-slate-900/90 border border-blue-500/30 backdrop-blur-xl text-left space-y-4 shadow-2xl">
+          <div>
+            <label class="block text-xs font-mono text-cyan-400 uppercase mb-1">Full Name</label>
+            <input type="text" id="contact-name" required placeholder="Syed Farhan" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-blue-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-mono text-cyan-400 uppercase mb-1">Email Address</label>
+            <input type="email" id="contact-email" required placeholder="farhan@traitinnovation.com" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-blue-500 focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-mono text-cyan-400 uppercase mb-1">Service Interest</label>
+            <select id="contact-service" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-blue-500 focus:outline-none">
+              <option>1. AdvocatePro AI (Legal Tech)</option>
+              <option>2. AI Customer Support Agent</option>
+              <option>3. AI Data Analysis Agent</option>
+              <option>4. TRAIT HireAI (HR Tech)</option>
+              <option>5. AI Interview Coach</option>
+              <option>6. TRAIT Event Management</option>
+              <option>7. TRAIT CommerceAI</option>
+              <option>8. TRAIT AirportAI</option>
+              <option>9. TRAIT Aviation Analytics</option>
+              <option>Custom Technology Solution</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-mono text-cyan-400 uppercase mb-1">Message</label>
+            <textarea id="contact-message" rows="3" placeholder="Tell us about your requirement..." class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:border-blue-500 focus:outline-none"></textarea>
+          </div>
+          <button type="submit" class="w-full py-4 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold text-sm shadow-lg shadow-blue-500/30 hover:scale-[1.02] transition-all uppercase tracking-wider">
+            LET'S TALK ➔
+          </button>
+          <div id="contact-response" class="text-xs font-mono text-center pt-2"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 border-t border-slate-200 dark:border-slate-800/80 bg-white/50 dark:bg-slate-950/80 text-xs text-slate-600 dark:text-slate-400">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-lg bg-blue-600 text-white font-extrabold flex items-center justify-center text-xs">T</div>
+          <span class="font-bold text-slate-800 dark:text-white font-display uppercase">TRAIT Innovation</span>
+          <span>© 2026. All rights reserved.</span>
+        </div>
+        <div class="flex gap-6 font-medium">
+          <a href="#solutions" class="hover:text-blue-600">Solutions</a>
+          <a href="#leadership" class="hover:text-blue-600">Leadership</a>
+          <a href="#faq" class="hover:text-blue-600">FAQ</a>
+          <a href="#contact" class="hover:text-blue-600">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- SCRIPT INCLUDES -->
+  <script src="{{ url_for('static', filename='js/netflix_intro.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/hero_orbit.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/background_3d.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+  <script>
+    // Contact Form Handler
+    document.getElementById('contact-form')?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const resEl = document.getElementById('contact-response');
+      const name = document.getElementById('contact-name').value;
+      const email = document.getElementById('contact-email').value;
+      const service = document.getElementById('contact-service').value;
+      const message = document.getElementById('contact-message').value;
+
+      resEl.textContent = 'Submitting...';
+      resEl.className = 'text-xs font-mono text-cyan-400 text-center pt-2';
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, service, message })
+        });
+        const data = await res.json();
+        resEl.textContent = data.message;
+        resEl.className = 'text-xs font-mono text-emerald-400 text-center pt-2';
+        document.getElementById('contact-form').reset();
+      } catch (err) {
+        resEl.textContent = 'Submission failed. Please try again.';
+        resEl.className = 'text-xs font-mono text-rose-400 text-center pt-2';
+      }
+    });
+  </script>
+</body>
+</html>
