@@ -194,4 +194,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.showSocialComingSoon = showSocialComingSoon;
   window.hideSocialToast = hideSocialToast;
+
+  // 8. LEGAL DOCUMENT "IN PREPARATION" MODAL CONTROLLER
+  function showLegalDocModal(docName) {
+    let modal = document.getElementById('legal-doc-modal');
+    if (!modal) return;
+
+    const nameEl = document.getElementById('legal-doc-name');
+    if (nameEl) {
+      nameEl.textContent = docName || 'Document';
+    }
+
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modal.classList.add('opacity-100', 'pointer-events-auto');
+
+    const card = modal.querySelector('.legal-modal-card');
+    if (card) {
+      card.classList.remove('scale-95', 'translate-y-4');
+      card.classList.add('scale-100', 'translate-y-0');
+    }
+  }
+
+  function hideLegalDocModal() {
+    let modal = document.getElementById('legal-doc-modal');
+    if (!modal) return;
+
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    modal.classList.remove('opacity-100', 'pointer-events-auto');
+
+    const card = modal.querySelector('.legal-modal-card');
+    if (card) {
+      card.classList.add('scale-95', 'translate-y-4');
+      card.classList.remove('scale-100', 'translate-y-0');
+    }
+  }
+
+  window.showLegalDocModal = showLegalDocModal;
+  window.hideLegalDocModal = hideLegalDocModal;
+
+  // Close modal on Escape key press
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      hideLegalDocModal();
+    }
+  });
 });

@@ -1439,14 +1439,14 @@
         <!-- Bottom Copyright & Policies Bar with Back to Top Button -->
         <div class="pt-8 border-t border-slate-200 dark:border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 dark:text-slate-400 relative">
           <div>
-            © 2025 Trait Innovation. All rights reserved.
+            © 2026 Trait Innovation. All rights reserved.
           </div>
           <div class="flex items-center gap-6 text-[11px]">
-            <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" onclick="event.preventDefault(); showLegalDocModal('Privacy Policy')" class="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">Privacy Policy</a>
             <span>|</span>
-            <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" onclick="event.preventDefault(); showLegalDocModal('Terms of Service')" class="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">Terms of Service</a>
             <span>|</span>
-            <a href="#" class="hover:text-slate-900 dark:hover:text-white transition-colors">Cookie Policy</a>
+            <a href="#" onclick="event.preventDefault(); showLegalDocModal('Cookie Policy')" class="hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">Cookie Policy</a>
           </div>
           <!-- Back to Top Button -->
           <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Back to top" class="w-10 h-10 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-blue-600 dark:text-cyan-400 hover:border-blue-500 dark:hover:border-cyan-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:scale-110 flex items-center justify-center transition-all shadow-md cursor-pointer">
@@ -1601,7 +1601,55 @@
         resEl.textContent = 'Submission failed. Please try again.';
         resEl.className = 'text-xs font-mono text-rose-400 text-center pt-2';
       }
-    });
-  </script>
+  <!-- LEGAL DOCUMENT IN PREPARATION MODAL (THEME FRIENDLY LIGHT & DARK MODE) -->
+  <div id="legal-doc-modal" onclick="if(event.target===this) hideLegalDocModal()" class="fixed inset-0 z-50 bg-slate-950/60 dark:bg-black/80 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300 opacity-0 pointer-events-none select-none">
+    
+    <!-- Modal Card Container -->
+    <div class="legal-modal-card scale-95 translate-y-4 transition-all duration-300 ease-out w-full max-w-md rounded-3xl bg-white/95 dark:bg-[#0A0F1D]/95 border border-slate-200/90 dark:border-blue-500/30 backdrop-blur-2xl shadow-2xl p-8 text-center relative overflow-hidden">
+      
+      <!-- Top Cyber Gradient Accent Line -->
+      <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 via-purple-500 to-pink-500"></div>
+
+      <!-- Close Button -->
+      <button onclick="hideLegalDocModal()" aria-label="Close modal" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-white text-xs font-bold w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800/80 flex items-center justify-center transition-colors cursor-pointer">
+        ✕
+      </button>
+
+      <!-- Document Shield Icon -->
+      <div class="w-16 h-16 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400 flex items-center justify-center border border-blue-200 dark:border-blue-500/30 mx-auto mb-5 shadow-lg shadow-blue-500/10">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      </div>
+
+      <!-- Pill Badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-100 dark:bg-blue-950/80 border border-blue-200 dark:border-blue-500/40 text-[10px] font-mono font-bold text-blue-600 dark:text-cyan-400 uppercase tracking-widest mb-3">
+        <span class="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-cyan-400 animate-pulse"></span>
+        <span>DOCUMENT IN PREPARATION</span>
+      </div>
+
+      <!-- Document Name Header -->
+      <h3 id="legal-doc-name" class="text-2xl font-black font-display text-slate-900 dark:text-white tracking-tight uppercase mb-4">
+        Privacy Policy
+      </h3>
+
+      <!-- Body Copy -->
+      <div class="space-y-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal mb-6">
+        <p>
+          This document is currently being prepared and will be available soon.
+        </p>
+        <p class="font-medium text-slate-500 dark:text-slate-400 text-xs pt-1">
+          Thank you for your patience.
+        </p>
+      </div>
+
+      <!-- Action Button -->
+      <button onclick="hideLegalDocModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white font-bold font-display text-xs shadow-lg shadow-blue-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer">
+        <span>BACK TO WEBSITE</span> ➔
+      </button>
+
+    </div>
+  </div>
+
 </body>
 </html>
