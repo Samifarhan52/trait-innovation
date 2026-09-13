@@ -10,3 +10,4 @@ venv/
 ENV/
 .env
 .DS_Store
+.vercel/
