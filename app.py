@@ -8,6 +8,30 @@ def index():
     """Render main landing page."""
     return render_template('index.html')
 
+@app.route('/advocatepro-ai')
+@app.route('/advocatepro')
+def advocatepro():
+    """Render dedicated AdvocatePro AI product page."""
+    return render_template('advocatepro.html')
+
+@app.route('/ai-customer-support')
+@app.route('/ai-support')
+def ai_customer_support():
+    """Render dedicated AI Customer Support Agent product page."""
+    return render_template('ai_support.html')
+
+@app.route('/ai-data-analysis')
+@app.route('/data-agent')
+def data_agent():
+    """Render dedicated AI Data Analysis Agent product page."""
+    return render_template('data_agent.html')
+
+@app.route('/trait-hireai')
+@app.route('/hire-ai')
+def hire_ai():
+    """Render dedicated TRAIT HireAI HR technology product page."""
+    return render_template('hire_ai.html')
+
 @app.route('/api/contact', methods=['POST'])
 def contact():
     """Handle contact form submissions."""

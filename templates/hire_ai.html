@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRAIT HireAI — Intelligent Talent Technology | Trait Innovation</title>
+  <meta name="description" content="HR technology solution covering candidate sourcing, training, assessment, matching, and recruitment workflows, connecting the entire talent lifecycle." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            talent: {
+              dark: '#12181B',
+              card: '#1A2126',
+              forest: '#0B2B26',
+              deepforest: '#071C19',
+              sage: '#4D7C6F',
+              lightsage: '#88AB8E',
+              terracotta: '#E07A5F',
+              warmorange: '#F28482',
+              cream: '#FAFAF5',
+              gold: '#F4A261',
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Menlo', 'monospace'],
+            display: ['Syne', 'Plus Jakarta Sans', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Three.js & GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- Chart.js for skill radar assessment visual -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .font-display {
+      font-family: 'Syne', sans-serif;
+    }
+
+    .bg-talent-dark {
+      background-color: #12181B;
+    }
+
+    .bg-talent-card {
+      background: rgba(26, 33, 38, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(224, 122, 95, 0.2);
+    }
+
+    .bg-talent-card:hover {
+      border-color: rgba(224, 122, 95, 0.45);
+      box-shadow: 0 10px 30px -10px rgba(224, 122, 95, 0.2);
+    }
+
+    .text-gradient-warm {
+      background: linear-gradient(135deg, #FAFAF5 0%, #E07A5F 50%, #F4A261 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .text-gradient-terracotta {
+      background: linear-gradient(135deg, #E07A5F 0%, #F4A261 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    #hero-talent-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #12181B;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #0B2B26;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #E07A5F;
+    }
+  </style>
+</head>
+<body class="bg-talent-dark text-slate-100 dark:bg-talent-dark dark:text-slate-100 transition-colors duration-300 selection:bg-talent-terracotta selection:text-white">
+
+  <!-- 1. INDEPENDENT PRODUCT NAVBAR -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-talent-terracotta/20 bg-talent-dark/85 backdrop-blur-xl" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-talent-forest via-talent-terracotta to-talent-gold p-[1px] shadow-lg shadow-talent-forest/50 group-hover:scale-105 transition-transform duration-300">
+            <div class="w-full h-full bg-talent-dark rounded-[11px] flex items-center justify-center">
+              <svg class="w-5 h-5 text-talent-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-display font-extrabold text-lg tracking-wider text-white">TRAIT</span>
+              <span class="text-[10px] font-mono font-bold text-talent-terracotta px-1.5 py-0.5 rounded bg-talent-forest/80 border border-talent-terracotta/30">HireAI</span>
+            </div>
+            <span class="text-[10px] font-medium text-slate-400 tracking-tight hidden sm:block">BY TRAIT INNOVATION</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Center Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-slate-300">
+        <a href="#overview" class="hover:text-talent-terracotta transition-colors">Overview</a>
+        <a href="#lifecycle" class="hover:text-talent-terracotta transition-colors">Talent Lifecycle</a>
+        <a href="#capabilities" class="hover:text-talent-terracotta transition-colors">Capabilities</a>
+        <a href="#how-it-works" class="hover:text-talent-terracotta transition-colors">How It Works</a>
+        <a href="#faq" class="hover:text-talent-terracotta transition-colors">FAQ</a>
+      </nav>
+
+      <!-- Right CTAs & Navigation Back -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-talent-terracotta transition-colors px-3.5 py-2 rounded-xl bg-talent-card border border-slate-800">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Main Website
+        </a>
+
+        <button id="theme-toggle-btn" class="p-2 rounded-xl bg-talent-card border border-slate-800 text-slate-300 hover:text-talent-terracotta transition-colors" title="Toggle Light/Dark Theme">
+          <svg class="w-4 h-4 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          <svg class="w-4 h-4 hidden dark:block text-talent-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        </button>
+
+        <button onclick="openDemoModal()" class="hidden sm:flex relative group overflow-hidden rounded-xl p-px font-semibold text-xs text-white">
+          <span class="absolute inset-0 bg-gradient-to-r from-talent-terracotta to-talent-gold transition-all duration-300 group-hover:opacity-90"></span>
+          <span class="relative block px-4 py-2.5 bg-talent-dark rounded-[11px] group-hover:bg-opacity-0 transition-all duration-300 flex items-center gap-2">
+            <span>REQUEST A DEMO</span>
+            <svg class="w-3.5 h-3.5 text-talent-terracotta group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </span>
+        </button>
+
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-slate-300 hover:text-white rounded-xl bg-talent-card border border-slate-800">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-talent-dark/95 backdrop-blur-2xl border-b border-talent-terracotta/30 px-6 py-6 space-y-5 shadow-2xl">
+      <a href="/" class="flex items-center gap-2 text-sm font-semibold text-talent-terracotta hover:text-talent-gold">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Main Trait Innovation Website
+      </a>
+      
+      <hr class="border-slate-800" />
+
+      <nav class="space-y-3 text-xs font-semibold uppercase tracking-wider text-slate-300">
+        <a href="#overview" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block hover:text-talent-terracotta">01. Overview</a>
+        <a href="#lifecycle" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block hover:text-talent-terracotta">02. Talent Lifecycle</a>
+        <a href="#capabilities" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block hover:text-talent-terracotta">03. Capabilities</a>
+        <a href="#how-it-works" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block hover:text-talent-terracotta">04. How It Works</a>
+        <a href="#faq" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block hover:text-talent-terracotta">05. FAQ</a>
+      </nav>
+
+      <hr class="border-slate-800" />
+
+      <div>
+        <div class="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-2">OTHER TRAIT AI PRODUCTS</div>
+        <div class="space-y-2 text-xs">
+          <a href="/advocatepro-ai" class="flex items-center justify-between p-2.5 rounded-xl bg-talent-card border border-slate-800 text-slate-200">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-400"></span><span class="font-bold">AdvocatePro AI</span></span>
+            <span class="text-[10px] font-mono text-slate-400">Legal Tech</span>
+          </a>
+          <a href="/ai-customer-support" class="flex items-center justify-between p-2.5 rounded-xl bg-talent-card border border-slate-800 text-slate-200">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-cyan-400"></span><span class="font-bold">AI Support Agent</span></span>
+            <span class="text-[10px] font-mono text-slate-400">Support</span>
+          </a>
+          <a href="/ai-data-analysis" class="flex items-center justify-between p-2.5 rounded-xl bg-talent-card border border-slate-800 text-slate-200">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400"></span><span class="font-bold">AI Data Agent</span></span>
+            <span class="text-[10px] font-mono text-slate-400">Analytics</span>
+          </a>
+          <a href="/trait-hireai" class="flex items-center justify-between p-2.5 rounded-xl bg-talent-forest/80 border border-talent-terracotta/40 text-talent-terracotta font-bold">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-talent-terracotta"></span><span>TRAIT HireAI</span></span>
+            <span class="text-[10px] font-mono text-talent-terracotta">Current</span>
+          </a>
+        </div>
+      </div>
+
+      <button onclick="document.getElementById('mobile-menu').classList.add('hidden'); openDemoModal();" class="w-full py-3 rounded-xl bg-gradient-to-r from-talent-terracotta to-talent-gold text-talent-dark font-bold text-xs uppercase tracking-wider">
+        Request A Demo
+      </button>
+    </div>
+  </header>
+
+  <!-- 2. HERO — THE TALENT ECOSYSTEM -->
+  <section id="overview" class="relative min-h-screen pt-32 pb-20 flex items-center justify-center overflow-hidden">
+    <canvas id="hero-talent-canvas"></canvas>
+
+    <div class="absolute inset-0 bg-gradient-to-b from-talent-dark/40 via-transparent to-talent-dark pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      
+      <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-talent-card/90 border border-talent-terracotta/30 backdrop-blur-md mb-8 shadow-lg shadow-talent-forest/30">
+        <span class="w-2 h-2 rounded-full bg-talent-terracotta animate-ping"></span>
+        <span class="text-xs font-mono font-semibold uppercase tracking-widest text-talent-terracotta">INTELLIGENT TALENT TECHNOLOGY</span>
+        <span class="text-xs text-slate-500 font-mono">|</span>
+        <span class="text-xs text-slate-300 font-medium">TRAIT INNOVATION</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold tracking-tight max-w-4xl mx-auto leading-[1.1] text-white">
+        Find <span class="text-gradient-warm">Potential.</span><br />
+        Build Possibility.
+      </h1>
+
+      <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
+        From sourcing and assessment to training and recruitment, TRAIT HireAI connects the entire talent lifecycle through intelligent technology.
+      </p>
+
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <a href="#lifecycle" class="px-8 py-4 rounded-xl bg-gradient-to-r from-talent-terracotta to-talent-gold text-talent-dark font-bold text-sm hover:shadow-lg hover:shadow-talent-terracotta/25 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+          <span>EXPLORE HIREAI →</span>
+        </a>
+
+        <button onclick="openDemoModal()" class="px-8 py-4 rounded-xl bg-talent-card/90 border border-slate-700 hover:border-talent-terracotta/50 text-slate-200 font-semibold text-sm transition-all flex items-center gap-2 backdrop-blur-md">
+          <span>REQUEST A DEMO →</span>
+        </button>
+      </div>
+
+      <!-- Live Match Node Visual Counter -->
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-slate-800">
+        <div class="p-4 rounded-2xl bg-talent-card/50 border border-slate-800 text-left">
+          <div class="text-xs font-mono text-talent-terracotta font-semibold uppercase">Candidate Sourcing</div>
+          <div class="text-xl font-display font-bold text-white mt-1">Multi-Channel</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Continuous Talent Stream</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-talent-card/50 border border-slate-800 text-left">
+          <div class="text-xs font-mono text-talent-gold font-semibold uppercase">Skill Assessment</div>
+          <div class="text-xl font-display font-bold text-white mt-1">Multi-Dimensional</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Capability Mapping</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-talent-card/50 border border-slate-800 text-left">
+          <div class="text-xs font-mono text-talent-terracotta font-semibold uppercase">Matching Engine</div>
+          <div class="text-xl font-display font-bold text-white mt-1">Strong Alignment</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Contextual Fit</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-talent-card/50 border border-slate-800 text-left">
+          <div class="text-xs font-mono text-talent-gold font-semibold uppercase">Human Judgement</div>
+          <div class="text-xl font-display font-bold text-white mt-1">100% Recruiter Control</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">Augmented Decisioning</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. TALENT LIFECYCLE (CONTINUOUS FLOWING PATHWAY) -->
+  <section id="lifecycle" class="py-24 relative bg-talent-dark border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-talent-terracotta mb-2">END-TO-END ECOSYSTEM</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+          One Journey. Every Stage.
+        </h2>
+        <p class="mt-4 text-slate-400 text-base">
+          TRAIT HireAI bridges candidate discovery, learning, skills evaluation, and placement into one continuous fluid workflow.
+        </p>
+      </div>
+
+      <!-- Flowing Pathway Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+        
+        <!-- Stage 01 -->
+        <div class="bg-talent-card rounded-2xl p-6 relative group border border-slate-800 hover:border-talent-terracotta/50 transition-all">
+          <div class="text-xs font-mono font-bold text-talent-terracotta mb-3">STAGE 01</div>
+          <h3 class="text-lg font-bold text-white font-display">SOURCE</h3>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Find and attract relevant candidates across global talent networks.
+          </p>
+        </div>
+
+        <!-- Stage 02 -->
+        <div class="bg-talent-card rounded-2xl p-6 relative group border border-slate-800 hover:border-talent-gold/50 transition-all">
+          <div class="text-xs font-mono font-bold text-talent-gold mb-3">STAGE 02</div>
+          <h3 class="text-lg font-bold text-white font-display">DEVELOP</h3>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Support continuous learning, upskilling, and professional growth.
+          </p>
+        </div>
+
+        <!-- Stage 03 -->
+        <div class="bg-talent-card rounded-2xl p-6 relative group border border-slate-800 hover:border-talent-terracotta/50 transition-all">
+          <div class="text-xs font-mono font-bold text-talent-terracotta mb-3">STAGE 03</div>
+          <h3 class="text-lg font-bold text-white font-display">ASSESS</h3>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Understand true skills, competency profiles, and role fit.
+          </p>
+        </div>
+
+        <!-- Stage 04 -->
+        <div class="bg-talent-card rounded-2xl p-6 relative group border border-slate-800 hover:border-talent-gold/50 transition-all">
+          <div class="text-xs font-mono font-bold text-talent-gold mb-3">STAGE 04</div>
+          <h3 class="text-lg font-bold text-white font-display">MATCH</h3>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Connect talent with suitable opportunities using contextual intelligence.
+          </p>
+        </div>
+
+        <!-- Stage 05 -->
+        <div class="bg-talent-card rounded-2xl p-6 relative group border border-slate-800 hover:border-talent-terracotta/50 transition-all">
+          <div class="text-xs font-mono font-bold text-talent-terracotta mb-3">STAGE 05</div>
+          <h3 class="text-lg font-bold text-white font-display">RECRUIT</h3>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+            Support the collaborative recruitment & onboarding workflow.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. INTERACTIVE TALENT MAP -->
+  <section id="capabilities" class="py-24 relative bg-talent-forest/30 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-talent-terracotta mb-2">INTERACTIVE TALENT MAP</div>
+        <h2 class="text-3xl sm:text-4xl font-display font-bold text-white">Dynamic Talent Connections</h2>
+        <p class="mt-3 text-slate-400 text-sm">
+          Click or hover on nodes below to explore how candidates, skills, and roles interact within the ecosystem.
+        </p>
+      </div>
+
+      <!-- Interactive Map Window -->
+      <div class="bg-talent-card rounded-3xl p-6 sm:p-8 border border-talent-terracotta/20 max-w-5xl mx-auto shadow-2xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Interactive Node Selector -->
+          <div class="lg:col-span-5 space-y-3">
+            <div class="text-xs font-mono text-slate-400 font-bold uppercase mb-2">EXPLORE NODES:</div>
+            
+            <button onclick="selectTalentNode('data-analysis')" id="node-btn-1" class="node-btn active w-full p-3.5 rounded-xl bg-talent-dark border border-talent-terracotta/40 text-left transition-all hover:border-talent-terracotta flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-white">SKILL: Data Analysis & Insight</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Core Competency Node</div>
+              </div>
+              <span class="text-xs font-mono text-talent-terracotta font-bold">4 Matches</span>
+            </button>
+
+            <button onclick="selectTalentNode('fullstack')" id="node-btn-2" class="node-btn w-full p-3.5 rounded-xl bg-talent-dark/50 border border-slate-800 text-left transition-all hover:border-talent-terracotta flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-slate-300">ROLE: Lead Systems Architect</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Opportunity Node</div>
+              </div>
+              <span class="text-xs font-mono text-slate-400 font-bold">3 Candidates</span>
+            </button>
+
+            <button onclick="selectTalentNode('product-mgmt')" id="node-btn-3" class="node-btn w-full p-3.5 rounded-xl bg-talent-dark/50 border border-slate-800 text-left transition-all hover:border-talent-terracotta flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold text-slate-300">LEARNING: Executive Upskilling</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Development Node</div>
+              </div>
+              <span class="text-xs font-mono text-slate-400 font-bold">2 Paths</span>
+            </button>
+          </div>
+
+          <!-- Node Detail Panel -->
+          <div class="lg:col-span-7 bg-talent-dark p-6 rounded-2xl border border-slate-800 space-y-4">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+              <span class="text-xs font-mono text-talent-terracotta font-bold" id="map-node-type">SKILL NODE DETAILS</span>
+              <span class="text-[10px] font-mono text-slate-400" id="map-node-status">ACTIVE CONNECTIONS: 9</span>
+            </div>
+            
+            <h3 class="text-xl font-display font-bold text-white" id="map-node-title">Data Analysis & Statistical Modeling</h3>
+            <p class="text-xs text-slate-300 leading-relaxed" id="map-node-desc">
+              Connected candidate profiles demonstrate high-proficiency SQL synthesis, python data pipelines, and quantitative decision modeling.
+            </p>
+
+            <div class="grid grid-cols-3 gap-3 pt-2">
+              <div class="p-3 rounded-xl bg-talent-card border border-slate-800 text-center">
+                <div class="text-lg font-bold text-talent-terracotta" id="map-val-1">3</div>
+                <div class="text-[10px] font-mono text-slate-400 mt-0.5">Candidate Profiles</div>
+              </div>
+              <div class="p-3 rounded-xl bg-talent-card border border-slate-800 text-center">
+                <div class="text-lg font-bold text-talent-gold" id="map-val-2">4</div>
+                <div class="text-[10px] font-mono text-slate-400 mt-0.5">Relevant Roles</div>
+              </div>
+              <div class="p-3 rounded-xl bg-talent-card border border-slate-800 text-center">
+                <div class="text-lg font-bold text-talent-terracotta" id="map-val-3">2</div>
+                <div class="text-[10px] font-mono text-slate-400 mt-0.5">Learning Paths</div>
+              </div>
+            </div>
+
+            <div class="text-[10px] font-mono text-slate-500 pt-1">
+              *Illustrative UI node representation. TRAIT HireAI models talent relationships contextually.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. CANDIDATE SOURCING & FILTERING -->
+  <section class="py-24 relative bg-talent-dark border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-talent-terracotta mb-2">INTELLIGENT SOURCING</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">Start With the Right Talent.</h2>
+        <p class="mt-4 text-slate-400 text-base">
+          Discovers and organizes candidate pools dynamically based on core competencies rather than simple keyword matches.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="p-6 rounded-2xl bg-talent-card border border-slate-800 relative">
+          <div class="text-xs font-mono text-talent-terracotta font-bold mb-2">STEP 01</div>
+          <h3 class="text-lg font-bold text-white font-display">Candidate Pool Ingestion</h3>
+          <p class="text-xs text-slate-400 mt-2">Aggregates profiles across internal HR databases, external applications, and professional networks.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-talent-card border border-slate-800 relative">
+          <div class="text-xs font-mono text-talent-gold font-bold mb-2">STEP 02</div>
+          <h3 class="text-lg font-bold text-white font-display">Skills & Requirements Mapping</h3>
+          <p class="text-xs text-slate-400 mt-2">Extracts verified skills, experience depth, and career trajectory indicators.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-talent-card border border-slate-800 relative">
+          <div class="text-xs font-mono text-talent-terracotta font-bold mb-2">STEP 03</div>
+          <h3 class="text-lg font-bold text-white font-display">Relevant Talent Curation</h3>
+          <p class="text-xs text-slate-400 mt-2">Presents structured talent shortlists for recruiter review and engagement.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. TRAINING & DEVELOPMENT -->
+  <section class="py-24 relative bg-talent-forest/20 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="bg-talent-card rounded-3xl p-8 sm:p-12 border border-talent-terracotta/20 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <div class="text-xs font-mono font-bold uppercase tracking-widest text-talent-terracotta mb-2">CONTINUOUS GROWTH</div>
+          <h2 class="text-3xl sm:text-4xl font-display font-bold text-white">Talent Doesn't Stop Growing After Hiring.</h2>
+          <p class="mt-4 text-slate-300 text-sm leading-relaxed">
+            Identifies skill gaps and maps targeted learning pathways to support continuous workforce upskilling and career progression.
+          </p>
+          <div class="mt-6 space-y-3">
+            <div class="flex items-center gap-3 text-xs font-semibold text-slate-200">
+              <span class="w-5 h-5 rounded-full bg-talent-forest border border-talent-terracotta text-talent-terracotta flex items-center justify-center font-bold">✓</span>
+              <span>Person → Skill Gap Identification</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs font-semibold text-slate-200">
+              <span class="w-5 h-5 rounded-full bg-talent-forest border border-talent-terracotta text-talent-terracotta flex items-center justify-center font-bold">✓</span>
+              <span>Personalized Learning Modules</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs font-semibold text-slate-200">
+              <span class="w-5 h-5 rounded-full bg-talent-forest border border-talent-terracotta text-talent-terracotta flex items-center justify-center font-bold">✓</span>
+              <span>Verified Competency Advancement</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-talent-dark p-6 rounded-2xl border border-slate-800 space-y-4">
+          <div class="text-xs font-mono text-talent-gold font-bold border-b border-slate-800 pb-2">LEARNING PATHWAY SIMULATOR</div>
+          <div class="space-y-3 text-xs font-mono">
+            <div class="p-3 rounded-xl bg-talent-card border border-slate-800 flex justify-between items-center">
+              <span>CURRENT COMPETENCY:</span>
+              <span class="text-white font-bold">SENIOR DEVELOPER</span>
+            </div>
+            <div class="p-3 rounded-xl bg-talent-card border border-slate-800 flex justify-between items-center">
+              <span>TARGET ROLE:</span>
+              <span class="text-talent-terracotta font-bold">CLOUD ARCHITECT</span>
+            </div>
+            <div class="p-3 rounded-xl bg-talent-card border border-slate-800 flex justify-between items-center">
+              <span>GAP IDENTIFIED:</span>
+              <span class="text-talent-gold font-bold">KUBERNETES & INFRASTRUCTURE</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. ASSESSMENT (CAPABILITY VISUALIZATION) -->
+  <section class="py-24 relative bg-talent-dark border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-talent-terracotta mb-2">HOLISTIC EVALUATION</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">Understand Capability. Not Just Credentials.</h2>
+        <p class="mt-4 text-slate-400 text-base">
+          Visualizes multi-dimensional skill profiles connecting experience, technical mastery, and role fit.
+        </p>
+      </div>
+
+      <div class="bg-talent-card rounded-3xl p-6 sm:p-8 border border-slate-800 max-w-4xl mx-auto">
+        <div class="h-80">
+          <canvas id="assessmentRadarChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 8. INTELLIGENT MATCHING (CINEMATIC MATCHING EXPERIENCE) -->
+  <section id="how-it-works" class="py-24 relative bg-talent-forest/40 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-talent-terracotta mb-2">CONTEXTUAL INTELLIGENCE</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">Where Talent Meets Opportunity.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-talent-card rounded-3xl p-8 border border-talent-terracotta/30">
+        
+        <!-- Left: Candidate Profile -->
+        <div class="lg:col-span-5 bg-talent-dark p-6 rounded-2xl border border-slate-800">
+          <div class="text-xs font-mono text-talent-terracotta font-bold mb-2">CANDIDATE PROFILE</div>
+          <h3 class="text-xl font-bold text-white font-display">Sarah Jenkins</h3>
+          <div class="text-xs text-slate-400 mt-1">Senior Data Engineer • 7 Yrs Exp</div>
+          
+          <div class="mt-4 pt-3 border-t border-slate-800 space-y-2 text-xs font-mono">
+            <div class="flex justify-between"><span>SKILLS:</span><span class="text-white font-bold">Python, Spark, Snowflake</span></div>
+            <div class="flex justify-between"><span>LOCATION:</span><span class="text-white font-bold">Remote / EU</span></div>
+            <div class="flex justify-between"><span>PREFERENCE:</span><span class="text-white font-bold">High Growth Enterprise</span></div>
+          </div>
+        </div>
+
+        <!-- Center: Dynamic Matching Badge -->
+        <div class="lg:col-span-2 text-center py-4">
+          <div class="inline-flex flex-col items-center gap-2 p-4 rounded-2xl bg-talent-dark border border-talent-terracotta/50 shadow-xl">
+            <svg class="w-8 h-8 text-talent-terracotta animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            <span class="text-xs font-mono font-bold text-talent-gold">STRONG ALIGNMENT</span>
+          </div>
+        </div>
+
+        <!-- Right: Role Requirements -->
+        <div class="lg:col-span-5 bg-talent-dark p-6 rounded-2xl border border-slate-800">
+          <div class="text-xs font-mono text-talent-gold font-bold mb-2">OPPORTUNITY / ROLE</div>
+          <h3 class="text-xl font-bold text-white font-display">Lead Analytics Architect</h3>
+          <div class="text-xs text-slate-400 mt-1">Enterprise FinTech Division</div>
+
+          <div class="mt-4 pt-3 border-t border-slate-800 space-y-2 text-xs font-mono">
+            <div class="flex justify-between"><span>REQUIRED:</span><span class="text-white font-bold">Data Pipelines, Cloud SQL</span></div>
+            <div class="flex justify-between"><span>ENVIRONMENT:</span><span class="text-white font-bold">Distributed Team</span></div>
+            <div class="flex justify-between"><span>FOCUS:</span><span class="text-white font-bold">Realtime Telemetry</span></div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 9. RECRUITMENT WORKFLOW -->
+  <section class="py-24 relative bg-talent-dark border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-talent-terracotta mb-2">WORKFLOW PIPELINE</div>
+        <h2 class="text-3xl sm:text-4xl font-display font-bold text-white">Seamless End-to-End Workflow</h2>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+        <div class="p-4 rounded-xl bg-talent-card border border-slate-800 text-center">
+          <div class="text-[10px] font-mono text-talent-terracotta font-bold">01</div>
+          <div class="text-xs font-bold text-white mt-1">Sourcing</div>
+        </div>
+        <div class="p-4 rounded-xl bg-talent-card border border-slate-800 text-center">
+          <div class="text-[10px] font-mono text-talent-gold font-bold">02</div>
+          <div class="text-xs font-bold text-white mt-1">Screening</div>
+        </div>
+        <div class="p-4 rounded-xl bg-talent-card border border-slate-800 text-center">
+          <div class="text-[10px] font-mono text-talent-terracotta font-bold">03</div>
+          <div class="text-xs font-bold text-white mt-1">Assessment</div>
+        </div>
+        <div class="p-4 rounded-xl bg-talent-card border border-slate-800 text-center">
+          <div class="text-[10px] font-mono text-talent-gold font-bold">04</div>
+          <div class="text-xs font-bold text-white mt-1">Matching</div>
+        </div>
+        <div class="p-4 rounded-xl bg-talent-card border border-slate-800 text-center">
+          <div class="text-[10px] font-mono text-talent-terracotta font-bold">05</div>
+          <div class="text-xs font-bold text-white mt-1">Interview</div>
+        </div>
+        <div class="p-4 rounded-xl bg-talent-card border border-slate-800 text-center">
+          <div class="text-[10px] font-mono text-talent-gold font-bold">06</div>
+          <div class="text-xs font-bold text-white mt-1">Recruitment</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 10. HUMAN + AI (RECRUITER COLLABORATION) -->
+  <section class="py-24 relative bg-talent-forest/30 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="bg-talent-card rounded-3xl p-8 sm:p-12 border border-talent-terracotta/20 text-center max-w-4xl mx-auto">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-talent-terracotta mb-2">HUMAN-CENTERED PHILOSOPHY</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">AI Finds the Connection. People Make the Choice.</h2>
+        <p class="mt-4 text-slate-300 text-base max-w-2xl mx-auto leading-relaxed">
+          TRAIT HireAI supports recruiters and organizations with intelligent tools while keeping human judgment at the heart of recruitment.
+        </p>
+
+        <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+          <div class="p-5 rounded-2xl bg-talent-dark border border-slate-800">
+            <div class="text-xs font-mono text-talent-terracotta font-bold">AI INTELLIGENCE</div>
+            <p class="text-xs text-slate-400 mt-2">Scans repositories, maps skills, & flags alignment.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-talent-dark border border-slate-800">
+            <div class="text-xs font-mono text-talent-gold font-bold">RECRUITER JUDGEMENT</div>
+            <p class="text-xs text-slate-400 mt-2">Evaluates culture fit, leadership, & nuance.</p>
+          </div>
+          <div class="p-5 rounded-2xl bg-talent-dark border border-slate-800">
+            <div class="text-xs font-mono text-talent-terracotta font-bold">CANDIDATE EXPERIENCE</div>
+            <p class="text-xs text-slate-400 mt-2">Enjoys transparent, growth-oriented matching.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 15. FAQ ACCORDION -->
+  <section id="faq" class="py-24 relative bg-talent-dark border-t border-slate-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-talent-terracotta mb-2">FREQUENTLY ASKED QUESTIONS</div>
+        <h2 class="text-3xl font-display font-bold text-white">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="space-y-4">
+        <details class="bg-talent-card rounded-xl p-5 border border-slate-800 group">
+          <summary class="font-bold text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>What is TRAIT HireAI?</span>
+            <span class="text-talent-terracotta group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+            TRAIT HireAI is an HR technology solution covering candidate sourcing, training, assessment, matching, and recruitment workflows, connecting the entire talent lifecycle.
+          </p>
+        </details>
+
+        <details class="bg-talent-card rounded-xl p-5 border border-slate-800 group">
+          <summary class="font-bold text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>What stages of the talent lifecycle does TRAIT HireAI support?</span>
+            <span class="text-talent-terracotta group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+            It supports sourcing, skill development/training, capability assessment, contextual matching, and collaborative recruitment workflows.
+          </p>
+        </details>
+
+        <details class="bg-talent-card rounded-xl p-5 border border-slate-800 group">
+          <summary class="font-bold text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>Does TRAIT HireAI replace human recruiters?</span>
+            <span class="text-talent-terracotta group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+            No. TRAIT HireAI empowers recruiters with intelligent tools and data insights while keeping final hiring decisions entirely in human hands.
+          </p>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 16. FINAL CTA -->
+  <section class="py-24 relative bg-gradient-to-b from-talent-dark via-talent-forest/40 to-talent-dark border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      
+      <div class="bg-talent-card p-10 sm:p-16 rounded-3xl border border-talent-terracotta/30 max-w-4xl mx-auto shadow-2xl">
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">Build a Better Talent Journey.</h2>
+        <p class="mt-4 text-slate-300 text-base max-w-xl mx-auto">
+          Connect people, skills and opportunities with intelligent technology.
+        </p>
+        
+        <div class="mt-8 flex flex-wrap justify-center gap-4">
+          <button onclick="openDemoModal()" class="px-8 py-4 rounded-xl bg-gradient-to-r from-talent-terracotta to-talent-gold text-talent-dark font-bold text-sm hover:shadow-lg hover:shadow-talent-terracotta/30 transition-all">
+            REQUEST A DEMO →
+          </button>
+          <a href="/" class="px-8 py-4 rounded-xl bg-talent-dark border border-slate-700 text-white font-semibold text-sm hover:border-talent-terracotta transition-all">
+            TALK TO OUR TEAM
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 17. FOOTER -->
+  <footer class="bg-talent-dark border-t border-slate-800 pt-16 pb-12 text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <span class="font-display font-extrabold text-white text-base">TRAIT HireAI</span>
+          <span class="text-[10px] font-mono text-talent-terracotta px-1.5 py-0.5 rounded bg-talent-forest border border-talent-terracotta/30">.LLP</span>
+        </div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Connecting the talent lifecycle through intelligent technology.
+        </p>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">PRODUCT</div>
+        <ul class="space-y-2">
+          <li><a href="#overview" class="hover:text-talent-terracotta">Overview</a></li>
+          <li><a href="#lifecycle" class="hover:text-talent-terracotta">Talent Lifecycle</a></li>
+          <li><a href="#capabilities" class="hover:text-talent-terracotta">Capabilities</a></li>
+          <li><a href="#how-it-works" class="hover:text-talent-terracotta">How It Works</a></li>
+          <li><a href="#faq" class="hover:text-talent-terracotta">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">SIBLING PRODUCTS</div>
+        <ul class="space-y-2">
+          <li><a href="/advocatepro-ai" class="hover:text-amber-400">AdvocatePro AI (Legal)</a></li>
+          <li><a href="/ai-customer-support" class="hover:text-cyan-400">AI Customer Support Agent</a></li>
+          <li><a href="/ai-data-analysis" class="hover:text-emerald-400">AI Data Analysis Agent</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">CONNECT</div>
+        <div class="flex gap-4 items-center">
+          <a href="#" class="text-slate-400 hover:text-talent-terracotta">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75z"/></svg>
+          </a>
+          <a href="#" class="text-slate-400 hover:text-talent-terracotta">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800/80 pt-6 text-center text-slate-500">
+      © 2026 Trait Innovation LLP. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- DEMO MODAL -->
+  <div id="demo-modal" class="fixed inset-0 z-50 hidden bg-talent-dark/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-talent-card rounded-3xl border border-talent-terracotta/40 max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl">
+      <button onclick="closeDemoModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">✕</button>
+      <div class="text-xs font-mono text-talent-terracotta font-bold mb-1">INTERACTIVE HIREAI DEMO</div>
+      <h3 class="text-2xl font-display font-bold text-white mb-4">Request TRAIT HireAI Demo</h3>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-2">WORK EMAIL:</label>
+          <input type="email" placeholder="recruiter@enterprise.com" class="w-full px-4 py-3 rounded-xl bg-talent-dark border border-slate-700 text-sm text-white focus:outline-none focus:border-talent-terracotta" />
+        </div>
+        <button onclick="runModalDemo()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-talent-terracotta to-talent-gold text-talent-dark font-bold text-sm">
+          Submit Demo Request
+        </button>
+        <div id="modal-output" class="hidden p-4 rounded-xl bg-talent-dark border border-talent-terracotta/20 text-xs font-mono space-y-2">
+          <div class="text-talent-terracotta font-bold">✓ DEMO REQUEST RECEIVED</div>
+          <div class="text-slate-300">Our HR Technology specialists will reach out within 24 hours to set up your talent sandbox.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/hire_ai.js') }}"></script>
+</body>
+</html>
