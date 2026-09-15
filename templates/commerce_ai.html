@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRAIT CommerceAI — Smarter Commerce For a Bigger Tomorrow | Trait Innovation</title>
+  <meta name="description" content="AI-enabled commerce solution supporting e-commerce assistance, analytics, product recommendations, and operational automation to drive sales." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            commerce: {
+              bgDark: '#060B18',       /* Midnight Deep Navy Base */
+              bgEmerald: '#04241B',    /* Dark Cyber Emerald Base */
+              bgViolet: '#120A2A',     /* Dark Velvet Violet Base */
+              cardDark: '#0E172C',     /* Frosted Dark Card */
+              cardViolet: '#1A1136',   /* Frosted Violet Card */
+              cardEmerald: '#082E23',  /* Frosted Emerald Card */
+              emerald: '#10B981',      /* Growth / Conversion */
+              emeraldBright: '#34D399',/* Vibrant Emerald Accent */
+              purple: '#A855F7',       /* AI / Intelligence */
+              purpleBright: '#C084FC', /* Vibrant Purple Accent */
+              orange: '#F97316',       /* Action / Commerce */
+              cyan: '#06B6D4',         /* Analytics */
+              cyanBright: '#38BDF8',   /* Vibrant Cyan Accent */
+              pink: '#EC4899',         /* Personalization */
+              textLight: '#F8FAFC',    /* Crisp Text */
+              textMuted: '#94A3B8',    /* Muted Text */
+              borderDark: '#1E293B',   /* Dark Border */
+              borderGlow: '#059669'    /* Glowing Border */
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            display: ['Syne', 'Playfair Display', 'serif'],
+            handwriting: ['Caveat', 'Dancing Script', 'cursive'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #060B18; /* Rich Dark Base - NO LIGHT COLOUR AT ALL */
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+
+    .font-display {
+      font-family: 'Syne', sans-serif;
+    }
+
+    .font-handwriting {
+      font-family: 'Caveat', cursive;
+    }
+
+    .gradient-emerald-neon {
+      background: linear-gradient(135deg, #34D399 0%, #10B981 50%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-purple-neon {
+      background: linear-gradient(135deg, #C084FC 0%, #A855F7 50%, #7C3AED 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-card-dark {
+      background: rgba(14, 23, 44, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(52, 211, 153, 0.2);
+    }
+
+    .glass-card-violet {
+      background: rgba(26, 17, 54, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #060B18;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #10B981;
+      border-radius: 4px;
+    }
+
+    /* Float & Glow Animation */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-float {
+      animation: floatSlow 4s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+    .animate-glow {
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-commerce-bgDark text-commerce-textLight transition-colors duration-300">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-emerald-500/20 bg-commerce-bgDark/90 backdrop-blur-xl" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <a href="/trait-commerce-ai" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-commerce-emerald via-commerce-purple to-commerce-orange p-0.5 shadow-md shadow-commerce-emerald/30 group-hover:scale-105 transition-transform">
+            <div class="w-full h-full bg-commerce-bgDark rounded-[10px] flex items-center justify-center">
+              <svg class="w-5 h-5 text-commerce-emeraldBright" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-display font-bold text-lg text-white">TRAIT CommerceAI</span>
+            </div>
+            <span class="text-[10px] font-mono font-semibold tracking-wider text-commerce-emeraldBright block -mt-1 uppercase">BY TRAIT INNOVATION</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Center Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-slate-200">
+        <a href="#hero" class="hover:text-commerce-emeraldBright transition-colors">Overview</a>
+        <a href="#categories" class="hover:text-commerce-emeraldBright transition-colors">Features</a>
+        <a href="#dashboard" class="hover:text-commerce-emeraldBright transition-colors">Experience</a>
+        <a href="#use-cases" class="hover:text-commerce-emeraldBright transition-colors">Use Cases</a>
+        <a href="#integrations" class="hover:text-commerce-emeraldBright transition-colors">Integrations</a>
+        <a href="#faq" class="hover:text-commerce-emeraldBright transition-colors">FAQ</a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Back to Main Website link -->
+        <a href="/" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-commerce-emeraldBright transition-colors px-3.5 py-2 rounded-full border border-slate-700 bg-commerce-cardDark/80">
+          <svg class="w-3.5 h-3.5 text-commerce-emeraldBright" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Main Website
+        </a>
+
+        <!-- CTA Button -->
+        <button onclick="openStoreModal()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-commerce-emerald to-emerald-500 text-white font-bold text-xs shadow-lg shadow-commerce-emerald/30 hover:shadow-commerce-emerald/50 transition-all flex items-center gap-1.5 uppercase tracking-wider">
+          <span>Start Your Store</span> ➔
+        </button>
+
+        <!-- Mobile Drawer Toggle -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-commerce-bgDark border-b border-slate-800 px-6 py-6 space-y-4 shadow-xl">
+      <a href="/" class="flex items-center gap-2 text-xs font-semibold text-commerce-emeraldBright">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Main Trait Innovation Website
+      </a>
+      <hr class="border-slate-800" />
+      <nav class="space-y-3 text-xs font-semibold uppercase tracking-wider text-slate-200">
+        <a href="#hero" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">01. Overview</a>
+        <a href="#categories" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">02. Categories & Features</a>
+        <a href="#dashboard" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">03. AI Experience</a>
+        <a href="#capabilities" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">04. Growth Capabilities</a>
+        <a href="#process" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">05. How It Works</a>
+        <a href="#use-cases" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">06. Use Cases</a>
+        <a href="#integrations" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">07. Integrations</a>
+        <a href="#faq" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">08. FAQ</a>
+      </nav>
+      <button onclick="document.getElementById('mobile-menu').classList.add('hidden'); openStoreModal();" class="w-full py-3 rounded-full bg-commerce-emerald text-white font-bold text-xs uppercase tracking-wider">
+        Start Your Store Now
+      </button>
+    </div>
+  </header>
+
+  <!-- 1. HERO SECTION (DARK CYBERNETIC COMMERCE ENGINE) -->
+  <section id="hero" class="relative min-h-screen pt-28 pb-20 flex items-center justify-center overflow-hidden bg-commerce-bgDark">
+    
+    <!-- Neon Background Ambient Glows -->
+    <div class="absolute top-1/4 left-10 w-96 h-96 bg-commerce-emerald/20 rounded-full blur-3xl pointer-events-none animate-glow"></div>
+    <div class="absolute bottom-10 right-10 w-96 h-96 bg-commerce-purple/20 rounded-full blur-3xl pointer-events-none animate-glow"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Hero Column -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <!-- Eyebrow -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-commerce-emerald/10 border border-commerce-emerald/40 text-[11px] font-mono font-bold tracking-widest text-commerce-emeraldBright uppercase shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-commerce-emeraldBright animate-ping"></span>
+          <span>AI-POWERED COMMERCE. REAL GROWTH.</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-white leading-[1.08]">
+          Smarter Commerce <br />
+          For a Bigger <br />
+          <span class="gradient-emerald-neon">Tomorrow.</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-base sm:text-lg text-slate-300 max-w-xl font-normal leading-relaxed">
+          AI-enabled commerce solution supporting e-commerce assistance, analytics, product recommendations, and operational automation to drive sales.
+        </p>
+
+        <!-- CTAs -->
+        <div class="pt-2 flex flex-wrap items-center gap-4">
+          <button onclick="openStoreModal()" class="px-7 py-3.5 rounded-full bg-gradient-to-r from-commerce-emerald to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-commerce-emerald/30 transition-all flex items-center gap-2 group">
+            <span>Start Your Store</span> ➔
+          </button>
+
+          <button onclick="openStoreModal()" class="px-6 py-3.5 rounded-full border border-slate-700 bg-commerce-cardDark/60 text-white font-semibold text-xs transition-all flex items-center gap-2 hover:border-commerce-emeraldBright">
+            <svg class="w-4 h-4 text-commerce-emeraldBright" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <span>Watch Demo</span>
+          </button>
+        </div>
+
+        <!-- 4 Feature Pills Below CTAs -->
+        <div class="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-slate-800 text-xs">
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-commerce-cardDark border border-slate-800">
+            <span class="w-7 h-7 rounded-lg bg-commerce-emerald/20 text-commerce-emeraldBright flex items-center justify-center font-bold text-xs">📈</span>
+            <span class="font-semibold text-slate-200 text-[11px]">Increase Conversions</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-commerce-cardDark border border-slate-800">
+            <span class="w-7 h-7 rounded-lg bg-commerce-pink/20 text-commerce-pink flex items-center justify-center font-bold text-xs">🛍️</span>
+            <span class="font-semibold text-slate-200 text-[11px]">Personalized Shopping</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-commerce-cardDark border border-slate-800">
+            <span class="w-7 h-7 rounded-lg bg-commerce-orange/20 text-commerce-orange flex items-center justify-center font-bold text-xs">⚙️</span>
+            <span class="font-semibold text-slate-200 text-[11px]">Automate Operations</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-commerce-cardDark border border-slate-800">
+            <span class="w-7 h-7 rounded-lg bg-commerce-cyan/20 text-commerce-cyanBright flex items-center justify-center font-bold text-xs">📊</span>
+            <span class="font-semibold text-slate-200 text-[11px]">Data-Driven Growth</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Visual Column (AI Generated Command Center Scene) -->
+      <div class="lg:col-span-6 relative" id="hero-visual-container">
+        
+        <div class="relative rounded-3xl p-3 bg-commerce-cardDark border border-commerce-emerald/40 shadow-2xl overflow-hidden group">
+          
+          <!-- GENERATED HERO IMAGE INTEGRATION -->
+          <div class="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-lg border border-emerald-500/20">
+            <img src="{{ url_for('static', filename='images/commerce_hero.jpg') }}" alt="TRAIT CommerceAI Holographic Command Center" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-commerce-bgDark/80 via-transparent to-transparent"></div>
+
+            <!-- Floating AI Panel Badge -->
+            <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-commerce-cardDark/90 backdrop-blur-md border border-commerce-emerald/40 flex items-center justify-between shadow-xl">
+              <div>
+                <div class="text-[10px] font-mono text-commerce-emeraldBright font-bold uppercase">COMMERCE AI ENGINE ONLINE</div>
+                <div class="text-xs font-bold text-white">Real-time Intent Matching & Predictive Analytics</div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-commerce-emerald text-white text-[10px] font-mono font-bold">99.4% ACCURACY</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Handwritten Accent -->
+        <div class="absolute -top-6 -right-4 z-20 hidden sm:block">
+          <span class="font-handwriting text-3xl text-commerce-emeraldBright font-bold transform rotate-6 block drop-shadow-md">
+            Shop Engage Convert Grow ✨
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. BUILT FOR EVERY ONLINE BUSINESS (CATEGORY STRIP) -->
+  <section id="categories" class="py-16 bg-commerce-bgEmerald border-y border-emerald-500/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <div>
+          <span class="text-[10px] font-mono font-bold text-commerce-emeraldBright uppercase tracking-widest block mb-1">E-COMMERCE ECOSYSTEM</span>
+          <h2 class="text-2xl sm:text-4xl font-display font-bold text-white">
+            Built For Every Online Business
+          </h2>
+          <p class="text-xs text-slate-300 mt-1">
+            From emerging brands to growing enterprises, TRAIT CommerceAI helps you sell smarter.
+          </p>
+        </div>
+
+        <div class="text-right hidden sm:block">
+          <span class="font-handwriting text-2xl text-commerce-emeraldBright font-bold block transform -rotate-2">
+            Different Products. Bigger Possibilities. ✦
+          </span>
+        </div>
+      </div>
+
+      <!-- Horizontal Category Strip Nav -->
+      <div class="flex items-center justify-between gap-3 overflow-x-auto pb-2 scrollbar-none" id="category-selector-strip">
+        
+        <button onclick="selectCategory('fashion')" class="category-btn active flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-commerce-cardDark border-2 border-commerce-pink transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-commerce-pink/20 text-commerce-pink flex items-center justify-center font-bold text-base">👗</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">Fashion</div>
+            <div class="text-[10px] text-slate-400 font-mono">Apparel & Style</div>
+          </div>
+        </button>
+
+        <button onclick="selectCategory('electronics')" class="category-btn flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-commerce-cardDark border-2 border-transparent hover:border-commerce-purple transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-commerce-purple/20 text-commerce-purpleBright flex items-center justify-center font-bold text-base">🎧</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">Electronics</div>
+            <div class="text-[10px] text-slate-400 font-mono">Gadgets & Tech</div>
+          </div>
+        </button>
+
+        <button onclick="selectCategory('home')" class="category-btn flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-commerce-cardDark border-2 border-transparent hover:border-commerce-orange transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-commerce-orange/20 text-commerce-orange flex items-center justify-center font-bold text-base">🛋️</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">Home & Living</div>
+            <div class="text-[10px] text-slate-400 font-mono">Decor & Furniture</div>
+          </div>
+        </button>
+
+        <button onclick="selectCategory('beauty')" class="category-btn flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-commerce-cardDark border-2 border-transparent hover:border-commerce-pink transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-commerce-pink/20 text-commerce-pink flex items-center justify-center font-bold text-base">💄</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">Beauty & Personal Care</div>
+            <div class="text-[10px] text-slate-400 font-mono">Skincare & Wellness</div>
+          </div>
+        </button>
+
+        <button onclick="selectCategory('food')" class="category-btn flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-commerce-cardDark border-2 border-transparent hover:border-commerce-emerald transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-commerce-emerald/20 text-commerce-emeraldBright flex items-center justify-center font-bold text-base">🍷</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">Food & Beverages</div>
+            <div class="text-[10px] text-slate-400 font-mono">Gourmet & Organics</div>
+          </div>
+        </button>
+
+        <button onclick="selectCategory('more')" class="category-btn flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-commerce-cardDark border-2 border-transparent hover:border-commerce-cyan transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-commerce-cyan/20 text-commerce-cyanBright flex items-center justify-center font-bold text-base">✨</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">And More</div>
+            <div class="text-[10px] text-slate-400 font-mono">Custom Verticals</div>
+          </div>
+        </button>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. AI COMMERCE EXPERIENCE (INTERACTIVE DASHBOARD & GENERATED SHOPPER IMAGE) -->
+  <section id="dashboard" class="py-24 relative bg-commerce-bgViolet border-b border-purple-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-commerce-purple/20 text-commerce-purpleBright text-[10px] font-mono font-bold uppercase mb-3 border border-purple-500/30">
+            <span>AI THAT UNDERSTANDS YOUR BUSINESS</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+            Turn Shoppers <br />
+            Into <span class="gradient-purple-neon">Loyal Customers.</span>
+          </h2>
+          <p class="mt-3 text-slate-300 text-sm max-w-lg">
+            Deliver personalized experiences, relevant recommendations, and seamless support across the buying journey.
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <button onclick="openStoreModal()" class="px-6 py-3 rounded-full bg-gradient-to-r from-commerce-purple to-indigo-600 text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+            <span>Explore All Features</span> ➔
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left: AI Shopper Image Panel -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-3xl p-3 bg-commerce-cardViolet border border-commerce-purple/40 shadow-2xl overflow-hidden group">
+            <div class="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-lg">
+              <img src="{{ url_for('static', filename='images/commerce_shopper.jpg') }}" alt="Interactive AI Shopping Assistant" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-commerce-bgViolet/80 via-transparent to-transparent"></div>
+              
+              <div class="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-commerce-cardViolet/90 backdrop-blur-md border border-commerce-purple/40">
+                <div class="text-[10px] font-mono text-commerce-purpleBright font-bold uppercase">SHOPPER ASSISTANT ACTIVE</div>
+                <div class="text-xs text-white">"Personalized recommendations based on style & intent."</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Dashboard Tabs Panel -->
+        <div class="lg:col-span-7 bg-commerce-cardDark rounded-3xl border border-slate-800 p-6 sm:p-8 space-y-6 shadow-2xl">
+          
+          <!-- Sidebar Tabs Top Navigation -->
+          <div class="flex flex-wrap items-center gap-2 pb-4 border-b border-slate-800">
+            <button onclick="switchDashboardTab('products')" id="tab-products" class="dash-tab active px-4 py-2 rounded-xl bg-commerce-purple text-white text-xs font-bold transition-all">
+              🛍️ Products
+            </button>
+            <button onclick="switchDashboardTab('recommendations')" id="tab-recommendations" class="dash-tab px-4 py-2 rounded-xl text-slate-300 hover:bg-commerce-purple/20 text-xs font-semibold transition-all">
+              ✨ Recommendations
+            </button>
+            <button onclick="switchDashboardTab('analytics')" id="tab-analytics" class="dash-tab px-4 py-2 rounded-xl text-slate-300 hover:bg-commerce-purple/20 text-xs font-semibold transition-all">
+              📊 Analytics
+            </button>
+            <button onclick="switchDashboardTab('customers')" id="tab-customers" class="dash-tab px-4 py-2 rounded-xl text-slate-300 hover:bg-commerce-purple/20 text-xs font-semibold transition-all">
+              👥 Customers
+            </button>
+          </div>
+
+          <!-- TAB CONTENT 1: PRODUCTS -->
+          <div id="dash-panel-products" class="dash-panel space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-bold font-display text-white">Recommended for You</h3>
+              <span class="text-xs font-mono text-commerce-purpleBright font-semibold">AI PERSONALIZATION ACTIVE</span>
+            </div>
+
+            <!-- 4 Product Tiles -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div class="bg-commerce-bgDark p-3 rounded-xl border border-slate-800 space-y-1">
+                <div class="text-xs font-bold text-white">Smart Watch</div>
+                <div class="text-xs text-commerce-emeraldBright font-mono font-bold">$210.00</div>
+                <div class="text-[10px] text-slate-400">Score: 98%</div>
+              </div>
+              <div class="bg-commerce-bgDark p-3 rounded-xl border border-slate-800 space-y-1">
+                <div class="text-xs font-bold text-white">Wireless Earbuds</div>
+                <div class="text-xs text-commerce-emeraldBright font-mono font-bold">$89.00</div>
+                <div class="text-[10px] text-slate-400">Score: 95%</div>
+              </div>
+              <div class="bg-commerce-bgDark p-3 rounded-xl border border-slate-800 space-y-1">
+                <div class="text-xs font-bold text-white">Backpack</div>
+                <div class="text-xs text-commerce-emeraldBright font-mono font-bold">$95.00</div>
+                <div class="text-[10px] text-slate-400">Score: 92%</div>
+              </div>
+              <div class="bg-commerce-bgDark p-3 rounded-xl border border-slate-800 space-y-1">
+                <div class="text-xs font-bold text-white">Sunglasses</div>
+                <div class="text-xs text-commerce-emeraldBright font-mono font-bold">$120.00</div>
+                <div class="text-[10px] text-slate-400">Score: 94%</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB CONTENT 2: RECOMMENDATIONS -->
+          <div id="dash-panel-recommendations" class="dash-panel hidden space-y-4">
+            <h3 class="text-base font-bold text-white font-display">Smart Recommendation Matrix</h3>
+            <div class="p-4 rounded-xl bg-commerce-bgDark border border-purple-500/30 text-xs text-slate-300">
+              Cross-sell suggestions automatically displayed based on browsing velocity & intent analysis.
+            </div>
+          </div>
+
+          <!-- TAB CONTENT 3: ANALYTICS -->
+          <div id="dash-panel-analytics" class="dash-panel hidden space-y-4">
+            <h3 class="text-base font-bold text-white font-display">Predictive Sales Graph</h3>
+            <div class="p-4 rounded-xl bg-commerce-bgDark border border-cyan-500/30 flex items-end gap-2 h-28">
+              <div class="flex-1 bg-cyan-500/30 h-[40%] rounded-t"></div>
+              <div class="flex-1 bg-cyan-500/50 h-[65%] rounded-t"></div>
+              <div class="flex-1 bg-cyan-500/80 h-[85%] rounded-t"></div>
+              <div class="flex-1 bg-emerald-400 h-[100%] rounded-t animate-pulse"></div>
+            </div>
+          </div>
+
+          <!-- TAB CONTENT 4: CUSTOMERS -->
+          <div id="dash-panel-customers" class="dash-panel hidden space-y-4">
+            <h3 class="text-base font-bold text-white font-display">Customer Segments</h3>
+            <div class="p-3 rounded-xl bg-commerce-bgDark border border-slate-800 text-xs text-slate-300">
+              3,420 Active High-Lifetime-Value Profiles Segmented.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. EVERYTHING YOU NEED TO GROW ONLINE (DARK NAVY SECTION) -->
+  <section id="capabilities" class="py-24 relative bg-commerce-bgDark text-white overflow-hidden">
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="max-w-3xl mb-16 space-y-3">
+        <span class="px-3.5 py-1.5 rounded-full bg-commerce-emerald/20 text-commerce-emeraldBright font-mono text-[10px] font-bold uppercase border border-emerald-500/30">
+          POWERING E-COMMERCE SUCCESS
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white leading-tight">
+          Everything You Need <br />
+          to <span class="gradient-emerald-neon">Grow Online.</span>
+        </h2>
+        <p class="text-slate-300 text-sm max-w-xl">
+          From customer support to inventory automation, get a complete AI-powered commerce solution.
+        </p>
+      </div>
+
+      <!-- 4 Capability Cards Integrated Visual System -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Card 1: AI Shopping Assistant -->
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 hover:border-commerce-emeraldBright transition-all space-y-4 group">
+          <div class="w-12 h-12 rounded-2xl bg-commerce-emerald/20 text-commerce-emeraldBright flex items-center justify-center text-xl font-bold">
+            🤖
+          </div>
+          <h3 class="text-xl font-bold font-display text-white group-hover:text-commerce-emeraldBright transition-colors">
+            AI Shopping Assistant
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Answer questions and guide purchases in real time with conversational AI assistance.
+          </p>
+          <div class="pt-2 text-[10px] font-mono font-bold text-commerce-emeraldBright flex items-center gap-1">
+            <span>24/7 SUPPORT</span> ➔
+          </div>
+        </div>
+
+        <!-- Card 2: Smart Recommendations -->
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 hover:border-commerce-purpleBright transition-all space-y-4 group">
+          <div class="w-12 h-12 rounded-2xl bg-commerce-purple/20 text-commerce-purpleBright flex items-center justify-center text-xl font-bold">
+            ✨
+          </div>
+          <h3 class="text-xl font-bold font-display text-white group-hover:text-commerce-purpleBright transition-colors">
+            Smart Recommendations
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Show the right products to the right customers at the precise moment of intent.
+          </p>
+          <div class="pt-2 text-[10px] font-mono font-bold text-commerce-purpleBright flex items-center gap-1">
+            <span>PERSONALIZED</span> ➔
+          </div>
+        </div>
+
+        <!-- Card 3: Operational Automation -->
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 hover:border-commerce-orange transition-all space-y-4 group">
+          <div class="w-12 h-12 rounded-2xl bg-commerce-orange/20 text-commerce-orange flex items-center justify-center text-xl font-bold">
+            ⚙️
+          </div>
+          <h3 class="text-xl font-bold font-display text-white group-hover:text-commerce-orange transition-colors">
+            Operational Automation
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Simplify inventory, orders, fulfillment sync, and operational workflows automatically.
+          </p>
+          <div class="pt-2 text-[10px] font-mono font-bold text-commerce-orange flex items-center gap-1">
+            <span>AUTOMATED</span> ➔
+          </div>
+        </div>
+
+        <!-- Card 4: Analytics & Insights -->
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 hover:border-commerce-cyanBright transition-all space-y-4 group">
+          <div class="w-12 h-12 rounded-2xl bg-commerce-cyan/20 text-commerce-cyanBright flex items-center justify-center text-xl font-bold">
+            📊
+          </div>
+          <h3 class="text-xl font-bold font-display text-white group-hover:text-commerce-cyanBright transition-colors">
+            Analytics & Insights
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Make data-driven decisions with ease using predictive sales intelligence dashboards.
+          </p>
+          <div class="pt-2 text-[10px] font-mono font-bold text-commerce-cyanBright flex items-center gap-1">
+            <span>PREDICTIVE</span> ➔
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-12 text-center">
+        <button onclick="openStoreModal()" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-commerce-emerald to-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-commerce-emerald/40 transition-all">
+          See How It Works ➔
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. HOW IT WORKS (CONNECTED JOURNEY FLOW) -->
+  <section id="process" class="py-24 relative bg-commerce-bgEmerald border-t border-emerald-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-commerce-emeraldBright mb-2">HOW IT WORKS</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+          From Search to Successful Sales.
+        </h2>
+        <p class="mt-3 text-slate-300 text-sm">
+          A simple, intelligent flow that helps you grow your business.
+        </p>
+      </div>
+
+      <!-- Connected Flow 4 Steps -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+        
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 shadow-xl relative text-center space-y-3 group hover:-translate-y-1 transition-transform">
+          <div class="w-12 h-12 rounded-full bg-commerce-emerald/20 text-commerce-emeraldBright flex items-center justify-center font-bold mx-auto text-lg">
+            🔍
+          </div>
+          <div class="text-xs font-mono font-bold text-commerce-emeraldBright">01</div>
+          <h3 class="text-lg font-bold font-display text-white">Customer Searches</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            "A shopper looks for a product."
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 shadow-xl relative text-center space-y-3 group hover:-translate-y-1 transition-transform">
+          <div class="w-12 h-12 rounded-full bg-commerce-purple/20 text-commerce-purpleBright flex items-center justify-center font-bold mx-auto text-lg">
+            🧠
+          </div>
+          <div class="text-xs font-mono font-bold text-commerce-purpleBright">02</div>
+          <h3 class="text-lg font-bold font-display text-white">AI Understands</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            "Analyzes intent and preferences."
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 shadow-xl relative text-center space-y-3 group hover:-translate-y-1 transition-transform">
+          <div class="w-12 h-12 rounded-full bg-commerce-orange/20 text-commerce-orange flex items-center justify-center font-bold mx-auto text-lg">
+            🛍️
+          </div>
+          <div class="text-xs font-mono font-bold text-commerce-orange">03</div>
+          <h3 class="text-lg font-bold font-display text-white">Shows Results</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            "Displays relevant products."
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 shadow-xl relative text-center space-y-3 group hover:-translate-y-1 transition-transform">
+          <div class="w-12 h-12 rounded-full bg-commerce-cyan/20 text-commerce-cyanBright flex items-center justify-center font-bold mx-auto text-lg">
+            📈
+          </div>
+          <div class="text-xs font-mono font-bold text-commerce-cyanBright">04</div>
+          <h3 class="text-lg font-bold font-display text-white">Drives Sales</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            "Helps complete the purchase."
+          </p>
+        </div>
+
+      </div>
+
+      <div class="mt-12 text-center">
+        <button onclick="openStoreModal()" class="px-7 py-3 rounded-full bg-commerce-emerald text-white font-bold text-xs uppercase tracking-wider shadow-md hover:bg-emerald-600 transition-all">
+          View Full Process ➔
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. USE CASES -->
+  <section id="use-cases" class="py-24 relative bg-commerce-bgViolet border-t border-purple-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <span class="px-3 py-1 rounded-full bg-commerce-purple/20 text-commerce-purpleBright text-[10px] font-mono font-bold uppercase mb-2 inline-block border border-purple-500/30">USE CASES</span>
+          <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+            CommerceAI Works for You.
+          </h2>
+          <p class="text-slate-300 text-sm mt-2">Powering every stage of your e-commerce journey.</p>
+        </div>
+      </div>
+
+      <!-- 4 Category Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="bg-commerce-cardViolet rounded-3xl overflow-hidden border border-purple-500/30 shadow-xl group hover:-translate-y-1.5 transition-all">
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=600&q=80" alt="New Brands" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" />
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-commerce-emerald text-white text-[10px] font-mono font-bold">NEW BRANDS</span>
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="text-xl font-bold text-white font-display">New Brands</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              "Launch with confidence."
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-commerce-cardViolet rounded-3xl overflow-hidden border border-purple-500/30 shadow-xl group hover:-translate-y-1.5 transition-all">
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=600&q=80" alt="Growing Stores" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" />
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-commerce-purple text-white text-[10px] font-mono font-bold">GROWING STORES</span>
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="text-xl font-bold text-white font-display">Growing Stores</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              "Scale efficiently."
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-commerce-cardViolet rounded-3xl overflow-hidden border border-purple-500/30 shadow-xl group hover:-translate-y-1.5 transition-all">
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=600&q=80" alt="Global Sellers" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" />
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-commerce-orange text-white text-[10px] font-mono font-bold">GLOBAL SELLERS</span>
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="text-xl font-bold text-white font-display">Global Sellers</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              "Reach more customers."
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-commerce-cardViolet rounded-3xl overflow-hidden border border-purple-500/30 shadow-xl group hover:-translate-y-1.5 transition-all">
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80" alt="Retail & D2C" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" />
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-commerce-cyan text-white text-[10px] font-mono font-bold">RETAIL & D2C</span>
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="text-xl font-bold text-white font-display">Retail & D2C</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              "Create better customer experiences."
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. BUSINESS IMPACT -->
+  <section class="py-24 relative bg-commerce-bgDark border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-commerce-emeraldBright mb-2">REAL BUSINESS IMPACT</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+          Smarter Commerce. Stronger Results.
+        </h2>
+        <p class="mt-3 text-slate-300 text-sm">
+          Unlock new opportunities with AI-powered e-commerce solutions.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 shadow-lg text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-commerce-emerald/20 text-commerce-emeraldBright flex items-center justify-center font-bold text-2xl mx-auto">
+            📈
+          </div>
+          <h3 class="text-lg font-bold font-display text-white">Higher Conversion Potential</h3>
+          <p class="text-xs text-slate-400">Streamlined checkout & personalized product discovery.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 shadow-lg text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-commerce-purple/20 text-commerce-purpleBright flex items-center justify-center font-bold text-2xl mx-auto">
+            🤝
+          </div>
+          <h3 class="text-lg font-bold font-display text-white">More Loyal Customers</h3>
+          <p class="text-xs text-slate-400">Bespoke recommendations and instant support.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 shadow-lg text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-commerce-orange/20 text-commerce-orange flex items-center justify-center font-bold text-2xl mx-auto">
+            ⚡
+          </div>
+          <h3 class="text-lg font-bold font-display text-white">Improved Operational Efficiency</h3>
+          <p class="text-xs text-slate-400">Automated inventory sync & order routing.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-commerce-cardDark border border-slate-800 shadow-lg text-center space-y-3">
+          <div class="w-12 h-12 rounded-2xl bg-commerce-cyan/20 text-commerce-cyanBright flex items-center justify-center font-bold text-2xl mx-auto">
+            📊
+          </div>
+          <h3 class="text-lg font-bold font-display text-white">Better Business Insights</h3>
+          <p class="text-xs text-slate-400">Predictive analytics across channels.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 8. INTEGRATIONS -->
+  <section id="integrations" class="py-24 relative bg-commerce-bgEmerald border-t border-emerald-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-commerce-purpleBright mb-2">WORKS WITH YOUR TOOLS</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+          Seamless Integrations.
+        </h2>
+        <p class="mt-3 text-slate-300 text-sm">
+          Connect with the platforms you already use.
+        </p>
+      </div>
+
+      <!-- Integration Badges Grid -->
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        
+        <div class="px-6 py-4 rounded-2xl bg-commerce-cardDark border border-slate-800 shadow-md flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-sm">🛍️</span>
+          <span class="text-sm font-bold text-white">Shopify</span>
+        </div>
+
+        <div class="px-6 py-4 rounded-2xl bg-commerce-cardDark border border-slate-800 shadow-md flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 font-bold flex items-center justify-center text-sm">⚙️</span>
+          <span class="text-sm font-bold text-white">WooCommerce</span>
+        </div>
+
+        <div class="px-6 py-4 rounded-2xl bg-commerce-cardDark border border-slate-800 shadow-md flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 font-bold flex items-center justify-center text-sm">📦</span>
+          <span class="text-sm font-bold text-white">Magento</span>
+        </div>
+
+        <div class="px-6 py-4 rounded-2xl bg-commerce-cardDark border border-slate-800 shadow-md flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 font-bold flex items-center justify-center text-sm">🛒</span>
+          <span class="text-sm font-bold text-white">BigCommerce</span>
+        </div>
+
+        <div class="px-6 py-4 rounded-2xl bg-commerce-cardDark border border-slate-800 shadow-md flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center text-sm">📊</span>
+          <span class="text-sm font-bold text-white">Google Analytics</span>
+        </div>
+
+        <div class="px-6 py-4 rounded-2xl bg-commerce-cardDark border border-slate-800 shadow-md flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 font-bold flex items-center justify-center text-sm">☁️</span>
+          <span class="text-sm font-bold text-white">Salesforce</span>
+        </div>
+
+        <div class="px-6 py-4 rounded-2xl bg-commerce-cardDark border border-slate-800 shadow-md flex items-center gap-3">
+          <span class="w-8 h-8 rounded-xl bg-commerce-purple/20 text-commerce-purpleBright font-bold flex items-center justify-center text-sm">✨</span>
+          <span class="text-sm font-bold text-commerce-purpleBright">+ Custom APIs</span>
+        </div>
+
+      </div>
+
+      <div class="mt-10 text-center">
+        <button onclick="openStoreModal()" class="px-7 py-3 rounded-full border border-slate-700 bg-commerce-cardDark text-white font-semibold text-xs transition-all hover:border-commerce-purpleBright">
+          View All Integrations ➔
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 9. TESTIMONIALS (SAMPLE FEEDBACK) -->
+  <section class="py-24 relative bg-commerce-bgDark border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-commerce-emeraldBright mb-2">SAVED BY BUSINESSES • SAMPLE FEEDBACK</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+          Helping Brands Go Further.
+        </h2>
+        <p class="mt-2 text-slate-300 text-sm">See what businesses are saying about TRAIT CommerceAI.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="bg-commerce-cardDark rounded-3xl p-6 border border-slate-800 shadow-lg space-y-4">
+          <p class="text-xs text-slate-200 italic leading-relaxed">
+            "The recommendations have made our store more engaging and easier to navigate."
+          </p>
+          <div class="flex items-center gap-3 pt-2 border-t border-slate-800">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Priya S." class="w-10 h-10 rounded-full object-cover" />
+            <div>
+              <div class="text-xs font-bold text-white">Priya S.</div>
+              <div class="text-[10px] font-mono text-commerce-emeraldBright font-semibold">Online Store Owner</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-commerce-cardDark rounded-3xl p-6 border border-slate-800 shadow-lg space-y-4">
+          <p class="text-xs text-slate-200 italic leading-relaxed">
+            "A game-changer for our e-commerce business. Simple and powerful."
+          </p>
+          <div class="flex items-center gap-3 pt-2 border-t border-slate-800">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Rahul Mehta" class="w-10 h-10 rounded-full object-cover" />
+            <div>
+              <div class="text-xs font-bold text-white">Rahul Mehta</div>
+              <div class="text-[10px] font-mono text-commerce-purpleBright font-semibold">D2C Brand Director</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-commerce-cardDark rounded-3xl p-6 border border-slate-800 shadow-lg space-y-4">
+          <p class="text-xs text-slate-200 italic leading-relaxed">
+            "It helps us understand our customers and improve our offerings."
+          </p>
+          <div class="flex items-center gap-3 pt-2 border-t border-slate-800">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="Sneha K." class="w-10 h-10 rounded-full object-cover" />
+            <div>
+              <div class="text-xs font-bold text-white">Sneha K.</div>
+              <div class="text-[10px] font-mono text-commerce-cyanBright font-semibold">Retail Business Lead</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 10. FINAL CTA SECTION (WITH AI GENERATED FULFILLMENT BANNER IMAGE) -->
+  <section class="py-24 relative bg-commerce-bgDark text-white overflow-hidden border-t border-emerald-500/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+      
+      <div class="lg:col-span-7 space-y-6">
+        <span class="px-3.5 py-1.5 rounded-full bg-commerce-emerald/20 text-commerce-emeraldBright font-mono text-[10px] font-bold uppercase border border-emerald-500/30">
+          LET'S BUILD YOUR SUCCESS
+        </span>
+
+        <h2 class="text-4xl sm:text-6xl font-display font-extrabold tracking-tight text-white leading-tight">
+          Ready to Take Your <br />
+          E-Commerce to the Next Level?
+        </h2>
+
+        <p class="text-slate-300 text-base max-w-xl">
+          Start your journey with TRAIT CommerceAI today.
+        </p>
+
+        <div class="pt-4 flex flex-wrap gap-4">
+          <button onclick="openStoreModal()" class="px-8 py-4 rounded-full bg-gradient-to-r from-commerce-emerald to-emerald-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-commerce-emerald/40 transition-all">
+            Start Your Store ➔
+          </button>
+
+          <a href="/" class="px-8 py-4 rounded-full bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all">
+            Talk to Our Team
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: AI Generated Fulfillment Banner Image -->
+      <div class="lg:col-span-5 relative">
+        <div class="rounded-3xl p-3 bg-commerce-cardDark border border-commerce-purple/40 shadow-2xl overflow-hidden">
+          <div class="aspect-[16/9] rounded-2xl overflow-hidden">
+            <img src="{{ url_for('static', filename='images/commerce_cta.jpg') }}" alt="AI Powered Commerce Fulfillment" class="w-full h-full object-cover" />
+          </div>
+        </div>
+        <div class="mt-4 text-center">
+          <span class="font-handwriting text-3xl text-commerce-emeraldBright font-bold inline-block transform -rotate-2">
+            Shop. Engage. Grow. Together ✨
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 11. FAQ SECTION -->
+  <section id="faq" class="py-24 relative bg-commerce-bgDark border-t border-slate-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-commerce-emeraldBright mb-2">FREQUENTLY ASKED QUESTIONS</div>
+        <h2 class="text-3xl font-display font-bold text-white">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="space-y-4">
+        <details class="bg-commerce-cardDark rounded-2xl p-5 border border-slate-800 group shadow-sm">
+          <summary class="font-bold text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>What core capabilities does TRAIT CommerceAI provide?</span>
+            <span class="text-commerce-emeraldBright group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-300 mt-3 leading-relaxed">
+            TRAIT CommerceAI provides AI-enabled e-commerce assistance, predictive analytics, smart product recommendations, and operational automation to drive online sales.
+          </p>
+        </details>
+
+        <details class="bg-commerce-cardDark rounded-2xl p-5 border border-slate-800 group shadow-sm">
+          <summary class="font-bold text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>Can TRAIT CommerceAI integrate with my existing online store?</span>
+            <span class="text-commerce-emeraldBright group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-300 mt-3 leading-relaxed">
+            Yes, CommerceAI connects seamlessly via APIs with leading e-commerce platforms like Shopify, WooCommerce, Magento, BigCommerce, and custom web setups.
+          </p>
+        </details>
+
+        <details class="bg-commerce-cardDark rounded-2xl p-5 border border-slate-800 group shadow-sm">
+          <summary class="font-bold text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>How do I get started with a store demonstration?</span>
+            <span class="text-commerce-emeraldBright group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-300 mt-3 leading-relaxed">
+            Click 'Start Your Store' on this page to share your store URL or requirements, and our e-commerce AI team will reach out within 24 hours.
+          </p>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 12. FOOTER -->
+  <footer class="bg-commerce-bgDark text-white pt-16 pb-12 text-xs border-t border-commerce-emerald/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      <div>
+        <div class="font-display font-bold text-base text-white mb-2">TRAIT CommerceAI</div>
+        <div class="text-[10px] font-mono text-commerce-emeraldBright uppercase tracking-widest font-bold mb-3">BY TRAIT INNOVATION</div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Smarter commerce solutions for a brighter business tomorrow.
+        </p>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">PRODUCT</div>
+        <ul class="space-y-2 text-slate-300">
+          <li><a href="#hero" class="hover:text-commerce-emeraldBright">Overview</a></li>
+          <li><a href="#categories" class="hover:text-commerce-emeraldBright">Features</a></li>
+          <li><a href="#use-cases" class="hover:text-commerce-emeraldBright">Use Cases</a></li>
+          <li><a href="#integrations" class="hover:text-commerce-emeraldBright">Integrations</a></li>
+          <li><a href="#faq" class="hover:text-commerce-emeraldBright">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">COMPANY</div>
+        <ul class="space-y-2 text-slate-300">
+          <li><a href="/" class="hover:text-commerce-emeraldBright">About Trait Innovation</a></li>
+          <li><a href="/" class="hover:text-commerce-emeraldBright">Leadership</a></li>
+          <li><a href="/" class="hover:text-commerce-emeraldBright">Our Solutions</a></li>
+          <li><a href="#faq" class="hover:text-commerce-emeraldBright">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">CONNECT</div>
+        <div class="flex gap-4 items-center">
+          <a href="#" class="text-slate-400 hover:text-commerce-emeraldBright" title="LinkedIn">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75z"/></svg>
+          </a>
+          <a href="#" class="text-slate-400 hover:text-commerce-emeraldBright" title="Instagram">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" class="text-slate-400 hover:text-commerce-emeraldBright" title="YouTube">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+        <div class="mt-4 font-handwriting text-2xl text-commerce-emeraldBright font-bold">
+          Shop Engage Grow Together.
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center text-slate-400 gap-4">
+      <div>© 2026 Trait Innovation LLP. All rights reserved.</div>
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-white font-mono">
+        Back to Top ↑
+      </button>
+    </div>
+  </footer>
+
+  <!-- STORE CONSULTATION MODAL -->
+  <div id="store-modal" class="fixed inset-0 z-50 hidden bg-commerce-bgDark/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-commerce-cardDark rounded-3xl border border-commerce-emerald/40 max-w-xl w-full p-6 sm:p-8 relative shadow-2xl">
+      <button onclick="closeStoreModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">✕</button>
+      <div class="text-xs font-mono text-commerce-emeraldBright font-bold mb-1">E-COMMERCE DEMO & CONSULTATION</div>
+      <h3 class="text-2xl font-display font-bold text-white mb-4">Start Your AI Store Journey</h3>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-2">STORE TYPE / CATEGORY:</label>
+          <select class="w-full px-4 py-3 rounded-xl bg-commerce-bgDark border border-slate-700 text-sm text-white">
+            <option>Fashion & Apparel</option>
+            <option>Electronics & Gadgets</option>
+            <option>Home & Decor</option>
+            <option>Beauty & Skincare</option>
+            <option>Food & Gourmet</option>
+            <option>Custom Retail Vertical</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-2">YOUR BUSINESS EMAIL:</label>
+          <input type="text" placeholder="store.owner@domain.com" class="w-full px-4 py-3 rounded-xl bg-commerce-bgDark border border-slate-700 text-sm text-white" />
+        </div>
+        <button onclick="runStoreSubmit()" class="w-full py-3.5 rounded-full bg-gradient-to-r from-commerce-emerald to-emerald-500 text-white font-bold text-xs uppercase tracking-wider">
+          Submit Store Inquiry
+        </button>
+        <div id="store-output" class="hidden p-4 rounded-xl bg-commerce-bgDark border border-commerce-emerald/40 text-xs font-mono space-y-2">
+          <div class="text-commerce-emeraldBright font-bold">✓ DEMO REQUEST RECEIVED</div>
+          <div class="text-slate-200">Our e-commerce AI specialist will connect with you within 24 hours.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/commerce_ai.js') }}"></script>
+</body>
+</html>

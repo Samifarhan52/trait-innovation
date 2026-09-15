@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRAIT AirportAI — Navigate Travel Easier | Trait Innovation</title>
+  <meta name="description" content="AI-powered airport assistance for real-time information, terminal navigation, customer support, and airport service guidance." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            airport: {
+              bgDark: '#040814',       /* Deep Midnight Airport Black */
+              bgNavy: '#0A1124',       /* Terminal Navy */
+              bgCard: '#0E172C',       /* Frosted Panel Dark */
+              blue: '#0088FF',         /* Electric Blue Navigation */
+              blueBright: '#00A3FF',   /* Glowing Navigation Line */
+              cyan: '#00F0FF',         /* AI Intelligence */
+              amber: '#FFB800',        /* Flight Info / Gate Warning */
+              emerald: '#10B981',      /* On-Time / Success */
+              violet: '#A855F7',       /* Intelligent Processing */
+              magenta: '#EC4899',      /* Passenger Support */
+              textLight: '#F8FAFC',    /* Crisp Terminal Text */
+              textMuted: '#94A3B8',    /* Muted Slate Text */
+              borderDark: '#1E293B',   /* Panel Border */
+              borderGlow: '#00A3FF'    /* Illuminated Edge */
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            display: ['Syne', 'Playfair Display', 'serif'],
+            handwriting: ['Caveat', 'Dancing Script', 'cursive'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #040814; /* Deep Midnight Airport Black - NO WHITE */
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+
+    .font-display {
+      font-family: 'Syne', sans-serif;
+    }
+
+    .font-handwriting {
+      font-family: 'Caveat', cursive;
+    }
+
+    .gradient-blue-cyan {
+      background: linear-gradient(135deg, #00F0FF 0%, #0088FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-panel-airport {
+      background: rgba(14, 23, 44, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 163, 255, 0.25);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #040814;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #0088FF;
+      border-radius: 4px;
+    }
+
+    /* Glowing Pulse */
+    @keyframes pulseCyan {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.9; }
+    }
+    .animate-pulse-cyan {
+      animation: pulseCyan 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-airport-bgDark text-airport-textLight transition-colors duration-300">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-airport-blue/20 bg-airport-bgDark/90 backdrop-blur-xl" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <a href="/trait-airport-ai" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-airport-blue via-airport-cyan to-airport-amber p-0.5 shadow-md shadow-airport-blue/30 group-hover:scale-105 transition-transform">
+            <div class="w-full h-full bg-airport-bgDark rounded-[10px] flex items-center justify-center">
+              <svg class="w-5 h-5 text-airport-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-display font-bold text-lg text-white">TRAIT AirportAI</span>
+            </div>
+            <span class="text-[10px] font-mono font-semibold tracking-wider text-airport-cyan block -mt-1 uppercase">BY TRAIT INNOVATION</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Center Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-slate-200">
+        <a href="#hero" class="hover:text-airport-cyan transition-colors">Overview</a>
+        <a href="#categories" class="hover:text-airport-cyan transition-colors">Features</a>
+        <a href="#dashboard" class="hover:text-airport-cyan transition-colors">Experience</a>
+        <a href="#use-cases" class="hover:text-airport-cyan transition-colors">Use Cases</a>
+        <a href="#faq" class="hover:text-airport-cyan transition-colors">FAQ</a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Back to Main Website link -->
+        <a href="/" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-airport-cyan transition-colors px-3.5 py-2 rounded-full border border-slate-700 bg-airport-bgCard/80">
+          <svg class="w-3.5 h-3.5 text-airport-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Main Website
+        </a>
+
+        <!-- CTA Button -->
+        <button onclick="openAssistanceModal()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-airport-blue to-airport-blueBright text-white font-bold text-xs shadow-lg shadow-airport-blue/30 hover:shadow-airport-blue/50 transition-all flex items-center gap-1.5 uppercase tracking-wider">
+          <span>Get Assistance</span> ➔
+        </button>
+
+        <!-- Mobile Drawer Toggle -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-airport-bgDark border-b border-slate-800 px-6 py-6 space-y-4 shadow-xl">
+      <a href="/" class="flex items-center gap-2 text-xs font-semibold text-airport-cyan">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Main Trait Innovation Website
+      </a>
+      <hr class="border-slate-800" />
+      <nav class="space-y-3 text-xs font-semibold uppercase tracking-wider text-slate-200">
+        <a href="#hero" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">01. Overview</a>
+        <a href="#categories" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">02. Passenger Support</a>
+        <a href="#dashboard" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">03. AI Terminal Assistant</a>
+        <a href="#why-us" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">04. Airport Experience</a>
+        <a href="#process" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">05. How It Works</a>
+        <a href="#use-cases" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">06. Use Cases</a>
+        <a href="#faq" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">07. FAQ</a>
+      </nav>
+      <button onclick="document.getElementById('mobile-menu').classList.add('hidden'); openAssistanceModal();" class="w-full py-3 rounded-full bg-airport-blue text-white font-bold text-xs uppercase tracking-wider">
+        Get Assistance Now
+      </button>
+    </div>
+  </header>
+
+  <!-- 1. HERO SECTION (THE AIRPORT IS THE INTERFACE) -->
+  <section id="hero" class="relative min-h-screen pt-28 pb-20 flex items-center justify-center overflow-hidden bg-airport-bgDark">
+    
+    <!-- Neon Background Ambient Glows -->
+    <div class="absolute top-1/4 left-10 w-96 h-96 bg-airport-blue/15 rounded-full blur-3xl pointer-events-none animate-pulse-cyan"></div>
+    <div class="absolute bottom-10 right-10 w-96 h-96 bg-airport-cyan/15 rounded-full blur-3xl pointer-events-none animate-pulse-cyan"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Hero Column -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <!-- Eyebrow -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-airport-blue/10 border border-airport-blue/40 text-[11px] font-mono font-bold tracking-widest text-airport-cyan uppercase shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-airport-cyan animate-ping"></span>
+          <span>✦ AI FOR A SMOOTHER JOURNEY</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-white leading-[1.08]">
+          Navigate <br />
+          Travel <br />
+          <span class="gradient-blue-cyan">Easier.</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-base sm:text-lg text-slate-300 max-w-xl font-normal leading-relaxed">
+          AI-powered airport assistance for real-time information, terminal navigation, customer support, and airport service guidance.
+        </p>
+
+        <!-- CTAs -->
+        <div class="pt-2 flex flex-wrap items-center gap-4">
+          <button onclick="openAssistanceModal()" class="px-7 py-3.5 rounded-full bg-gradient-to-r from-airport-blue to-airport-blueBright hover:from-airport-blueBright hover:to-blue-600 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-airport-blue/30 transition-all flex items-center gap-2 group">
+            <span>Get Assistance</span> ➔
+          </button>
+
+          <button onclick="openAssistanceModal()" class="px-6 py-3.5 rounded-full border border-slate-700 bg-airport-bgCard/80 text-white font-semibold text-xs transition-all flex items-center gap-2 hover:border-airport-cyan">
+            <svg class="w-4 h-4 text-airport-cyan" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <span>See It in Action</span>
+          </button>
+        </div>
+
+        <!-- 4 Feature Badges Below CTAs -->
+        <div class="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 border-t border-slate-800 text-xs">
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-airport-bgCard border border-slate-800">
+            <span class="w-7 h-7 rounded-lg bg-airport-blue/20 text-airport-cyan flex items-center justify-center font-bold text-xs">✈️</span>
+            <span class="font-semibold text-slate-200 text-[11px]">Real-Time Flight Info</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-airport-bgCard border border-slate-800">
+            <span class="w-7 h-7 rounded-lg bg-airport-cyan/20 text-airport-cyan flex items-center justify-center font-bold text-xs">📍</span>
+            <span class="font-semibold text-slate-200 text-[11px]">Smart Navigation</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-airport-bgCard border border-slate-800">
+            <span class="w-7 h-7 rounded-lg bg-airport-amber/20 text-airport-amber flex items-center justify-center font-bold text-xs">🎧</span>
+            <span class="font-semibold text-slate-200 text-[11px]">Instant Support</span>
+          </div>
+          <div class="flex items-center gap-2 p-2.5 rounded-xl bg-airport-bgCard border border-slate-800">
+            <span class="w-7 h-7 rounded-lg bg-airport-violet/20 text-airport-violet flex items-center justify-center font-bold text-xs">⚙️</span>
+            <span class="font-semibold text-slate-200 text-[11px]">Seamless Experience</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Visual Column (Interactive Airport Intelligence Scene) -->
+      <div class="lg:col-span-6 relative" id="hero-visual-container">
+        
+        <div class="relative rounded-3xl p-3 bg-airport-bgCard border border-airport-blue/40 shadow-2xl overflow-hidden group">
+          
+          <!-- GENERATED HERO TERMINAL SCENE IMAGE -->
+          <div class="relative aspect-[16/9] rounded-2xl overflow-hidden shadow-lg border border-airport-cyan/20">
+            <img src="{{ url_for('static', filename='images/airport_hero.jpg') }}" alt="TRAIT AirportAI Terminal Intelligence" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-airport-bgDark/80 via-transparent to-transparent"></div>
+
+            <!-- Floating Departures Board Overlay Top Right -->
+            <div class="absolute top-4 right-4 p-3 rounded-xl bg-airport-bgCard/95 backdrop-blur-md border border-airport-cyan/40 text-[10px] font-mono space-y-1 w-44">
+              <div class="flex items-center justify-between text-airport-cyan font-bold pb-1 border-b border-slate-800">
+                <span>✈ DEPARTURES</span>
+                <span class="text-[9px]">LIVE</span>
+              </div>
+              <div class="flex justify-between text-white"><span>AI101 New York</span><span class="text-airport-emerald">ON TIME</span></div>
+              <div class="flex justify-between text-white"><span>AI203 London</span><span class="text-airport-cyan">BOARDING</span></div>
+              <div class="flex justify-between text-white"><span>AI305 Dubai</span><span class="text-airport-amber">DELAYED</span></div>
+              <div class="flex justify-between text-white"><span>AI410 Singapore</span><span class="text-airport-emerald">ON TIME</span></div>
+            </div>
+
+            <!-- Floating Mobile Assistant Phone Container Overlay -->
+            <div class="absolute bottom-4 left-4 p-3.5 rounded-xl bg-airport-bgCard/95 backdrop-blur-md border border-airport-blue/40 max-w-[220px] text-xs space-y-2">
+              <div class="flex items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-airport-cyan/20 text-airport-cyan flex items-center justify-center font-bold text-xs">👤</span>
+                <div>
+                  <div class="text-[11px] font-bold text-white">Hello Traveler!</div>
+                  <div class="text-[9px] text-slate-400">How can I help you today?</div>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-1.5 text-[9px] font-semibold">
+                <span class="p-1 rounded bg-airport-blue/20 text-airport-cyan text-center">Flight Info ➔</span>
+                <span class="p-1 rounded bg-airport-blue/20 text-airport-cyan text-center">Terminal Map ➔</span>
+                <span class="p-1 rounded bg-airport-blue/20 text-airport-cyan text-center">Services ➔</span>
+                <span class="p-1 rounded bg-airport-blue/20 text-airport-cyan text-center">Support ➔</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Handwritten Accent -->
+        <div class="absolute -top-6 -right-4 z-20 hidden sm:block">
+          <span class="font-handwriting text-3xl text-airport-cyan font-bold transform rotate-6 block drop-shadow-md">
+            Your Airport Companion ✨
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. SUPPORTING EVERY JOURNEY (PASSENGER SELECTOR) -->
+  <section id="categories" class="py-16 bg-airport-bgNavy border-y border-airport-blue/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <div>
+          <span class="text-[10px] font-mono font-bold text-airport-cyan uppercase tracking-widest block mb-1">PASSENGER INTELLIGENCE</span>
+          <h2 class="text-2xl sm:text-4xl font-display font-bold text-white">
+            SUPPORTING EVERY JOURNEY
+          </h2>
+          <p class="text-xs text-slate-300 mt-1">
+            Different travelers. One intelligent assistant.
+          </p>
+        </div>
+      </div>
+
+      <!-- Horizontal Passenger Tiles Nav -->
+      <div class="flex items-center justify-between gap-3 overflow-x-auto pb-2 scrollbar-none" id="passenger-selector-strip">
+        
+        <button onclick="selectPassenger('departing')" class="passenger-btn active flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-airport-bgCard border-2 border-airport-cyan transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-airport-cyan/20 text-airport-cyan flex items-center justify-center font-bold text-base">🛫</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">Departing Passengers</div>
+            <div class="text-[10px] text-slate-400 font-mono">Check-in & Gate Navigation</div>
+          </div>
+        </button>
+
+        <button onclick="selectPassenger('arriving')" class="passenger-btn flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-airport-bgCard border-2 border-transparent hover:border-airport-blue transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-airport-blue/20 text-airport-blueBright flex items-center justify-center font-bold text-base">🛬</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">Arriving Passengers</div>
+            <div class="text-[10px] text-slate-400 font-mono">Baggage & Transport</div>
+          </div>
+        </button>
+
+        <button onclick="selectPassenger('transit')" class="passenger-btn flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-airport-bgCard border-2 border-transparent hover:border-airport-amber transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-airport-amber/20 text-airport-amber flex items-center justify-center font-bold text-base">🔄</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">Transit Passengers</div>
+            <div class="text-[10px] text-slate-400 font-mono">Connecting Flight Routes</div>
+          </div>
+        </button>
+
+        <button onclick="selectPassenger('families')" class="passenger-btn flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-airport-bgCard border-2 border-transparent hover:border-airport-magenta transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-airport-magenta/20 text-airport-magenta flex items-center justify-center font-bold text-base">👨‍👩‍👧</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">Families</div>
+            <div class="text-[10px] text-slate-400 font-mono">Kid-friendly Care</div>
+          </div>
+        </button>
+
+        <button onclick="selectPassenger('business')" class="passenger-btn flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-airport-bgCard border-2 border-transparent hover:border-airport-violet transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-airport-violet/20 text-airport-violet flex items-center justify-center font-bold text-base">💼</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">Business Travelers</div>
+            <div class="text-[10px] text-slate-400 font-mono">Lounge & Express Lines</div>
+          </div>
+        </button>
+
+        <button onclick="selectPassenger('more')" class="passenger-btn flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-airport-bgCard border-2 border-transparent hover:border-airport-emerald transition-all shrink-0">
+          <span class="w-8 h-8 rounded-xl bg-airport-emerald/20 text-airport-emerald flex items-center justify-center font-bold text-base">✨</span>
+          <div class="text-left">
+            <div class="text-xs font-bold text-white">And More</div>
+            <div class="text-[10px] text-slate-400 font-mono">Custom Assistance</div>
+          </div>
+        </button>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. YOUR PERSONAL AIRPORT ASSISTANT (INTERACTIVE TERMINAL MAP) -->
+  <section id="dashboard" class="py-24 relative bg-airport-bgDark border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-airport-cyan/10 text-airport-cyan text-[10px] font-mono font-bold uppercase mb-3 border border-airport-cyan/30">
+            <span>✦ YOUR PERSONAL AIRPORT ASSISTANT</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+            Information. Guidance. <br />
+            Support. <span class="gradient-blue-cyan">Instantly.</span>
+          </h2>
+          <p class="mt-3 text-slate-300 text-sm max-w-lg">
+            Get real-time flight updates, terminal directions, service information and instant assistance whenever you need it.
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0">
+          <button onclick="openAssistanceModal()" class="px-6 py-3 rounded-full bg-gradient-to-r from-airport-blue to-airport-blueBright text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+            <span>Explore All Features</span> ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE TERMINAL MAP DASHBOARD -->
+      <div class="bg-airport-bgCard rounded-3xl border border-airport-blue/40 shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 min-h-[550px]">
+        
+        <!-- Left Terminal Menu -->
+        <div class="lg:col-span-3 bg-airport-bgNavy/80 p-6 border-b lg:border-b-0 lg:border-r border-slate-800 space-y-3">
+          <div class="text-[10px] font-mono text-airport-cyan font-bold uppercase tracking-wider mb-2">TERMINAL NAVIGATION</div>
+          
+          <button onclick="switchTerminalTab('map')" id="term-tab-map" class="term-tab active w-full flex items-center justify-between px-4 py-3 rounded-xl bg-airport-blue text-white text-xs font-bold transition-all text-left">
+            <span class="flex items-center gap-2.5"><span>🗺️</span> <span>Terminal Map</span></span>
+            <span class="text-[10px] font-mono">LEVEL 2</span>
+          </button>
+
+          <button onclick="switchTerminalTab('status')" id="term-tab-status" class="term-tab w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-airport-blue/20 text-xs font-semibold transition-all text-left">
+            <span class="flex items-center gap-2.5"><span>✈️</span> <span>Flight Status</span></span>
+            <span class="text-[10px] font-mono text-airport-emerald">LIVE</span>
+          </button>
+
+          <button onclick="switchTerminalTab('services')" id="term-tab-services" class="term-tab w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-airport-blue/20 text-xs font-semibold transition-all text-left">
+            <span class="flex items-center gap-2.5"><span>🛍️</span> <span>Airport Services</span></span>
+          </button>
+
+          <button onclick="switchTerminalTab('transport')" id="term-tab-transport" class="term-tab w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-airport-blue/20 text-xs font-semibold transition-all text-left">
+            <span class="flex items-center gap-2.5"><span>🚕</span> <span>Transport & Parking</span></span>
+          </button>
+
+          <button onclick="switchTerminalTab('dining')" id="term-tab-dining" class="term-tab w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-airport-blue/20 text-xs font-semibold transition-all text-left">
+            <span class="flex items-center gap-2.5"><span>☕</span> <span>Shops & Dining</span></span>
+          </button>
+
+          <button onclick="switchTerminalTab('support')" id="term-tab-support" class="term-tab w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-300 hover:bg-airport-blue/20 text-xs font-semibold transition-all text-left">
+            <span class="flex items-center gap-2.5"><span>🎧</span> <span>Customer Support</span></span>
+          </button>
+        </div>
+
+        <!-- Center & Right Map View Panel -->
+        <div class="lg:col-span-9 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 relative">
+          
+          <!-- Interactive 2.5D Map Container (Left 8 Cols) -->
+          <div class="lg:col-span-8 space-y-4">
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                <span class="ml-2 font-mono text-xs font-bold text-airport-cyan">LIVE TERMINAL 2 MAP</span>
+              </div>
+              
+              <!-- Level Switcher Buttons -->
+              <div class="flex items-center gap-1 bg-airport-bgDark p-1 rounded-xl border border-slate-800 text-[10px] font-mono">
+                <button class="px-2 py-1 rounded hover:bg-airport-blue/30 text-slate-300">Level 1</button>
+                <button class="px-2 py-1 rounded bg-airport-blue text-white font-bold">Level 2</button>
+                <button class="px-2 py-1 rounded hover:bg-airport-blue/30 text-slate-300">Level 3</button>
+                <button class="px-2 py-1 rounded hover:bg-airport-blue/30 text-slate-300">Level 4</button>
+              </div>
+            </div>
+
+            <!-- Simulated 2.5D Airport Map Blueprint Canvas -->
+            <div class="relative aspect-[4/3] rounded-2xl bg-airport-bgDark border border-airport-cyan/30 p-6 flex flex-col justify-between overflow-hidden shadow-inner" id="terminal-map-canvas">
+              
+              <!-- Background Grid Pattern -->
+              <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+
+              <!-- Map Location Nodes -->
+              <div class="relative z-10 flex justify-between items-start">
+                <div class="p-2.5 rounded-xl bg-airport-blue/20 border border-airport-blue text-xs font-bold text-white flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-airport-cyan animate-ping"></span>
+                  <span>Your Location</span>
+                </div>
+
+                <div class="p-2.5 rounded-xl bg-airport-cyan/20 border border-airport-cyan text-xs font-bold text-white flex items-center gap-2 shadow-lg shadow-airport-cyan/20 animate-bounce">
+                  <span>📍 Gate A8</span>
+                  <span class="text-[10px] text-airport-cyan font-mono">(3 min walk)</span>
+                </div>
+              </div>
+
+              <!-- Animated Cyan Route Line Path -->
+              <div class="relative z-0 h-24 my-auto flex items-center justify-center">
+                <svg class="w-full h-full text-airport-cyan" fill="none" stroke="currentColor" viewBox="0 0 400 100">
+                  <path d="M 50 80 Q 200 10 350 30" stroke="url(#cyanGlow)" stroke-width="4" stroke-dasharray="8 4" class="animate-pulse" />
+                  <defs>
+                    <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#0088FF" />
+                      <stop offset="100%" stop-color="#00F0FF" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+
+              <div class="relative z-10 flex justify-between text-[11px] text-slate-400 font-mono">
+                <span>SECURITY CHECK: CLEARED</span>
+                <span>DESTINATION: GATE A8</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Turn-by-Turn Directions Panel (Right 4 Cols) -->
+          <div class="lg:col-span-4 bg-airport-bgDark p-5 rounded-2xl border border-slate-800 space-y-4 flex flex-col justify-between">
+            <div>
+              <div class="text-[10px] font-mono text-airport-cyan font-bold uppercase mb-3">DIRECTIONS</div>
+              
+              <div class="space-y-3 text-xs">
+                <div class="flex items-start gap-3 p-2 rounded-lg bg-airport-bgCard border border-slate-800">
+                  <span class="text-airport-cyan font-bold text-base">↑</span>
+                  <div>
+                    <div class="font-bold text-white">Go straight</div>
+                    <div class="text-[10px] text-slate-400">50 meters along main hall</div>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-2 rounded-lg bg-airport-bgCard border border-slate-800">
+                  <span class="text-airport-cyan font-bold text-base">➔</span>
+                  <div>
+                    <div class="font-bold text-white">Turn right</div>
+                    <div class="text-[10px] text-slate-400">Follow signs for Gates A1-A16</div>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-2 rounded-lg bg-airport-bgCard border border-slate-800">
+                  <span class="text-airport-amber font-bold text-base">🛗</span>
+                  <div>
+                    <div class="font-bold text-white">Take the elevator</div>
+                    <div class="text-[10px] text-slate-400">To Level 2 Departure Concourse</div>
+                  </div>
+                </div>
+
+                <div class="flex items-start gap-3 p-2 rounded-lg bg-airport-bgCard border border-airport-cyan/40">
+                  <span class="text-airport-emerald font-bold text-base">◎</span>
+                  <div>
+                    <div class="font-bold text-white">Gate A8</div>
+                    <div class="text-[10px] text-airport-emerald">On your left side</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="openAssistanceModal()" class="w-full py-3 rounded-xl bg-gradient-to-r from-airport-blue to-airport-blueBright text-white font-bold text-xs uppercase tracking-wider shadow-md">
+              Start Navigation ➔
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. WHY AIRPORTAI (FULL-WIDTH CINEMATIC TARMAC SECTION) -->
+  <section id="why-us" class="py-24 relative bg-airport-bgDark text-white overflow-hidden border-t border-slate-800">
+    
+    <!-- GENERATED TARMAC PANORAMA BACKGROUND -->
+    <div class="absolute inset-0 z-0 opacity-40">
+      <img src="{{ url_for('static', filename='images/airport_tarmac.jpg') }}" alt="Airport Tarmac Panorama at Dusk" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-r from-airport-bgDark via-airport-bgDark/80 to-transparent"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="max-w-3xl mb-16 space-y-3">
+        <span class="px-3.5 py-1.5 rounded-full bg-airport-cyan/20 text-airport-cyan font-mono text-[10px] font-bold uppercase border border-airport-cyan/30">
+          ✦ WHY CHOOSE AIRPORTAI
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white leading-tight">
+          A More Connected <br />
+          Airport Experience.
+        </h2>
+        <p class="text-slate-300 text-sm max-w-xl">
+          Technology that helps every traveler move with confidence.
+        </p>
+      </div>
+
+      <!-- 4 Feature Circular Badges Overlay -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="p-6 rounded-3xl bg-airport-bgCard/90 backdrop-blur-md border border-slate-800 hover:border-airport-cyan transition-all space-y-3 group">
+          <div class="w-12 h-12 rounded-2xl bg-airport-cyan/20 text-airport-cyan flex items-center justify-center text-xl font-bold">
+            🤖
+          </div>
+          <h3 class="text-lg font-bold font-display text-white group-hover:text-airport-cyan transition-colors">
+            Instant Assistance
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Get quick answers to your queries via voice or text AI support.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-airport-bgCard/90 backdrop-blur-md border border-slate-800 hover:border-airport-magenta transition-all space-y-3 group">
+          <div class="w-12 h-12 rounded-2xl bg-airport-magenta/20 text-airport-magenta flex items-center justify-center text-xl font-bold">
+            📍
+          </div>
+          <h3 class="text-lg font-bold font-display text-white group-hover:text-airport-magenta transition-colors">
+            Easy Navigation
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Find your way across complex multi-level terminals with ease.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-airport-bgCard/90 backdrop-blur-md border border-slate-800 hover:border-airport-amber transition-all space-y-3 group">
+          <div class="w-12 h-12 rounded-2xl bg-airport-amber/20 text-airport-amber flex items-center justify-center text-xl font-bold">
+            📋
+          </div>
+          <h3 class="text-lg font-bold font-display text-white group-hover:text-airport-amber transition-colors">
+            Comprehensive Info
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Access real-time updates on flight status, gates, and baggage status.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-airport-bgCard/90 backdrop-blur-md border border-slate-800 hover:border-airport-violet transition-all space-y-3 group">
+          <div class="w-12 h-12 rounded-2xl bg-airport-violet/20 text-airport-violet flex items-center justify-center text-xl font-bold">
+            ✨
+          </div>
+          <h3 class="text-lg font-bold font-display text-white group-hover:text-airport-violet transition-colors">
+            Enhanced Experience
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Designed for a smoother, less stressful passenger journey.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. FROM QUESTION TO SOLUTION (CONNECTED JOURNEY FLOW) -->
+  <section id="process" class="py-24 relative bg-airport-bgDark border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-airport-cyan mb-2">✦ HOW IT WORKS</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+          From a Question to a Solution.
+        </h2>
+        <p class="mt-3 text-slate-300 text-sm">
+          Simple. Fast. Reliable.
+        </p>
+      </div>
+
+      <!-- Connected Flow 4 Steps -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+        
+        <div class="p-6 rounded-3xl bg-airport-bgCard border border-slate-800 shadow-xl relative text-center space-y-3 group hover:-translate-y-1 transition-transform">
+          <div class="w-12 h-12 rounded-full bg-airport-blue/20 text-airport-cyan flex items-center justify-center font-bold mx-auto text-lg">
+            🔍
+          </div>
+          <div class="text-xs font-mono font-bold text-airport-cyan">01</div>
+          <h3 class="text-lg font-bold font-display text-white">Ask</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            "Type or speak your question."
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-airport-bgCard border border-slate-800 shadow-xl relative text-center space-y-3 group hover:-translate-y-1 transition-transform">
+          <div class="w-12 h-12 rounded-full bg-airport-violet/20 text-airport-violet flex items-center justify-center font-bold mx-auto text-lg">
+            🧠
+          </div>
+          <div class="text-xs font-mono font-bold text-airport-violet">02</div>
+          <h3 class="text-lg font-bold font-display text-white">Understand</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            "AI processes your request."
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-airport-bgCard border border-slate-800 shadow-xl relative text-center space-y-3 group hover:-translate-y-1 transition-transform">
+          <div class="w-12 h-12 rounded-full bg-airport-amber/20 text-airport-amber flex items-center justify-center font-bold mx-auto text-lg">
+            📋
+          </div>
+          <div class="text-xs font-mono font-bold text-airport-amber">03</div>
+          <h3 class="text-lg font-bold font-display text-white">Get Answer</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            "Receive instant, accurate info."
+          </p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-airport-bgCard border border-slate-800 shadow-xl relative text-center space-y-3 group hover:-translate-y-1 transition-transform">
+          <div class="w-12 h-12 rounded-full bg-airport-cyan/20 text-airport-cyan flex items-center justify-center font-bold mx-auto text-lg">
+            🚀
+          </div>
+          <div class="text-xs font-mono font-bold text-airport-cyan">04</div>
+          <h3 class="text-lg font-bold font-display text-white">Take Action</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            "Follow guidance and move forward."
+          </p>
+        </div>
+
+      </div>
+
+      <div class="mt-12 text-center">
+        <button onclick="openAssistanceModal()" class="px-7 py-3 rounded-full bg-airport-blue text-white font-bold text-xs uppercase tracking-wider shadow-md hover:bg-blue-600 transition-all">
+          See How It Works ➔
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. AIRPORTAI USE CASES -->
+  <section id="use-cases" class="py-24 relative bg-airport-bgNavy border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <span class="px-3 py-1 rounded-full bg-airport-blue/20 text-airport-cyan text-[10px] font-mono font-bold uppercase mb-2 inline-block border border-airport-blue/30">✦ KEY USE CASES</span>
+          <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+            AirportAI Supports You.
+          </h2>
+          <p class="text-slate-300 text-sm mt-2">For every traveler, at every step of the journey.</p>
+        </div>
+      </div>
+
+      <!-- 4 Photographic Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="bg-airport-bgCard rounded-3xl overflow-hidden border border-slate-800 shadow-xl group hover:-translate-y-1.5 transition-all">
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" alt="Flight Information" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" />
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-airport-blue text-white text-[10px] font-mono font-bold">FLIGHT INFORMATION</span>
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="text-xl font-bold text-white font-display">Flight Updates</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Real-time gate changes, boarding alerts, and departure tracking.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-airport-bgCard rounded-3xl overflow-hidden border border-slate-800 shadow-xl group hover:-translate-y-1.5 transition-all">
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1517649763962-0c623266010b?auto=format&fit=crop&w=600&q=80" alt="Terminal Navigation" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" />
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-airport-cyan text-slate-950 text-[10px] font-mono font-bold">TERMINAL NAVIGATION</span>
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="text-xl font-bold text-white font-display">Wayfinding</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Find your gate, restrooms, lounges, and baggage claim effortlessly.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-airport-bgCard rounded-3xl overflow-hidden border border-slate-800 shadow-xl group hover:-translate-y-1.5 transition-all">
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80" alt="Airport Services" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" />
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-airport-amber text-slate-950 text-[10px] font-mono font-bold">AIRPORT SERVICES</span>
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="text-xl font-bold text-white font-display">Explore Facilities</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Discover lounges, duty-free shopping, restaurants, and medical desks.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-airport-bgCard rounded-3xl overflow-hidden border border-slate-800 shadow-xl group hover:-translate-y-1.5 transition-all">
+          <div class="relative aspect-[4/3] overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1534536281715-e28d76689b4d?auto=format&fit=crop&w=600&q=80" alt="Customer Support" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-80" />
+            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-airport-violet text-white text-[10px] font-mono font-bold">CUSTOMER SUPPORT</span>
+          </div>
+          <div class="p-6 space-y-2">
+            <h3 class="text-xl font-bold text-white font-display">Instant Support</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Multilingual passenger assistance for all queries and escalations.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. PASSENGER STORIES (SAMPLE FEEDBACK) -->
+  <section class="py-24 relative bg-airport-bgDark border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-airport-cyan mb-2">✦ HEAR FROM PASSENGERS • SAMPLE FEEDBACK</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">
+          A Better Airport Experience for All.
+        </h2>
+        <p class="mt-2 text-slate-300 text-sm">Here's what passengers are saying about AirportAI.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <div class="bg-airport-bgCard rounded-3xl p-6 border border-slate-800 shadow-lg space-y-4">
+          <p class="text-xs text-slate-200 italic leading-relaxed">
+            "The navigation guidance made it so easy to find my gate. Really helpful!"
+          </p>
+          <div class="flex items-center gap-3 pt-2 border-t border-slate-800">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Priya S." class="w-10 h-10 rounded-full object-cover" />
+            <div>
+              <div class="text-xs font-bold text-white">Priya S.</div>
+              <div class="text-[10px] font-mono text-airport-cyan font-semibold">Frequent Traveler</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-airport-bgCard rounded-3xl p-6 border border-slate-800 shadow-lg space-y-4">
+          <p class="text-xs text-slate-200 italic leading-relaxed">
+            "Got instant answers to my questions. Super convenient and easy to use."
+          </p>
+          <div class="flex items-center gap-3 pt-2 border-t border-slate-800">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Rohit M." class="w-10 h-10 rounded-full object-cover" />
+            <div>
+              <div class="text-xs font-bold text-white">Rohit M.</div>
+              <div class="text-[10px] font-mono text-airport-blueBright font-semibold">Business Traveler</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-airport-bgCard rounded-3xl p-6 border border-slate-800 shadow-lg space-y-4">
+          <p class="text-xs text-slate-200 italic leading-relaxed">
+            "Made traveling with my family so much smoother. Loved the experience!"
+          </p>
+          <div class="flex items-center gap-3 pt-2 border-t border-slate-800">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="Ananya K." class="w-10 h-10 rounded-full object-cover" />
+            <div>
+              <div class="text-xs font-bold text-white">Ananya K.</div>
+              <div class="text-[10px] font-mono text-airport-amber font-semibold">Family Traveler</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 8. CINEMATIC FINAL CTA SECTION -->
+  <section class="py-24 relative bg-airport-bgDark text-white overflow-hidden border-t border-airport-blue/30">
+    
+    <!-- GENERATED FINAL CTA BACKGROUND IMAGE -->
+    <div class="absolute inset-0 z-0 opacity-40">
+      <img src="{{ url_for('static', filename='images/airport_cta.jpg') }}" alt="Traveler Looking Out Gate A8 Window" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-r from-airport-bgDark via-airport-bgDark/80 to-transparent"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+      
+      <div class="lg:col-span-8 space-y-6">
+        <span class="px-3.5 py-1.5 rounded-full bg-airport-blue/20 text-airport-cyan font-mono text-[10px] font-bold uppercase border border-airport-blue/30">
+          ✦ READY FOR A SMOOTHER JOURNEY?
+        </span>
+
+        <h2 class="text-4xl sm:text-6xl font-display font-extrabold tracking-tight text-white leading-tight">
+          Travel Smarter <br />
+          With <span class="gradient-blue-cyan">AirportAI.</span>
+        </h2>
+
+        <p class="text-slate-300 text-base max-w-xl">
+          Let our AI assistant guide you through every step.
+        </p>
+
+        <div class="pt-4 flex flex-wrap gap-4">
+          <button onclick="openAssistanceModal()" class="px-8 py-4 rounded-full bg-gradient-to-r from-airport-blue to-airport-blueBright text-white font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-airport-blue/40 transition-all">
+            Get Assistance ➔
+          </button>
+
+          <a href="/" class="px-8 py-4 rounded-full bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all">
+            Talk to Our Team
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-4 text-center lg:text-right">
+        <span class="font-handwriting text-4xl text-airport-cyan font-bold inline-block transform -rotate-3 leading-snug">
+          Smarter Journeys<br />
+          Happier People ✨
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 9. FAQ SECTION -->
+  <section id="faq" class="py-24 relative bg-airport-bgDark border-t border-slate-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-airport-cyan mb-2">FREQUENTLY ASKED QUESTIONS</div>
+        <h2 class="text-3xl font-display font-bold text-white">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="space-y-4">
+        <details class="bg-airport-bgCard rounded-2xl p-5 border border-slate-800 group shadow-sm">
+          <summary class="font-bold text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>What capabilities does TRAIT AirportAI provide?</span>
+            <span class="text-airport-cyan group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-300 mt-3 leading-relaxed">
+            TRAIT AirportAI provides passenger information, 2.5D multi-level terminal wayfinding, instant AI customer support, and airport facility guidance.
+          </p>
+        </details>
+
+        <details class="bg-airport-bgCard rounded-2xl p-5 border border-slate-800 group shadow-sm">
+          <summary class="font-bold text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>How does AirportAI help passengers inside the terminal?</span>
+            <span class="text-airport-cyan group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-300 mt-3 leading-relaxed">
+            Passengers can ask questions via voice or text to receive step-by-step walking directions, gate boarding updates, baggage claim alerts, and lounge locations.
+          </p>
+        </details>
+
+        <details class="bg-airport-bgCard rounded-2xl p-5 border border-slate-800 group shadow-sm">
+          <summary class="font-bold text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>How can an airport or airline request an AirportAI deployment?</span>
+            <span class="text-airport-cyan group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-slate-300 mt-3 leading-relaxed">
+            Click 'Get Assistance' or 'Talk to Our Team' on this page, and our aviation intelligence team will get back to you within 24 hours.
+          </p>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 10. FOOTER -->
+  <footer class="bg-airport-bgDark text-white pt-16 pb-12 text-xs border-t border-airport-blue/30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      <div>
+        <div class="font-display font-bold text-base text-white mb-2">TRAIT AirportAI</div>
+        <div class="text-[10px] font-mono text-airport-cyan uppercase tracking-widest font-bold mb-3">BY TRAIT INNOVATION</div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Smart assistance for smarter journeys.
+        </p>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">PRODUCT</div>
+        <ul class="space-y-2 text-slate-300">
+          <li><a href="#hero" class="hover:text-airport-cyan">Overview</a></li>
+          <li><a href="#categories" class="hover:text-airport-cyan">Features</a></li>
+          <li><a href="#use-cases" class="hover:text-airport-cyan">Use Cases</a></li>
+          <li><a href="#why-us" class="hover:text-airport-cyan">Our Technology</a></li>
+          <li><a href="#faq" class="hover:text-airport-cyan">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">COMPANY</div>
+        <ul class="space-y-2 text-slate-300">
+          <li><a href="/" class="hover:text-airport-cyan">About Trait Innovation</a></li>
+          <li><a href="/" class="hover:text-airport-cyan">Leadership</a></li>
+          <li><a href="/" class="hover:text-airport-cyan">Our Solutions</a></li>
+          <li><a href="#faq" class="hover:text-airport-cyan">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">CONNECT</div>
+        <div class="flex gap-4 items-center">
+          <a href="#" class="text-slate-400 hover:text-airport-cyan" title="LinkedIn">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75z"/></svg>
+          </a>
+          <a href="#" class="text-slate-400 hover:text-airport-cyan" title="Instagram">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="#" class="text-slate-400 hover:text-airport-cyan" title="YouTube">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+        <div class="mt-4 font-handwriting text-2xl text-airport-cyan font-bold">
+          Travel Connect Explore Together.
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center text-slate-400 gap-4">
+      <div>© 2026 Trait Innovation LLP. All rights reserved.</div>
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-white font-mono">
+        Back to Top ↑
+      </button>
+    </div>
+  </footer>
+
+  <!-- ASSISTANCE CONSULTATION MODAL -->
+  <div id="assistance-modal" class="fixed inset-0 z-50 hidden bg-airport-bgDark/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-airport-bgCard rounded-3xl border border-airport-cyan/40 max-w-xl w-full p-6 sm:p-8 relative shadow-2xl">
+      <button onclick="closeAssistanceModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">✕</button>
+      <div class="text-xs font-mono text-airport-cyan font-bold mb-1">AIRPORTAI DEMO & CONSULTATION</div>
+      <h3 class="text-2xl font-display font-bold text-white mb-4">Request AirportAI Deployment</h3>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-2">ASSISTANCE CATEGORY:</label>
+          <select class="w-full px-4 py-3 rounded-xl bg-airport-bgDark border border-slate-700 text-sm text-white">
+            <option>Passenger Terminal Navigation</option>
+            <option>Flight Status & Gate Guidance</option>
+            <option>Airport Customer Support System</option>
+            <option>Aviation Facility Management</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-2">YOUR EMAIL / AIRPORT CONTACT:</label>
+          <input type="text" placeholder="airport.operations@domain.com" class="w-full px-4 py-3 rounded-xl bg-airport-bgDark border border-slate-700 text-sm text-white" />
+        </div>
+        <button onclick="runAssistanceSubmit()" class="w-full py-3.5 rounded-full bg-gradient-to-r from-airport-blue to-airport-blueBright text-white font-bold text-xs uppercase tracking-wider">
+          Submit Inquiry
+        </button>
+        <div id="assistance-output" class="hidden p-4 rounded-xl bg-airport-bgDark border border-airport-cyan/40 text-xs font-mono space-y-2">
+          <div class="text-airport-cyan font-bold">✓ INQUIRY RECEIVED</div>
+          <div class="text-slate-200">Our aviation intelligence specialist will connect with you within 24 hours.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/airport_ai.js') }}"></script>
+</body>
+</html>

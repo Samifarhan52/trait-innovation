@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRAIT Aviation Analytics — Data Today. Safer Tomorrow. | Trait Innovation</title>
+    <meta name="description" content="AI-powered aviation operations command center converting flight, passenger, baggage, and delay telemetry into real-time operational intelligence.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            950: '#040814',
+                            900: '#060C1B',
+                            850: '#0A1124',
+                            800: '#0F1A36',
+                            700: '#162447',
+                        },
+                        cyan: {
+                            400: '#00F0FF',
+                            500: '#06B6D4',
+                        },
+                        amber: {
+                            400: '#FFB800',
+                            500: '#F59E0B',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        handwriting: ['Caveat', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        body {
+            background-color: #040814;
+            color: #E2E8F0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .font-display { font-family: 'Outfit', sans-serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .font-handwriting { font-family: 'Caveat', cursive; }
+        
+        /* Custom HUD Glow & Radar Effects */
+        .hud-border {
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.08), inset 0 0 15px rgba(0, 240, 255, 0.05);
+        }
+        
+        .hud-border-amber {
+            border: 1px solid rgba(255, 184, 0, 0.3);
+            box-shadow: 0 0 15px rgba(255, 184, 0, 0.1), inset 0 0 15px rgba(255, 184, 0, 0.05);
+        }
+        
+        .glow-text-cyan {
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
+        }
+        
+        .glow-text-amber {
+            text-shadow: 0 0 10px rgba(255, 184, 0, 0.6);
+        }
+
+        .grid-pattern {
+            background-image: linear-gradient(to right, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        .radar-sweep {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, rgba(0, 240, 255, 0.25) 0deg, transparent 60deg, transparent 360deg);
+            animation: sweep 4s linear infinite;
+        }
+
+        @keyframes sweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animated pulse line */
+        .pulse-line {
+            stroke-dasharray: 8;
+            animation: dash 30s linear infinite;
+        }
+
+        @keyframes dash {
+            to { stroke-dashoffset: -1000; }
+        }
+
+        /* Glass Cards */
+        .glass-navy {
+            background: rgba(10, 17, 36, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 240, 255, 0.12);
+        }
+
+        .glass-navy-hover:hover {
+            background: rgba(15, 26, 54, 0.85);
+            border-color: rgba(0, 240, 255, 0.4);
+            box-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #040814;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0F1A36;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00F0FF;
+        }
+    </style>
+</head>
+<body class="bg-[#040814] text-slate-200 antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- NAVIGATION BAR -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#040814]/90 backdrop-blur-md border-b border-cyan-500/20 py-3.5 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="/trait-aviation-analytics" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-300">
+                    <div class="w-full h-full bg-[#040814] rounded-[10px] flex items-center justify-center">
+                        <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-base font-bold font-display tracking-tight text-white group-hover:text-cyan-400 transition-colors">TRAIT Aviation Analytics</span>
+                        <span class="text-[9px] font-mono font-bold bg-cyan-500/20 text-cyan-400 px-1.5 py-0.5 rounded border border-cyan-500/30">PRO</span>
+                    </div>
+                    <div class="text-[10px] font-mono text-cyan-400/80 tracking-widest uppercase">BY TRAIT INNOVATION</div>
+                </div>
+            </a>
+
+            <!-- Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-xs font-mono tracking-wider">
+                <a href="#overview" class="text-slate-300 hover:text-cyan-400 transition-colors">OVERVIEW</a>
+                <a href="#capabilities" class="text-slate-300 hover:text-cyan-400 transition-colors">CAPABILITIES</a>
+                <a href="#live-dashboard" class="text-slate-300 hover:text-cyan-400 transition-colors">LIVE COMMAND</a>
+                <a href="#ecosystem" class="text-slate-300 hover:text-cyan-400 transition-colors">ECOSYSTEM</a>
+                <a href="#pipeline" class="text-slate-300 hover:text-cyan-400 transition-colors">DATA PIPELINE</a>
+                <a href="#faq" class="text-slate-300 hover:text-cyan-400 transition-colors">FAQ</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+                <a href="/" class="hidden lg:inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400 hover:text-white border border-cyan-500/30 hover:border-cyan-400 px-3 py-1.5 rounded-full transition-all duration-300 bg-cyan-950/40">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                    Main Site
+                </a>
+                <button onclick="openDemoModal()" class="relative group overflow-hidden rounded-full p-px text-xs font-bold font-mono">
+                    <span class="absolute inset-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-amber-400 group-hover:opacity-100 transition-opacity"></span>
+                    <span class="relative block px-4 py-2 bg-[#040814] rounded-full text-cyan-400 group-hover:text-white transition-colors flex items-center gap-2">
+                        <span>Request a Demo</span>
+                        <svg class="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION — AVIATION OPERATIONS COMMAND CENTER -->
+    <section id="overview" class="relative min-h-screen pt-28 pb-20 flex items-center justify-center grid-pattern overflow-hidden">
+        <!-- Ambient Hero Video Background -->
+        <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <video autoplay loop muted playsinline poster="/static/images/aviation_hero.jpg" class="w-full h-full object-cover opacity-35 filter brightness-75 contrast-125">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-plane-taking-off-at-sunset-1549-large.mp4" type="video/mp4">
+                <source src="https://cdn.coverr.co/videos/coverr-view-from-the-airplane-window-5627/1080p.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#040814] via-[#040814]/80 to-[#040814]/40"></div>
+            <div class="absolute inset-0 bg-navy-950/50 backdrop-blur-[2px]"></div>
+        </div>
+
+        <!-- Ambient Glowing Orbs -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none z-0"></div>
+        <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Text Column -->
+                <div class="lg:col-span-6 space-y-6 text-left">
+                    <!-- Eyebrow Pill -->
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-cyan-400 text-xs font-mono tracking-wider shadow-lg shadow-cyan-500/10">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                        <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                        <span>DATA TODAY. SAFER TOMORROW.</span>
+                    </div>
+
+                    <!-- Main Heading -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display tracking-tight text-white leading-tight">
+                        Where Data Takes <br>
+                        <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-cyan-200 bg-clip-text text-transparent glow-text-cyan">Aviation Further.</span>
+                    </h1>
+
+                    <!-- Subtitle -->
+                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-normal max-w-xl">
+                        TRAIT Aviation Analytics converts raw telemetry, flight streams, baggage RFID, and passenger flow into real-time operational command center intelligence for airlines and airports globally.
+                    </p>
+
+                    <!-- Primary CTAs -->
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#live-dashboard" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold text-sm tracking-wide hover:shadow-lg hover:shadow-cyan-500/30 hover:scale-[1.02] transition-all flex items-center gap-2">
+                            <span>Explore Command Center</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </a>
+                        <button onclick="openVideoModal()" class="px-6 py-3.5 rounded-xl glass-navy text-slate-200 font-mono text-xs hover:border-cyan-400 hover:text-cyan-400 transition-all flex items-center gap-2.5">
+                            <span class="w-7 h-7 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                <svg class="w-3.5 h-3.5 fill-current ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                            </span>
+                            <span>Watch Telemetry Overview</span>
+                        </button>
+                    </div>
+
+                    <!-- 4 Telemetry Pill Badges -->
+                    <div class="pt-6 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
+                        <div class="p-2.5 rounded-xl bg-navy-900/90 border border-cyan-500/20 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+                            <span class="text-slate-300">Live Telemetry</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-navy-900/90 border border-cyan-500/20 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                            <span class="text-slate-300">Predictive Ops</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-navy-900/90 border border-cyan-500/20 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                            <span class="text-slate-300">Baggage RFID</span>
+                        </div>
+                        <div class="p-2.5 rounded-xl bg-navy-900/90 border border-cyan-500/20 flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            <span class="text-slate-300">Passenger Flow</span>
+                        </div>
+                    </div>
+
+                    <!-- Live KPI Strip -->
+                    <div class="p-4 rounded-2xl glass-navy hud-border grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                        <div>
+                            <div class="text-xl sm:text-2xl font-bold font-mono text-cyan-400 glow-text-cyan" id="kpi-hero-flights">1,248</div>
+                            <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">Flights Tracked</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl font-bold font-mono text-white" id="kpi-hero-passengers">325.4K</div>
+                            <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">Passengers Flow</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl font-bold font-mono text-amber-400" id="kpi-hero-bags">4,892</div>
+                            <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">Bags Routed</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl font-bold font-mono text-emerald-400" id="kpi-hero-ontime">98.7%</div>
+                            <div class="text-[10px] font-mono text-slate-400 uppercase tracking-wider mt-0.5">On-Time Reliability</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Visual: Command Center HUD Display -->
+                <div class="lg:col-span-6 relative">
+                    <div class="relative rounded-2xl overflow-hidden glass-navy p-2 hud-border shadow-2xl shadow-cyan-500/10 group">
+                        <!-- Main Visual Image / Video Container -->
+                        <div class="relative rounded-xl overflow-hidden aspect-video bg-navy-950">
+                            <video autoplay loop muted playsinline poster="/static/images/aviation_hero.jpg" class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700">
+                                <source src="https://assets.mixkit.co/videos/preview/mixkit-plane-taking-off-at-sunset-1549-large.mp4" type="video/mp4">
+                                <source src="https://cdn.coverr.co/videos/coverr-view-from-the-airplane-window-5627/1080p.mp4" type="video/mp4">
+                            </video>
+                            
+                            <!-- Overlay Radar Scope Pulse -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#040814] via-transparent to-transparent opacity-80"></div>
+                            
+                            <!-- Floating Telemetry Overlay Tag -->
+                            <div class="absolute top-4 left-4 p-3 rounded-xl bg-navy-950/90 border border-cyan-500/40 backdrop-blur-md font-mono text-[11px] space-y-1">
+                                <div class="flex items-center gap-2 text-cyan-400 font-bold">
+                                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                                    <span>RADAR SCAN: ACTIVE_291</span>
+                                </div>
+                                <div class="text-slate-300">ALT: 38,000 FT | SPD: 514 KTS</div>
+                                <div class="text-amber-400 text-[10px]">ROUTE: JFK ➔ LHR (FL380)</div>
+                            </div>
+
+                            <div class="absolute bottom-4 right-4 p-3 rounded-xl bg-navy-950/90 border border-amber-500/40 backdrop-blur-md font-mono text-[11px] text-right space-y-0.5">
+                                <div class="text-amber-400 font-bold">ACTIVE ALERTS: 0</div>
+                                <div class="text-emerald-400 text-[10px]">AIRSPACE SAFETY: NOMINAL</div>
+                            </div>
+                        </div>
+
+                        <!-- Cursive Design Annotation -->
+                        <div class="p-3 flex items-center justify-between text-xs font-mono border-t border-cyan-500/20 bg-navy-900/60">
+                            <div class="text-cyan-400/80 flex items-center gap-2">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                <span>SYSTEM STATUS: OPERATIONAL</span>
+                            </div>
+                            <div class="font-handwriting text-amber-300 text-base">"Turning Aviation Data Into Smarter Skies."</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 02 — FROM DATA TO DECISIONS (4 CORE MODULES) -->
+    <section id="capabilities" class="py-24 bg-navy-900/60 border-y border-cyan-500/10 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-3 mb-16">
+                <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase">SECTION 02 — A COMPLETE VIEW OF AVIATION OPERATIONS</div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-white">From Data To Decisions.</h2>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    Integrating disparate operational telemetry sources into a single pane of glass for airlines, airports, and ground handling teams.
+                </p>
+            </div>
+
+            <!-- 4 Capability Cards -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Card 1: Flight Analytics -->
+                <div class="glass-navy p-6 rounded-2xl glass-navy-hover transition-all space-y-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold font-display text-white group-hover:text-cyan-400 transition-colors">Flight Analytics</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed mt-2">
+                            Real-time ADS-B flight tracking, altitude monitoring, fuel efficiency modeling, and airspace density forecasting.
+                        </p>
+                    </div>
+                    <!-- Sparkline graphic -->
+                    <div class="pt-2">
+                        <svg class="w-full h-10 text-cyan-400" viewBox="0 0 100 30" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M0 25 Q20 5, 40 20 T80 10 T100 15" class="pulse-line"/>
+                        </svg>
+                    </div>
+                    <div class="text-[11px] font-mono text-cyan-400/80 flex items-center justify-between border-t border-slate-800/80 pt-3">
+                        <span>ACCURACY RATE</span>
+                        <span class="font-bold text-cyan-400">99.94%</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Passenger Analytics -->
+                <div class="glass-navy p-6 rounded-2xl glass-navy-hover transition-all space-y-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold font-display text-white group-hover:text-blue-400 transition-colors">Passenger Analytics</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed mt-2">
+                            Terminal queue wait-time estimation, gate crowding heatmaps, security checkpoint balance, and dwell time insights.
+                        </p>
+                    </div>
+                    <!-- Sparkline graphic -->
+                    <div class="pt-2">
+                        <svg class="w-full h-10 text-blue-400" viewBox="0 0 100 30" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M0 20 Q25 28, 50 10 T75 18 T100 5" class="pulse-line"/>
+                        </svg>
+                    </div>
+                    <div class="text-[11px] font-mono text-blue-400/80 flex items-center justify-between border-t border-slate-800/80 pt-3">
+                        <span>WAIT TIME REDUCTION</span>
+                        <span class="font-bold text-blue-400">-32%</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Baggage Intelligence -->
+                <div class="glass-navy p-6 rounded-2xl glass-navy-hover transition-all space-y-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold font-display text-white group-hover:text-amber-400 transition-colors">Baggage Intelligence</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed mt-2">
+                            End-to-end RFID baggage scanning, carousel allocation algorithms, misplacement alerts, and ramp loading status.
+                        </p>
+                    </div>
+                    <!-- Sparkline graphic -->
+                    <div class="pt-2">
+                        <svg class="w-full h-10 text-amber-400" viewBox="0 0 100 30" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M0 15 Q30 5, 60 22 T100 8" class="pulse-line"/>
+                        </svg>
+                    </div>
+                    <div class="text-[11px] font-mono text-amber-400/80 flex items-center justify-between border-t border-slate-800/80 pt-3">
+                        <span>MISPLACEMENT DROP</span>
+                        <span class="font-bold text-amber-400">-45%</span>
+                    </div>
+                </div>
+
+                <!-- Card 4: Delay Analysis -->
+                <div class="glass-navy p-6 rounded-2xl glass-navy-hover transition-all space-y-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold font-display text-white group-hover:text-purple-400 transition-colors">Delay Analysis</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed mt-2">
+                            Root-cause delay attribution, turnaround time prediction, weather impact modeling, and slot adherence optimization.
+                        </p>
+                    </div>
+                    <!-- Sparkline graphic -->
+                    <div class="pt-2">
+                        <svg class="w-full h-10 text-purple-400" viewBox="0 0 100 30" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M0 28 Q20 10, 50 15 T80 5 T100 20" class="pulse-line"/>
+                        </svg>
+                    </div>
+                    <div class="text-[11px] font-mono text-purple-400/80 flex items-center justify-between border-t border-slate-800/80 pt-3">
+                        <span>TURNAROUND SAVED</span>
+                        <span class="font-bold text-purple-400">18 MIN / FLT</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 03 — LIVE COMMAND DASHBOARD (INTERACTIVE SIMULATION) -->
+    <section id="live-dashboard" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+                <div class="space-y-2 max-w-2xl">
+                    <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase">SECTION 03 — LIVE COMMAND CENTER</div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-white">Real-Time Insights For Real-World Impact.</h2>
+                    <p class="text-slate-300 text-sm">
+                        Experience the interactive TRAIT Aviation Analytics dashboard monitoring active flights, terminal capacity, and telemetry signals.
+                    </p>
+                </div>
+                
+                <!-- Command Center Mode Switcher -->
+                <div class="flex items-center gap-2 p-1.5 rounded-xl bg-navy-900 border border-cyan-500/20 text-xs font-mono">
+                    <button onclick="switchTab('global')" id="tab-global" class="px-3.5 py-2 rounded-lg bg-cyan-500/20 text-cyan-400 font-bold border border-cyan-500/40 transition-all">Global Network</button>
+                    <button onclick="switchTab('flight')" id="tab-flight" class="px-3.5 py-2 rounded-lg text-slate-400 hover:text-white transition-all">Flight Ops</button>
+                    <button onclick="switchTab('passenger')" id="tab-passenger" class="px-3.5 py-2 rounded-lg text-slate-400 hover:text-white transition-all">Passenger Flow</button>
+                    <button onclick="switchTab('baggage')" id="tab-baggage" class="px-3.5 py-2 rounded-lg text-slate-400 hover:text-white transition-all">Baggage RFID</button>
+                </div>
+            </div>
+
+            <!-- Command Center Console -->
+            <div class="rounded-3xl glass-navy hud-border overflow-hidden shadow-2xl shadow-cyan-950/50">
+                <!-- Top Console Toolbar -->
+                <div class="px-6 py-3 bg-navy-950/90 border-b border-cyan-500/20 flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
+                    <div class="flex items-center gap-3">
+                        <div class="flex gap-1.5">
+                            <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500/80"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+                        </div>
+                        <span class="text-slate-400 border-l border-slate-700 pl-3">CONSOLE // FLIGHT_NETWORK_V4.8</span>
+                    </div>
+
+                    <div class="flex items-center gap-4 text-slate-300">
+                        <div class="flex items-center gap-1.5 text-cyan-400">
+                            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                            <span>DATA FEED: LIVE (20ms)</span>
+                        </div>
+                        <div id="live-utc-clock" class="text-amber-400 font-bold">UTC 14:38:02</div>
+                    </div>
+                </div>
+
+                <!-- Main Console Body -->
+                <div class="grid lg:grid-cols-12">
+                    
+                    <!-- Left Dashboard Sidebar -->
+                    <div class="lg:col-span-3 p-6 border-b lg:border-b-0 lg:border-r border-cyan-500/10 space-y-6 bg-navy-950/40">
+                        <div class="text-xs font-mono text-cyan-400 font-bold tracking-wider">COMMAND METRICS</div>
+                        
+                        <div class="space-y-4">
+                            <div class="p-3.5 rounded-xl bg-navy-900/80 border border-slate-800 space-y-1">
+                                <div class="text-[10px] font-mono text-slate-400 uppercase">ACTIVE FLIGHTS TRACKED</div>
+                                <div class="text-2xl font-bold font-mono text-cyan-400 flex items-center justify-between">
+                                    <span id="dash-stat-1">31,487</span>
+                                    <span class="text-xs font-normal text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/30">+5.2%</span>
+                                </div>
+                            </div>
+
+                            <div class="p-3.5 rounded-xl bg-navy-900/80 border border-slate-800 space-y-1">
+                                <div class="text-[10px] font-mono text-slate-400 uppercase">ACTIVE AIRPORT HUBS</div>
+                                <div class="text-2xl font-bold font-mono text-white flex items-center justify-between">
+                                    <span id="dash-stat-2">412</span>
+                                    <span class="text-xs font-normal text-cyan-400">GLOBAL</span>
+                                </div>
+                            </div>
+
+                            <div class="p-3.5 rounded-xl bg-navy-900/80 border border-slate-800 space-y-1">
+                                <div class="text-[10px] font-mono text-slate-400 uppercase">BAGGAGE SCAN RATE</div>
+                                <div class="text-2xl font-bold font-mono text-amber-400 flex items-center justify-between">
+                                    <span id="dash-stat-3">99.98%</span>
+                                    <span class="text-xs font-normal text-amber-400">RFID</span>
+                                </div>
+                            </div>
+
+                            <div class="p-3.5 rounded-xl bg-navy-900/80 border border-slate-800 space-y-1">
+                                <div class="text-[10px] font-mono text-slate-400 uppercase">AVERAGE DELAY INDEX</div>
+                                <div class="text-2xl font-bold font-mono text-purple-400 flex items-center justify-between">
+                                    <span id="dash-stat-4">4.2 MIN</span>
+                                    <span class="text-xs font-normal text-emerald-400">LOW</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Telemetry Feeds -->
+                        <div class="space-y-2 pt-2">
+                            <div class="text-[10px] font-mono text-slate-400 uppercase">LIVE RADAR FEED</div>
+                            <div class="space-y-1.5 font-mono text-[11px]" id="radar-feed-list">
+                                <div class="p-2 rounded bg-navy-900/60 border border-cyan-500/20 text-cyan-300 flex justify-between">
+                                    <span>UA214 (B789)</span>
+                                    <span class="text-emerald-400">ON TIME</span>
+                                </div>
+                                <div class="p-2 rounded bg-navy-900/60 border border-slate-800 text-slate-300 flex justify-between">
+                                    <span>BA488 (A350)</span>
+                                    <span class="text-cyan-400">EN ROUTE</span>
+                                </div>
+                                <div class="p-2 rounded bg-navy-900/60 border border-slate-800 text-slate-300 flex justify-between">
+                                    <span>DL930 (B777)</span>
+                                    <span class="text-amber-400">SLOT HOLD</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center Map Display -->
+                    <div class="lg:col-span-9 p-6 relative flex flex-col justify-between min-h-[450px]">
+                        
+                        <!-- Main Map Image background -->
+                        <div class="absolute inset-0 z-0 opacity-90 overflow-hidden">
+                            <img src="/static/images/aviation_dashboard.jpg" alt="Global Flight Dashboard Map" class="w-full h-full object-cover object-center" id="dash-map-img">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#040814] via-transparent to-navy-950/40"></div>
+                        </div>
+
+                        <!-- Dynamic Dynamic Content Box based on Tab selection -->
+                        <div class="relative z-10 p-4 rounded-2xl glass-navy max-w-md space-y-3 hud-border" id="tab-info-card">
+                            <div class="flex items-center gap-2 text-cyan-400 text-xs font-mono font-bold">
+                                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                                <span id="tab-card-title">GLOBAL FLIGHT NETWORK INTELLIGENCE</span>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed" id="tab-card-desc">
+                                Live tracking of 31,000+ commercial flights across 412 airport nodes with automated delay prediction and air traffic flow optimization.
+                            </p>
+                            <div class="grid grid-cols-2 gap-2 text-[11px] font-mono pt-1">
+                                <div class="text-slate-400">North America: <span class="text-cyan-400 font-bold">8,421</span></div>
+                                <div class="text-slate-400">Europe: <span class="text-cyan-400 font-bold">9,104</span></div>
+                                <div class="text-slate-400">Asia Pacific: <span class="text-cyan-400 font-bold">7,515</span></div>
+                                <div class="text-slate-400">Middle East: <span class="text-amber-400 font-bold">6,447</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Telemetry Strip -->
+                        <div class="relative z-10 mt-6 grid sm:grid-cols-4 gap-4 text-xs font-mono">
+                            <div class="p-3 rounded-xl glass-navy border border-cyan-500/20">
+                                <div class="text-slate-400 text-[10px]">ON-TIME PERFORMANCE</div>
+                                <div class="text-lg font-bold text-cyan-400 mt-0.5">92.4%</div>
+                                <div class="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+                                    <div class="bg-cyan-400 h-full w-[92%]"></div>
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl glass-navy border border-cyan-500/20">
+                                <div class="text-slate-400 text-[10px]">FLIGHT VOLUME TREND</div>
+                                <div class="text-lg font-bold text-emerald-400 mt-0.5">HIGH TRAFFIC</div>
+                                <div class="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+                                    <div class="bg-emerald-400 h-full w-[85%]"></div>
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl glass-navy border border-cyan-500/20">
+                                <div class="text-slate-400 text-[10px]">PASSENGER PEAK FLOW</div>
+                                <div class="text-lg font-bold text-amber-400 mt-0.5">T1 & T3 BUSY</div>
+                                <div class="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+                                    <div class="bg-amber-400 h-full w-[78%]"></div>
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl glass-navy border border-cyan-500/20">
+                                <div class="text-slate-400 text-[10px]">SYSTEM LATENCY</div>
+                                <div class="text-lg font-bold text-purple-400 mt-0.5">14 MS</div>
+                                <div class="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+                                    <div class="bg-purple-400 h-full w-[98%]"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 05 — SMARTER INSIGHTS ACROSS THE ECOSYSTEM -->
+    <section id="ecosystem" class="py-24 bg-navy-900/40 border-y border-cyan-500/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-3 mb-16">
+                <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase">SECTION 05 — INDUSTRY ECOSYSTEM</div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-white">Smarter Insights Across the Aviation Ecosystem.</h2>
+                <p class="text-slate-300 text-sm sm:text-base">
+                    Tailored operational intelligence designed specifically for each stakeholder in modern commercial aviation.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-6">
+                
+                <!-- Stakeholder 1: Airlines -->
+                <div class="p-6 rounded-2xl glass-navy glass-navy-hover transition-all space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-mono font-bold">01</div>
+                    <h3 class="text-lg font-bold font-display text-white">Airlines</h3>
+                    <ul class="text-xs text-slate-300 space-y-2 font-mono">
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">✓</span> Fleet utilization</li>
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">✓</span> Fuel burn optimization</li>
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">✓</span> On-time arrivals</li>
+                        <li class="flex items-center gap-2"><span class="text-cyan-400">✓</span> Crew scheduling</li>
+                    </ul>
+                </div>
+
+                <!-- Stakeholder 2: Airports -->
+                <div class="p-6 rounded-2xl glass-navy glass-navy-hover transition-all space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center font-mono font-bold">02</div>
+                    <h3 class="text-lg font-bold font-display text-white">Airports</h3>
+                    <ul class="text-xs text-slate-300 space-y-2 font-mono">
+                        <li class="flex items-center gap-2"><span class="text-blue-400">✓</span> Terminal crowding</li>
+                        <li class="flex items-center gap-2"><span class="text-blue-400">✓</span> Gate allocation</li>
+                        <li class="flex items-center gap-2"><span class="text-blue-400">✓</span> Baggage carousels</li>
+                        <li class="flex items-center gap-2"><span class="text-blue-400">✓</span> Retail dwell time</li>
+                    </ul>
+                </div>
+
+                <!-- Stakeholder 3: Ground Handling -->
+                <div class="p-6 rounded-2xl glass-navy glass-navy-hover transition-all space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center font-mono font-bold">03</div>
+                    <h3 class="text-lg font-bold font-display text-white">Ground Handling</h3>
+                    <ul class="text-xs text-slate-300 space-y-2 font-mono">
+                        <li class="flex items-center gap-2"><span class="text-amber-400">✓</span> Ramp operations</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">✓</span> Refueling schedules</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">✓</span> Pushback timing</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">✓</span> De-icing readiness</li>
+                    </ul>
+                </div>
+
+                <!-- Stakeholder 4: Regulators -->
+                <div class="p-6 rounded-2xl glass-navy glass-navy-hover transition-all space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center font-mono font-bold">04</div>
+                    <h3 class="text-lg font-bold font-display text-white">Regulators & ATC</h3>
+                    <ul class="text-xs text-slate-300 space-y-2 font-mono">
+                        <li class="flex items-center gap-2"><span class="text-purple-400">✓</span> Airspace safety</li>
+                        <li class="flex items-center gap-2"><span class="text-purple-400">✓</span> Noise compliance</li>
+                        <li class="flex items-center gap-2"><span class="text-purple-400">✓</span> Slot management</li>
+                        <li class="flex items-center gap-2"><span class="text-purple-400">✓</span> Incident audit</li>
+                    </ul>
+                </div>
+
+                <!-- Stakeholder 5: Aviation Planners -->
+                <div class="p-6 rounded-2xl glass-navy glass-navy-hover transition-all space-y-4">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono font-bold">05</div>
+                    <h3 class="text-lg font-bold font-display text-white">Planners</h3>
+                    <ul class="text-xs text-slate-300 space-y-2 font-mono">
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Route profitability</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Demand forecasting</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Seasonal schedules</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-400">✓</span> Network expansion</li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 06 — FROM RAW DATA TO REAL IMPACT (5-STEP CONNECTED PIPELINE) -->
+    <section id="pipeline" class="py-24 relative grid-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-3 mb-16">
+                <div class="text-xs font-mono text-cyan-400 tracking-widest uppercase">SECTION 06 — TELEMETRY ARCHITECTURE</div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-white">From Raw Data to Real Impact.</h2>
+                <p class="text-slate-300 text-sm sm:text-base">
+                    How TRAIT Aviation Analytics ingests, processes, analyzes, and visualizes complex telemetry streams in real time.
+                </p>
+            </div>
+
+            <!-- 5 Step Pipeline Flow -->
+            <div class="grid md:grid-cols-5 gap-4 relative">
+                
+                <!-- Step 1 -->
+                <div class="p-5 rounded-2xl glass-navy hud-border space-y-3 relative group hover:border-cyan-400 transition-colors">
+                    <div class="text-2xl font-bold font-mono text-cyan-400">01</div>
+                    <h3 class="text-base font-bold font-display text-white">Collect</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        High-frequency ingestion of ADS-B, ACARS, RFID tags, gate sensors, and weather radars.
+                    </p>
+                    <div class="text-[10px] font-mono text-cyan-400/80">IN-FLIGHT & GROUND</div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="p-5 rounded-2xl glass-navy hud-border space-y-3 relative group hover:border-cyan-400 transition-colors">
+                    <div class="text-2xl font-bold font-mono text-cyan-400">02</div>
+                    <h3 class="text-base font-bold font-display text-white">Process</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Edge streaming pipeline processing over 50,000 telemetry events per second with sub-20ms latency.
+                    </p>
+                    <div class="text-[10px] font-mono text-cyan-400/80">STREAMING ENGINE</div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="p-5 rounded-2xl glass-navy hud-border space-y-3 relative group hover:border-cyan-400 transition-colors">
+                    <div class="text-2xl font-bold font-mono text-cyan-400">03</div>
+                    <h3 class="text-base font-bold font-display text-white">Analyze</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Machine learning models calculating predictive delay, flow bottlenecks, and turnaround risk.
+                    </p>
+                    <div class="text-[10px] font-mono text-cyan-400/80">PREDICTIVE ML</div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="p-5 rounded-2xl glass-navy hud-border space-y-3 relative group hover:border-cyan-400 transition-colors">
+                    <div class="text-2xl font-bold font-mono text-cyan-400">04</div>
+                    <h3 class="text-base font-bold font-display text-white">Visualize</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Role-based command dashboards, mobile push alerts, and automated dispatch monitors.
+                    </p>
+                    <div class="text-[10px] font-mono text-cyan-400/80">HUD CONSOLES</div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="p-5 rounded-2xl glass-navy hud-border space-y-3 relative group hover:border-cyan-400 transition-colors">
+                    <div class="text-2xl font-bold font-mono text-cyan-400">05</div>
+                    <h3 class="text-base font-bold font-display text-white">Empower</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        Instant data-driven decisions that minimize turnaround delays, cut fuel burn, and elevate passenger safety.
+                    </p>
+                    <div class="text-[10px] font-mono text-emerald-400">REAL IMPACT</div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 08 — TESTIMONIALS / INDUSTRY FEEDBACK -->
+    <section class="py-24 bg-navy-900/60 border-y border-cyan-500/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-3 mb-16">
+                <div class="text-xs font-mono text-amber-400 tracking-widest uppercase">SECTION 08 — INDUSTRY TESTIMONIALS</div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-white">Insights That Make a Difference.</h2>
+                <p class="text-slate-300 text-sm sm:text-base">
+                    Hear how aviation operations teams leverage TRAIT Aviation Analytics to run safer, faster, and smarter skies.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Feedback 1 -->
+                <div class="p-6 rounded-2xl glass-navy space-y-4 hud-border">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm">★★★★★</div>
+                    <p class="text-xs text-slate-300 leading-relaxed italic">
+                        "TRAIT Aviation Analytics cut our gate turnaround delays by 18 minutes per aircraft across our main international hub. The real-time telemetry feed is indispensable."
+                    </p>
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs font-mono">
+                        <div>
+                            <div class="font-bold text-white">Chief Operations Officer</div>
+                            <div class="text-slate-400 text-[10px]">Global Commercial Airline</div>
+                        </div>
+                        <span class="text-cyan-400 font-bold">AIRLINE</span>
+                    </div>
+                </div>
+
+                <!-- Feedback 2 -->
+                <div class="p-6 rounded-2xl glass-navy space-y-4 hud-border">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm">★★★★★</div>
+                    <p class="text-xs text-slate-300 leading-relaxed italic">
+                        "The live terminal passenger flow heatmaps transformed how we staff security checkpoints during peak hours. Queue wait times dropped by 32% in the first month."
+                    </p>
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs font-mono">
+                        <div>
+                            <div class="font-bold text-white">Airport Managing Director</div>
+                            <div class="text-slate-400 text-[10px]">International Hub Airport</div>
+                        </div>
+                        <span class="text-blue-400 font-bold">AIRPORT</span>
+                    </div>
+                </div>
+
+                <!-- Feedback 3 -->
+                <div class="p-6 rounded-2xl glass-navy space-y-4 hud-border">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm">★★★★★</div>
+                    <p class="text-xs text-slate-300 leading-relaxed italic">
+                        "Baggage misplacement dropped by 45% within 60 days of implementing TRAIT Baggage Intelligence RFID stream analytics. Unmatched precision."
+                    </p>
+                    <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs font-mono">
+                        <div>
+                            <div class="font-bold text-white">Head of Baggage Logistics</div>
+                            <div class="text-slate-400 text-[10px]">Aviation Handling Alliance</div>
+                        </div>
+                        <span class="text-amber-400 font-bold">LOGISTICS</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION 09 — FINAL CALL TO ACTION (LET DATA FLY FURTHER) -->
+    <section class="relative py-28 overflow-hidden">
+        <!-- Background Runway Image -->
+        <div class="absolute inset-0 z-0 opacity-40">
+            <img src="/static/images/aviation_cta.jpg" alt="Aviation Runway Sunset" class="w-full h-full object-cover object-center">
+            <div class="absolute inset-0 bg-gradient-to-t from-[#040814] via-[#040814]/80 to-[#040814]"></div>
+        </div>
+
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-950/90 border border-cyan-500/40 text-cyan-400 text-xs font-mono tracking-wider">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                <span>READY TO TRANSFORM YOUR AVIATION DATA?</span>
+            </div>
+
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display text-white tracking-tight">
+                Let Data Fly <span class="bg-gradient-to-r from-cyan-400 via-blue-400 to-amber-300 bg-clip-text text-transparent glow-text-cyan">Further.</span>
+            </h2>
+
+            <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+                Connect your flight streams, terminal sensors, and baggage systems to TRAIT Aviation Analytics and unlock a new era of safer, smarter skies.
+            </p>
+
+            <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
+                <button onclick="openDemoModal()" class="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold text-base hover:shadow-xl hover:shadow-cyan-500/30 hover:scale-105 transition-all flex items-center gap-2">
+                    <span>Request a Demo ➔</span>
+                </button>
+                <a href="#contact" onclick="openDemoModal()" class="px-8 py-4 rounded-xl glass-navy text-white font-mono text-sm hover:border-cyan-400 transition-all">
+                    <span>Talk to Our Team</span>
+                </a>
+            </div>
+
+            <!-- Cursive Signature Tag -->
+            <div class="pt-6">
+                <span class="font-handwriting text-2xl text-amber-300">"Safer Skies. Smarter Operations. Brighter Tomorrows."</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER SECTION -->
+    <footer class="bg-navy-950 border-t border-cyan-500/20 py-12 text-slate-400 text-xs font-mono">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                <!-- Brand Info -->
+                <div class="col-span-2 space-y-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-cyan-500 text-black font-bold flex items-center justify-center">T</div>
+                        <span class="text-base font-bold font-display text-white">TRAIT Aviation Analytics</span>
+                    </div>
+                    <p class="text-xs text-slate-400 max-w-sm leading-relaxed">
+                        Comprehensive aviation data analytics product converting telemetry, flight tracking, baggage movement, and passenger flow into real-time operational intelligence.
+                    </p>
+                    <div class="font-handwriting text-amber-300 text-lg">"Turning Aviation Data Into Smarter Skies."</div>
+                </div>
+
+                <!-- Product Links -->
+                <div class="space-y-2">
+                    <div class="text-white font-bold uppercase tracking-wider">PRODUCT</div>
+                    <ul class="space-y-1.5 text-slate-400">
+                        <li><a href="#overview" class="hover:text-cyan-400 transition-colors">Overview</a></li>
+                        <li><a href="#capabilities" class="hover:text-cyan-400 transition-colors">Flight Analytics</a></li>
+                        <li><a href="#live-dashboard" class="hover:text-cyan-400 transition-colors">Command Center</a></li>
+                        <li><a href="#pipeline" class="hover:text-cyan-400 transition-colors">Telemetry Engine</a></li>
+                    </ul>
+                </div>
+
+                <!-- Ecosystem Links -->
+                <div class="space-y-2">
+                    <div class="text-white font-bold uppercase tracking-wider">ECOSYSTEM</div>
+                    <ul class="space-y-1.5 text-slate-400">
+                        <li><a href="#ecosystem" class="hover:text-cyan-400 transition-colors">For Airlines</a></li>
+                        <li><a href="#ecosystem" class="hover:text-cyan-400 transition-colors">For Airports</a></li>
+                        <li><a href="#ecosystem" class="hover:text-cyan-400 transition-colors">Ground Handling</a></li>
+                        <li><a href="#ecosystem" class="hover:text-cyan-400 transition-colors">ATC & Regulators</a></li>
+                    </ul>
+                </div>
+
+                <!-- Trait Innovation Links -->
+                <div class="space-y-2">
+                    <div class="text-white font-bold uppercase tracking-wider">TRAIT SUITE</div>
+                    <ul class="space-y-1.5 text-slate-400">
+                        <li><a href="/" class="hover:text-cyan-400 transition-colors">Trait Innovation Home</a></li>
+                        <li><a href="/trait-airport-ai" class="hover:text-cyan-400 transition-colors">TRAIT AirportAI</a></li>
+                        <li><a href="/trait-commerce-ai" class="hover:text-cyan-400 transition-colors">TRAIT CommerceAI</a></li>
+                        <li><a href="/trait-event-management" class="hover:text-cyan-400 transition-colors">Trait Event Management</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>© 2026 Trait Innovation. All rights reserved. TRAIT Aviation Analytics.</div>
+                <div class="flex items-center gap-6">
+                    <a href="/" class="hover:text-cyan-400 transition-colors">Privacy Policy</a>
+                    <a href="/" class="hover:text-cyan-400 transition-colors">Terms of Service</a>
+                    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-cyan-400 hover:underline">Back to Top ↑</button>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- DEMO REQUEST MODAL -->
+    <div id="demo-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="relative w-full max-w-lg rounded-3xl glass-navy hud-border p-6 sm:p-8 space-y-6 shadow-2xl">
+            <!-- Close button -->
+            <button onclick="closeDemoModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-1 rounded-lg bg-slate-800/60">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+
+            <div class="space-y-2">
+                <div class="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                    <span>TRAIT AVIATION ANALYTICS DEMO</span>
+                </div>
+                <h3 class="text-2xl font-bold font-display text-white">Schedule Command Center Demo</h3>
+                <p class="text-xs text-slate-300">
+                    See live telemetry streams, predictive turnaround modeling, and baggage RFID integration in a personalized walkthrough.
+                </p>
+            </div>
+
+            <form id="demo-form" onsubmit="handleDemoSubmit(event)" class="space-y-4 font-mono text-xs">
+                <div>
+                    <label class="block text-slate-300 mb-1">FULL NAME *</label>
+                    <input type="text" required id="modal-name" placeholder="Captain Alex Morgan" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-slate-700 text-white focus:outline-none focus:border-cyan-400">
+                </div>
+                <div>
+                    <label class="block text-slate-300 mb-1">ORGANIZATION / AIRLINE EMAIL *</label>
+                    <input type="email" required id="modal-email" placeholder="alex.morgan@airline.com" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-slate-700 text-white focus:outline-none focus:border-cyan-400">
+                </div>
+                <div>
+                    <label class="block text-slate-300 mb-1">STAKEHOLDER CATEGORY</label>
+                    <select id="modal-category" class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-slate-700 text-white focus:outline-none focus:border-cyan-400">
+                        <option value="Airline Operations">Airline Operations</option>
+                        <option value="Airport Authority">Airport Authority</option>
+                        <option value="Ground Handling Provider">Ground Handling Provider</option>
+                        <option value="Air Traffic Control / Regulator">Air Traffic Control / Regulator</option>
+                        <option value="Aviation Analyst / Tech Partner">Aviation Analyst / Tech Partner</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-slate-300 mb-1">KEY OPERATIONAL INTEREST</label>
+                    <textarea id="modal-interest" rows="3" placeholder="Describe your operational telemetry requirements or hub challenge..." class="w-full px-4 py-3 rounded-xl bg-navy-950 border border-slate-700 text-white focus:outline-none focus:border-cyan-400"></textarea>
+                </div>
+
+                <div id="demo-feedback" class="hidden p-3 rounded-xl bg-cyan-950 border border-cyan-500/40 text-cyan-300 text-xs"></div>
+
+                <button type="submit" id="demo-submit-btn" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold text-sm tracking-wider hover:opacity-90 transition-opacity">
+                    SUBMIT DEMO REQUEST ➔
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- VIDEO PREVIEW MODAL -->
+    <div id="video-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+        <div class="relative w-full max-w-4xl rounded-3xl glass-navy hud-border p-4 shadow-2xl">
+            <button onclick="closeVideoModal()" class="absolute -top-10 right-0 text-slate-300 hover:text-white flex items-center gap-1 font-mono text-xs">
+                <span>CLOSE [X]</span>
+            </button>
+            <div class="aspect-video bg-navy-950 rounded-2xl overflow-hidden relative">
+                <video id="telemetry-video-player" controls autoplay loop muted poster="/static/images/aviation_hero.jpg" class="w-full h-full object-cover">
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-plane-taking-off-at-sunset-1549-large.mp4" type="video/mp4">
+                    <source src="https://cdn.coverr.co/videos/coverr-view-from-the-airplane-window-5627/1080p.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Javascript File -->
+    <script src="/static/js/aviation_analytics.js"></script>
+</body>
+</html>

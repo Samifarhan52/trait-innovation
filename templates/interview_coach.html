@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Interview Coach — Practice Today, Perform Tomorrow | Trait Innovation</title>
+  <meta name="description" content="AI-powered mock interviews, real-time feedback, and personalized guidance to help you ace your next opportunity." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            coach: {
+              ivory: '#FBF9F5',
+              cream: '#F4EFE6',
+              card: '#FFFFFF',
+              burgundy: '#2A0812',
+              deepburgundy: '#1E050D',
+              wine: '#8C1D40',
+              winered: '#9E1B32',
+              brightwine: '#B8233C',
+              coral: '#E06D53',
+              charcoal: '#1A1818',
+              mutedgray: '#6E6B68',
+              lightborder: '#E6E1D7',
+              accentgold: '#D4A373'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            display: ['Syne', 'Playfair Display', 'sans-serif'],
+            handwriting: ['Caveat', 'Dancing Script', 'cursive'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #FBF9F5;
+      color: #1A1818;
+      overflow-x: hidden;
+    }
+
+    .font-display {
+      font-family: 'Syne', sans-serif;
+    }
+
+    .font-handwriting {
+      font-family: 'Caveat', cursive;
+    }
+
+    .text-wine-gradient {
+      background: linear-gradient(135deg, #9E1B32 0%, #B8233C 50%, #E06D53 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .bg-coach-card-shadow {
+      background: #FFFFFF;
+      box-shadow: 0 16px 40px -10px rgba(42, 8, 18, 0.06);
+      border: 1px solid #E6E1D7;
+    }
+
+    .bg-burgundy-gradient {
+      background: linear-gradient(145deg, #2A0812 0%, #1E050D 100%);
+    }
+
+    /* Waveform animation */
+    .bar-anim {
+      animation: wave 1.2s ease-in-out infinite alternate;
+    }
+    .bar-anim:nth-child(2) { animation-delay: 0.2s; }
+    .bar-anim:nth-child(3) { animation-delay: 0.4s; }
+    .bar-anim:nth-child(4) { animation-delay: 0.6s; }
+    .bar-anim:nth-child(5) { animation-delay: 0.8s; }
+
+    @keyframes wave {
+      0% { height: 6px; }
+      100% { height: 28px; }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FBF9F5;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #9E1B32;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-coach-ivory text-coach-charcoal dark:bg-coach-deepburgundy dark:text-coach-ivory transition-colors duration-300">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-coach-lightborder/60 bg-coach-ivory/90 dark:bg-coach-burgundy/90 backdrop-blur-xl" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3">
+        <a href="/ai-interview-coach" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-coach-wine via-coach-winered to-coach-coral p-0.5 shadow-md shadow-coach-wine/20 group-hover:scale-105 transition-transform">
+            <div class="w-full h-full bg-coach-ivory dark:bg-coach-burgundy rounded-[10px] flex items-center justify-center">
+              <svg class="w-5 h-5 text-coach-winered dark:text-coach-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-display font-bold text-lg text-coach-charcoal dark:text-white">AI Interview Coach</span>
+            </div>
+            <span class="text-[10px] font-mono font-semibold tracking-wider text-coach-mutedgray dark:text-slate-400 block -mt-1 uppercase">by TRAIT INNOVATION</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Center Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-coach-charcoal dark:text-slate-200">
+        <a href="#overview" class="hover:text-coach-winered dark:hover:text-coach-coral transition-colors">Overview</a>
+        <a href="#mock-interview" class="hover:text-coach-winered dark:hover:text-coach-coral transition-colors">Mock Interview</a>
+        <a href="#ambition" class="hover:text-coach-winered dark:hover:text-coach-coral transition-colors">Features</a>
+        <a href="#how-it-works" class="hover:text-coach-winered dark:hover:text-coach-coral transition-colors">How It Works</a>
+        <a href="#faq" class="hover:text-coach-winered dark:hover:text-coach-coral transition-colors">FAQ</a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Back to Main Website link -->
+        <a href="/" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-coach-charcoal dark:text-slate-300 hover:text-coach-winered transition-colors px-3 py-2 rounded-full border border-coach-lightborder dark:border-slate-700 bg-white/80 dark:bg-coach-card/50">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Main Website
+        </a>
+
+        <!-- Dark/Light Theme Toggle -->
+        <button id="theme-toggle-btn" class="p-2 rounded-full border border-coach-lightborder dark:border-slate-700 text-coach-charcoal dark:text-slate-300 hover:text-coach-winered transition-colors" title="Toggle Theme">
+          <svg class="w-4 h-4 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          <svg class="w-4 h-4 hidden dark:block text-coach-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        </button>
+
+        <!-- CTA Pill -->
+        <button onclick="openInterviewModal()" class="px-5 py-2.5 rounded-full bg-coach-burgundy dark:bg-coach-winered text-white hover:bg-coach-winered dark:hover:bg-coach-coral font-bold text-xs shadow-md transition-all flex items-center gap-1.5 uppercase tracking-wider">
+          <span>Start Practice</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </button>
+
+        <!-- Mobile Drawer Toggle -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 text-coach-charcoal dark:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-coach-ivory dark:bg-coach-burgundy border-b border-coach-lightborder px-6 py-6 space-y-4 shadow-xl">
+      <a href="/" class="flex items-center gap-2 text-xs font-semibold text-coach-winered dark:text-coach-coral">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+        Back to Main Trait Innovation Website
+      </a>
+      <hr class="border-coach-lightborder dark:border-slate-800" />
+      <nav class="space-y-3 text-xs font-semibold uppercase tracking-wider text-coach-charcoal dark:text-slate-200">
+        <a href="#overview" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">01. Overview</a>
+        <a href="#ambition" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">02. Built For Every Ambition</a>
+        <a href="#mock-interview" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">03. Mock Interview Simulator</a>
+        <a href="#how-it-works" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">04. 3 Simple Steps</a>
+        <a href="#feedback" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">05. Feedback Report</a>
+        <a href="#faq" onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="block">06. FAQ</a>
+      </nav>
+      <button onclick="document.getElementById('mobile-menu').classList.add('hidden'); openInterviewModal();" class="w-full py-3 rounded-full bg-coach-winered text-white font-bold text-xs uppercase tracking-wider">
+        Start Practice Now
+      </button>
+    </div>
+  </header>
+
+  <!-- 1. HERO SECTION -->
+  <section id="overview" class="relative min-h-screen pt-28 pb-20 flex items-center justify-center overflow-hidden">
+    <!-- Ambient Soft Background Canvas -->
+    <div id="hero-canvas-container" class="absolute inset-0 pointer-events-none opacity-40"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Hero Column -->
+      <div class="lg:col-span-6 space-y-6">
+        
+        <!-- Eyebrow -->
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-coach-cream dark:bg-coach-burgundy border border-coach-lightborder dark:border-coach-wine text-[11px] font-mono font-bold tracking-widest text-coach-wine dark:text-coach-coral uppercase">
+          <span>PRACTICE TODAY</span>
+          <span class="text-coach-mutedgray">•</span>
+          <span>PERFORM TOMORROW</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight text-coach-charcoal dark:text-white leading-[1.08]">
+          Your Interview Confidence <br />
+          <span class="text-wine-gradient">Starts Here.</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-base sm:text-lg text-coach-mutedgray dark:text-slate-300 max-w-xl font-normal leading-relaxed">
+          AI-powered mock interviews, real-time feedback, and personalized guidance to help you ace your next opportunity.
+        </p>
+
+        <!-- CTAs -->
+        <div class="pt-2 flex flex-wrap items-center gap-4">
+          <button onclick="openInterviewModal()" class="px-7 py-3.5 rounded-full bg-coach-winered hover:bg-coach-burgundy text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-coach-winered/25 transition-all flex items-center gap-2 group">
+            <span>Start a Mock Interview</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+
+          <a href="#mock-interview" class="px-6 py-3.5 rounded-full border border-coach-lightborder dark:border-slate-700 bg-white/70 dark:bg-coach-card/40 text-coach-charcoal dark:text-white font-semibold text-xs transition-all flex items-center gap-2 hover:border-coach-winered">
+            <svg class="w-4 h-4 text-coach-winered dark:text-coach-coral" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <span>Watch Demo</span>
+          </a>
+        </div>
+
+        <!-- 3 Feature Badges -->
+        <div class="pt-6 grid grid-cols-3 gap-3 border-t border-coach-lightborder/80 dark:border-slate-800 text-xs">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-coach-winered"></span>
+            <span class="font-semibold text-coach-charcoal dark:text-slate-300 text-[11px]">Realistic Interview Experience</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-coach-coral"></span>
+            <span class="font-semibold text-coach-charcoal dark:text-slate-300 text-[11px]">Personalized Feedback</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-coach-accentgold"></span>
+            <span class="font-semibold text-coach-charcoal dark:text-slate-300 text-[11px]">Improve With Every Practice</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Visual Column (Cinematic Interview Room) -->
+      <div class="lg:col-span-6 relative">
+        
+        <!-- Main Interview Frame Container -->
+        <div class="relative bg-white dark:bg-coach-card rounded-3xl p-4 sm:p-6 shadow-2xl border border-coach-lightborder dark:border-slate-800 overflow-hidden group">
+          
+          <!-- Mock Tablet / AI Interviewer Video Screen -->
+          <div class="relative aspect-video rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 flex items-center justify-center">
+            
+            <!-- Candidate/Interviewer Image Mock -->
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=80" alt="AI Interviewer" class="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-105" />
+
+            <!-- Live Status Overlay Badge -->
+            <div class="absolute top-3 left-3 px-3 py-1 rounded-full bg-coach-burgundy/80 backdrop-blur-md text-[10px] font-mono text-white flex items-center gap-2 border border-white/10">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>AI INTERVIEW SESSION ACTIVE</span>
+            </div>
+
+            <!-- Speech Bubble Question -->
+            <div class="absolute top-10 right-4 max-w-xs p-3.5 rounded-2xl bg-white/95 dark:bg-coach-burgundy/95 backdrop-blur-md text-xs font-semibold text-coach-charcoal dark:text-white shadow-xl border border-coach-lightborder/50 dark:border-slate-700 animate-bounce-slow">
+              <div class="text-[9px] font-mono text-coach-winered dark:text-coach-coral font-bold uppercase mb-1">INTERVIEWER QUESTION</div>
+              "Tell me about a challenging project you worked on?"
+            </div>
+
+            <!-- Audio Waveform Controls Bar -->
+            <div class="absolute bottom-3 left-3 right-3 p-2.5 rounded-xl bg-coach-burgundy/80 backdrop-blur-md flex items-center justify-between border border-white/10">
+              <div class="flex items-center gap-2">
+                <span class="w-8 h-8 rounded-lg bg-coach-winered flex items-center justify-center text-white text-xs font-mono font-bold">AI</span>
+                <div class="flex items-center gap-1 h-6 px-2">
+                  <span class="w-1 bg-coach-coral rounded-full bar-anim"></span>
+                  <span class="w-1 bg-coach-coral rounded-full bar-anim"></span>
+                  <span class="w-1 bg-coach-coral rounded-full bar-anim"></span>
+                  <span class="w-1 bg-coach-coral rounded-full bar-anim"></span>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono text-white/80">04:12 • RECORDING RESPONSE</span>
+            </div>
+
+          </div>
+
+          <!-- Floating Real-Time Feedback Overlay Card (Right side) -->
+          <div class="mt-4 p-4 rounded-2xl bg-coach-cream/80 dark:bg-coach-burgundy/60 border border-coach-lightborder dark:border-slate-800 grid grid-cols-4 gap-2 text-center text-xs">
+            <div>
+              <div class="text-[10px] font-mono text-coach-mutedgray dark:text-slate-400 font-bold uppercase">Clarity</div>
+              <div class="font-bold text-coach-winered dark:text-coach-coral mt-0.5">92%</div>
+            </div>
+            <div>
+              <div class="text-[10px] font-mono text-coach-mutedgray dark:text-slate-400 font-bold uppercase">Confidence</div>
+              <div class="font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">88%</div>
+            </div>
+            <div>
+              <div class="text-[10px] font-mono text-coach-mutedgray dark:text-slate-400 font-bold uppercase">Structure</div>
+              <div class="font-bold text-coach-winered dark:text-coach-coral mt-0.5">95%</div>
+            </div>
+            <div>
+              <div class="text-[10px] font-mono text-coach-mutedgray dark:text-slate-400 font-bold uppercase">Relevance</div>
+              <div class="font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">90%</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Handwritten Accent Callout -->
+        <div class="absolute -bottom-6 -left-6 z-20 hidden sm:block">
+          <span class="font-handwriting text-2xl text-coach-winered dark:text-coach-coral font-bold transform -rotate-6 block drop-shadow-md">
+            Same Person. Bigger Opportunities. ➔
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 2. BUILT FOR EVERY AMBITION -->
+  <section id="ambition" class="py-24 relative bg-coach-cream/40 dark:bg-coach-burgundy/40 border-t border-coach-lightborder dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <div class="text-xs font-mono font-bold uppercase tracking-widest text-coach-winered dark:text-coach-coral mb-2">TAILORED SCENARIOS</div>
+          <h2 class="text-3xl sm:text-5xl font-display font-bold text-coach-charcoal dark:text-white">Built for Every Ambition</h2>
+          <p class="mt-3 text-coach-mutedgray dark:text-slate-300 text-sm max-w-lg">
+            Whether you're a student, professional, or career switcher — AI Interview Coach helps you prepare for what's next.
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0 text-right hidden md:block">
+          <span class="font-handwriting text-2xl text-coach-winered dark:text-coach-coral font-bold block">Different Goals. A Brighter Tomorrow.</span>
+        </div>
+      </div>
+
+      <!-- Interactive Category Switcher -->
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
+        <button onclick="switchAmbition('students')" id="amb-btn-students" class="amb-btn active p-4 rounded-2xl bg-white dark:bg-coach-card border border-coach-winered dark:border-coach-coral text-center transition-all shadow-md">
+          <div class="w-8 h-8 rounded-xl bg-coach-wine/10 dark:bg-coach-wine/30 text-coach-winered dark:text-coach-coral flex items-center justify-center mx-auto mb-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+          </div>
+          <div class="text-xs font-bold text-coach-charcoal dark:text-white">Students</div>
+        </button>
+
+        <button onclick="switchAmbition('seekers')" id="amb-btn-seekers" class="amb-btn p-4 rounded-2xl bg-white/60 dark:bg-coach-card/50 border border-coach-lightborder dark:border-slate-800 text-center transition-all hover:border-coach-winered">
+          <div class="w-8 h-8 rounded-xl bg-coach-wine/10 dark:bg-coach-wine/30 text-coach-winered dark:text-coach-coral flex items-center justify-center mx-auto mb-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div class="text-xs font-bold text-coach-charcoal dark:text-white">Job Seekers</div>
+        </button>
+
+        <button onclick="switchAmbition('professionals')" id="amb-btn-professionals" class="amb-btn p-4 rounded-2xl bg-white/60 dark:bg-coach-card/50 border border-coach-lightborder dark:border-slate-800 text-center transition-all hover:border-coach-winered">
+          <div class="w-8 h-8 rounded-xl bg-coach-wine/10 dark:bg-coach-wine/30 text-coach-winered dark:text-coach-coral flex items-center justify-center mx-auto mb-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          </div>
+          <div class="text-xs font-bold text-coach-charcoal dark:text-white">Professionals</div>
+        </button>
+
+        <button onclick="switchAmbition('switchers')" id="amb-btn-switchers" class="amb-btn p-4 rounded-2xl bg-white/60 dark:bg-coach-card/50 border border-coach-lightborder dark:border-slate-800 text-center transition-all hover:border-coach-winered">
+          <div class="w-8 h-8 rounded-xl bg-coach-wine/10 dark:bg-coach-wine/30 text-coach-winered dark:text-coach-coral flex items-center justify-center mx-auto mb-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+          </div>
+          <div class="text-xs font-bold text-coach-charcoal dark:text-white">Career Switchers</div>
+        </button>
+
+        <button onclick="switchAmbition('placement')" id="amb-btn-placement" class="amb-btn p-4 rounded-2xl bg-white/60 dark:bg-coach-card/50 border border-coach-lightborder dark:border-slate-800 text-center transition-all hover:border-coach-winered col-span-2 sm:col-span-1">
+          <div class="w-8 h-8 rounded-xl bg-coach-wine/10 dark:bg-coach-wine/30 text-coach-winered dark:text-coach-coral flex items-center justify-center mx-auto mb-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <div class="text-xs font-bold text-coach-charcoal dark:text-white">Placement Prep</div>
+        </button>
+      </div>
+
+      <!-- Dynamic Scenario Card -->
+      <div class="bg-white dark:bg-coach-card rounded-3xl p-6 sm:p-8 border border-coach-lightborder dark:border-slate-800 shadow-xl transition-all" id="ambition-display">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 space-y-4">
+            <span class="px-3 py-1 rounded-full bg-coach-wine/10 text-coach-winered dark:text-coach-coral text-[10px] font-mono font-bold uppercase" id="amb-badge">CAMPUS & GRADUATE PREPARATION</span>
+            <h3 class="text-2xl sm:text-3xl font-display font-bold text-coach-charcoal dark:text-white" id="amb-title">Ace Your Campus Placement Interviews</h3>
+            <p class="text-sm text-coach-mutedgray dark:text-slate-300 leading-relaxed" id="amb-desc">
+              Practice foundational behavioral questions, technical screening drills, and group discussion formats tailored for campus recruitment drives.
+            </p>
+            <div class="pt-2 flex flex-wrap gap-2 text-xs font-mono text-coach-charcoal dark:text-slate-300" id="amb-tags">
+              <span class="px-2.5 py-1 rounded-lg bg-coach-cream dark:bg-coach-burgundy border border-coach-lightborder dark:border-slate-700">✓ HR Screening</span>
+              <span class="px-2.5 py-1 rounded-lg bg-coach-cream dark:bg-coach-burgundy border border-coach-lightborder dark:border-slate-700">✓ Core Technical Basics</span>
+              <span class="px-2.5 py-1 rounded-lg bg-coach-cream dark:bg-coach-burgundy border border-coach-lightborder dark:border-slate-700">✓ Confidence Building</span>
+            </div>
+          </div>
+          <div class="lg:col-span-5 relative rounded-2xl overflow-hidden aspect-video bg-slate-900 shadow-lg">
+            <img id="amb-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Students practice" class="w-full h-full object-cover" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 3. REALISTIC INTERVIEW ENVIRONMENT (WORKING SIMULATOR PROTOTYPE) -->
+  <section id="mock-interview" class="py-24 relative bg-coach-ivory dark:bg-coach-deepburgundy">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-coach-winered dark:text-coach-coral mb-2">INTERACTIVE SIMULATOR</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-coach-charcoal dark:text-white">
+          Experience a Realistic Interview Environment
+        </h2>
+        <p class="mt-4 text-coach-mutedgray dark:text-slate-300 text-base">
+          Choose your interview type and start practicing with our AI interviewer in real time.
+        </p>
+      </div>
+
+      <!-- Interactive Mock Interview Simulator Window -->
+      <div class="bg-white dark:bg-coach-card rounded-3xl p-6 sm:p-8 border border-coach-lightborder dark:border-slate-800 shadow-2xl">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- Left: Interview Type Selector -->
+          <div class="lg:col-span-4 space-y-2">
+            <div class="text-xs font-mono font-bold text-coach-mutedgray dark:text-slate-400 uppercase mb-3">SELECT INTERVIEW TYPE</div>
+            
+            <button onclick="selectType('general')" id="type-btn-general" class="type-btn active w-full p-3.5 rounded-xl bg-coach-burgundy text-white font-bold text-xs text-left transition-all flex items-center justify-between shadow-md">
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-coach-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                <span>General Interview</span>
+              </span>
+              <span class="text-[10px] font-mono text-coach-coral">Active</span>
+            </button>
+
+            <button onclick="selectType('technical')" id="type-btn-technical" class="type-btn w-full p-3.5 rounded-xl bg-coach-cream/60 dark:bg-coach-burgundy/40 border border-coach-lightborder dark:border-slate-800 text-coach-charcoal dark:text-slate-300 font-semibold text-xs text-left transition-all hover:border-coach-winered flex items-center justify-between">
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-coach-winered dark:text-coach-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                <span>Technical Interview</span>
+              </span>
+            </button>
+
+            <button onclick="selectType('behavioral')" id="type-btn-behavioral" class="type-btn w-full p-3.5 rounded-xl bg-coach-cream/60 dark:bg-coach-burgundy/40 border border-coach-lightborder dark:border-slate-800 text-coach-charcoal dark:text-slate-300 font-semibold text-xs text-left transition-all hover:border-coach-winered flex items-center justify-between">
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-coach-winered dark:text-coach-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                <span>Behavioral Interview</span>
+              </span>
+            </button>
+
+            <button onclick="selectType('hr')" id="type-btn-hr" class="type-btn w-full p-3.5 rounded-xl bg-coach-cream/60 dark:bg-coach-burgundy/40 border border-coach-lightborder dark:border-slate-800 text-coach-charcoal dark:text-slate-300 font-semibold text-xs text-left transition-all hover:border-coach-winered flex items-center justify-between">
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-coach-winered dark:text-coach-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                <span>HR Interview</span>
+              </span>
+            </button>
+          </div>
+
+          <!-- Center/Right: Live Interactive Session Stage -->
+          <div class="lg:col-span-8 bg-coach-cream/30 dark:bg-coach-burgundy/60 rounded-2xl p-6 border border-coach-lightborder dark:border-slate-800 flex flex-col justify-between min-h-[380px]">
+            
+            <!-- Session Bar Header -->
+            <div class="flex items-center justify-between pb-4 border-b border-coach-lightborder/80 dark:border-slate-800 text-xs">
+              <div class="flex items-center gap-2 font-mono">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="font-bold text-coach-charcoal dark:text-white" id="sim-status">STATUS: STANDBY</span>
+              </div>
+              <div class="font-mono text-coach-mutedgray dark:text-slate-400" id="sim-timer">00:00</div>
+            </div>
+
+            <!-- Main Question & AI View Window -->
+            <div class="my-6 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              
+              <!-- Left Conversation Box -->
+              <div class="md:col-span-7 space-y-3">
+                <span class="px-2.5 py-1 rounded-full bg-coach-wine/10 text-coach-winered dark:text-coach-coral text-[10px] font-mono font-bold uppercase" id="sim-category-label">GENERAL INTERVIEW</span>
+                <div class="text-xs text-coach-mutedgray dark:text-slate-400 font-mono">AI INTERVIEWER ASKED:</div>
+                <h4 class="text-lg font-bold text-coach-charcoal dark:text-white leading-snug" id="sim-question-text">
+                  "Let's start with a simple question. Tell me about yourself."
+                </h4>
+                
+                <div id="sim-tip" class="p-3 rounded-xl bg-white dark:bg-coach-card border border-coach-lightborder dark:border-slate-700 text-xs font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+                  <span>💡 Tip:</span>
+                  <span>Keep your response structured (Present, Past, Future).</span>
+                </div>
+              </div>
+
+              <!-- Right Candidate Camera Preview -->
+              <div class="md:col-span-5 relative rounded-2xl overflow-hidden aspect-video bg-slate-900 border border-slate-800 shadow-md">
+                <img id="sim-candidate-img" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Candidate camera" class="w-full h-full object-cover" />
+                <div class="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/70 text-[9px] font-mono text-emerald-400">
+                  LIVE CAMERA
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Action Controls Bar -->
+            <div class="pt-4 border-t border-coach-lightborder/80 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
+              <button onclick="startSimSession()" id="sim-start-btn" class="px-6 py-2.5 rounded-full bg-coach-winered text-white font-bold text-xs uppercase tracking-wider shadow-md hover:bg-coach-burgundy transition-all">
+                Start Interview
+              </button>
+              
+              <button onclick="nextSimQuestion()" id="sim-next-btn" class="px-5 py-2.5 rounded-full bg-white dark:bg-coach-card border border-coach-lightborder dark:border-slate-700 text-coach-charcoal dark:text-white font-bold text-xs uppercase tracking-wider hover:border-coach-winered transition-all">
+                Next Question ➔
+              </button>
+
+              <button onclick="endSimSession()" id="sim-end-btn" class="px-5 py-2.5 rounded-full bg-coach-coral/20 text-coach-coral font-bold text-xs uppercase tracking-wider hover:bg-coach-coral hover:text-white transition-all">
+                End Session
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4. THREE STEP STORY -->
+  <section id="how-it-works" class="py-24 relative bg-coach-cream/50 dark:bg-coach-burgundy/40 border-t border-coach-lightborder dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-coach-winered dark:text-coach-coral mb-2">SIMPLE METHODOLOGY</div>
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-coach-charcoal dark:text-white">Your Growth in 3 Simple Steps</h2>
+        <p class="mt-4 text-coach-mutedgray dark:text-slate-300 text-base">Practice. Get feedback. Improve. Repeat.</p>
+      </div>
+
+      <!-- 3 Connected Steps Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        
+        <!-- Step 01 -->
+        <div class="bg-white dark:bg-coach-card rounded-3xl p-8 border border-coach-lightborder dark:border-slate-800 shadow-xl relative group hover:border-coach-winered transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-coach-burgundy text-white font-display font-extrabold text-lg flex items-center justify-center mb-6 shadow-md">
+            01
+          </div>
+          <h3 class="text-xl font-bold text-coach-charcoal dark:text-white font-display">PRACTICE</h3>
+          <p class="text-xs text-coach-mutedgray dark:text-slate-300 mt-2 leading-relaxed">
+            Take a realistic mock interview across general, technical, or behavioral questions.
+          </p>
+        </div>
+
+        <!-- Step 02 -->
+        <div class="bg-white dark:bg-coach-card rounded-3xl p-8 border border-coach-lightborder dark:border-slate-800 shadow-xl relative group hover:border-coach-winered transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-coach-winered text-white font-display font-extrabold text-lg flex items-center justify-center mb-6 shadow-md">
+            02
+          </div>
+          <h3 class="text-xl font-bold text-coach-charcoal dark:text-white font-display">GET FEEDBACK</h3>
+          <p class="text-xs text-coach-mutedgray dark:text-slate-300 mt-2 leading-relaxed">
+            Receive structured insights on clarity, confidence, answer structure, and body language.
+          </p>
+        </div>
+
+        <!-- Step 03 -->
+        <div class="bg-white dark:bg-coach-card rounded-3xl p-8 border border-coach-lightborder dark:border-slate-800 shadow-xl relative group hover:border-coach-winered transition-all">
+          <div class="w-12 h-12 rounded-2xl bg-coach-coral text-white font-display font-extrabold text-lg flex items-center justify-center mb-6 shadow-md">
+            03
+          </div>
+          <h3 class="text-xl font-bold text-coach-charcoal dark:text-white font-display">IMPROVE</h3>
+          <p class="text-xs text-coach-mutedgray dark:text-slate-300 mt-2 leading-relaxed">
+            Focus on your growth areas, refine your answers, and try again until confident.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Handwritten Callout Badge -->
+      <div class="mt-12 text-center">
+        <span class="font-handwriting text-3xl text-coach-winered dark:text-coach-coral font-bold inline-block transform rotate-1">
+          Small Steps, Big Progress.
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5 & 6. FEEDBACK REPORT & INTERACTION (DEEP BURGUNDY DARK SECTION) -->
+  <section id="feedback" class="py-24 relative bg-burgundy-gradient text-white border-t border-coach-burgundy">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Column -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-[10px] font-mono text-coach-coral font-bold uppercase">
+            <span>DETAILED FEEDBACK</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-5xl font-display font-bold text-white leading-tight">
+            Know Where You Stand. <br />
+            Know How to Improve.
+          </h2>
+
+          <p class="text-slate-300 text-sm leading-relaxed">
+            Get detailed analysis on your performance with actionable suggestions across communication, confidence, structure, and content.
+          </p>
+
+          <button onclick="openReportModal()" class="px-7 py-3.5 rounded-full bg-coach-coral hover:bg-coach-brightwine text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all flex items-center gap-2">
+            <span>See Sample Report</span> ➔
+          </button>
+        </div>
+
+        <!-- Right Column: Interactive Report Card -->
+        <div class="lg:col-span-7 bg-white/5 backdrop-blur-xl p-6 sm:p-8 rounded-3xl border border-white/10 shadow-2xl space-y-6">
+          
+          <div class="flex items-center justify-between pb-4 border-b border-white/10">
+            <span class="font-display font-bold text-lg text-white">Interview Feedback Report</span>
+            <span class="text-xs font-mono text-coach-coral">SCORE: OVERALL GOOD</span>
+          </div>
+
+          <!-- Feedback Metric Tabs -->
+          <div class="flex gap-2 text-xs font-mono border-b border-white/10 pb-3 overflow-x-auto">
+            <button onclick="switchReportTab('overview')" id="tab-overview" class="rep-tab active px-3 py-1.5 rounded-lg bg-coach-coral text-white font-bold">OVERVIEW</button>
+            <button onclick="switchReportTab('comm')" id="tab-comm" class="rep-tab px-3 py-1.5 rounded-lg bg-white/10 text-slate-300 hover:text-white">COMMUNICATION</button>
+            <button onclick="switchReportTab('conf')" id="tab-conf" class="rep-tab px-3 py-1.5 rounded-lg bg-white/10 text-slate-300 hover:text-white">CONFIDENCE</button>
+            <button onclick="switchReportTab('cont')" id="tab-cont" class="rep-tab px-3 py-1.5 rounded-lg bg-white/10 text-slate-300 hover:text-white">CONTENT</button>
+          </div>
+
+          <!-- Dynamic Metric Display -->
+          <div class="space-y-4" id="report-content-box">
+            
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-slate-300">Communication</span>
+                <span class="text-emerald-400 font-bold">92%</span>
+              </div>
+              <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full bg-emerald-400 rounded-full" style="width: 92%"></div>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-slate-300">Confidence</span>
+                <span class="text-coach-coral font-bold">88%</span>
+              </div>
+              <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full bg-coach-coral rounded-full" style="width: 88%"></div>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs font-mono">
+                <span class="text-slate-300">Structure</span>
+                <span class="text-emerald-400 font-bold">95%</span>
+              </div>
+              <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+                <div class="h-full bg-emerald-400 rounded-full" style="width: 95%"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Strengths & Suggestions Cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-white/10 text-xs">
+            <div class="p-3.5 rounded-xl bg-white/5 border border-white/10">
+              <div class="text-[10px] font-mono text-emerald-400 font-bold uppercase mb-1">What Went Well</div>
+              <p class="text-slate-300" id="rep-well">Clear explanation with good examples.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white/5 border border-white/10">
+              <div class="text-[10px] font-mono text-coach-coral font-bold uppercase mb-1">Areas to Improve</div>
+              <p class="text-slate-300" id="rep-improve">Try to be more specific with outcomes.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-white/5 border border-white/10">
+              <div class="text-[10px] font-mono text-coach-accentgold font-bold uppercase mb-1">Suggested Practice</div>
+              <p class="text-slate-300" id="rep-suggest">Work on structuring using STAR method.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 7. REAL PRACTICE. REAL RESULTS. (CANDIDATE STORIES) -->
+  <section class="py-24 relative bg-coach-ivory dark:bg-coach-deepburgundy">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-3xl sm:text-5xl font-display font-bold text-coach-charcoal dark:text-white">
+          Real Practice. Real Results.
+        </h2>
+        <p class="mt-3 text-coach-mutedgray dark:text-slate-300 text-sm">
+          Hear from candidates who are building confidence with AI Interview Coach.
+        </p>
+      </div>
+
+      <!-- Testimonial Story Card -->
+      <div class="bg-white dark:bg-coach-card rounded-3xl p-8 sm:p-12 border border-coach-lightborder dark:border-slate-800 shadow-xl max-w-4xl mx-auto relative">
+        <div class="grid grid-cols-1 sm:grid-cols-12 gap-8 items-center">
+          
+          <div class="sm:col-span-4 flex justify-center relative">
+            <div class="w-32 h-32 rounded-3xl overflow-hidden border-2 border-coach-winered shadow-lg">
+              <img id="testi-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Candidate story" class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <div class="sm:col-span-8 space-y-4">
+            <div class="text-4xl text-coach-winered dark:text-coach-coral font-serif">“</div>
+            <p class="text-base text-coach-charcoal dark:text-slate-200 leading-relaxed italic" id="testi-quote">
+              "The mock interviews felt so real! The real-time feedback helped me identify my weak areas and improve quickly before my final round."
+            </p>
+            <div>
+              <div class="font-bold text-coach-charcoal dark:text-white text-sm" id="testi-name">Ananya S.</div>
+              <div class="text-xs text-coach-mutedgray dark:text-slate-400 font-mono" id="testi-role">Final Year Student • Placed at Tech Enterprise</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 8. CINEMATIC CTA -->
+  <section class="py-24 relative bg-burgundy-gradient text-white border-t border-coach-burgundy">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      
+      <div class="max-w-3xl mx-auto space-y-6">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-coach-coral">
+          YOUR NEXT OPPORTUNITY COULD BE CLOSER THAN YOU THINK
+        </div>
+
+        <h2 class="text-4xl sm:text-6xl font-display font-extrabold tracking-tight text-white leading-tight">
+          Ready to Face <br />
+          Your Next Interview?
+        </h2>
+
+        <p class="text-slate-300 text-base max-w-xl mx-auto">
+          Practice today. Perform tomorrow. Build confidence. Be prepared.
+        </p>
+
+        <div class="pt-4 flex flex-wrap justify-center gap-4">
+          <button onclick="openInterviewModal()" class="px-8 py-4 rounded-full bg-coach-coral hover:bg-coach-brightwine text-white font-bold text-xs uppercase tracking-wider shadow-lg transition-all">
+            Start Practicing Now ➔
+          </button>
+          
+          <a href="/" class="px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-all">
+            Talk to Our Team
+          </a>
+        </div>
+
+        <div class="pt-6">
+          <span class="font-handwriting text-3xl text-coach-coral font-bold inline-block transform -rotate-2">
+            More Prepared For A Brighter You
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 9. FREQUENTLY ASKED QUESTIONS -->
+  <section id="faq" class="py-24 relative bg-coach-ivory dark:bg-coach-deepburgundy border-t border-coach-lightborder dark:border-slate-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-coach-winered dark:text-coach-coral mb-2">QUESTIONS & ANSWERS</div>
+        <h2 class="text-3xl font-display font-bold text-coach-charcoal dark:text-white">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="space-y-4">
+        <details class="bg-white dark:bg-coach-card rounded-2xl p-5 border border-coach-lightborder dark:border-slate-800 group shadow-sm">
+          <summary class="font-bold text-coach-charcoal dark:text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>What is AI Interview Coach?</span>
+            <span class="text-coach-winered dark:text-coach-coral group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-coach-mutedgray dark:text-slate-300 mt-3 leading-relaxed">
+            AI Interview Coach is an AI-based interview practice solution that conducts realistic mock interview sessions and provides structured feedback to help candidates improve performance.
+          </p>
+        </details>
+
+        <details class="bg-white dark:bg-coach-card rounded-2xl p-5 border border-coach-lightborder dark:border-slate-800 group shadow-sm">
+          <summary class="font-bold text-coach-charcoal dark:text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>How does the mock interview work?</span>
+            <span class="text-coach-winered dark:text-coach-coral group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-coach-mutedgray dark:text-slate-300 mt-3 leading-relaxed">
+            Select your interview type (General, Technical, Behavioral, HR), and the AI interviewer will present questions and record your responses for analysis.
+          </p>
+        </details>
+
+        <details class="bg-white dark:bg-coach-card rounded-2xl p-5 border border-coach-lightborder dark:border-slate-800 group shadow-sm">
+          <summary class="font-bold text-coach-charcoal dark:text-white text-sm cursor-pointer flex justify-between items-center">
+            <span>What type of feedback does it provide?</span>
+            <span class="text-coach-winered dark:text-coach-coral group-open:rotate-180 transition-transform">▼</span>
+          </summary>
+          <p class="text-xs text-coach-mutedgray dark:text-slate-300 mt-3 leading-relaxed">
+            You receive feedback on response clarity, confidence levels, structural organization (such as STAR framework usage), and relevance to the question.
+          </p>
+        </details>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 10. DEDICATED FOOTER -->
+  <footer class="bg-coach-burgundy text-white pt-16 pb-12 text-xs border-t border-coach-wine">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      <div>
+        <div class="font-display font-bold text-base text-white mb-2">AI Interview Coach</div>
+        <div class="text-[10px] font-mono text-coach-coral uppercase tracking-widest font-bold mb-3">BY TRAIT INNOVATION</div>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Practice today. Perform tomorrow. Build a better you with intelligent interview coaching.
+        </p>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">PRODUCT</div>
+        <ul class="space-y-2 text-slate-300">
+          <li><a href="#overview" class="hover:text-coach-coral">Overview</a></li>
+          <li><a href="#mock-interview" class="hover:text-coach-coral">Mock Interview</a></li>
+          <li><a href="#ambition" class="hover:text-coach-coral">Features</a></li>
+          <li><a href="#how-it-works" class="hover:text-coach-coral">How It Works</a></li>
+          <li><a href="#faq" class="hover:text-coach-coral">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">COMPANY</div>
+        <ul class="space-y-2 text-slate-300">
+          <li><a href="/" class="hover:text-coach-coral">Trait Innovation</a></li>
+          <li><a href="/advocatepro-ai" class="hover:text-coach-coral">AdvocatePro AI</a></li>
+          <li><a href="/ai-customer-support" class="hover:text-coach-coral">AI Customer Support</a></li>
+          <li><a href="/ai-data-analysis" class="hover:text-coach-coral">AI Data Analysis</a></li>
+          <li><a href="/trait-hireai" class="hover:text-coach-coral">TRAIT HireAI</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="font-mono text-white font-bold uppercase mb-3">CONNECT</div>
+        <div class="flex gap-4 items-center">
+          <a href="#" class="text-slate-400 hover:text-coach-coral">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75z"/></svg>
+          </a>
+          <a href="#" class="text-slate-400 hover:text-coach-coral">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+        <div class="mt-4 font-handwriting text-xl text-coach-coral font-bold">
+          Practice. Progress. Perform.
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between items-center text-slate-400 gap-4">
+      <div>© 2026 Trait Innovation. All rights reserved.</div>
+      <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="hover:text-white font-mono">
+        Back to Top ↑
+      </button>
+    </div>
+  </footer>
+
+  <!-- INTERVIEW MODAL -->
+  <div id="interview-modal" class="fixed inset-0 z-50 hidden bg-coach-burgundy/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-coach-card rounded-3xl border border-coach-lightborder dark:border-slate-800 max-w-xl w-full p-6 sm:p-8 relative shadow-2xl">
+      <button onclick="closeInterviewModal()" class="absolute top-4 right-4 text-slate-400 hover:text-coach-charcoal p-2">✕</button>
+      <div class="text-xs font-mono text-coach-winered dark:text-coach-coral font-bold mb-1">MOCK INTERVIEW SANDBOX</div>
+      <h3 class="text-2xl font-display font-bold text-coach-charcoal dark:text-white mb-4">Start Your Interview Practice</h3>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono text-coach-mutedgray dark:text-slate-300 mb-2">TARGET ROLE / POSITION:</label>
+          <input type="text" value="Software Engineer / Product Analyst" class="w-full px-4 py-3 rounded-xl bg-coach-ivory dark:bg-coach-burgundy border border-coach-lightborder dark:border-slate-700 text-sm text-coach-charcoal dark:text-white" />
+        </div>
+        <button onclick="runModalPractice()" class="w-full py-3.5 rounded-full bg-coach-winered text-white font-bold text-xs uppercase tracking-wider">
+          Launch Practice Session
+        </button>
+        <div id="modal-output" class="hidden p-4 rounded-xl bg-coach-cream dark:bg-coach-burgundy border border-coach-winered/30 text-xs font-mono space-y-2">
+          <div class="text-coach-winered dark:text-coach-coral font-bold">✓ MOCK INTERVIEW SESSION READY</div>
+          <div class="text-coach-charcoal dark:text-slate-200">System initialized. AI Interviewer is ready with 5 custom scenario questions.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/interview_coach.js') }}"></script>
+</body>
+</html>

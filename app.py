@@ -32,6 +32,39 @@ def hire_ai():
     """Render dedicated TRAIT HireAI HR technology product page."""
     return render_template('hire_ai.html')
 
+@app.route('/ai-interview-coach')
+@app.route('/interview-coach')
+def interview_coach():
+    """Render dedicated AI Interview Coach product page."""
+    return render_template('interview_coach.html')
+
+@app.route('/trait-event-management')
+@app.route('/event-management')
+def event_management():
+    """Render dedicated TRAIT Event Management service page."""
+    return render_template('event_management.html')
+
+@app.route('/trait-commerce-ai')
+@app.route('/commerce-ai')
+def commerce_ai():
+    """Render dedicated TRAIT CommerceAI product page."""
+    return render_template('commerce_ai.html')
+
+@app.route('/trait-airport-ai')
+@app.route('/airport-ai')
+def airport_ai():
+    """Render dedicated TRAIT AirportAI product page."""
+    return render_template('airport_ai.html')
+
+@app.route('/trait-aviation-analytics')
+@app.route('/aviation-analytics')
+def aviation_analytics():
+    """Render dedicated TRAIT Aviation Analytics product page."""
+    return render_template('aviation_analytics.html')
+
+
+
+
 @app.route('/api/contact', methods=['POST'])
 def contact():
     """Handle contact form submissions."""
