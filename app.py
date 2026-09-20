@@ -14,6 +14,12 @@ def advocatepro():
     """Render dedicated AdvocatePro AI product page."""
     return render_template('advocatepro.html')
 
+@app.route('/videos/<path:filename>')
+def serve_videos(filename):
+    """Serve video assets from root videos folder."""
+    from flask import send_from_directory
+    return send_from_directory('videos', filename)
+
 @app.route('/ai-customer-support')
 @app.route('/ai-support')
 def ai_customer_support():

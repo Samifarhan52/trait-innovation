@@ -9,11 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
   container.appendChild(renderer.domElement);
 
   // Create Particle Grid
-  const count = 1200;
+  const count = 450;
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);

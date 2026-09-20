@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollTrigger: {
           trigger: item.card,
           start: 'top 85%',
-          toggleActions: 'restart reverse restart reverse',
+          toggleActions: 'play none none reverse',
           onEnter: () => {
             if (item.dot) {
               gsap.to(item.dot, {

@@ -1,40 +1,108 @@
 /**
- * ADVOCATEPRO AI — Standalone Product Page Application Logic
- * Interactive 3D Canvas, GSAP Scroll Animations, Query Simulator, & Modal Controls
+ * ADVOCATEPRO AI — Flagship Motion, Typewriter Rotator & Interactive Engine
+ * Features: Three.js 3D WebGL ambient dust particles, Typewriter words rotator,
+ * Multi-layer mouse parallax, GSAP ScrollTrigger reveals, and Form submission handlers.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   // -------------------------------------------------------------------
-  // 1. THREE.JS WARM AMBER AMBIENT PARTICLES & LIGHTING CANVAS
+  // 1. TYPEWRITER / CHANGING WORDS ROTATOR IN HERO
+  // -------------------------------------------------------------------
+  const changingWordEl = document.getElementById('changing-word-text');
+  if (changingWordEl) {
+    const words = [
+      'Automating Legal Research',
+      'Accelerating Document Drafting',
+      'Extracting Contract Insights',
+      'Organizing Case Chronologies',
+      'Streamlining Legal Workflows'
+    ];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typeSpeed = 80;
+
+    function typeLoop() {
+      const currentWord = words[wordIndex];
+
+      if (isDeleting) {
+        changingWordEl.innerText = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+        typeSpeed = 40;
+      } else {
+        changingWordEl.innerText = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+        typeSpeed = 80;
+      }
+
+      if (!isDeleting && charIndex === currentWord.length) {
+        isDeleting = true;
+        typeSpeed = 2200; // Pause at end of word
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        typeSpeed = 400; // Pause before typing next word
+      }
+
+      setTimeout(typeLoop, typeSpeed);
+    }
+
+    typeLoop();
+  }
+
+
+  // -------------------------------------------------------------------
+  // 2. THREE.JS 3D AMBIENT SILK LIGHT & ROUND GLOWING ORBS (NO SQUARES)
   // -------------------------------------------------------------------
   const container = document.getElementById('advocatepro-canvas-container');
-  if (container) {
+  if (container && typeof THREE !== 'undefined') {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 30;
+    camera.position.z = 35;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
-    // Warm Amber & Golden Sparks Particle System
-    const particleCount = window.innerWidth < 768 ? 60 : 160;
+    // Create a 100% smooth circular radial glow texture (NO SQUARES / NO BOXES)
+    function createCircleTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
+      gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.25)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(32, 32, 32, 0, Math.PI * 2);
+      ctx.fill();
+      return new THREE.CanvasTexture(canvas);
+    }
+
+    const circleTexture = createCircleTexture();
+
+    const particleCount = window.innerWidth < 768 ? 25 : 45;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
-    const amberColor = new THREE.Color(0xF59E0B);
-    const copperColor = new THREE.Color(0xEA580C);
+    const cyanColor = new THREE.Color(0x00F0FF);
+    const goldColor = new THREE.Color(0xD4AF37);
+    const blueColor = new THREE.Color(0x3B82F6);
 
     for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 60;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 60;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 40;
+      positions[i * 3] = (Math.random() - 0.5) * 85;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 85;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
 
-      const mixColor = Math.random() > 0.5 ? amberColor : copperColor;
+      const rand = Math.random();
+      const mixColor = rand > 0.6 ? cyanColor : (rand > 0.3 ? goldColor : blueColor);
       colors[i * 3] = mixColor.r;
       colors[i * 3 + 1] = mixColor.g;
       colors[i * 3 + 2] = mixColor.b;
@@ -44,21 +112,22 @@ document.addEventListener('DOMContentLoaded', () => {
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const material = new THREE.PointsMaterial({
-      size: 0.8,
+      size: 1.6,
       vertexColors: true,
       transparent: true,
-      opacity: 0.6,
+      opacity: 0.45,
+      map: circleTexture,
+      depthWrite: false,
       blending: THREE.AdditiveBlending
     });
 
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
-    // Subtle Animation Loop
     function animate() {
       requestAnimationFrame(animate);
-      particles.rotation.y += 0.0006;
-      particles.rotation.x += 0.0003;
+      particles.rotation.y += 0.0002;
+      particles.rotation.x += 0.0001;
       renderer.render(scene, camera);
     }
     animate();
@@ -70,183 +139,237 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // -------------------------------------------------------------------
-  // 2. GSAP HERO REVEAL ANIMATIONS
-  // -------------------------------------------------------------------
-  if (typeof gsap !== 'undefined') {
-    gsap.from('#hero-left-box', {
-      duration: 1.2,
-      y: 40,
-      opacity: 0,
-      ease: 'power3.out',
-      delay: 0.2
-    });
-
-    gsap.from('#hero-right-visual', {
-      duration: 1.4,
-      scale: 0.94,
-      opacity: 0,
-      ease: 'power3.out',
-      delay: 0.4
-    });
-  }
 
   // -------------------------------------------------------------------
-  // 3. HERO TYPING PROMPT SIMULATOR
+  // 3. FLUID MOUSE PARALLAX TILT ON HERO VISUAL (THROTTLED WITH RAF)
   // -------------------------------------------------------------------
-  const typingPromptEl = document.getElementById('hero-typing-prompt');
-  const prompts = [
-    "Analyze breach of contract precedent in corporate dispute...",
-    "Extract key liability clauses from commercial NDA filing...",
-    "Summarize Supreme Court judgments on arbitration jurisdiction...",
-    "Generate initial compliance outline for data privacy regulations..."
-  ];
-  let promptIdx = 0;
-
-  if (typingPromptEl) {
-    setInterval(() => {
-      promptIdx = (promptIdx + 1) % prompts.length;
-      typingPromptEl.style.opacity = '0';
-      setTimeout(() => {
-        typingPromptEl.textContent = prompts[promptIdx];
-        typingPromptEl.style.opacity = '1';
-      }, 300);
-    }, 4000);
-  }
-
-  // -------------------------------------------------------------------
-  // 4. INTERACTIVE PRODUCT DEMO QUERY RUNNER
-  // -------------------------------------------------------------------
-  window.runQuery = function(type) {
-    const outputContent = document.getElementById('demo-output-content');
-    if (!outputContent) return;
-
-    outputContent.innerHTML = '<span class="text-amber-400 font-mono">⚡ AdvocatePro AI Processing Query...</span>';
-
-    setTimeout(() => {
-      if (type === 'contract') {
-        outputContent.innerHTML = `
-          <div class="space-y-2">
-            <div class="text-amber-400 font-bold">▶ Clause Summary & Risk Analysis: Section 14 (Indemnity)</div>
-            <p><span class="text-slate-400">[Extracted Text]:</span> "Party A agrees to indemnify Party B against claims arising from gross negligence..."</p>
-            <div class="p-2 rounded bg-amber-950/60 border border-amber-500/30 text-[11px] text-amber-200">
-              💡 <span class="font-bold">AI Insight:</span> Indemnity cap is uncapped under Section 14.2. Recommend inserting a monetary ceiling matching annual contract value.
-            </div>
-            <div class="text-[10px] text-slate-500">Human Verification Checkbox: [✔ Verified by Lead Counsel]</div>
-          </div>
-        `;
-      } else if (type === 'precedent') {
-        outputContent.innerHTML = `
-          <div class="space-y-2">
-            <div class="text-amber-400 font-bold">▶ Precedent Search: Arbitration Clause Enforcement</div>
-            <p><span class="text-slate-400">[Matching Landmark Precedents]:</span> 3 Relevant Authorities Found.</p>
-            <ul class="list-disc pl-4 space-y-1 text-slate-300">
-              <li><span class="text-amber-300 font-bold">State Corp v. Apex Infra (2023):</span> Affirmed binding nature of emergency arbitrator awards.</li>
-              <li><span class="text-amber-300 font-bold">Globe Tech v. Union Enterprise (2021):</span> Clarified scope of section 9 interim measures.</li>
-            </ul>
-            <div class="text-[10px] text-slate-500 pt-1">Human Verification Checkbox: [✔ Reviewed for Case Citation Validity]</div>
-          </div>
-        `;
-      } else if (type === 'compliance') {
-        outputContent.innerHTML = `
-          <div class="space-y-2">
-            <div class="text-amber-400 font-bold">▶ Compliance & Regulatory Checklist</div>
-            <p><span class="text-slate-400">[Statutory Review]:</span> Data Privacy & Corporate Governance Audit.</p>
-            <div class="grid grid-cols-2 gap-2 text-[11px] pt-1">
-              <div class="p-2 rounded bg-slate-900 border border-slate-800">✔ Board Resolution Verification</div>
-              <div class="p-2 rounded bg-slate-900 border border-slate-800">✔ Data Protection Officer Filing</div>
-              <div class="p-2 rounded bg-slate-900 border border-slate-800">✔ Cross-Border Transfer Assessment</div>
-              <div class="p-2 rounded bg-slate-900 border border-slate-800">✔ Annual Audit Submission</div>
-            </div>
-            <div class="text-[10px] text-slate-500 pt-1">Human Verification Checkbox: [✔ Final Sign-off Pending Corporate Officer]</div>
-          </div>
-        `;
+  const heroFluid = document.getElementById('hero-fluid-visual');
+  if (heroFluid) {
+    let ticking = false;
+    window.addEventListener('mousemove', (e) => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const x = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+          const y = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+          heroFluid.style.transform = `rotateX(${-y * 4}deg) rotateY(${x * 4}deg)`;
+          ticking = false;
+        });
+        ticking = true;
       }
-    }, 400);
-  };
+    }, { passive: true });
+  }
+
 
   // -------------------------------------------------------------------
-  // 5. FEATURE CARD SELECTION CONTROLLER
+  // 4. GSAP SCROLL TRIGGER REVEALS — BIDIRECTIONAL SCROLL ENGINE
   // -------------------------------------------------------------------
-  window.selectFeature = function(featKey) {
-    document.querySelectorAll('.feat-interactive-card').forEach(card => {
-      card.classList.remove('border-amber-500', 'shadow-amber-500/30', 'scale-[1.02]');
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Section 2: Key Features & Capabilities — Outer cards stay static in place
+    const commandCardsList = document.querySelectorAll('.command-grid-card');
+    commandCardsList.forEach(card => {
+      card.style.opacity = '1';
+      card.style.visibility = 'visible';
+      card.style.transform = 'none';
     });
-    const target = document.getElementById(`feat-card-${featKey}`);
-    if (target) {
-      target.classList.add('border-amber-500', 'shadow-amber-500/30', 'scale-[1.02]');
-    }
-  };
 
-  // -------------------------------------------------------------------
-  // 6. FAQ ACCORDION CONTROLLER
-  // -------------------------------------------------------------------
-  const faqItems = document.querySelectorAll('.faq-adv-item');
-  faqItems.forEach(item => {
-    const btn = item.querySelector('.faq-adv-btn');
-    const ans = item.querySelector('.faq-adv-ans');
-    if (btn && ans) {
-      btn.addEventListener('click', () => {
-        const isHidden = ans.classList.contains('hidden');
-        document.querySelectorAll('.faq-adv-ans').forEach(a => a.classList.add('hidden'));
-        document.querySelectorAll('.faq-adv-btn span:last-child').forEach(s => s.textContent = '+');
-        if (isHidden) {
-          ans.classList.remove('hidden');
-          btn.querySelector('span:last-child').textContent = '−';
-        }
+    // Inner capability sub-cards — Bidirectional ScrollTrigger entry animation
+    const capItems = document.querySelectorAll('.capability-item');
+    capItems.forEach(item => {
+      item.style.opacity = '1';
+      item.style.visibility = 'visible';
+    });
+
+    gsap.from(capItems, {
+      scrollTrigger: {
+        trigger: '#capabilities',
+        start: 'top 85%',
+        end: 'bottom 15%',
+        toggleActions: 'play reverse play reverse'
+      },
+      duration: 0.55,
+      y: 18,
+      opacity: 0,
+      stagger: 0.04,
+      ease: 'power2.out'
+    });
+
+    // Section 3: Why Choose TRAIT? — Bidirectional left (-90px) & right (90px) reveals
+    const whyTraitLeft = document.getElementById('why-trait-left');
+    const whyTraitRight = document.getElementById('why-trait-right');
+
+    if (whyTraitLeft) {
+      whyTraitLeft.style.opacity = '1';
+      whyTraitLeft.style.visibility = 'visible';
+      gsap.from(whyTraitLeft, {
+        scrollTrigger: {
+          trigger: '#why-trait',
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play reverse play reverse'
+        },
+        duration: 0.75,
+        x: -90,
+        opacity: 0,
+        ease: 'power2.out'
       });
     }
+
+    if (whyTraitRight) {
+      whyTraitRight.style.opacity = '1';
+      whyTraitRight.style.visibility = 'visible';
+      gsap.from(whyTraitRight, {
+        scrollTrigger: {
+          trigger: '#why-trait',
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play reverse play reverse'
+        },
+        duration: 0.75,
+        x: 90,
+        opacity: 0,
+        ease: 'power2.out'
+      });
+    }
+
+    // Section 4: AdvocatePro AI Pro CTA — Bidirectional left (-90px) & right (90px) reveals
+    const ctaLeft = document.getElementById('cta-left');
+    const ctaRight = document.getElementById('cta-right');
+
+    if (ctaLeft) {
+      ctaLeft.style.opacity = '1';
+      ctaLeft.style.visibility = 'visible';
+      gsap.from(ctaLeft, {
+        scrollTrigger: {
+          trigger: '#cta',
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play reverse play reverse'
+        },
+        duration: 0.75,
+        x: -90,
+        opacity: 0,
+        ease: 'power2.out'
+      });
+    }
+
+    if (ctaRight) {
+      ctaRight.style.opacity = '1';
+      ctaRight.style.visibility = 'visible';
+      gsap.from(ctaRight, {
+        scrollTrigger: {
+          trigger: '#cta',
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play reverse play reverse'
+        },
+        duration: 0.75,
+        x: 90,
+        opacity: 0,
+        ease: 'power2.out'
+      });
+    }
+  }
+
+
+  // -------------------------------------------------------------------
+  // 5. LEGAL INTELLIGENCE COMMAND GRID — CAPABILITY CONSTELLATION ENGINE
+  // -------------------------------------------------------------------
+  // A. MAGNETIC HOVER (Subtle 3D Depth tilt on cards - Throttled with RAF)
+  const commandCards = document.querySelectorAll('.command-grid-card');
+  commandCards.forEach(card => {
+    let cardTicking = false;
+    card.addEventListener('mousemove', (e) => {
+      if (!cardTicking) {
+        window.requestAnimationFrame(() => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          card.style.transform = `perspective(1000px) rotateX(${-y * 0.03}deg) rotateY(${x * 0.03}deg) translateZ(6px)`;
+          cardTicking = false;
+        });
+        cardTicking = true;
+      }
+    }, { passive: true });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+    });
   });
 
-  // -------------------------------------------------------------------
-  // 7. DEMO MODAL CONTROLLERS & SUBMISSION
-  // -------------------------------------------------------------------
-  window.openDemoModal = function() {
-    const modal = document.getElementById('demo-modal');
-    if (modal) {
-      modal.classList.remove('opacity-0', 'pointer-events-none');
+  // B. SCROLL MORPH & PARALLAX
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    // Scroll Morph: Document Intelligence Card subtly expands & glows as user scrolls
+    const morphCard = document.getElementById('document-intelligence-card');
+    if (morphCard) {
+      gsap.to(morphCard, {
+        scrollTrigger: {
+          trigger: '#capabilities',
+          start: 'top 60%',
+          end: 'bottom 40%',
+          scrub: 1
+        },
+        scale: 1.025,
+        borderColor: 'rgba(212, 175, 55, 0.65)',
+        boxShadow: '0 25px 65px -10px rgba(212, 175, 55, 0.25)'
+      });
     }
-  };
 
-  window.closeDemoModal = function() {
-    const modal = document.getElementById('demo-modal');
-    if (modal) {
-      modal.classList.add('opacity-0', 'pointer-events-none');
+    // Depth Shift Parallax on Living Legal Archive Background
+    const archiveBg = document.getElementById('living-archive-texture');
+    if (archiveBg) {
+      gsap.to(archiveBg, {
+        scrollTrigger: {
+          trigger: '#capabilities',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        },
+        y: -40,
+        ease: 'none'
+      });
     }
-  };
-
-  window.toggleMobileAdvMenu = function() {
-    const menu = document.getElementById('mobile-adv-menu');
-    if (menu) {
-      menu.classList.toggle('hidden');
-    }
-  };
-
-  const mobileBtn = document.getElementById('mobile-adv-menu-btn');
-  if (mobileBtn) {
-    mobileBtn.addEventListener('click', window.toggleMobileAdvMenu);
   }
+});
 
-  window.scrollToExperience = function() {
-    const sec = document.getElementById('demo-showcase');
-    if (sec) {
-      sec.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
-  const demoForm = document.getElementById('demo-form');
-  if (demoForm) {
-    demoForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const status = document.getElementById('demo-status');
-      const name = document.getElementById('demo-name').value;
-      const email = document.getElementById('demo-email').value;
-
-      status.textContent = `Thank you, ${name}! Your AdvocatePro AI demo request has been received. Our team will contact you at ${email} shortly.`;
-      status.className = 'text-xs font-mono text-amber-400 text-center pt-2 block';
-      demoForm.reset();
-      setTimeout(window.closeDemoModal, 3000);
-    });
+// -------------------------------------------------------------------
+// 6. EXPLORE MODAL, MOBILE NAVBAR & SECTION FORM CONTROLS
+// -------------------------------------------------------------------
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  if (menu) {
+    menu.classList.toggle('hidden');
   }
+}
 
-})();
+function openExploreModal() {
+  const modal = document.getElementById('explore-modal');
+  if (modal) modal.classList.remove('hidden');
+}
+
+function closeExploreModal() {
+  const modal = document.getElementById('explore-modal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function handleExploreSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('explore-form');
+  const success = document.getElementById('form-success-msg');
+  if (form && success) {
+    form.classList.add('hidden');
+    success.classList.remove('hidden');
+  }
+}
+
+function handleSectionFormSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('section-cta-form');
+  const success = document.getElementById('section-form-success');
+  if (form && success) {
+    form.classList.add('hidden');
+    success.classList.remove('hidden');
+  }
+}
