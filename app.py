@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
@@ -50,26 +50,28 @@ def event_management():
     """Render dedicated TRAIT Event Management service page."""
     return render_template('event_management.html')
 
-@app.route('/trait-commerce-ai')
-@app.route('/commerce-ai')
-def commerce_ai():
-    """Render dedicated TRAIT CommerceAI product page."""
-    return render_template('commerce_ai.html')
+@app.route('/trait-ai-fashion-analytics')
+@app.route('/fashion-analytics')
+def fashion_analytics():
+    """Render dedicated TRAIT AI Fashion Analytics service page."""
+    return render_template('fashion_analytics.html')
 
+@app.route('/trait-ai-aviation')
+@app.route('/ai-aviation')
+@app.route('/aviation')
 @app.route('/trait-airport-ai')
 @app.route('/airport-ai')
-def airport_ai():
-    """Render dedicated TRAIT AirportAI product page."""
-    return render_template('airport_ai.html')
-
 @app.route('/trait-aviation-analytics')
 @app.route('/aviation-analytics')
-def aviation_analytics():
-    """Render dedicated TRAIT Aviation Analytics product page."""
-    return render_template('aviation_analytics.html')
+def ai_aviation():
+    """Render unified TRAIT AI Aviation service page (combines AirportAI + Aviation Analytics)."""
+    return render_template('aviation.html')
 
-
-
+@app.route('/trait-ai-hospital')
+@app.route('/ai-hospital')
+def ai_hospital():
+    """Render dedicated TRAIT AI Hospital service page."""
+    return render_template('ai_hospital.html')
 
 @app.route('/api/contact', methods=['POST'])
 def contact():
@@ -90,4 +92,22 @@ def contact():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    is_dev = os.environ.get('FLASK_ENV') == 'development' or '--dev' in os.sys.argv
+    
+    print("\n" + "="*60)
+    print(" TRAIT Innovation Web Application Server")
+    print(f" Local Access:   http://127.0.0.1:{port} (or http://localhost:{port})")
+    print("="*60 + "\n")
+
+    if is_dev:
+        app.run(host='0.0.0.0', port=port, debug=True)
+    else:
+        try:
+            from waitress import serve
+            print(f"Server active with Waitress WSGI on port {port}...")
+            serve(app, host='0.0.0.0', port=port)
+        except ImportError:
+            print(f"Waitress not available, running Flask server on port {port}...")
+            app.run(host='0.0.0.0', port=port, debug=False)
+
+

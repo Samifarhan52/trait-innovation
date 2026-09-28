@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRAIT AI Hospital — Healthcare Operational Intelligence | Trait Innovation</title>
+  <meta name="description" content="Dedicated healthcare AI solution for hospital analytics, patient flow optimization, ER queue management, bed capacity forecasting, clinical workflow support, and operational resource planning." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            hospital: {
+              emerald: '#10B981',
+              teal: '#0D9488',
+              cyan: '#06B6D4',
+              sky: '#0284C7',
+              navyDark: '#030C1A',
+              navyCard: '#08172E',
+              charcoal: '#0F172A',
+              cream: '#F8FAFC',
+              muted: '#64748B',
+              borderLight: '#E2E8F0',
+              borderDark: '#1E293B'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            display: ['Syne', 'Playfair Display', 'serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+    .font-display { font-family: 'Syne', sans-serif; }
+    
+    .gradient-hospital-text {
+      background: linear-gradient(135deg, #10B981 0%, #0D9488 50%, #06B6D4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-hospital-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.18);
+      box-shadow: 0 20px 40px -15px rgba(16, 185, 129, 0.08);
+    }
+    .dark .glass-hospital-card {
+      background: rgba(8, 23, 46, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+    }
+  </style>
+</head>
+<body class="bg-hospital-cream text-hospital-charcoal dark:bg-hospital-navyDark dark:text-white transition-colors duration-300">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-hospital-emerald/20 bg-hospital-cream/90 dark:bg-hospital-navyDark/90 backdrop-blur-xl" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="/trait-ai-hospital" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-hospital-emerald via-hospital-teal to-hospital-cyan p-0.5 shadow-md shadow-hospital-emerald/20 group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-hospital-cream dark:bg-hospital-navyDark rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-hospital-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a2 2 0 00-1.022.547l-1.4 1.4A2 2 0 004 20.283M15 11A3 3 0 119 11a3 3 0 016 0z"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-display font-bold text-lg text-hospital-charcoal dark:text-white">TRAIT AI Hospital</span>
+          </div>
+          <span class="text-[10px] font-mono font-semibold tracking-wider text-hospital-emerald block -mt-1 uppercase">HEALTHCARE INTELLIGENCE</span>
+        </div>
+      </a>
+
+      <!-- Center Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-hospital-charcoal dark:text-slate-200">
+        <a href="#overview" class="hover:text-hospital-emerald transition-colors">Overview</a>
+        <a href="#capabilities" class="hover:text-hospital-emerald transition-colors">Capabilities</a>
+        <a href="#telemetry" class="hover:text-hospital-emerald transition-colors">Patient Telemetry</a>
+        <a href="#use-cases" class="hover:text-hospital-emerald transition-colors">Clinical Use Cases</a>
+        <a href="#trust" class="hover:text-hospital-emerald transition-colors">Compliance & Trust</a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-hospital-charcoal dark:text-slate-300 hover:text-hospital-emerald transition-colors px-3.5 py-2 rounded-full border border-hospital-emerald/20 bg-white/80 dark:bg-hospital-navyCard/80">
+          <svg class="w-3.5 h-3.5 text-hospital-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Main Website
+        </a>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" class="p-2 rounded-full border border-hospital-emerald/20 text-hospital-charcoal dark:text-slate-300 hover:text-hospital-emerald transition-colors" title="Toggle Theme">
+          <span class="dark:hidden"></span>
+          <span class="hidden dark:inline">️</span>
+        </button>
+
+        <button onclick="openHospitalModal()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-hospital-emerald via-hospital-teal to-hospital-cyan text-slate-950 font-black text-xs shadow-md shadow-hospital-emerald/30 hover:shadow-lg transition-all flex items-center gap-1.5 uppercase tracking-wider">
+          <span>Schedule Clinical Demo</span> 
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="overview" class="relative pt-32 pb-24 min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <!-- Ambient Background Glows -->
+    <div class="absolute inset-0 pointer-events-none opacity-40">
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-hospital-emerald/20 rounded-full blur-[140px]"></div>
+      <div class="absolute top-1/2 -right-32 w-96 h-96 bg-hospital-cyan/20 rounded-full blur-[140px]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Content -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-hospital-emerald/10 border border-hospital-emerald/30 text-[10px] sm:text-xs font-mono text-hospital-emerald font-bold uppercase tracking-widest">
+          <span class="w-2 h-2 rounded-full bg-hospital-emerald animate-ping"></span>
+          HEALTHCARE × ARTIFICIAL INTELLIGENCE × DATA INTELLIGENCE
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-black font-display tracking-tight leading-[1.08] text-hospital-charcoal dark:text-white">
+          Intelligent Healthcare Operations. <br />
+          <span class="gradient-hospital-text">Better Patient Care.</span>
+        </h1>
+
+        <p class="text-base text-hospital-muted dark:text-slate-300 max-w-2xl font-normal leading-relaxed">
+          TRAIT AI Hospital empowers medical leaders and clinical administrators with predictive capacity planning, patient flow optimization, ER queue management, and resource allocation intelligence.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 pt-4">
+          <button onclick="openHospitalModal()" class="px-7 py-3.5 rounded-full bg-gradient-to-r from-hospital-emerald via-hospital-teal to-hospital-cyan text-slate-950 font-black text-xs sm:text-sm shadow-xl shadow-hospital-emerald/25 hover:scale-105 transition-all uppercase tracking-wide">
+            EXPLORE HEALTHCARE AI 
+          </button>
+          <a href="#telemetry" class="px-7 py-3.5 rounded-full border border-hospital-emerald/30 bg-white/70 dark:bg-hospital-navyCard/70 backdrop-blur-md font-bold text-xs sm:text-sm text-hospital-charcoal dark:text-white hover:border-hospital-emerald transition-all uppercase tracking-wide">
+            VIEW CLINICAL DEMO
+          </a>
+        </div>
+
+        <!-- Metric Badges -->
+        <div class="pt-8 grid grid-cols-3 gap-6 border-t border-hospital-emerald/10 dark:border-hospital-borderDark">
+          <div>
+            <div class="text-2xl font-black font-display text-hospital-emerald">-34%</div>
+            <div class="text-[10px] font-mono text-hospital-muted dark:text-slate-400 uppercase tracking-wider">ER Wait Time Reduction</div>
+          </div>
+          <div>
+            <div class="text-2xl font-black font-display text-hospital-teal dark:text-cyan-400">96.4%</div>
+            <div class="text-[10px] font-mono text-hospital-muted dark:text-slate-400 uppercase tracking-wider">Bed Capacity Accuracy</div>
+          </div>
+          <div>
+            <div class="text-2xl font-black font-display text-hospital-cyan">100%</div>
+            <div class="text-[10px] font-mono text-hospital-muted dark:text-slate-400 uppercase tracking-wider">HIPAA/GDPR Compliant</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Clinical HUD Mockup -->
+      <div class="lg:col-span-5 relative">
+        <div class="glass-hospital-card rounded-3xl p-6 relative overflow-hidden shadow-2xl border border-hospital-emerald/30 space-y-4">
+          
+          <div class="flex items-center justify-between pb-3 border-b border-hospital-emerald/20 text-xs font-mono text-hospital-emerald">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-hospital-emerald animate-ping"></span>
+              METROPOLITAN GENERAL HOSPITAL
+            </span>
+            <span>ICU & ER HUD</span>
+          </div>
+
+            <div class="space-y-3">
+              <div class="p-3.5 rounded-xl bg-hospital-emerald/5 dark:bg-hospital-navyDark border border-hospital-emerald/20 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <span class="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-hospital-emerald shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a2 2 0 00-1.022.547l-1.4 1.4A2 2 0 004 20.283M15 11A3 3 0 119 11a3 3 0 016 0z"/></svg>
+                  </span>
+                  <div>
+                    <div class="font-bold text-hospital-charcoal dark:text-white">ICU Capacity & Beds</div>
+                    <div class="text-[10px] text-hospital-muted dark:text-slate-400 font-mono">6 Beds Available • 2 Discharge Pending</div>
+                  </div>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 text-[10px] font-mono font-bold">STABLE</span>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-hospital-teal/5 dark:bg-hospital-navyDark border border-hospital-teal/20 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <span class="p-1.5 rounded-lg bg-teal-100 dark:bg-teal-950 text-hospital-teal shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  </span>
+                  <div>
+                    <div class="font-bold text-hospital-charcoal dark:text-white">Emergency Triage Queue</div>
+                    <div class="text-[10px] text-hospital-muted dark:text-slate-400 font-mono">Avg Wait Time: 11 Mins</div>
+                  </div>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-teal-100 dark:bg-teal-950 text-teal-700 dark:text-teal-400 text-[10px] font-mono font-bold">OPTIMAL</span>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-hospital-cyan/5 dark:bg-hospital-navyDark border border-hospital-cyan/20 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-3">
+                  <span class="p-1.5 rounded-lg bg-cyan-100 dark:bg-cyan-950 text-hospital-cyan shrink-0">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  </span>
+                  <div>
+                    <div class="font-bold text-hospital-charcoal dark:text-white">Operating Room 4</div>
+                    <div class="text-[10px] text-hospital-muted dark:text-slate-400 font-mono">Procedure Completed • Prep in 8 Mins</div>
+                  </div>
+                </div>
+                <span class="px-2 py-0.5 rounded bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-400 text-[10px] font-mono font-bold">ON SCHEDULE</span>
+              </div>
+            </div>
+
+          <div class="pt-2 text-[10px] font-mono text-hospital-muted dark:text-slate-400 flex items-center justify-between">
+            <span>PREDICTIVE ACCURACY: 97.9%</span>
+            <span class="text-hospital-emerald font-bold">CLINICAL SUPPORT ACTIVE</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CAPABILITIES SECTION -->
+  <section id="capabilities" class="py-24 bg-white/50 dark:bg-hospital-navyCard/50 border-y border-hospital-emerald/10 dark:border-hospital-borderDark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <span class="text-xs font-mono text-hospital-emerald font-bold uppercase tracking-widest">CLINICAL CAPABILITIES</span>
+        <h2 class="text-3xl sm:text-4xl font-black font-display text-hospital-charcoal dark:text-white">AI-Powered Hospital Operational Suite</h2>
+        <p class="text-hospital-muted dark:text-slate-300 text-sm">Designed to assist healthcare administrators and clinical teams without replacing human medical judgment.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-hospital-emerald/10 text-hospital-emerald flex items-center justify-center border border-hospital-emerald/20 mb-6 font-bold text-xl">
+            
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">Hospital Operational Analytics</h3>
+          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
+            Aggregates facility-wide data to provide executive dashboards on bed occupancy, staffing efficiency, department throughput, and resource utilization.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-hospital-teal/10 text-hospital-teal flex items-center justify-center border border-hospital-teal/20 mb-6 font-bold text-xl">
+            
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">ER Queue & Triage Optimization</h3>
+          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
+            Forecasts emergency room arrival spikes, assisting triage teams in prioritizing patient check-in workflows and reducing waiting room crowding.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-hospital-cyan/10 text-hospital-cyan flex items-center justify-center border border-hospital-cyan/20 mb-6 font-bold text-xl">
+            ️
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">Bed Capacity & Discharge Forecasting</h3>
+          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
+            Predicts inpatient discharge timelines 24 hours in advance, allowing floor managers to streamline bed turnover and admit incoming transfers smoothly.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-hospital-emerald/10 text-hospital-emerald flex items-center justify-center border border-hospital-emerald/20 mb-6 font-bold text-xl">
+            🩺
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">Clinical Workflow Decision Support</h3>
+          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
+            Assists medical staff with administrative documentation, shift handoff summaries, and routine checklist automation while keeping clinicians in full control.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-hospital-teal/10 text-hospital-teal flex items-center justify-center border border-hospital-teal/20 mb-6 font-bold text-xl">
+            
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">Appointment & Staff Scheduling</h3>
+          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
+            Matches doctor availability and nurse staffing schedules against predicted patient appointment volumes, preventing staff burnout and missed slots.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-hospital-cyan/10 text-hospital-cyan flex items-center justify-center border border-hospital-cyan/20 mb-6 font-bold text-xl">
+            
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">Interoperable Data Integration</h3>
+          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
+            Seamlessly connects with existing Electronic Health Record (EHR) systems via secure HL7/FHIR protocols with zero compromise on patient privacy.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE TELEMETRY DASHBOARD -->
+  <section id="telemetry" class="py-24 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <span class="text-xs font-mono text-hospital-emerald font-bold uppercase tracking-widest">REAL-TIME SIMULATION</span>
+        <h2 class="text-3xl sm:text-4xl font-black font-display text-hospital-charcoal dark:text-white">Hospital Operational Dashboard</h2>
+        <p class="text-hospital-muted dark:text-slate-300 text-sm">Select a department below to inspect live hospital resource allocation telemetry.</p>
+      </div>
+
+      <div class="glass-hospital-card rounded-3xl p-8 border border-hospital-emerald/30 shadow-2xl">
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-hospital-emerald/20">
+          <div class="flex gap-3" id="hospital-tabs">
+            <button onclick="switchHospitalTab('er')" class="hosp-tab-btn active px-4 py-2 rounded-full text-xs font-bold bg-hospital-emerald text-slate-950">Emergency Room</button>
+            <button onclick="switchHospitalTab('beds')" class="hosp-tab-btn px-4 py-2 rounded-full text-xs font-bold bg-hospital-emerald/10 text-hospital-charcoal dark:text-slate-300">Inpatient Bed Flow</button>
+            <button onclick="switchHospitalTab('staff')" class="hosp-tab-btn px-4 py-2 rounded-full text-xs font-bold bg-hospital-emerald/10 text-hospital-charcoal dark:text-slate-300">Staffing Load</button>
+          </div>
+          <span class="text-[10px] font-mono text-hospital-emerald font-bold">NODE: MED-CENTRAL-01</span>
+        </div>
+
+        <div id="hospital-tab-content" class="pt-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="p-5 rounded-2xl bg-hospital-emerald/5 dark:bg-hospital-navyDark border border-hospital-emerald/20 space-y-2">
+              <div class="text-xs font-mono text-hospital-emerald">TRIAGE ZONE A</div>
+              <div class="text-lg font-bold text-hospital-charcoal dark:text-white font-display">ER Wait Time: 11 Mins</div>
+              <div class="text-xs text-hospital-muted dark:text-slate-300">Queue volume 14% below peak • 4 Triage lanes active</div>
+              <div class="text-[10px] font-mono text-emerald-500 font-bold">STATUS: OPTIMAL</div>
+            </div>
+            <div class="p-5 rounded-2xl bg-hospital-teal/5 dark:bg-hospital-navyDark border border-hospital-teal/20 space-y-2">
+              <div class="text-xs font-mono text-hospital-teal">TRAUMA BAY 2</div>
+              <div class="text-lg font-bold text-hospital-charcoal dark:text-white font-display">Resource Readiness</div>
+              <div class="text-xs text-hospital-muted dark:text-slate-300">Trauma team pre-alert active • Prep complete</div>
+              <div class="text-[10px] font-mono text-teal-500 font-bold">STATUS: READY</div>
+            </div>
+            <div class="p-5 rounded-2xl bg-hospital-cyan/5 dark:bg-hospital-navyDark border border-hospital-cyan/20 space-y-2">
+              <div class="text-xs font-mono text-hospital-cyan">PEDIATRIC ER</div>
+              <div class="text-lg font-bold text-hospital-charcoal dark:text-white font-display">Shift Capacity</div>
+              <div class="text-xs text-hospital-muted dark:text-slate-300">Predicted arrival influx at 20:00 (+4 patients)</div>
+              <div class="text-[10px] font-mono text-cyan-500 font-bold">PREDICTIVE ALLOCATION ON</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRUST & COMPLIANCE SECTION -->
+  <section id="trust" class="py-24 bg-white/50 dark:bg-hospital-navyCard/50 border-t border-hospital-emerald/10 dark:border-hospital-borderDark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <span class="text-xs font-mono text-hospital-emerald font-bold uppercase tracking-widest">ETHICAL & TRUSTED AI</span>
+        <h2 class="text-3xl sm:text-4xl font-black font-display text-hospital-charcoal dark:text-white">Responsible Healthcare AI Principles</h2>
+        <p class="text-hospital-muted dark:text-slate-300 text-sm">Our platform is strictly designed to assist healthcare professionals, optimize workflows, and enhance operational efficiency.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <div class="p-8 rounded-3xl glass-hospital-card space-y-3">
+          <div class="text-2xl">‍️</div>
+          <h3 class="text-xl font-bold font-display text-hospital-charcoal dark:text-white">Human-In-The-Loop</h3>
+          <p class="text-xs text-hospital-muted dark:text-slate-300 leading-relaxed">
+            All clinical recommendations and resource allocation alerts require human review and approval. The AI does not make independent medical decisions.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-hospital-card space-y-3">
+          <div class="text-2xl"></div>
+          <h3 class="text-xl font-bold font-display text-hospital-charcoal dark:text-white">Patient Data Privacy</h3>
+          <p class="text-xs text-hospital-muted dark:text-slate-300 leading-relaxed">
+            Zero patient data is used for external model training. Data processing is fully encrypted end-to-end adhering to strict HIPAA and GDPR standards.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-hospital-card space-y-3">
+          <div class="text-2xl">🩺</div>
+          <h3 class="text-xl font-bold font-display text-hospital-charcoal dark:text-white">Operational Focus</h3>
+          <p class="text-xs text-hospital-muted dark:text-slate-300 leading-relaxed">
+            Focused specifically on hospital logistics, capacity management, ER queue optimization, and administrative workflow efficiency.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact-cta" class="py-24 bg-gradient-to-br from-hospital-navyDark via-hospital-navyCard to-hospital-navyDark text-white text-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <span class="px-4 py-1.5 rounded-full bg-hospital-emerald/20 border border-hospital-emerald/40 text-hospital-emerald text-xs font-mono font-bold uppercase tracking-widest">TRANSFORM HEALTHCARE OPERATIONS</span>
+      <h2 class="text-4xl sm:text-5xl font-black font-display">Schedule a TRAIT AI Hospital Demo</h2>
+      <p class="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed">
+        Discover how TRAIT AI Hospital can optimize your medical facility's patient flow, ER queue times, and capacity planning.
+      </p>
+      <div class="pt-4 flex flex-wrap justify-center gap-4">
+        <button onclick="openHospitalModal()" class="px-8 py-4 rounded-full bg-gradient-to-r from-hospital-emerald via-hospital-teal to-hospital-cyan text-slate-950 font-black text-xs uppercase tracking-wider hover:scale-105 transition-all shadow-xl shadow-hospital-emerald/30">
+          SCHEDULE CLINICAL DEMO 
+        </button>
+        <a href="/" class="px-8 py-4 rounded-full border border-slate-700 bg-slate-950 font-bold text-xs uppercase tracking-wider text-slate-200 hover:border-hospital-emerald transition-all">
+          EXPLORE ALL TRAIT SERVICES
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 border-t border-hospital-emerald/10 dark:border-hospital-borderDark bg-hospital-cream dark:bg-hospital-navyDark text-xs text-hospital-muted dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <span class="font-display font-black text-hospital-charcoal dark:text-white uppercase">TRAIT INNOVATION</span>
+        <span>•</span>
+        <span>TRAIT AI Hospital</span>
+      </div>
+      <div>© 2026 TRAIT Innovation. All rights reserved. Built to Think. Designed to Transform.</div>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div id="hospital-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-hospital-cream dark:bg-hospital-navyCard border border-hospital-emerald/30 rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl relative">
+      <button onclick="closeHospitalModal()" class="absolute top-4 right-4 text-hospital-muted hover:text-hospital-emerald font-bold text-lg"></button>
+      <h3 class="text-2xl font-bold font-display text-hospital-charcoal dark:text-white mb-2">Request Healthcare AI Demo</h3>
+      <p class="text-xs text-hospital-muted dark:text-slate-300 mb-6">Leave your details and a TRAIT healthcare operations specialist will reach out to arrange a demo.</p>
+      
+      <form onsubmit="handleHospitalForm(event)" class="space-y-4">
+        <div>
+          <label class="block text-[10px] font-mono font-bold uppercase mb-1 text-hospital-charcoal dark:text-slate-300">Your Name</label>
+          <input type="text" id="hosp-name" required class="w-full px-4 py-2.5 rounded-xl border border-hospital-emerald/20 bg-white dark:bg-hospital-navyDark text-xs text-hospital-charcoal dark:text-white focus:outline-none focus:border-hospital-emerald" placeholder="Dr. Sarah Jenkins" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono font-bold uppercase mb-1 text-hospital-charcoal dark:text-slate-300">Work Email</label>
+          <input type="email" id="hosp-email" required class="w-full px-4 py-2.5 rounded-xl border border-hospital-emerald/20 bg-white dark:bg-hospital-navyDark text-xs text-hospital-charcoal dark:text-white focus:outline-none focus:border-hospital-emerald" placeholder="s.jenkins@healthsystem.org" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono font-bold uppercase mb-1 text-hospital-charcoal dark:text-slate-300">Hospital / Healthcare Organization</label>
+          <input type="text" id="hosp-org" class="w-full px-4 py-2.5 rounded-xl border border-hospital-emerald/20 bg-white dark:bg-hospital-navyDark text-xs text-hospital-charcoal dark:text-white focus:outline-none focus:border-hospital-emerald" placeholder="Saint Mary Medical Center" />
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-hospital-emerald via-hospital-teal to-hospital-cyan text-slate-950 font-black text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all">SUBMIT REQUEST </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/hospital.js') }}"></script>
+</body>
+</html>

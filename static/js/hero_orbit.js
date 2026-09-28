@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!orbitContainer) return;
 
   const cardsData = [
-    { id: 'ai', title: 'AI & Automation', subtitle: 'Intelligent Systems', image: '/static/assets/ai_automation.jpg', tag: 'AI & Automation', baseAngle: 0 },
-    { id: 'aviation', title: 'Smarter Skies', subtitle: 'Flight Data Analytics', image: '/static/assets/aviation.jpg', tag: 'Aviation', baseAngle: (Math.PI * 2) / 5 },
-    { id: 'software', title: 'Web & Software', subtitle: 'Digital Platform Growth', image: '/static/assets/software_solutions.jpg', tag: 'Software', baseAngle: (Math.PI * 4) / 5 },
-    { id: 'consulting', title: 'Strategic Guidance', subtitle: 'Enterprise Advisory', image: '/static/assets/consulting.jpg', tag: 'Consulting', baseAngle: (Math.PI * 6) / 5 },
-    { id: 'events', title: 'Event Management', subtitle: 'End-to-End Production', image: '/static/assets/event_management.jpg', tag: 'Events', baseAngle: (Math.PI * 8) / 5 },
+    { id: 'advocatepro', title: 'TRAIT AdvocatePro AI', subtitle: 'Legal Intelligence', image: '/static/assets/software_solutions.jpg', tag: 'Legal Tech', baseAngle: 0, link: '/advocatepro-ai' },
+    { id: 'aviation', title: 'TRAIT AI Aviation', subtitle: 'Sky & Airport Telemetry', image: '/static/assets/aviation.jpg', tag: 'Aviation AI', baseAngle: (Math.PI * 2) / 5, link: '/trait-ai-aviation' },
+    { id: 'fashion', title: 'TRAIT AI Fashion Analytics', subtitle: 'Trend & Demand Insights', image: '/static/assets/consulting.jpg', tag: 'Fashion Tech', baseAngle: (Math.PI * 4) / 5, link: '/trait-ai-fashion-analytics' },
+    { id: 'hospital', title: 'TRAIT AI Hospital', subtitle: 'Healthcare Intelligence', image: '/static/assets/ai_automation.jpg', tag: 'Healthcare AI', baseAngle: (Math.PI * 6) / 5, link: '/trait-ai-hospital' },
+    { id: 'events', title: 'TRAIT Event Management', subtitle: 'Moments & Logistics', image: '/static/assets/event_management.jpg', tag: 'Events', baseAngle: (Math.PI * 8) / 5, link: '/trait-event-management' },
   ];
 
   let angle = 0;
@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cardEl = document.createElement('div');
       cardEl.id = `orbit-card-${index}`;
       cardEl.className = 'absolute p-2 rounded-xl sm:rounded-2xl glass-panel border border-white/90 dark:border-cyan-500/30 shadow-xl shadow-brand-500/20 w-[125px] sm:w-[155px] md:w-[170px] pointer-events-auto hover:scale-105 transition-transform duration-300 cursor-pointer group -translate-x-1/2 -translate-y-1/2 z-30 will-change-transform';
+      cardEl.onclick = () => { window.location.href = card.link; };
       cardEl.innerHTML = `
         <div class="w-full h-14 sm:h-18 rounded-lg sm:rounded-xl overflow-hidden mb-1.5 relative">
           <img src="${card.image}" alt="${card.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />

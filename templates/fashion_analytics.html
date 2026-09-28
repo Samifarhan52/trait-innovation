@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRAIT AI Fashion Analytics — Intelligence Meets Couture | Trait Innovation</title>
+  <meta name="description" content="AI-driven fashion analytics, trend forecasting, demand intelligence, customer behavior modeling, and inventory optimization for the apparel and retail industry." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            fashion: {
+              cream: '#FAF6F0',
+              rose: '#E11D48',
+              fuchsia: '#C026D3',
+              violet: '#7C3AED',
+              purple: '#9333EA',
+              gold: '#D97706',
+              darkVelvet: '#0F0913',
+              darkCard: '#190E22',
+              charcoal: '#1C1917',
+              muted: '#78716C',
+              lightborder: '#E7E5E4',
+              darkborder: '#3B1D52'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            display: ['Syne', 'Playfair Display', 'serif'],
+            handwriting: ['Caveat', 'Dancing Script', 'cursive'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      scroll-behavior: smooth;
+    }
+    .font-display { font-family: 'Syne', sans-serif; }
+    .font-handwriting { font-family: 'Caveat', cursive; }
+    
+    .gradient-fashion-text {
+      background: linear-gradient(135deg, #E11D48 0%, #C026D3 50%, #7C3AED 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass-fashion-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(225, 29, 72, 0.15);
+      box-shadow: 0 20px 40px -15px rgba(192, 38, 211, 0.08);
+    }
+    .dark .glass-fashion-card {
+      background: rgba(25, 14, 34, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(192, 38, 211, 0.25);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+  </style>
+</head>
+<body class="bg-fashion-cream text-fashion-charcoal dark:bg-fashion-darkVelvet dark:text-fashion-cream transition-colors duration-300">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-fashion-rose/20 bg-fashion-cream/90 dark:bg-fashion-darkVelvet/90 backdrop-blur-xl" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="/trait-ai-fashion-analytics" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-fashion-rose via-fashion-fuchsia to-fashion-violet p-0.5 shadow-md shadow-fashion-fuchsia/20 group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-fashion-cream dark:bg-fashion-darkVelvet rounded-[10px] flex items-center justify-center">
+            <svg class="w-5 h-5 text-fashion-rose dark:text-fashion-fuchsia" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-display font-bold text-lg text-fashion-charcoal dark:text-white">TRAIT AI Fashion Analytics</span>
+          </div>
+          <span class="text-[10px] font-mono font-semibold tracking-wider text-fashion-fuchsia block -mt-1 uppercase">BY TRAIT INNOVATION</span>
+        </div>
+      </a>
+
+      <!-- Center Nav Links -->
+      <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-fashion-charcoal dark:text-slate-200">
+        <a href="#overview" class="hover:text-fashion-fuchsia transition-colors">Overview</a>
+        <a href="#capabilities" class="hover:text-fashion-fuchsia transition-colors">Capabilities</a>
+        <a href="#dashboard" class="hover:text-fashion-fuchsia transition-colors">Trend Intelligence</a>
+        <a href="#use-cases" class="hover:text-fashion-fuchsia transition-colors">Use Cases</a>
+        <a href="#value" class="hover:text-fashion-fuchsia transition-colors">Business Impact</a>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <a href="/" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-fashion-charcoal dark:text-slate-300 hover:text-fashion-fuchsia transition-colors px-3.5 py-2 rounded-full border border-fashion-rose/20 bg-white/80 dark:bg-fashion-darkCard/80">
+          <svg class="w-3.5 h-3.5 text-fashion-rose" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+          Main Website
+        </a>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle-btn" class="p-2 rounded-full border border-fashion-rose/20 text-fashion-charcoal dark:text-slate-300 hover:text-fashion-fuchsia transition-colors" title="Toggle Theme">
+          <span class="dark:hidden"></span>
+          <span class="hidden dark:inline">️</span>
+        </button>
+
+        <button onclick="openFashionModal()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-fashion-rose via-fashion-fuchsia to-fashion-violet text-white font-bold text-xs shadow-md shadow-fashion-fuchsia/30 hover:shadow-lg transition-all flex items-center gap-1.5 uppercase tracking-wider">
+          <span>Request Demo</span> 
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="overview" class="relative pt-32 pb-20 min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <!-- Ambient Fashion Background Grid -->
+    <div class="absolute inset-0 pointer-events-none opacity-40">
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-fashion-rose/20 dark:bg-fashion-fuchsia/20 rounded-full blur-[140px]"></div>
+      <div class="absolute top-1/2 -right-32 w-96 h-96 bg-fashion-violet/20 rounded-full blur-[140px]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Content -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-fashion-rose/10 border border-fashion-rose/30 text-[10px] sm:text-xs font-mono text-fashion-rose dark:text-fashion-fuchsia font-bold uppercase tracking-widest">
+          <span class="w-2 h-2 rounded-full bg-fashion-rose animate-ping"></span>
+          FASHION × ARTIFICIAL INTELLIGENCE × DATA
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-black font-display tracking-tight leading-[1.08] text-fashion-charcoal dark:text-white">
+          Where <span class="gradient-fashion-text">Haute Couture</span> Meets <br />
+          Predictive Analytics.
+        </h1>
+
+        <p class="text-base text-fashion-muted dark:text-slate-300 max-w-2xl font-normal leading-relaxed">
+          TRAIT AI Fashion Analytics transforms raw consumer signals, visual trend telemetry, and market demand data into precise design, merchandising, and inventory intelligence for fashion leaders.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4 pt-4">
+          <button onclick="openFashionModal()" class="px-7 py-3.5 rounded-full bg-gradient-to-r from-fashion-rose via-fashion-fuchsia to-fashion-violet text-white font-bold text-xs sm:text-sm shadow-xl shadow-fashion-fuchsia/25 hover:scale-105 transition-all uppercase tracking-wide">
+            EXPLORE PLATFORM 
+          </button>
+          <a href="#dashboard" class="px-7 py-3.5 rounded-full border border-fashion-rose/30 bg-white/70 dark:bg-fashion-darkCard/70 backdrop-blur-md font-bold text-xs sm:text-sm text-fashion-charcoal dark:text-white hover:border-fashion-fuchsia transition-all uppercase tracking-wide">
+            VIEW DASHBOARD DEMO
+          </a>
+        </div>
+
+        <!-- Metric Badges -->
+        <div class="pt-8 grid grid-cols-3 gap-6 border-t border-fashion-rose/10 dark:border-fashion-darkborder">
+          <div>
+            <div class="text-2xl font-black font-display text-fashion-rose dark:text-fashion-fuchsia">94.8%</div>
+            <div class="text-[10px] font-mono text-fashion-muted dark:text-slate-400 uppercase tracking-wider">Trend Forecast Precision</div>
+          </div>
+          <div>
+            <div class="text-2xl font-black font-display text-fashion-charcoal dark:text-white">-38%</div>
+            <div class="text-[10px] font-mono text-fashion-muted dark:text-slate-400 uppercase tracking-wider">Overstock & Markdown Waste</div>
+          </div>
+          <div>
+            <div class="text-2xl font-black font-display text-fashion-violet dark:text-purple-400">3.4×</div>
+            <div class="text-[10px] font-mono text-fashion-muted dark:text-slate-400 uppercase tracking-wider">Faster Runway to Shelf</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Interactive Mockup Container -->
+      <div class="lg:col-span-5 relative">
+        <div class="glass-fashion-card rounded-3xl p-6 relative overflow-hidden group shadow-2xl border border-fashion-rose/20">
+          
+          <div class="flex items-center justify-between pb-4 border-b border-fashion-rose/10 dark:border-fashion-darkborder">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-fashion-rose"></span>
+              <span class="w-3 h-3 rounded-full bg-fashion-fuchsia"></span>
+              <span class="w-3 h-3 rounded-full bg-fashion-violet"></span>
+            </div>
+            <span class="text-[10px] font-mono text-fashion-fuchsia font-bold uppercase tracking-widest">LIVE TREND TELEMETRY</span>
+          </div>
+
+          <!-- Fashion Analytics Preview Mockup -->
+          <div class="mt-4 space-y-4">
+            <div class="p-4 rounded-2xl bg-fashion-rose/5 dark:bg-fashion-darkVelvet/60 border border-fashion-rose/15 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-fashion-rose/20 flex items-center justify-center text-fashion-rose font-bold shrink-0">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+                </div>
+                <div>
+                  <div class="text-xs font-bold font-display text-fashion-charcoal dark:text-white">Structured Silhouettes</div>
+                  <div class="text-[10px] text-fashion-muted dark:text-slate-400 font-mono">Autumn / Winter Surge +44%</div>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-fashion-rose/20 text-fashion-rose text-[10px] font-mono font-bold">HIGH DEMAND</span>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-fashion-fuchsia/5 dark:bg-fashion-darkVelvet/60 border border-fashion-fuchsia/15 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-fashion-fuchsia/20 flex items-center justify-center text-fashion-fuchsia font-bold shrink-0">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+                </div>
+                <div>
+                  <div class="text-xs font-bold font-display text-fashion-charcoal dark:text-white">Velvet Rose Palette</div>
+                  <div class="text-[10px] text-fashion-muted dark:text-slate-400 font-mono">Color Velocity 98.2%</div>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-fashion-fuchsia/20 text-fashion-fuchsia text-[10px] font-mono font-bold">TRENDING</span>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-fashion-violet/5 dark:bg-fashion-darkVelvet/60 border border-fashion-violet/15 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-fashion-violet/20 flex items-center justify-center text-fashion-violet font-bold shrink-0">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </div>
+                <div>
+                  <div class="text-xs font-bold font-display text-fashion-charcoal dark:text-white">Sustainable Silk Alternatives</div>
+                  <div class="text-[10px] text-fashion-muted dark:text-slate-400 font-mono">Consumer Intent Rising</div>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-fashion-violet/20 text-fashion-violet text-[10px] font-mono font-bold">EMERGING</span>
+            </div>
+          </div>
+
+          <!-- Bottom Status Bar -->
+          <div class="mt-4 pt-3 border-t border-fashion-rose/10 dark:border-fashion-darkborder flex items-center justify-between text-[10px] font-mono text-fashion-muted">
+            <span>CONSUMER SIGNALS: 1.4M / DAY</span>
+            <span class="text-fashion-fuchsia font-bold">REAL-TIME SYNC ON</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CAPABILITIES SECTION -->
+  <section id="capabilities" class="py-24 bg-white/50 dark:bg-fashion-darkCard/50 border-y border-fashion-rose/10 dark:border-fashion-darkborder">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <span class="text-xs font-mono text-fashion-rose dark:text-fashion-fuchsia font-bold uppercase tracking-widest">INTELLIGENCE SUITE</span>
+        <h2 class="text-3xl sm:text-4xl font-black font-display text-fashion-charcoal dark:text-white">Comprehensive Fashion AI Capabilities</h2>
+        <p class="text-fashion-muted dark:text-slate-300 text-sm">Empowering fashion designers, buyers, merchandisers, and e-commerce leaders with predictive data science.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Cap 1 -->
+        <div class="p-8 rounded-3xl glass-fashion-card hover:border-fashion-fuchsia transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-fashion-rose/10 text-fashion-rose flex items-center justify-center border border-fashion-rose/20 mb-6 group-hover:scale-110 transition-transform">
+            
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-fashion-charcoal dark:text-white group-hover:text-fashion-rose transition-colors">Fashion Trend Analytics</h3>
+          <p class="text-fashion-muted dark:text-slate-300 text-xs leading-relaxed">
+            Monitors runway shows, social media visual posts, street style imagery, and global search sentiment to forecast upcoming seasonal trends 6-9 months ahead.
+          </p>
+        </div>
+
+        <!-- Cap 2 -->
+        <div class="p-8 rounded-3xl glass-fashion-card hover:border-fashion-fuchsia transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-fashion-fuchsia/10 text-fashion-fuchsia flex items-center justify-center border border-fashion-fuchsia/20 mb-6 group-hover:scale-110 transition-transform">
+            
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-fashion-charcoal dark:text-white group-hover:text-fashion-fuchsia transition-colors">Customer Behavior Analytics</h3>
+          <p class="text-fashion-muted dark:text-slate-300 text-xs leading-relaxed">
+            Analyzes shopping journeys, cross-category affinity, size fitting patterns, and return behaviors to personalize product discovery and boost customer lifetime value.
+          </p>
+        </div>
+
+        <!-- Cap 3 -->
+        <div class="p-8 rounded-3xl glass-fashion-card hover:border-fashion-fuchsia transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-fashion-violet/10 text-fashion-violet flex items-center justify-center border border-fashion-violet/20 mb-6 group-hover:scale-110 transition-transform">
+            
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-fashion-charcoal dark:text-white group-hover:text-fashion-violet transition-colors">Demand & Inventory Intelligence</h3>
+          <p class="text-fashion-muted dark:text-slate-300 text-xs leading-relaxed">
+            Predicts regional SKU demand with high precision, eliminating deadstock, minimizing clearance markdowns, and optimizing warehouse distribution.
+          </p>
+        </div>
+
+        <!-- Cap 4 -->
+        <div class="p-8 rounded-3xl glass-fashion-card hover:border-fashion-fuchsia transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-fashion-rose/10 text-fashion-rose flex items-center justify-center border border-fashion-rose/20 mb-6 group-hover:scale-110 transition-transform">
+            ️
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-fashion-charcoal dark:text-white group-hover:text-fashion-rose transition-colors">Product Performance Analytics</h3>
+          <p class="text-fashion-muted dark:text-slate-300 text-xs leading-relaxed">
+            Tracks sell-through velocity, color-way performance, price elasticity, and competitive benchmarking across digital channels and physical retail stores.
+          </p>
+        </div>
+
+        <!-- Cap 5 -->
+        <div class="p-8 rounded-3xl glass-fashion-card hover:border-fashion-fuchsia transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-fashion-fuchsia/10 text-fashion-fuchsia flex items-center justify-center border border-fashion-fuchsia/20 mb-6 group-hover:scale-110 transition-transform">
+            
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-fashion-charcoal dark:text-white group-hover:text-fashion-fuchsia transition-colors">AI Style Recommendation Engine</h3>
+          <p class="text-fashion-muted dark:text-slate-300 text-xs leading-relaxed">
+            Provides hyper-personalized outfit recommendations, complete look suggestions, and AI virtual stylist features for e-commerce storefronts.
+          </p>
+        </div>
+
+        <!-- Cap 6 -->
+        <div class="p-8 rounded-3xl glass-fashion-card hover:border-fashion-fuchsia transition-all group">
+          <div class="w-12 h-12 rounded-2xl bg-fashion-violet/10 text-fashion-violet flex items-center justify-center border border-fashion-violet/20 mb-6 group-hover:scale-110 transition-transform">
+            
+          </div>
+          <h3 class="text-xl font-bold font-display mb-2 text-fashion-charcoal dark:text-white group-hover:text-fashion-violet transition-colors">AI Decision Support for Buyers</h3>
+          <p class="text-fashion-muted dark:text-slate-300 text-xs leading-relaxed">
+            Generates automated buying recommendations, fabric ordering forecasts, and price optimization guidance for fashion executives and category leads.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INTERACTIVE DASHBOARD SIMULATOR DEMO -->
+  <section id="dashboard" class="py-24 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <span class="text-xs font-mono text-fashion-rose dark:text-fashion-fuchsia font-bold uppercase tracking-widest">INTERACTIVE EXPERIENCE</span>
+        <h2 class="text-3xl sm:text-4xl font-black font-display text-fashion-charcoal dark:text-white">Fashion Intelligence Dashboard</h2>
+        <p class="text-fashion-muted dark:text-slate-300 text-sm">Select a category below to explore real-time AI fashion trend telemetry and forecasting simulations.</p>
+      </div>
+
+      <!-- Dashboard Panel -->
+      <div class="glass-fashion-card rounded-3xl p-6 sm:p-10 border border-fashion-rose/20 shadow-2xl">
+        
+        <!-- Controls -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-8 border-b border-fashion-rose/10 dark:border-fashion-darkborder">
+          <div class="flex flex-wrap gap-2" id="fashion-dash-tabs">
+            <button onclick="switchFashionTab('apparel')" class="fashion-tab-btn active px-4 py-2 rounded-full text-xs font-bold bg-fashion-rose text-white transition-all">Apparel Trends</button>
+            <button onclick="switchFashionTab('footwear')" class="fashion-tab-btn px-4 py-2 rounded-full text-xs font-bold bg-fashion-rose/10 dark:bg-fashion-darkCard text-fashion-charcoal dark:text-slate-300 hover:bg-fashion-rose/20 transition-all">Footwear & Accessories</button>
+            <button onclick="switchFashionTab('color')" class="fashion-tab-btn px-4 py-2 rounded-full text-xs font-bold bg-fashion-rose/10 dark:bg-fashion-darkCard text-fashion-charcoal dark:text-slate-300 hover:bg-fashion-rose/20 transition-all">Color Velocity</button>
+            <button onclick="switchFashionTab('demand')" class="fashion-tab-btn px-4 py-2 rounded-full text-xs font-bold bg-fashion-rose/10 dark:bg-fashion-darkCard text-fashion-charcoal dark:text-slate-300 hover:bg-fashion-rose/20 transition-all">Demand Forecast</button>
+          </div>
+          <span class="text-[11px] font-mono text-fashion-fuchsia font-bold uppercase">TRAIT ENGINE VERSION 4.2</span>
+        </div>
+
+        <!-- Dynamic Content Display Area -->
+        <div id="fashion-tab-content" class="pt-8">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="p-6 rounded-2xl bg-fashion-rose/5 dark:bg-fashion-darkVelvet border border-fashion-rose/15 space-y-3">
+              <div class="text-xs font-mono text-fashion-rose font-bold uppercase">TOP TRENDING CATEGORY</div>
+              <div class="text-xl font-bold font-display text-fashion-charcoal dark:text-white">Oversized Outerwear</div>
+              <p class="text-xs text-fashion-muted dark:text-slate-300 leading-relaxed">Search volume increased by 68% over the last 14 days across major retail markets.</p>
+              <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="bg-fashion-rose h-full w-[88%]"></div>
+              </div>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-fashion-fuchsia/5 dark:bg-fashion-darkVelvet border border-fashion-fuchsia/15 space-y-3">
+              <div class="text-xs font-mono text-fashion-fuchsia font-bold uppercase">COLOR SENTIMENT</div>
+              <div class="text-xl font-bold font-display text-fashion-charcoal dark:text-white">Burgundy & Deep Amethyst</div>
+              <p class="text-xs text-fashion-muted dark:text-slate-300 leading-relaxed">High affinity score among Gen-Z and luxury shoppers for upcoming fall collections.</p>
+              <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="bg-fashion-fuchsia h-full w-[94%]"></div>
+              </div>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-fashion-violet/5 dark:bg-fashion-darkVelvet border border-fashion-violet/15 space-y-3">
+              <div class="text-xs font-mono text-fashion-violet font-bold uppercase">STOCK RECOMMENDATION</div>
+              <div class="text-xl font-bold font-display text-fashion-charcoal dark:text-white">Increase Tailored Blazer Inventory</div>
+              <p class="text-xs text-fashion-muted dark:text-slate-300 leading-relaxed">AI predicts zero-stock risk within 3 weeks if current purchase velocity continues.</p>
+              <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+                <div class="bg-fashion-violet h-full w-[76%]"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- USE CASES SECTION -->
+  <section id="use-cases" class="py-24 bg-white/50 dark:bg-fashion-darkCard/50 border-t border-fashion-rose/10 dark:border-fashion-darkborder">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <span class="text-xs font-mono text-fashion-rose dark:text-fashion-fuchsia font-bold uppercase tracking-widest">INDUSTRY APPLICATIONS</span>
+        <h2 class="text-3xl sm:text-4xl font-black font-display text-fashion-charcoal dark:text-white">Tailored for Every Fashion Sector</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <div class="p-8 rounded-3xl glass-fashion-card space-y-4 border border-fashion-rose/20">
+          <div class="inline-block px-3 py-1 rounded-full bg-fashion-rose/10 text-fashion-rose text-xs font-mono font-bold">RETAIL BRANDS & E-COMMERCE</div>
+          <h3 class="text-2xl font-bold font-display text-fashion-charcoal dark:text-white">Smart Merchandising & Sizing AI</h3>
+          <p class="text-xs text-fashion-muted dark:text-slate-300 leading-relaxed">
+            Optimizes online catalog sorting, size recommendation popups, and automated cross-sell styling suggestions to minimize return rates and maximize cart conversion.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-fashion-card space-y-4 border border-fashion-fuchsia/20">
+          <div class="inline-block px-3 py-1 rounded-full bg-fashion-fuchsia/10 text-fashion-fuchsia text-xs font-mono font-bold">LUXURY HOUSES & APPAREL DESIGNERS</div>
+          <h3 class="text-2xl font-bold font-display text-fashion-charcoal dark:text-white">Runway & Moodboard Trend Intelligence</h3>
+          <p class="text-xs text-fashion-muted dark:text-slate-300 leading-relaxed">
+            Provides creative directors and design teams with computer-vision extracted silhouette trends, fabric textures, and color gradient intelligence before line sheets are finalized.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-fashion-card space-y-4 border border-fashion-violet/20">
+          <div class="inline-block px-3 py-1 rounded-full bg-fashion-violet/10 text-fashion-violet text-xs font-mono font-bold">FAST FASHION MANUFACTURERS</div>
+          <h3 class="text-2xl font-bold font-display text-fashion-charcoal dark:text-white">Agile Demand-Driven Production</h3>
+          <p class="text-xs text-fashion-muted dark:text-slate-300 leading-relaxed">
+            Connects raw materials procurement directly to real-time sales velocity, reducing fabric wastage and streamlining factory batch sizes.
+          </p>
+        </div>
+
+        <div class="p-8 rounded-3xl glass-fashion-card space-y-4 border border-fashion-rose/20">
+          <div class="inline-block px-3 py-1 rounded-full bg-fashion-rose/10 text-fashion-rose text-xs font-mono font-bold">FOOTWEAR & ACCESSORIES</div>
+          <h3 class="text-2xl font-bold font-display text-fashion-charcoal dark:text-white">Variant Velocity & Price Elasticity</h3>
+          <p class="text-xs text-fashion-muted dark:text-slate-300 leading-relaxed">
+            Evaluates individual hardware details, strap designs, and heel variations to identify winning product attributes and optimize pricing strategies.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section id="contact-cta" class="py-24 relative overflow-hidden bg-gradient-to-tr from-fashion-darkVelvet via-fashion-darkCard to-fashion-darkVelvet text-white">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 relative z-10">
+      <span class="px-4 py-1.5 rounded-full bg-fashion-fuchsia/20 border border-fashion-fuchsia/40 text-fashion-fuchsia text-xs font-mono font-bold uppercase tracking-widest">PREDICTIVE RETAIL INTELLIGENCE</span>
+      <h2 class="text-4xl sm:text-5xl font-black font-display tracking-tight">Transform Your Fashion Operations with AI</h2>
+      <p class="text-slate-300 text-sm max-w-2xl mx-auto leading-relaxed">
+        Ready to optimize your fashion trend forecasting, inventory planning, and customer personalization? Speak with the TRAIT Innovation team today.
+      </p>
+      <div class="pt-4 flex flex-wrap justify-center gap-4">
+        <button onclick="openFashionModal()" class="px-8 py-4 rounded-full bg-gradient-to-r from-fashion-rose via-fashion-fuchsia to-fashion-violet text-white font-bold text-xs uppercase tracking-wider hover:scale-105 transition-all shadow-xl shadow-fashion-fuchsia/40">
+          SCHEDULE A DEMO 
+        </button>
+        <a href="/" class="px-8 py-4 rounded-full border border-slate-700 bg-slate-900/80 font-bold text-xs uppercase tracking-wider text-slate-200 hover:border-fashion-fuchsia transition-all">
+          EXPLORE ALL TRAIT SERVICES
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 border-t border-fashion-rose/10 dark:border-fashion-darkborder bg-fashion-cream dark:bg-fashion-darkVelvet text-xs text-fashion-muted dark:text-slate-400">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <span class="font-display font-black text-slate-900 dark:text-white uppercase">TRAIT INNOVATION</span>
+        <span>•</span>
+        <span>TRAIT AI Fashion Analytics</span>
+      </div>
+      <div>© 2026 TRAIT Innovation. All rights reserved. Built to Think. Designed to Transform.</div>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div id="fashion-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-fashion-cream dark:bg-fashion-darkCard border border-fashion-rose/30 rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl relative">
+      <button onclick="closeFashionModal()" class="absolute top-4 right-4 text-fashion-muted hover:text-fashion-rose font-bold text-lg"></button>
+      <h3 class="text-2xl font-bold font-display text-fashion-charcoal dark:text-white mb-2">Request AI Fashion Demo</h3>
+      <p class="text-xs text-fashion-muted dark:text-slate-300 mb-6">Leave your details and our AI Fashion Analytics specialist will reach out to set up a customized demo.</p>
+      
+      <form onsubmit="handleFashionForm(event)" class="space-y-4">
+        <div>
+          <label class="block text-[10px] font-mono font-bold uppercase mb-1 text-fashion-charcoal dark:text-slate-300">Your Name</label>
+          <input type="text" id="fashion-name" required class="w-full px-4 py-2.5 rounded-xl border border-fashion-rose/20 bg-white dark:bg-fashion-darkVelvet text-xs text-fashion-charcoal dark:text-white focus:outline-none focus:border-fashion-fuchsia" placeholder="Alex Morgan" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono font-bold uppercase mb-1 text-fashion-charcoal dark:text-slate-300">Corporate Email</label>
+          <input type="email" id="fashion-email" required class="w-full px-4 py-2.5 rounded-xl border border-fashion-rose/20 bg-white dark:bg-fashion-darkVelvet text-xs text-fashion-charcoal dark:text-white focus:outline-none focus:border-fashion-fuchsia" placeholder="alex@fashionbrand.com" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-mono font-bold uppercase mb-1 text-fashion-charcoal dark:text-slate-300">Company / Brand Name</label>
+          <input type="text" id="fashion-company" class="w-full px-4 py-2.5 rounded-xl border border-fashion-rose/20 bg-white dark:bg-fashion-darkVelvet text-xs text-fashion-charcoal dark:text-white focus:outline-none focus:border-fashion-fuchsia" placeholder="Couture Paris Inc." />
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-fashion-rose via-fashion-fuchsia to-fashion-violet text-white font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all">SUBMIT REQUEST </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/fashion_analytics.js') }}"></script>
+</body>
+</html>
