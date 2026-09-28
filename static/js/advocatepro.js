@@ -1,375 +1,238 @@
 /**
- * ADVOCATEPRO AI — Flagship Motion, Typewriter Rotator & Interactive Engine
- * Features: Three.js 3D WebGL ambient dust particles, Typewriter words rotator,
- * Multi-layer mouse parallax, GSAP ScrollTrigger reveals, and Form submission handlers.
+ * TRAIT AdvocatePro AI — Legal Intelligence Interactive Engine
+ * Handles: Minimized Sticky Left Service Navbar, Global Theme Toggle, Interactive Case File Highlights,
+ * Active Section Scroll Observer, GSAP Scroll Reveals, and Touch Controls.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   'use strict';
 
   // -------------------------------------------------------------------
-  // 1. TYPEWRITER / CHANGING WORDS ROTATOR IN HERO
+  // 1. FLOATING MINIMIZED STICKY LEFT SERVICE NAVBAR CONTROLLER
   // -------------------------------------------------------------------
-  const changingWordEl = document.getElementById('changing-word-text');
-  if (changingWordEl) {
-    const words = [
-      'Automating Legal Research',
-      'Accelerating Document Drafting',
-      'Extracting Contract Insights',
-      'Organizing Case Chronologies',
-      'Streamlining Legal Workflows'
-    ];
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let typeSpeed = 80;
+  const serviceNav = document.getElementById('advocate-service-nav');
+  const navContainer = document.getElementById('advocate-nav-container');
+  const navTrigger = document.getElementById('advocate-nav-trigger');
+  const navToggleIcon = document.getElementById('advocate-nav-toggle-icon');
+  const navCollapseBtn = document.getElementById('advocate-nav-collapse-btn');
+  const navLinks = document.querySelectorAll('.advocate-nav-link');
+  const sidebarTextElements = document.querySelectorAll('.sidebar-text-content');
 
-    function typeLoop() {
-      const currentWord = words[wordIndex];
+  let isNavExpanded = false;
 
-      if (isDeleting) {
-        changingWordEl.innerText = currentWord.substring(0, charIndex - 1);
-        charIndex--;
-        typeSpeed = 40;
+  function expandNav() {
+    if (isNavExpanded) return;
+    isNavExpanded = true;
+    
+    if (navContainer) {
+      navContainer.classList.remove('w-14', 'sm:w-16');
+      navContainer.classList.add('w-64', 'sm:w-72');
+    }
+    
+    sidebarTextElements.forEach(el => {
+      el.classList.remove('hidden');
+      el.classList.add('flex');
+    });
+
+    if (navToggleIcon) {
+      navToggleIcon.style.transform = 'rotate(180deg)';
+    }
+  }
+
+  function collapseNav() {
+    if (!isNavExpanded) return;
+    isNavExpanded = false;
+    
+    if (navContainer) {
+      navContainer.classList.remove('w-64', 'sm:w-72');
+      navContainer.classList.add('w-14', 'sm:w-16');
+    }
+
+    sidebarTextElements.forEach(el => {
+      el.classList.remove('flex');
+      el.classList.add('hidden');
+    });
+
+    if (navToggleIcon) {
+      navToggleIcon.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  if (navTrigger) {
+    navTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (isNavExpanded) {
+        collapseNav();
       } else {
-        changingWordEl.innerText = currentWord.substring(0, charIndex + 1);
-        charIndex++;
-        typeSpeed = 80;
+        expandNav();
       }
+    });
+  }
 
-      if (!isDeleting && charIndex === currentWord.length) {
-        isDeleting = true;
-        typeSpeed = 2200; // Pause at end of word
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
-        typeSpeed = 400; // Pause before typing next word
-      }
+  // Hover expand on Desktop (lg and up)
+  if (serviceNav && window.innerWidth >= 1024) {
+    serviceNav.addEventListener('mouseenter', expandNav);
+    serviceNav.addEventListener('mouseleave', collapseNav);
+  }
 
-      setTimeout(typeLoop, typeSpeed);
+  if (navCollapseBtn) {
+    navCollapseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      collapseNav();
+    });
+  }
+
+  // Close when clicking any nav anchor link
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      collapseNav();
+    });
+  });
+
+  // Tap/Click outside to collapse
+  document.addEventListener('click', (e) => {
+    if (serviceNav && !serviceNav.contains(e.target)) {
+      collapseNav();
     }
+  });
 
-    typeLoop();
+
+  // -------------------------------------------------------------------
+  // 2. ACTIVE SECTION INTERSECTION OBSERVER (SCROLL HIGHLIGHTING)
+  // -------------------------------------------------------------------
+  const sections = document.querySelectorAll('section[id]');
+  
+  if ('IntersectionObserver' in window && sections.length > 0) {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const currentId = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            const sectionTarget = link.getAttribute('data-section') || link.getAttribute('href').replace('#', '');
+            const activePill = link.querySelector('.nav-active-pill');
+            const iconBox = link.querySelector('.w-8');
+            
+            if (sectionTarget === currentId) {
+              link.classList.add('bg-white/15', 'text-advocate-brass');
+              if (activePill) activePill.classList.remove('opacity-0');
+              if (iconBox) {
+                iconBox.classList.add('bg-advocate-burgundy', 'text-white', 'border-transparent');
+                iconBox.classList.remove('bg-white/5', 'text-advocate-brass', 'border-white/10');
+              }
+            } else {
+              link.classList.remove('bg-white/15', 'text-advocate-brass');
+              if (activePill) activePill.classList.add('opacity-0');
+              if (iconBox) {
+                iconBox.classList.remove('bg-advocate-burgundy', 'text-white', 'border-transparent');
+                iconBox.classList.add('bg-white/5', 'text-advocate-brass', 'border-white/10');
+              }
+            }
+          });
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
   }
 
 
   // -------------------------------------------------------------------
-  // 2. THREE.JS 3D AMBIENT SILK LIGHT & ROUND GLOWING ORBS (NO SQUARES)
+  // 3. GLOBAL THEME TOGGLE CONTROLLER (LIGHT / DARK MODE)
   // -------------------------------------------------------------------
-  const container = document.getElementById('advocatepro-canvas-container');
-  if (container && typeof THREE !== 'undefined') {
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 35;
-
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
-
-    // Create a 100% smooth circular radial glow texture (NO SQUARES / NO BOXES)
-    function createCircleTexture() {
-      const canvas = document.createElement('canvas');
-      canvas.width = 64;
-      canvas.height = 64;
-      const ctx = canvas.getContext('2d');
-      const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-      gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
-      gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.25)');
-      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      ctx.fillStyle = gradient;
-      ctx.beginPath();
-      ctx.arc(32, 32, 32, 0, Math.PI * 2);
-      ctx.fill();
-      return new THREE.CanvasTexture(canvas);
-    }
-
-    const circleTexture = createCircleTexture();
-
-    const particleCount = window.innerWidth < 768 ? 25 : 45;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const colors = new Float32Array(particleCount * 3);
-
-    const cyanColor = new THREE.Color(0x00F0FF);
-    const goldColor = new THREE.Color(0xD4AF37);
-    const blueColor = new THREE.Color(0x3B82F6);
-
-    for (let i = 0; i < particleCount; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 85;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 85;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 60;
-
-      const rand = Math.random();
-      const mixColor = rand > 0.6 ? cyanColor : (rand > 0.3 ? goldColor : blueColor);
-      colors[i * 3] = mixColor.r;
-      colors[i * 3 + 1] = mixColor.g;
-      colors[i * 3 + 2] = mixColor.b;
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-    const material = new THREE.PointsMaterial({
-      size: 1.6,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.45,
-      map: circleTexture,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-
-    const particles = new THREE.Points(geometry, material);
-    scene.add(particles);
-
-    function animate() {
-      requestAnimationFrame(animate);
-      particles.rotation.y += 0.0002;
-      particles.rotation.x += 0.0001;
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
+  const themeBtn = document.getElementById('global-theme-btn');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+      const htmlEl = document.documentElement;
+      if (htmlEl.classList.contains('dark')) {
+        htmlEl.classList.remove('dark');
+        htmlEl.classList.add('light');
+        localStorage.setItem('trait-theme', 'light');
+      } else {
+        htmlEl.classList.remove('light');
+        htmlEl.classList.add('dark');
+        localStorage.setItem('trait-theme', 'dark');
+      }
     });
   }
 
 
   // -------------------------------------------------------------------
-  // 3. FLUID MOUSE PARALLAX TILT ON HERO VISUAL (THROTTLED WITH RAF)
+  // 4. HERO DIGITAL CASE FILE CLAUSE SCANNER & HIGHLIGHT ROTATOR
   // -------------------------------------------------------------------
-  const heroFluid = document.getElementById('hero-fluid-visual');
-  if (heroFluid) {
-    let ticking = false;
-    window.addEventListener('mousemove', (e) => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const x = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-          const y = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-          heroFluid.style.transform = `rotateX(${-y * 4}deg) rotateY(${x * 4}deg)`;
-          ticking = false;
-        });
-        ticking = true;
+  const highlightClause = document.getElementById('hero-highlight-clause');
+  if (highlightClause) {
+    const clauseHighlights = [
+      {
+        authority: 'State Tech Corporation v. Apex Logistics (2024 SC 402)',
+        detail: 'Affirming limitation of liability in enterprise software SLAs.',
+        relevance: 'HIGH RELEVANCE'
+      },
+      {
+        authority: 'Commercial Arbitration Board Rule 14.8 (2025 Revision)',
+        detail: 'Mandatory 30-day pre-arbitration mediation protocol.',
+        relevance: 'STATUTORY COMPLIANCE'
+      },
+      {
+        authority: 'Global Data Governance Act (Section 9.2)',
+        detail: 'Cross-border data processing consent requirement.',
+        relevance: 'HIGH SEVERITY'
       }
-    }, { passive: true });
+    ];
+
+    let currentClauseIdx = 0;
+    setInterval(() => {
+      currentClauseIdx = (currentClauseIdx + 1) % clauseHighlights.length;
+      const item = clauseHighlights[currentClauseIdx];
+      
+      highlightClause.style.opacity = '0.4';
+      setTimeout(() => {
+        const emEl = highlightClause.querySelector('em');
+        const badgeEl = highlightClause.querySelector('span.px-2');
+        if (emEl) emEl.innerText = item.authority;
+        if (badgeEl) badgeEl.innerText = item.relevance;
+        highlightClause.style.opacity = '1';
+      }, 300);
+
+    }, 5000);
   }
 
 
   // -------------------------------------------------------------------
-  // 4. GSAP SCROLL TRIGGER REVEALS — BIDIRECTIONAL SCROLL ENGINE
+  // 5. GSAP SCROLL REVEALS
   // -------------------------------------------------------------------
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 
-    // Section 2: Key Features & Capabilities — Outer cards stay static in place
-    const commandCardsList = document.querySelectorAll('.command-grid-card');
-    commandCardsList.forEach(card => {
-      card.style.opacity = '1';
-      card.style.visibility = 'visible';
-      card.style.transform = 'none';
-    });
-
-    // Inner capability sub-cards — Bidirectional ScrollTrigger entry animation
-    const capItems = document.querySelectorAll('.capability-item');
-    capItems.forEach(item => {
-      item.style.opacity = '1';
-      item.style.visibility = 'visible';
-    });
-
-    gsap.from(capItems, {
+    gsap.from('#problem > div', {
       scrollTrigger: {
-        trigger: '#capabilities',
-        start: 'top 85%',
-        end: 'bottom 15%',
-        toggleActions: 'play reverse play reverse'
+        trigger: '#problem',
+        start: 'top 80%',
+        toggleActions: 'play none none reverse'
       },
-      duration: 0.55,
-      y: 18,
+      y: 30,
       opacity: 0,
-      stagger: 0.04,
+      duration: 0.8,
       ease: 'power2.out'
     });
 
-    // Section 3: Why Choose TRAIT? — Bidirectional left (-90px) & right (90px) reveals
-    const whyTraitLeft = document.getElementById('why-trait-left');
-    const whyTraitRight = document.getElementById('why-trait-right');
-
-    if (whyTraitLeft) {
-      whyTraitLeft.style.opacity = '1';
-      whyTraitLeft.style.visibility = 'visible';
-      gsap.from(whyTraitLeft, {
-        scrollTrigger: {
-          trigger: '#why-trait',
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play reverse play reverse'
-        },
-        duration: 0.75,
-        x: -90,
-        opacity: 0,
-        ease: 'power2.out'
-      });
-    }
-
-    if (whyTraitRight) {
-      whyTraitRight.style.opacity = '1';
-      whyTraitRight.style.visibility = 'visible';
-      gsap.from(whyTraitRight, {
-        scrollTrigger: {
-          trigger: '#why-trait',
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play reverse play reverse'
-        },
-        duration: 0.75,
-        x: 90,
-        opacity: 0,
-        ease: 'power2.out'
-      });
-    }
-
-    // Section 4: AdvocatePro AI Pro CTA — Bidirectional left (-90px) & right (90px) reveals
-    const ctaLeft = document.getElementById('cta-left');
-    const ctaRight = document.getElementById('cta-right');
-
-    if (ctaLeft) {
-      ctaLeft.style.opacity = '1';
-      ctaLeft.style.visibility = 'visible';
-      gsap.from(ctaLeft, {
-        scrollTrigger: {
-          trigger: '#cta',
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play reverse play reverse'
-        },
-        duration: 0.75,
-        x: -90,
-        opacity: 0,
-        ease: 'power2.out'
-      });
-    }
-
-    if (ctaRight) {
-      ctaRight.style.opacity = '1';
-      ctaRight.style.visibility = 'visible';
-      gsap.from(ctaRight, {
-        scrollTrigger: {
-          trigger: '#cta',
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play reverse play reverse'
-        },
-        duration: 0.75,
-        x: 90,
-        opacity: 0,
-        ease: 'power2.out'
-      });
-    }
-  }
-
-
-  // -------------------------------------------------------------------
-  // 5. LEGAL INTELLIGENCE COMMAND GRID — CAPABILITY CONSTELLATION ENGINE
-  // -------------------------------------------------------------------
-  // A. MAGNETIC HOVER (Subtle 3D Depth tilt on cards - Throttled with RAF)
-  const commandCards = document.querySelectorAll('.command-grid-card');
-  commandCards.forEach(card => {
-    let cardTicking = false;
-    card.addEventListener('mousemove', (e) => {
-      if (!cardTicking) {
-        window.requestAnimationFrame(() => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          card.style.transform = `perspective(1000px) rotateX(${-y * 0.03}deg) rotateY(${x * 0.03}deg) translateZ(6px)`;
-          cardTicking = false;
-        });
-        cardTicking = true;
-      }
-    }, { passive: true });
-
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+    gsap.from('#case-workflow .grid > div', {
+      scrollTrigger: {
+        trigger: '#case-workflow',
+        start: 'top 80%',
+        toggleActions: 'play none none reverse'
+      },
+      y: 25,
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: 'power2.out'
     });
-  });
-
-  // B. SCROLL MORPH & PARALLAX
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    // Scroll Morph: Document Intelligence Card subtly expands & glows as user scrolls
-    const morphCard = document.getElementById('document-intelligence-card');
-    if (morphCard) {
-      gsap.to(morphCard, {
-        scrollTrigger: {
-          trigger: '#capabilities',
-          start: 'top 60%',
-          end: 'bottom 40%',
-          scrub: 1
-        },
-        scale: 1.025,
-        borderColor: 'rgba(212, 175, 55, 0.65)',
-        boxShadow: '0 25px 65px -10px rgba(212, 175, 55, 0.25)'
-      });
-    }
-
-    // Depth Shift Parallax on Living Legal Archive Background
-    const archiveBg = document.getElementById('living-archive-texture');
-    if (archiveBg) {
-      gsap.to(archiveBg, {
-        scrollTrigger: {
-          trigger: '#capabilities',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true
-        },
-        y: -40,
-        ease: 'none'
-      });
-    }
   }
+
 });
-
-
-// -------------------------------------------------------------------
-// 6. EXPLORE MODAL, MOBILE NAVBAR & SECTION FORM CONTROLS
-// -------------------------------------------------------------------
-function toggleMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  if (menu) {
-    menu.classList.toggle('hidden');
-  }
-}
-
-function openExploreModal() {
-  const modal = document.getElementById('explore-modal');
-  if (modal) modal.classList.remove('hidden');
-}
-
-function closeExploreModal() {
-  const modal = document.getElementById('explore-modal');
-  if (modal) modal.classList.add('hidden');
-}
-
-function handleExploreSubmit(e) {
-  e.preventDefault();
-  const form = document.getElementById('explore-form');
-  const success = document.getElementById('form-success-msg');
-  if (form && success) {
-    form.classList.add('hidden');
-    success.classList.remove('hidden');
-  }
-}
-
-function handleSectionFormSubmit(e) {
-  e.preventDefault();
-  const form = document.getElementById('section-cta-form');
-  const success = document.getElementById('section-form-success');
-  if (form && success) {
-    form.classList.add('hidden');
-    success.classList.remove('hidden');
-  }
-}
