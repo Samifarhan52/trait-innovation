@@ -1,0 +1,1 @@
+Example txt: AWS S3 Cloud Computing Lab

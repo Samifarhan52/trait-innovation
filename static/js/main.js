@@ -52,16 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3500);
   }
 
-  // 3. LEADERSHIP STAGGERED ANIMATED REVEAL ON SCROLL
+  // 3. LEADERSHIP STAGGERED ANIMATED REVEAL ON SCROLL (ONE-TIME PERMANENT REVEAL)
   const leadershipCards = document.querySelectorAll('.leadership-reveal');
   if (leadershipCards.length > 0) {
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
-        } else {
-          // Re-trigger animation on scroll back
-          entry.target.classList.remove('active');
+          obs.unobserve(entry.target);
         }
       });
     }, { threshold: 0.15 });
