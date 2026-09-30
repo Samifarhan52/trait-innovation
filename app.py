@@ -62,6 +62,8 @@ def event_management():
 
 @app.route('/trait-ai-fashion-analytics')
 @app.route('/fashion-analytics')
+@app.route('/fashion-analysis')
+@app.route('/fashion')
 def fashion_analytics():
     """Render dedicated TRAIT AI Fashion Analytics service page."""
     return render_template('fashion_analytics.html')
