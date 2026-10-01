@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TRAIT AI Customer Support Agent — Customer Experience | TRAIT Innovation</title>
+  <title>AI Customer Support Agent — Customer Experience | TRAIT Innovation</title>
   <meta name="description" content="The AI Customer Support Agent automates routine customer interactions and supports questions, FAQs, requests, tickets and escalation workflows." />
 
   <!-- Tailwind CSS CDN -->
@@ -14,33 +14,50 @@
       theme: {
         extend: {
           colors: {
-            brand: {
-              void: '#000000',
-              dark: '#020409',
-              surface: '#070C16',
-              cyan: '#00F0FF',
-              accent: '#38BDF8',
-              blue: '#3B82F6',
-              amber: '#F59E0B'
+            petrol: {
+              50: '#F0F7FA',
+              100: '#DDEEF5',
+              700: '#0F3A4B',
+              800: '#0A2B38',
+              900: '#061E29',
+              950: '#04131B'
+            },
+            cyan: {
+              400: '#00F0FF',
+              500: '#00E5FF',
+            },
+            aqua: {
+              400: '#38BDF8',
+              500: '#0284C7',
+            },
+            coral: {
+              400: '#FF7E5F',
+              500: '#FF6B4A',
+              600: '#E05338'
             }
           },
           fontFamily: {
             sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
-            serif: ['Cinzel', 'Playfair Display', 'Georgia', 'serif'],
+            display: ['Space Grotesk', 'Plus Jakarta Sans', 'sans-serif'],
             mono: ['JetBrains Mono', 'Menlo', 'monospace']
           },
           animation: {
-            'float-slow': 'float 7s ease-in-out infinite',
-            'pulse-glow': 'pulseGlow 3s ease-in-out infinite'
+            'pulse-beam': 'pulseBeam 3s ease-in-out infinite',
+            'float-slow': 'floatSlow 6s ease-in-out infinite',
+            'glow-cyan': 'glowCyan 3s ease-in-out infinite'
           },
           keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-12px)' },
+            pulseBeam: {
+              '0%, 100%': { opacity: 0.3, transform: 'scaleX(0.98)' },
+              '50%': { opacity: 1, transform: 'scaleX(1.02)' }
             },
-            pulseGlow: {
-              '0%, 100%': { opacity: 0.4 },
-              '50%': { opacity: 0.9 },
+            floatSlow: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            glowCyan: {
+              '0%, 100%': { filter: 'drop-shadow(0 0 15px rgba(0,240,255,0.3))' },
+              '50%': { filter: 'drop-shadow(0 0 30px rgba(0,240,255,0.7))' }
             }
           }
         }
@@ -48,1122 +65,994 @@
     }
   </script>
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts & Custom CSS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Three.js Library & GSAP -->
+  <!-- Three.js Library CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-  <!-- Custom Styles -->
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+
   <style>
+    /* Custom Petrol / Cyan / Coral Customer Support Glassmorphism Theme */
     body {
-      background-color: #000000;
-      color: #FFFFFF;
+      background-color: #04131B;
+      color: #F0F7FA;
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
     }
 
-    /* Independent floating navbar */
-    .glass-cinematic-nav {
-      background: rgba(6, 10, 20, 0.92);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(0, 240, 255, 0.3);
-      box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.9);
+    .light body, html.light body {
+      background-color: #F0F7FA;
+      color: #061E29;
+    }
+
+    /* Petrol Glass Panels */
+    .support-glass-panel {
+      background: rgba(10, 43, 56, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 240, 255, 0.2);
+      box-shadow: 0 20px 40px -15px rgba(4, 19, 27, 0.8);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .light .support-glass-panel {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(15, 58, 75, 0.15);
+      box-shadow: 0 20px 40px -15px rgba(6, 30, 41, 0.08);
+    }
+
+    .support-glass-card {
+      background: linear-gradient(145deg, rgba(10, 43, 56, 0.85) 0%, rgba(6, 30, 41, 0.95) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 240, 255, 0.18);
+      box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .light .support-glass-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 247, 250, 0.9) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(15, 58, 75, 0.15);
+      box-shadow: 0 15px 35px -10px rgba(6, 30, 41, 0.06);
+    }
+
+    .support-glass-card:hover {
+      border-color: rgba(0, 240, 255, 0.5);
+      box-shadow: 0 25px 50px -12px rgba(0, 240, 255, 0.25);
+      transform: translateY(-4px);
+    }
+
+    .light .support-glass-card:hover {
+      border-color: rgba(2, 132, 199, 0.4);
+      box-shadow: 0 25px 50px -12px rgba(2, 132, 199, 0.15);
+    }
+
+    /* Accent Coral Highlight Button */
+    .coral-btn {
+      background: linear-gradient(135deg, #FF7E5F 0%, #FF6B4A 50%, #E05338 100%);
+      color: #FFFFFF;
+      box-shadow: 0 10px 25px -5px rgba(255, 107, 74, 0.4);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .coral-btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 15px 35px -5px rgba(255, 107, 74, 0.6);
+    }
+
+    /* Side Nav Active Indicator Pill */
+    .support-nav-active-pill {
+      background: linear-gradient(180deg, #00F0FF 0%, #38BDF8 100%);
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.8);
+    }
+
+    /* Alternating Infinite Ticker Marquee Animations */
+    @keyframes marqueeLeftToRight {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0%); }
+    }
+
+    @keyframes marqueeRightToLeft {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .animate-marquee-ltr {
+      display: flex;
+      gap: 1.5rem;
+      width: max-content;
+      animation: marqueeLeftToRight 38s linear infinite;
       will-change: transform;
     }
 
-    .cyan-glow-text {
-      color: #00F0FF;
-      text-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+    .animate-marquee-rtl {
+      display: flex;
+      gap: 1.5rem;
+      width: max-content;
+      animation: marqueeRightToLeft 38s linear infinite;
+      will-change: transform;
     }
 
-    .amber-glow-text {
-      color: #F59E0B;
-      text-shadow: 0 0 25px rgba(245, 158, 11, 0.4);
-    }
-
-    /* Minimal UI Surface */
-    .void-surface {
-      background: rgba(7, 12, 22, 0.7);
-      border: 1px solid rgba(56, 189, 248, 0.2);
-      backdrop-filter: blur(8px);
-    }
-
-    /* React Bits Spotlight Radial Glow Effect */
-    .spotlight-card {
-      position: relative;
-    }
-    .spotlight-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: radial-gradient(500px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 240, 255, 0.18), transparent 40%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-      z-index: 1;
-    }
-    .spotlight-card:hover::before {
-      opacity: 1;
-    }
-
-    /* Orbital System Animation */
-    @keyframes orbit-spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .animate-orbit {
-      animation: orbit-spin 40s linear infinite;
-    }
-
-    /* Particle Constellation Flow */
-    @keyframes particle-drift {
-      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.5; }
-      50% { transform: translateY(-15px) scale(1.1); opacity: 0.9; }
-    }
-    .animate-particle-drift {
-      animation: particle-drift 6s ease-in-out infinite;
+    /* Hover & Touch Pause Controls */
+    .marquee-container:hover .animate-marquee-ltr,
+    .marquee-container:hover .animate-marquee-rtl,
+    .animate-marquee-ltr:hover,
+    .animate-marquee-rtl:hover,
+    .animate-marquee-ltr:active,
+    .animate-marquee-rtl:active,
+    .animate-marquee-ltr.touch-paused,
+    .animate-marquee-rtl.touch-paused {
+      animation-play-state: paused !important;
     }
   </style>
 </head>
-<body class="bg-black text-slate-100 antialiased selection:bg-cyan-500 selection:text-black">
+<body class="bg-petrol-950 text-petrol-50 dark:bg-petrol-950 dark:text-petrol-50 transition-colors duration-500 font-sans selection:bg-coral-500 selection:text-white">
 
-  <!-- GLOBAL THREE.JS 3D BACKGROUND MODELS CANVAS -->
-  <div id="global-3d-bg-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-60 overflow-hidden"></div>
+  <!-- 3D Background Volumetric Canvas Container -->
+  <div id="support-3d-bg-canvas" class="fixed inset-0 pointer-events-none z-0"></div>
 
-  <!-- 1. FLOATING PILL / ISLAND NAVBAR (ULTRA-RESPONSIVE GLASS CAPSULE) -->
-  <header class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[94%] max-w-5xl">
-    <div class="glass-pill-nav rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between gap-4 border border-cyan-500/30 bg-slate-950/85 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.9),0_0_20px_rgba(0,240,255,0.15)] transition-all duration-300">
-      
-      <!-- LOGO -->
-      <a href="/ai-customer-support" class="flex items-center gap-2.5 group shrink-0">
-        <div class="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-400/80 flex items-center justify-center text-cyan-300 shadow-[0_0_15px_rgba(0,240,255,0.4)] group-hover:scale-110 transition-transform">
-          <svg class="w-4 h-4 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        </div>
-        <div class="flex flex-col">
-          <span class="font-serif font-bold text-xs sm:text-sm tracking-wider text-white uppercase">TRAIT <span class="text-cyan-400">SUPPORT</span></span>
-          <span class="text-[7px] sm:text-[8px] font-mono text-slate-400 tracking-widest uppercase -mt-0.5">AI AGENT CORE</span>
-        </div>
-      </a>
+  <!-- 1. GLOBAL MASTER NAVBAR INCLUSION -->
+  {% include 'components/navbar.html' %}
 
-      <!-- DESKTOP FLOATING PILL LINKS -->
-      <nav class="hidden md:flex items-center gap-1 p-1 rounded-full bg-slate-900/90 border border-slate-800/80 text-xs font-mono text-slate-300">
-        <a href="#capabilities" class="px-3.5 py-1.5 rounded-full hover:text-cyan-300 hover:bg-cyan-950/40 transition-all">Capabilities</a>
-        <a href="#knowledge" class="px-3.5 py-1.5 rounded-full hover:text-cyan-300 hover:bg-cyan-950/40 transition-all">Knowledge</a>
-        <a href="#escalation" class="px-3.5 py-1.5 rounded-full hover:text-amber-300 hover:bg-amber-950/40 transition-all">Human Escalation</a>
-        <a href="#ecosystem" class="px-3.5 py-1.5 rounded-full hover:text-cyan-300 hover:bg-cyan-950/40 transition-all">Ecosystem</a>
-        <a href="#why-trait" class="px-3.5 py-1.5 rounded-full hover:text-cyan-300 hover:bg-cyan-950/40 transition-all">Why TRAIT</a>
-        <a href="#pricing" class="px-3.5 py-1.5 rounded-full hover:text-cyan-300 hover:bg-cyan-950/40 transition-all">Pricing</a>
-      </nav>
+  <!-- MAIN PAGE CONTENT CONTAINER -->
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24">
 
-      <!-- RIGHT MAGNETIC CTA BUTTON & MOBILE TOGGLE -->
-      <div class="flex items-center gap-2 shrink-0">
-        <button onclick="openExploreModal()" class="magnetic-btn px-4 py-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-950 font-mono font-bold text-[11px] uppercase tracking-wider shadow-[0_0_20px_rgba(0,240,255,0.4)] hover:shadow-[0_0_30px_rgba(0,240,255,0.7)] transition-all cursor-pointer">
-          Explore Agent →
-        </button>
-
-        <button onclick="toggleMobileMenu()" aria-label="Toggle Navigation" class="md:hidden p-2 rounded-full bg-slate-900 border border-slate-800 text-cyan-400 hover:text-white cursor-pointer">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-      </div>
-    </div>
-
-    <!-- RESPONSIVE MOBILE FLOATING MENU MODAL -->
-    <div id="mobile-menu" class="hidden md:hidden mt-2.5 p-4 rounded-3xl bg-slate-950/95 border border-cyan-500/40 backdrop-blur-2xl flex flex-col gap-2 font-mono text-xs text-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.95)]">
-      <a href="#capabilities" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 hover:text-cyan-400 flex justify-between items-center transition-all"><span>Capabilities</span> <span class="text-[10px] text-cyan-400 font-bold">14 Core</span></a>
-      <a href="#knowledge" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 hover:text-cyan-400 flex justify-between items-center transition-all"><span>Knowledge Network</span> <span class="text-[10px] text-cyan-400 font-bold">RAG</span></a>
-      <a href="#escalation" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-amber-500/50 hover:text-amber-400 flex justify-between items-center transition-all"><span>Human Escalation</span> <span class="text-[10px] text-amber-400 font-bold">Amber</span></a>
-      <a href="#ecosystem" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 hover:text-cyan-400 flex justify-between items-center transition-all"><span>Support Ecosystem</span> <span class="text-[10px] text-cyan-400 font-bold">Orbital</span></a>
-      <a href="#why-trait" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 hover:text-cyan-400 flex justify-between items-center transition-all"><span>Why TRAIT</span> <span class="text-[10px] text-cyan-400 font-bold">Workflow</span></a>
-      <a href="#pricing" onclick="toggleMobileMenu()" class="px-4 py-2.5 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-cyan-500/50 hover:text-cyan-400 flex justify-between items-center transition-all"><span>Pricing</span> <span class="text-[10px] text-cyan-400 font-bold">Plans</span></a>
-      <div class="pt-2 flex items-center justify-between gap-2 border-t border-slate-800 mt-1">
-        <a href="/" class="text-[11px] text-slate-400 hover:text-white px-3.5 py-2 rounded-xl border border-slate-800">← TRAIT Home</a>
-        <button onclick="toggleMobileMenu(); openExploreModal();" class="px-4 py-2 rounded-xl bg-cyan-400 text-slate-950 font-bold text-[11px] uppercase cursor-pointer">
-          Explore Agent →
-        </button>
-      </div>
-    </div>
-  </header>
-
-
-  <!-- HERO — "THE CONVERSATION VOID" (STARTS STRICTLY BELOW NAVBAR) -->
-  <section id="hero" class="relative pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden min-h-[95vh] flex flex-col justify-between bg-black">
-    
-    <!-- GENERATED CINEMATIC ATMOSPHERIC BACKDROP OVERLAY -->
-    <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-      <img src="{{ url_for('static', filename='images/hero_ambient.png') }}" alt="" class="w-full h-full object-cover opacity-40 mix-blend-screen" />
-      <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black"></div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+    <!-- 2. INDEPENDENT DESKTOP LEFT SERVICE SIDEBAR NAVIGATION -->
+    <aside id="support-service-nav" class="fixed left-3 sm:left-6 top-28 z-40 select-none hidden lg:block transition-all duration-300">
+      <div id="support-nav-container" class="support-glass-panel rounded-3xl p-3 w-16 hover:w-60 group overflow-hidden transition-all duration-300">
         
-        <!-- LEFT: EDITORIAL CONTENT -->
-        <div class="lg:col-span-6 space-y-6 text-left">
-          
-          <!-- Category Badge -->
-          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-950/80 border border-cyan-500/40 text-[11px] font-mono text-cyan-300 tracking-widest uppercase">
-            <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+        <!-- Sidebar Header -->
+        <div class="flex items-center gap-3 pb-3 mb-2 border-b border-cyan-400/20 px-1.5 shrink-0">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-petrol-800 to-cyan-500 text-cyan-400 flex items-center justify-center shrink-0 border border-cyan-400/40 shadow-md">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+          </div>
+          <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap flex flex-col">
+            <span class="font-display font-bold text-xs tracking-wider text-white dark:text-white uppercase">AI SUPPORT AGENT</span>
+            <span class="text-[9px] font-mono text-cyan-400 uppercase tracking-widest">7 STAGES • NAVIGATION</span>
+          </div>
+        </div>
+
+        <!-- Vertical Section Navigation Links -->
+        <nav class="space-y-1.5">
+          <a href="#hero" class="support-side-nav-link flex items-center gap-3 p-2 rounded-2xl hover:bg-cyan-400/10 transition-all group/link relative" data-section="hero">
+            <div class="support-nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full opacity-0 transition-opacity"></div>
+            <div class="w-8 h-8 rounded-xl bg-petrol-800/80 border border-cyan-400/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover/link:border-cyan-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            </div>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-xs font-bold text-slate-200 group-hover/link:text-cyan-400">01. Overview</span>
+          </a>
+
+          <a href="#features" class="support-side-nav-link flex items-center gap-3 p-2 rounded-2xl hover:bg-cyan-400/10 transition-all group/link relative" data-section="features">
+            <div class="support-nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full opacity-0 transition-opacity"></div>
+            <div class="w-8 h-8 rounded-xl bg-petrol-800/80 border border-cyan-400/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover/link:border-cyan-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-xs font-bold text-slate-200 group-hover/link:text-cyan-400">02. Key Features</span>
+          </a>
+
+          <a href="#how-it-works" class="support-side-nav-link flex items-center gap-3 p-2 rounded-2xl hover:bg-cyan-400/10 transition-all group/link relative" data-section="how-it-works">
+            <div class="support-nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full opacity-0 transition-opacity"></div>
+            <div class="w-8 h-8 rounded-xl bg-petrol-800/80 border border-cyan-400/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover/link:border-cyan-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            </div>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-xs font-bold text-slate-200 group-hover/link:text-cyan-400">03. How It Works</span>
+          </a>
+
+          <a href="#use-cases" class="support-side-nav-link flex items-center gap-3 p-2 rounded-2xl hover:bg-cyan-400/10 transition-all group/link relative" data-section="use-cases">
+            <div class="support-nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full opacity-0 transition-opacity"></div>
+            <div class="w-8 h-8 rounded-xl bg-petrol-800/80 border border-cyan-400/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover/link:border-cyan-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-xs font-bold text-slate-200 group-hover/link:text-cyan-400">04. Use Cases</span>
+          </a>
+
+          <a href="#who-can-use-it" class="support-side-nav-link flex items-center gap-3 p-2 rounded-2xl hover:bg-cyan-400/10 transition-all group/link relative" data-section="who-can-use-it">
+            <div class="support-nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full opacity-0 transition-opacity"></div>
+            <div class="w-8 h-8 rounded-xl bg-petrol-800/80 border border-cyan-400/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover/link:border-cyan-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-xs font-bold text-slate-200 group-hover/link:text-cyan-400">05. Who Can Use It?</span>
+          </a>
+
+          <a href="#why-trait" class="support-side-nav-link flex items-center gap-3 p-2 rounded-2xl hover:bg-cyan-400/10 transition-all group/link relative" data-section="why-trait">
+            <div class="support-nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full opacity-0 transition-opacity"></div>
+            <div class="w-8 h-8 rounded-xl bg-petrol-800/80 border border-cyan-400/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover/link:border-cyan-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-xs font-bold text-slate-200 group-hover/link:text-cyan-400">06. Why TRAIT?</span>
+          </a>
+
+          <a href="#contact-cta" class="support-side-nav-link flex items-center gap-3 p-2 rounded-2xl hover:bg-coral-500/20 transition-all group/link relative" data-section="contact-cta">
+            <div class="support-nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full opacity-0 transition-opacity"></div>
+            <div class="w-8 h-8 rounded-xl bg-coral-500/20 border border-coral-500/40 text-coral-400 flex items-center justify-center shrink-0 group-hover/link:border-coral-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-xs font-bold text-coral-400 group-hover/link:text-coral-300">07. Contact</span>
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- MOBILE / TABLET COMPACT HORIZONTAL FLOATING SECONDARY NAV BAR -->
+    <div class="lg:hidden sticky top-20 z-30 mb-8 overflow-x-auto custom-scrollbar select-none py-2">
+      <div class="support-glass-panel rounded-full p-2 flex items-center gap-2 whitespace-nowrap w-max mx-auto shadow-xl">
+        <a href="#hero" class="px-3 py-1.5 rounded-full text-xs font-bold text-cyan-400 hover:bg-cyan-400/20 transition-colors">Overview</a>
+        <a href="#features" class="px-3 py-1.5 rounded-full text-xs font-bold text-slate-300 hover:bg-cyan-400/20 transition-colors">Features</a>
+        <a href="#how-it-works" class="px-3 py-1.5 rounded-full text-xs font-bold text-slate-300 hover:bg-cyan-400/20 transition-colors">How It Works</a>
+        <a href="#use-cases" class="px-3 py-1.5 rounded-full text-xs font-bold text-slate-300 hover:bg-cyan-400/20 transition-colors">Use Cases</a>
+        <a href="#who-can-use-it" class="px-3 py-1.5 rounded-full text-xs font-bold text-slate-300 hover:bg-cyan-400/20 transition-colors">Who Can Use It</a>
+        <a href="#why-trait" class="px-3 py-1.5 rounded-full text-xs font-bold text-slate-300 hover:bg-cyan-400/20 transition-colors">Why TRAIT</a>
+        <a href="#contact-cta" class="px-4 py-1.5 rounded-full text-xs font-bold coral-btn">Explore ↗</a>
+      </div>
+    </div>
+
+
+    <!-- ========================================================================= -->
+    <!-- 4. HERO SECTION -->
+    <!-- ========================================================================= -->
+    <section id="hero" class="relative min-h-[85vh] pt-6 pb-16 flex items-center justify-center">
+      <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+        
+        <div class="lg:col-span-6 space-y-6 z-20">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full support-glass-panel border border-cyan-400/40 text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-widest shadow-md">
+            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
             <span>AI • CUSTOMER EXPERIENCE</span>
           </div>
 
-          <!-- HUGE EXPRESSIVE HEADLINE (80px–120px DESKTOP, REGULAR 400 WEIGHT, TIGHT LETTER SPACING) -->
-          <h1 class="text-5xl sm:text-7xl lg:text-8xl font-serif font-normal tracking-tight text-white leading-[0.98]">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display tracking-tight leading-[1.08] text-slate-900 dark:text-white">
             AI Customer <br />
-            Support <span class="cyan-glow-text">Agent</span>
+            <span class="bg-gradient-to-r from-cyan-400 via-aqua-400 to-coral-400 bg-clip-text text-transparent drop-shadow-sm">
+              Support Agent
+            </span>
           </h1>
 
-          <!-- SUBHEAD & APPROVED DESCRIPTION -->
-          <div class="space-y-3 pt-2">
-            <p class="text-xl sm:text-2xl font-sans text-slate-100 font-normal tracking-wide leading-snug">
-              Every customer question deserves a fast, helpful answer.
-            </p>
-            <p class="text-base sm:text-lg text-slate-400 font-normal leading-relaxed max-w-xl">
-              The AI Customer Support Agent automates routine customer interactions and supports questions, FAQs, requests, tickets and escalation workflows.
-            </p>
-          </div>
+          <p class="text-lg sm:text-xl font-bold text-cyan-500 dark:text-cyan-300 leading-snug">
+            Every customer question deserves a fast, helpful answer.
+          </p>
 
-          <!-- ACTION BUTTONS -->
-          <div class="pt-4 flex flex-wrap items-center gap-4">
-            <button onclick="openExploreModal()" class="px-8 py-4 rounded-full bg-cyan-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider shadow-2xl shadow-cyan-500/30 hover:bg-cyan-300 hover:scale-105 active:scale-95 transition-all cursor-pointer flex items-center gap-2">
-              <span>Explore AI Customer Support Agent →</span>
-            </button>
-            <a href="#signals" class="px-7 py-4 rounded-full border border-slate-800 bg-slate-950/80 font-mono text-xs text-slate-300 hover:text-white hover:border-slate-700 transition-all flex items-center gap-2">
-              <span>Watch Demo</span>
+          <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl font-normal leading-relaxed">
+            The AI Customer Support Agent automates routine customer interactions and supports questions, FAQs, requests, tickets and escalation workflows.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="#contact-cta" class="px-8 py-4 rounded-full coral-btn font-extrabold text-xs sm:text-sm uppercase tracking-wider flex items-center gap-2">
+              <span>Explore AI Customer Support Agent</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </a>
           </div>
 
-        </div>
-
-        <!-- RIGHT: MASSIVE ABSTRACT 3D AI VISUALIZATION CORE & CONSTELLATION -->
-        <div class="lg:col-span-6 relative min-h-[420px] sm:min-h-[520px] flex items-center justify-center">
-          
-          <!-- WebGL 3D Canvas Container -->
-          <div id="support-hero-canvas" class="w-full h-[450px] sm:h-[550px] relative z-10"></div>
-
-          <!-- FLOATING CONVERSATION FRAGMENTS DRIFTING IN VOID (NO RECTANGULAR CARDS) -->
-          <div class="absolute top-6 left-2 z-20 px-4 py-2 rounded-2xl void-surface border border-cyan-500/40 text-cyan-300 text-xs font-mono shadow-xl animate-float-slow">
-            <span class="text-slate-400 font-bold">Signal:</span> "Where is my order?"
-          </div>
-
-          <div class="absolute top-28 right-4 z-20 px-4 py-2 rounded-2xl void-surface border border-cyan-500/30 text-slate-200 text-xs font-mono shadow-xl animate-float-slow" style="animation-delay: 2s;">
-            <span class="text-slate-400 font-bold">Signal:</span> "I need to reset my password."
-          </div>
-
-          <div class="absolute bottom-24 left-6 z-20 px-4 py-2 rounded-2xl void-surface border border-cyan-500/30 text-slate-200 text-xs font-mono shadow-xl animate-float-slow" style="animation-delay: 3.5s;">
-            <span class="text-slate-400 font-bold">Signal:</span> "Can I get a refund?"
-          </div>
-
-          <div class="absolute bottom-6 right-8 z-20 px-4 py-2 rounded-2xl void-surface border border-cyan-400/50 text-cyan-300 text-xs font-mono shadow-xl animate-float-slow" style="animation-delay: 1.5s;">
-            <span class="text-cyan-400 font-bold">AI Core:</span> "How can I help you today?"
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- SECTION 2 — "EVERY QUESTION IS DATA" -->
-  <section id="signals" class="py-24 lg:py-36 relative z-10 border-t border-slate-900 bg-black">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        
-        <!-- LEFT: HUGE EDITORIAL STATEMENT -->
-        <div class="lg:col-span-6 space-y-6 text-left editorial-reveal">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-            CONVERSATION INTELLIGENCE
-          </div>
-          
-          <h2 class="text-4xl sm:text-6xl font-serif font-normal text-white tracking-tight leading-tight">
-            Every customer question <br />
-            <span class="cyan-glow-text">contains a signal.</span>
-          </h2>
-
-          <p class="text-base sm:text-lg text-slate-400 font-normal leading-relaxed max-w-lg">
-            The AI Customer Support Agent combines conversation, business knowledge and workflows to understand requests and guide customers toward resolution.
-          </p>
-        </div>
-
-        <!-- RIGHT: DYNAMIC 3D PARTICLE FIELD (RANDOM -> STRUCTURED -> UNDERSTOOD) -->
-        <div class="lg:col-span-6 relative min-h-[350px] flex items-center justify-center void-surface rounded-3xl p-6 border border-cyan-500/20 overflow-hidden">
-          <div id="signal-particles-canvas" class="w-full h-[320px]"></div>
-          
-          <!-- Overlay Signal Status Indicator -->
-          <div class="absolute bottom-4 left-6 right-6 flex items-center justify-between text-[11px] font-mono text-slate-400 bg-black/80 px-4 py-2 rounded-xl border border-slate-800">
-            <span class="text-cyan-400 font-bold">SIGNAL TRANSMISSION:</span>
-            <span class="flex items-center gap-2">
-              <span class="text-slate-500">Random</span> →
-              <span class="text-slate-400">Structured</span> →
-              <span class="text-cyan-400 font-bold">Understood</span>
-            </span>
+          <div class="pt-6 border-t border-slate-200/80 dark:border-cyan-400/20 flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-xs font-mono font-bold">
+            <span class="px-3 py-1.5 rounded-full bg-petrol-800/80 dark:bg-petrol-900/90 border border-cyan-400/30 text-cyan-400 shadow-sm">CUSTOMER</span>
+            <span class="text-slate-400">→</span>
+            <span class="px-3 py-1.5 rounded-full bg-petrol-800/80 dark:bg-petrol-900/90 border border-cyan-400/30 text-cyan-400 shadow-sm">AI INTELLIGENCE</span>
+            <span class="text-slate-400">→</span>
+            <span class="px-3 py-1.5 rounded-full bg-petrol-800/80 dark:bg-petrol-900/90 border border-cyan-400/30 text-cyan-400 shadow-sm">SUPPORT WORKFLOW</span>
+            <span class="text-slate-400">→</span>
+            <span class="px-3 py-1.5 rounded-full bg-coral-500/20 border border-coral-400/50 text-coral-400 shadow-sm">HUMAN ESCALATION</span>
           </div>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-
-  <!-- SECTION 3 — "THE SUPPORT ENGINE" (ONE UNIFIED INTERACTIVE VISUAL SYSTEM) -->
-  <section id="capabilities" class="py-24 lg:py-36 relative z-10 border-t border-slate-900 bg-black">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-      
-      <!-- Section Heading -->
-      <div class="space-y-4 text-left editorial-reveal max-w-3xl">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-[10px] font-mono text-cyan-300 uppercase tracking-widest">
-          INTERACTIVE ENGINE ARCHITECTURE
-        </div>
-        <h2 class="text-4xl sm:text-6xl font-serif font-normal text-white tracking-tight">
-          The Support <span class="cyan-glow-text">Engine.</span>
-        </h2>
-        <p class="text-slate-400 font-sans text-base leading-relaxed">
-          Four macro intelligence states power every customer interaction—transforming raw questions into grounded resolutions and amber human escalation handoffs.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-        
-        <!-- LEFT: 4 MACRO ENGINE SELECTORS (HUGE EDITORIAL NUMBERS & TEXT) -->
-        <div class="lg:col-span-5 space-y-4 font-mono">
-          
-          <!-- Macro State 01 -->
-          <div id="engine-state-btn-01" onclick="switchEngineState('01')" class="engine-state-card cursor-pointer p-6 rounded-3xl void-surface border border-cyan-400 bg-cyan-950/40 text-cyan-300 transition-all group">
-            <div class="flex items-baseline gap-4">
-              <span class="text-4xl sm:text-5xl font-serif font-normal text-cyan-400">01</span>
-              <div>
-                <h3 class="text-lg font-serif text-white font-normal group-hover:text-cyan-300">Automated Assistance & NLU</h3>
-                <p class="text-xs text-slate-400 font-sans mt-1">24/7 instant answering, intent extraction & approved info grounding.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Macro State 02 -->
-          <div id="engine-state-btn-02" onclick="switchEngineState('02')" class="engine-state-card cursor-pointer p-6 rounded-3xl void-surface border border-slate-800 text-slate-400 hover:border-cyan-500/50 transition-all group">
-            <div class="flex items-baseline gap-4">
-              <span class="text-4xl sm:text-5xl font-serif font-normal text-slate-600 group-hover:text-cyan-400">02</span>
-              <div>
-                <h3 class="text-lg font-serif text-white font-normal group-hover:text-cyan-300">Ticket Automation & Routing</h3>
-                <p class="text-xs text-slate-400 font-sans mt-1">Multi-channel request intake, structured payload generation & classification.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Macro State 03 -->
-          <div id="engine-state-btn-03" onclick="switchEngineState('03')" class="engine-state-card cursor-pointer p-6 rounded-3xl void-surface border border-slate-800 text-slate-400 hover:border-amber-500/50 transition-all group">
-            <div class="flex items-baseline gap-4">
-              <span class="text-4xl sm:text-5xl font-serif font-normal text-slate-600 group-hover:text-amber-400">03</span>
-              <div>
-                <h3 class="text-lg font-serif text-white font-normal group-hover:text-amber-300">Amber Human Escalation</h3>
-                <p class="text-xs text-slate-400 font-sans mt-1">Complex threshold triggers seamlessly transferring context to live specialists.</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Macro State 04 -->
-          <div id="engine-state-btn-04" onclick="switchEngineState('04')" class="engine-state-card cursor-pointer p-6 rounded-3xl void-surface border border-slate-800 text-slate-400 hover:border-cyan-500/50 transition-all group">
-            <div class="flex items-baseline gap-4">
-              <span class="text-4xl sm:text-5xl font-serif font-normal text-slate-600 group-hover:text-cyan-400">04</span>
-              <div>
-                <h3 class="text-lg font-serif text-white font-normal group-hover:text-cyan-300">Continuous Analytics & KB Loop</h3>
-                <p class="text-xs text-slate-400 font-sans mt-1">Common-issue cluster recognition, sentiment CSAT & knowledge article loop.</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- RIGHT: CENTRAL ENGINE VISUAL SIMULATOR (7 COLS) -->
-        <div class="lg:col-span-7 sticky top-24 void-surface rounded-3xl p-8 border border-cyan-500/30 space-y-6 shadow-2xl relative overflow-hidden min-h-[420px] flex flex-col justify-between">
-          <div class="scanning-beam"></div>
-
-          <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
-            <div class="flex items-center gap-3">
-              <span id="engine-pulse-dot" class="w-3 h-3 rounded-full bg-cyan-400 animate-pulse"></span>
-              <span id="engine-state-tag" class="text-xs font-mono font-bold text-cyan-300 tracking-widest uppercase">
-                STATE 01 — AUTOMATED ASSISTANCE ACTIVE
-              </span>
-            </div>
-            <span class="text-[10px] font-mono text-slate-500 uppercase">ENGINE CORE v4.2</span>
-          </div>
-
-          <!-- DYNAMIC GRAPHIC CANVAS -->
-          <div class="w-full h-56 rounded-2xl bg-black/90 border border-slate-800 p-6 flex flex-col items-center justify-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-[linear-gradient(to_right,#080f1e_1px,transparent_1px),linear-gradient(to_bottom,#080f1e_1px,transparent_1px)] bg-[size:20px_20px] opacity-30"></div>
-            
-            <div id="engine-visual-render" class="relative z-10 w-full h-full flex items-center justify-center text-center">
-              <svg class="w-full h-32 text-cyan-400" viewBox="0 0 400 100" fill="none" stroke="currentColor">
-                <circle cx="200" cy="50" r="30" stroke-width="2" class="animate-pulse" fill="rgba(0,240,255,0.08)"/>
-                <path d="M50 50 Q 120 10, 200 50 T 350 50" stroke-width="2" class="animate-pulse"/>
-                <circle cx="200" cy="50" r="8" fill="#00F0FF" class="animate-ping"/>
-                <text x="140" y="90" fill="#38BDF8" font-size="10" font-family="monospace">NLU: 24/7_AUTOMATED_STREAM</text>
-              </svg>
-            </div>
-          </div>
-
-          <p id="engine-state-description" class="text-sm font-sans text-slate-300 leading-relaxed font-normal">
-            Continuous instant resolution stream active across all time zones with sub-150ms response latency and strict source grounding.
-          </p>
-
-          <div class="pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-400">
-            <span>GROUNDING: 100% VERIFIED</span>
-            <span class="text-cyan-400 font-bold">LATENCY: &lt; 150ms</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- SECTION 4 — 14 CORE SYSTEM CAPABILITIES (REACT BITS BENTO GRID) -->
-  <section id="capabilities" class="py-24 lg:py-36 relative z-10 border-t border-slate-900 bg-black">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
-      
-      <div class="text-center space-y-4 editorial-reveal">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-          SYSTEM ARCHITECTURE
-        </div>
-        <h2 class="text-4xl sm:text-6xl font-serif font-normal text-white tracking-tight">
-          14 Core <span class="cyan-glow-text">System Capabilities.</span>
-        </h2>
-        <p class="text-slate-400 font-sans text-base max-w-2xl mx-auto">
-          Built for autonomous resolution, grounded RAG knowledge, multi-channel intake, and zero-latency SLA routing.
-        </p>
-      </div>
-
-      <!-- REACT BITS BENTO GRID LAYOUT -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
-        
-        <!-- BENTO 1: LARGE FEATURE CARD (Span 2) -->
-        <div class="spotlight-card lg:col-span-2 void-surface rounded-3xl p-8 border border-cyan-500/30 space-y-6 flex flex-col justify-between relative overflow-hidden group shadow-[0_0_40px_rgba(0,240,255,0.1)]">
-          <div class="flex items-center justify-between">
-            <span class="px-3 py-1 rounded-full bg-cyan-950 border border-cyan-500/40 text-[10px] font-mono text-cyan-300 font-bold uppercase">01 • CORE ENGINE</span>
-            <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="text-2xl font-serif font-semibold text-white group-hover:text-cyan-300 transition-colors">
-              Automated FAQs & Instant Answers
-            </h3>
-            <p class="text-slate-300 font-sans text-sm leading-relaxed">
-              Sub-150ms instant NLU resolution stream with 100% source-grounded answers. Prevents hallucinations by strictly querying your verified business knowledge base.
-            </p>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 font-mono text-xs text-cyan-300 flex items-center justify-between">
-            <span>Query Resolution Speed:</span>
-            <span class="font-bold text-white">&lt; 140ms</span>
-          </div>
-        </div>
-
-        <!-- BENTO 2 -->
-        <div class="spotlight-card void-surface rounded-3xl p-6 border border-slate-800 space-y-4 flex flex-col justify-between group hover:border-cyan-500/40 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-mono text-slate-500 font-bold">02</span>
-            <span class="w-2 h-2 rounded-full bg-cyan-500/40"></span>
-          </div>
-          <div class="space-y-2">
-            <h4 class="text-lg font-serif font-semibold text-white group-hover:text-cyan-300 transition-colors">Multi-Channel Routing</h4>
-            <p class="text-xs text-slate-400 font-sans leading-relaxed">Auto-classifies incoming tickets and dispatches to appropriate domain queues.</p>
-          </div>
-          <div class="text-[10px] font-mono text-slate-500">Intake SLA: Tier 1</div>
-        </div>
-
-        <!-- BENTO 3 -->
-        <div class="spotlight-card void-surface rounded-3xl p-6 border border-slate-800 space-y-4 flex flex-col justify-between group hover:border-cyan-500/40 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-mono text-slate-500 font-bold">03</span>
-            <span class="w-2 h-2 rounded-full bg-cyan-500/40"></span>
-          </div>
-          <div class="space-y-2">
-            <h4 class="text-lg font-serif font-semibold text-white group-hover:text-cyan-300 transition-colors">Order & Shipping Tracking</h4>
-            <p class="text-xs text-slate-400 font-sans leading-relaxed">Direct API sync with carrier feeds for real-time status and delivery estimates.</p>
-          </div>
-          <div class="text-[10px] font-mono text-cyan-400">Carrier Sync Active</div>
-        </div>
-
-        <!-- BENTO 4 -->
-        <div class="spotlight-card void-surface rounded-3xl p-6 border border-slate-800 space-y-4 flex flex-col justify-between group hover:border-cyan-500/40 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-mono text-slate-500 font-bold">04</span>
-            <span class="w-2 h-2 rounded-full bg-cyan-500/40"></span>
-          </div>
-          <div class="space-y-2">
-            <h4 class="text-lg font-serif font-semibold text-white group-hover:text-cyan-300 transition-colors">Returns & Refunds</h4>
-            <p class="text-xs text-slate-400 font-sans leading-relaxed">Automated RMA label generation and policy validation in seconds.</p>
-          </div>
-          <div class="text-[10px] font-mono text-slate-500">RMA Logic</div>
-        </div>
-
-        <!-- BENTO 5: AMBER ESCALATION LARGE CARD (Span 2) -->
-        <div class="spotlight-card lg:col-span-2 void-surface rounded-3xl p-8 border border-amber-500/40 space-y-6 flex flex-col justify-between relative overflow-hidden group shadow-[0_0_40px_rgba(245,158,11,0.15)]">
-          <div class="flex items-center justify-between">
-            <span class="px-3 py-1 rounded-full bg-amber-950 border border-amber-500/50 text-[10px] font-mono text-amber-300 font-bold uppercase">07 • AMBER OVERRIDE</span>
-            <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-          </div>
-
-          <div class="space-y-3">
-            <h3 class="text-2xl font-serif font-semibold text-white group-hover:text-amber-300 transition-colors">
-              Human-in-the-Loop Escalation
-            </h3>
-            <p class="text-slate-300 font-sans text-sm leading-relaxed">
-              When an inquiry exceeds threshold complexity, context dialog memory is instantly transferred to a live specialist without forcing the customer to repeat themselves.
-            </p>
-          </div>
-
-          <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 font-mono text-xs text-amber-300 flex items-center justify-between">
-            <span>Context Loss:</span>
-            <span class="font-bold text-white">0% (Full History Sync)</span>
-          </div>
-        </div>
-
-        <!-- BENTO 6 -->
-        <div class="spotlight-card void-surface rounded-3xl p-6 border border-slate-800 space-y-4 flex flex-col justify-between group hover:border-cyan-500/40 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-mono text-slate-500 font-bold">08</span>
-            <span class="w-2 h-2 rounded-full bg-cyan-500/40"></span>
-          </div>
-          <div class="space-y-2">
-            <h4 class="text-lg font-serif font-semibold text-white group-hover:text-cyan-300 transition-colors">CSAT & Sentiment</h4>
-            <p class="text-xs text-slate-400 font-sans leading-relaxed">Real-time emotion tracking and automatic supervisor alerts for distressed users.</p>
-          </div>
-          <div class="text-[10px] font-mono text-slate-500">CSAT: 99.4%</div>
-        </div>
-
-        <!-- BENTO 7 -->
-        <div class="spotlight-card void-surface rounded-3xl p-6 border border-slate-800 space-y-4 flex flex-col justify-between group hover:border-cyan-500/40 transition-all">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-mono text-slate-500 font-bold">10</span>
-            <span class="w-2 h-2 rounded-full bg-cyan-500/40"></span>
-          </div>
-          <div class="space-y-2">
-            <h4 class="text-lg font-serif font-semibold text-white group-hover:text-cyan-300 transition-colors">RAG Vector Search</h4>
-            <p class="text-xs text-slate-400 font-sans leading-relaxed">Dense vector embeddings index your documentation for precise retrieval.</p>
-          </div>
-          <div class="text-[10px] font-mono text-cyan-400">Similarity 0.98</div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- SECTION 5 — SPATIAL KNOWLEDGE NETWORK (CINEMATIC VISUAL OVERLAY) -->
-  <section id="knowledge" class="py-24 lg:py-36 relative z-10 border-t border-slate-900 bg-black overflow-hidden">
-    
-    <!-- GENERATED CINEMATIC SPATIAL GRAPH BACKDROP -->
-    <div class="absolute inset-0 pointer-events-none z-0">
-      <img src="{{ url_for('static', filename='images/knowledge_graph.png') }}" alt="" class="w-full h-full object-cover opacity-30 mix-blend-screen" />
-      <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
-      
-      <div class="space-y-3 text-left editorial-reveal">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-          GROUNDED KNOWLEDGE NETWORK
-        </div>
-        <h2 class="text-4xl sm:text-6xl font-serif font-normal text-white tracking-tight">
-          Answers come from <span class="cyan-glow-text">knowledge.</span>
-        </h2>
-      </div>
-
-      <!-- KNOWLEDGE SPATIAL NODES GRID -->
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 font-mono text-xs">
-        
-        <button id="node-btn-shipping" onclick="activateKnowledgeNode('shipping')" class="knowledge-node-btn p-5 rounded-2xl void-surface border border-cyan-500/40 text-cyan-300 text-center space-y-2 cursor-pointer transition-all hover:border-cyan-400 hover:scale-105">
-          <div class="font-bold text-white text-sm">Shipping</div>
-          <div class="text-[10px] text-cyan-400">Node #01</div>
-        </button>
-
-        <button id="node-btn-returns" onclick="activateKnowledgeNode('returns')" class="knowledge-node-btn p-5 rounded-2xl void-surface border border-slate-800 text-slate-300 text-center space-y-2 cursor-pointer transition-all hover:border-cyan-400 hover:scale-105">
-          <div class="font-bold text-white text-sm">Returns</div>
-          <div class="text-[10px] text-slate-400">Node #02</div>
-        </button>
-
-        <button id="node-btn-orders" onclick="activateKnowledgeNode('orders')" class="knowledge-node-btn p-5 rounded-2xl void-surface border border-slate-800 text-slate-300 text-center space-y-2 cursor-pointer transition-all hover:border-cyan-400 hover:scale-105">
-          <div class="font-bold text-white text-sm">Orders</div>
-          <div class="text-[10px] text-slate-400">Node #03</div>
-        </button>
-
-        <button id="node-btn-accounts" onclick="activateKnowledgeNode('accounts')" class="knowledge-node-btn p-5 rounded-2xl void-surface border border-slate-800 text-slate-300 text-center space-y-2 cursor-pointer transition-all hover:border-cyan-400 hover:scale-105">
-          <div class="font-bold text-white text-sm">Accounts</div>
-          <div class="text-[10px] text-slate-400">Node #04</div>
-        </button>
-
-        <button id="node-btn-policies" onclick="activateKnowledgeNode('policies')" class="knowledge-node-btn p-5 rounded-2xl void-surface border border-slate-800 text-slate-300 text-center space-y-2 cursor-pointer transition-all hover:border-cyan-400 hover:scale-105">
-          <div class="font-bold text-white text-sm">Policies</div>
-          <div class="text-[10px] text-slate-400">Node #05</div>
-        </button>
-
-        <button id="node-btn-services" onclick="activateKnowledgeNode('services')" class="knowledge-node-btn p-5 rounded-2xl void-surface border border-slate-800 text-slate-300 text-center space-y-2 cursor-pointer transition-all hover:border-cyan-400 hover:scale-105">
-          <div class="font-bold text-white text-sm">Services</div>
-          <div class="text-[10px] text-slate-400">Node #06</div>
-        </button>
-
-      </div>
-
-      <!-- KNOWLEDGE TELEMETRY OUTPUT -->
-      <div class="void-surface rounded-2xl p-6 border border-slate-800 text-xs font-mono text-slate-300 flex items-center justify-between">
-        <div id="knowledge-output-text">
-          <span class="text-cyan-400 font-bold">Node [SHIPPING] Illuminated:</span> Delivery estimates, carrier tracking & dispatch rules.
-        </div>
-        <span class="text-[10px] text-cyan-400 font-mono font-bold uppercase px-2.5 py-1 rounded-full bg-cyan-950 border border-cyan-500/30">Vector Similarity 0.98</span>
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- SECTION 6 — HUMAN ESCALATION PROTOCOL (WARM AMBER SILHOUETTE) -->
-  <section id="escalation" class="py-24 lg:py-36 relative z-10 border-t border-slate-900 bg-black overflow-hidden">
-    
-    <!-- GENERATED CINEMATIC AMBER SILHOUETTE BACKDROP -->
-    <div class="absolute inset-0 pointer-events-none z-0">
-      <img src="{{ url_for('static', filename='images/human_escalation.png') }}" alt="" class="w-full h-full object-cover opacity-40 mix-blend-screen" />
-      <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
-    </div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        
-        <!-- LEFT: EDITORIAL COPY -->
-        <div class="lg:col-span-6 space-y-6 text-left editorial-reveal">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-950 border border-amber-500/40 text-[10px] font-mono text-amber-400 uppercase tracking-widest">
-            HUMAN IN THE LOOP
-          </div>
-
-          <h2 class="text-4xl sm:text-6xl font-serif font-normal text-white tracking-tight">
-            Human <span class="amber-glow-text">Escalation.</span>
-          </h2>
-
-          <p class="text-base sm:text-lg text-slate-300 font-normal leading-relaxed max-w-lg">
-            Seamlessly involve people when required.
-          </p>
-
-          <p class="text-xs sm:text-sm text-slate-400 font-normal leading-relaxed max-w-lg">
-            AI handles routine customer interactions, and when a request reaches complex threshold criteria, context is transferred to a human specialist without forcing the customer to repeat themselves.
-          </p>
-
-          <button onclick="triggerEscalationFlow()" class="px-7 py-3.5 rounded-full border border-amber-500/50 bg-amber-950/40 text-amber-300 font-mono text-xs uppercase tracking-wider hover:bg-amber-500 hover:text-black transition-all cursor-pointer">
-            Simulate Amber Escalation Handover →
-          </button>
-        </div>
-
-        <!-- RIGHT: HIGH-END HUMAN ESCALATION VISUAL IMAGE CARD -->
-        <div class="lg:col-span-6 void-surface rounded-3xl p-3 border border-amber-500/40 overflow-hidden relative group shadow-[0_0_60px_rgba(245,158,11,0.2)]">
-          <div class="relative h-[380px] sm:h-[440px] w-full rounded-2xl overflow-hidden">
-            <img src="{{ url_for('static', filename='images/human_escalation.png') }}" alt="Human Specialist Escalation Handover" class="w-full h-full object-cover object-center filter saturate-150 brightness-110 group-hover:scale-105 transition-transform duration-700 ease-out" />
-            
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
-
-            <!-- OVERLAY TELEMETRY & LIVE HANDOVER STATUS -->
-            <div class="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-slate-950/90 border border-amber-500/50 backdrop-blur-md text-[10px] font-mono text-amber-300 flex items-center gap-2">
-              <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
-              <span>HUMAN SPECIALIST PROTOCOL</span>
-            </div>
-
-            <div class="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-slate-950/90 border border-slate-800 backdrop-blur-md font-mono text-xs space-y-2">
-              <div id="escalation-status-text" class="text-xs font-mono text-slate-300 flex items-center justify-between">
-                <span class="text-cyan-400">AI Core Active • Threshold Monitored</span>
-                <span class="text-[10px] text-amber-400 font-bold uppercase">Amber Standby</span>
-              </div>
-
-              <div id="human-escalation-node" class="p-2.5 rounded-lg bg-slate-900/90 border border-slate-800 text-slate-400 flex items-center justify-between transition-all">
-                <span>CONVERSATION HISTORY SYNC</span>
-                <span class="text-[10px] text-cyan-400">Zero Repetition Guarantee</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- SECTION 7 — ORBITAL SUPPORT ECOSYSTEM (HYPER-REALISTIC & INTERACTIVE) -->
-  <section id="ecosystem" class="py-24 lg:py-36 relative z-10 border-t border-slate-900 bg-black overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-      
-      <div class="text-center space-y-4 editorial-reveal">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-          ORBITAL SUPPORT ECOSYSTEM
-        </div>
-        <h2 class="text-4xl sm:text-6xl font-serif font-normal text-white tracking-tight">
-          All support activity flows through <span class="cyan-glow-text">one system.</span>
-        </h2>
-        <p class="text-slate-400 font-sans text-base max-w-2xl mx-auto">
-          Omnichannel inquiry signals, RAG knowledge retrieval, ticket dispatch, sentiment telemetry, and human overrides converge into a unified intelligence core.
-        </p>
-      </div>
-
-      <!-- HYPER-REALISTIC 3D INTERACTIVE ECOSYSTEM CONTAINER -->
-      <div id="ecosystem-3d-wrapper" class="relative min-h-[580px] lg:min-h-[640px] flex items-center justify-center void-surface rounded-3xl p-6 lg:p-12 border border-cyan-500/30 overflow-hidden shadow-[0_0_80px_rgba(0,240,255,0.12)] group perspective-1000">
-        
-        <!-- HIGH-RES 3D CORE BACKDROP IMAGE -->
-        <div class="absolute inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none transition-transform duration-700 ease-out group-hover:scale-105">
-          <img src="{{ url_for('static', filename='images/ecosystem_real.png') }}" alt="TRAIT Unified Support Ecosystem Core" class="w-full h-full object-cover object-center filter saturate-150 brightness-110">
-          <div class="absolute inset-0 bg-radial-gradient from-transparent via-black/60 to-black"></div>
-        </div>
-
-        <!-- AMBIENT PULSING GLOW RINGS -->
-        <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
-          <div class="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] rounded-full border border-cyan-500/20 animate-ping opacity-20"></div>
-          <div class="w-[200px] h-[200px] sm:w-[350px] sm:h-[350px] rounded-full bg-cyan-500/10 filter blur-3xl animate-pulse"></div>
-        </div>
-
-        <!-- SVG BEZIER LIGHT PATHS LAYER -->
-        <svg id="ecosystem-svg-paths" class="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 1000 600" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="cyan-beam-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.8"/>
-              <stop offset="100%" stop-color="#38BDF8" stop-opacity="0.2"/>
-            </linearGradient>
-            <linearGradient id="amber-beam-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.9"/>
-              <stop offset="100%" stop-color="#EF4444" stop-opacity="0.3"/>
-            </linearGradient>
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-              <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-              </feMerge>
-            </filter>
-          </defs>
-
-          <!-- SVG Bezier connection lines from 6 nodes to central core (500, 300) -->
-          <path d="M 200 120 Q 320 180 500 300" stroke="url(#cyan-beam-grad)" stroke-width="2" fill="none" stroke-dasharray="6 6" class="animate-pulse"/>
-          <path d="M 800 120 Q 680 180 500 300" stroke="url(#cyan-beam-grad)" stroke-width="2" fill="none" stroke-dasharray="6 6" class="animate-pulse"/>
-          <path d="M 140 300 Q 300 300 500 300" stroke="url(#cyan-beam-grad)" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
-          <path d="M 860 300 Q 700 300 500 300" stroke="url(#cyan-beam-grad)" stroke-width="2" fill="none" stroke-dasharray="4 4"/>
-          <path d="M 200 480 Q 320 420 500 300" stroke="url(#cyan-beam-grad)" stroke-width="2" fill="none" stroke-dasharray="6 6"/>
-          <path d="M 800 480 Q 680 420 500 300" stroke="url(#amber-beam-grad)" stroke-width="2.5" fill="none" stroke-dasharray="4 4" filter="url(#glow)"/>
-
-          <!-- Dynamic Light Packet Dots -->
-          <circle id="light-packet-inquiries" cx="200" cy="120" r="6" fill="#00F0FF" class="opacity-0" filter="url(#glow)"/>
-          <circle id="light-packet-knowledge" cx="800" cy="120" r="6" fill="#00F0FF" class="opacity-0" filter="url(#glow)"/>
-          <circle id="light-packet-tickets" cx="140" cy="300" r="6" fill="#00F0FF" class="opacity-0" filter="url(#glow)"/>
-          <circle id="light-packet-analytics" cx="860" cy="300" r="6" fill="#00F0FF" class="opacity-0" filter="url(#glow)"/>
-          <circle id="light-packet-feedback" cx="200" cy="480" r="6" fill="#00F0FF" class="opacity-0" filter="url(#glow)"/>
-          <circle id="light-packet-human" cx="800" cy="480" r="7" fill="#F59E0B" class="opacity-0" filter="url(#glow)"/>
-        </svg>
-
-        <!-- CENTRAL AI SUPPORT CORE HUB -->
-        <div class="relative z-20 w-44 h-44 sm:w-52 sm:h-52 rounded-full bg-slate-950/90 border-2 border-cyan-400 flex flex-col items-center justify-center text-center p-6 shadow-[0_0_60px_rgba(0,240,255,0.5)] transform transition-transform duration-500 hover:scale-110">
-          <div class="w-12 h-12 rounded-full bg-cyan-950 border border-cyan-400 flex items-center justify-center mb-2 animate-pulse">
-            <svg class="w-6 h-6 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          </div>
-          <span class="text-xs font-mono font-bold text-cyan-300 tracking-wider">AI SUPPORT</span>
-          <span class="text-[10px] font-mono text-cyan-400 uppercase tracking-widest mt-0.5">CENTRAL CORE</span>
-          <div class="mt-2 px-2.5 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-500/40 text-[9px] font-mono text-cyan-300 animate-pulse">
-            SYSTEM ONLINE • 14ms
-          </div>
-        </div>
-
-        <!-- 6 PHYSICAL SATELLITE NODES (ORGANIZED AROUND THE CORE) -->
-        <div onclick="dispatchEcosystemSignal('inquiries')" class="ecosystem-node absolute top-3 left-2 sm:top-10 sm:left-12 z-20 cursor-pointer group/node">
-          <div class="px-2.5 py-1.5 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-950/90 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-950/40 text-left transition-all duration-300 shadow-lg hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center gap-2 sm:gap-3">
-            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-cyan-950 border border-cyan-400/60 flex items-center justify-center text-cyan-300 font-mono text-[10px] sm:text-xs font-bold">01</div>
-            <div>
-              <div class="text-[10px] sm:text-xs font-mono font-bold text-white group-hover/node:text-cyan-300 flex items-center gap-1 sm:gap-1.5">
-                <span>Inquiry Feeds</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
-              </div>
-              <div class="text-[8px] sm:text-[10px] font-mono text-slate-400">Voice • Chat • Email</div>
-            </div>
-          </div>
-        </div>
-
-        <div onclick="dispatchEcosystemSignal('knowledge')" class="ecosystem-node absolute top-3 right-2 sm:top-10 sm:right-12 z-20 cursor-pointer group/node">
-          <div class="px-2.5 py-1.5 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-950/90 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-950/40 text-left transition-all duration-300 shadow-lg hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center gap-2 sm:gap-3">
-            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-cyan-950 border border-cyan-400/60 flex items-center justify-center text-cyan-300 font-mono text-[10px] sm:text-xs font-bold">02</div>
-            <div>
-              <div class="text-[10px] sm:text-xs font-mono font-bold text-white group-hover/node:text-cyan-300 flex items-center gap-1 sm:gap-1.5">
-                <span>RAG Knowledge</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-              </div>
-              <div class="text-[8px] sm:text-[10px] font-mono text-slate-400">Vector Embeddings</div>
-            </div>
-          </div>
-        </div>
-
-        <div onclick="dispatchEcosystemSignal('tickets')" class="ecosystem-node absolute top-1/2 -translate-y-1/2 left-1 sm:left-6 z-20 cursor-pointer group/node">
-          <div class="px-2 py-1.5 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-950/90 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-950/40 text-left transition-all duration-300 shadow-lg hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center gap-1.5 sm:gap-3">
-            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-cyan-950 border border-cyan-400/60 flex items-center justify-center text-cyan-300 font-mono text-[10px] sm:text-xs font-bold">03</div>
-            <div>
-              <div class="text-[10px] sm:text-xs font-mono font-bold text-white group-hover/node:text-cyan-300 flex items-center gap-1.5">
-                <span>Ticket Ops</span>
-              </div>
-              <div class="text-[8px] sm:text-[10px] font-mono text-slate-400">Auto Route & SLA</div>
-            </div>
-          </div>
-        </div>
-
-        <div onclick="dispatchEcosystemSignal('analytics')" class="ecosystem-node absolute top-1/2 -translate-y-1/2 right-1 sm:right-6 z-20 cursor-pointer group/node">
-          <div class="px-2 py-1.5 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-950/90 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-950/40 text-left transition-all duration-300 shadow-lg hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center gap-1.5 sm:gap-3">
-            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-cyan-950 border border-cyan-400/60 flex items-center justify-center text-cyan-300 font-mono text-[10px] sm:text-xs font-bold">04</div>
-            <div>
-              <div class="text-[10px] sm:text-xs font-mono font-bold text-white group-hover/node:text-cyan-300 flex items-center gap-1.5">
-                <span>CSAT Engine</span>
-              </div>
-              <div class="text-[8px] sm:text-[10px] font-mono text-slate-400">Sentiment Logic</div>
-            </div>
-          </div>
-        </div>
-
-        <div onclick="dispatchEcosystemSignal('feedback')" class="ecosystem-node absolute bottom-3 left-2 sm:bottom-10 sm:left-12 z-20 cursor-pointer group/node">
-          <div class="px-2.5 py-1.5 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-950/90 border border-cyan-500/40 hover:border-cyan-400 hover:bg-cyan-950/40 text-left transition-all duration-300 shadow-lg hover:shadow-[0_0_25px_rgba(0,240,255,0.4)] flex items-center gap-2 sm:gap-3">
-            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-cyan-950 border border-cyan-400/60 flex items-center justify-center text-cyan-300 font-mono text-[10px] sm:text-xs font-bold">05</div>
-            <div>
-              <div class="text-[10px] sm:text-xs font-mono font-bold text-white group-hover/node:text-cyan-300 flex items-center gap-1.5">
-                <span>Feedback Sync</span>
-              </div>
-              <div class="text-[8px] sm:text-[10px] font-mono text-slate-400">RLHF Fine-tuning</div>
-            </div>
-          </div>
-        </div>
-
-        <div onclick="dispatchEcosystemSignal('human')" class="ecosystem-node absolute bottom-3 right-2 sm:bottom-10 sm:right-12 z-20 cursor-pointer group/node">
-          <div class="px-2.5 py-1.5 sm:px-4 sm:py-3 rounded-xl sm:rounded-2xl bg-slate-950/90 border border-amber-500/50 hover:border-amber-400 hover:bg-amber-950/40 text-left transition-all duration-300 shadow-lg hover:shadow-[0_0_25px_rgba(245,158,11,0.5)] flex items-center gap-2 sm:gap-3">
-            <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-lg sm:rounded-xl bg-amber-950 border border-amber-500/60 flex items-center justify-center text-amber-300 font-mono text-[10px] sm:text-xs font-bold">06</div>
-            <div>
-              <div class="text-[10px] sm:text-xs font-mono font-bold text-amber-300 group-hover/node:text-amber-200 flex items-center gap-1.5">
-                <span>Human Specialist</span>
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping"></span>
-              </div>
-              <div class="text-[8px] sm:text-[10px] font-mono text-amber-400/80">Amber Handover</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- LIVE TELEMETRY BANNER -->
-        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-6 py-2 rounded-full bg-slate-950/90 border border-slate-800 font-mono text-[10px] text-slate-300 flex items-center gap-4 max-w-md w-full justify-between backdrop-blur-md">
-          <span class="text-slate-500 uppercase">Live Telemetry:</span>
-          <span id="ecosystem-telemetry-text" class="text-cyan-300 font-bold truncate">Click any node to test signal transmission →</span>
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- SECTION 8 — WHY CHOOSE TRAIT -->
-  <section id="why-trait" class="py-24 lg:py-36 relative z-10 border-t border-slate-900 bg-black">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        
-        <div class="lg:col-span-6 space-y-6 text-left editorial-reveal">
-          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-            WHY CHOOSE TRAIT
-          </div>
-
-          <h2 class="text-4xl sm:text-6xl font-serif font-normal text-white tracking-tight">
-            Why Choose <span class="cyan-glow-text">TRAIT?</span>
-          </h2>
-
-          <p class="text-base sm:text-lg text-slate-300 font-normal leading-relaxed">
-            TRAIT combines conversational AI with business-specific knowledge and workflows, aiming to create a support assistant that understands requests, guides customers and involves people when required.
-          </p>
-
-          <button onclick="openExploreModal()" class="px-7 py-3.5 rounded-full bg-cyan-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider hover:bg-cyan-300 transition-all cursor-pointer">
-            Explore AI Customer Support Agent →
-          </button>
-        </div>
-
-        <!-- RIGHT: HIGH-END 3D VISUAL IMAGE CARD (NO TEXT LIST WALL) -->
-        <div class="lg:col-span-6 void-surface rounded-3xl p-3 border border-cyan-500/30 overflow-hidden relative group shadow-[0_0_60px_rgba(0,240,255,0.15)]">
-          <div class="relative h-[380px] sm:h-[440px] w-full rounded-2xl overflow-hidden">
-            <img src="{{ url_for('static', filename='images/why_choose_trait.png') }}" alt="TRAIT Intelligent Customer Support Workflow" class="w-full h-full object-cover object-center filter saturate-125 brightness-110 group-hover:scale-105 transition-transform duration-700 ease-out" />
-            
-            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-
-            <!-- OVERLAY TELEMETRY BADGES -->
-            <div class="absolute top-4 left-4 px-3.5 py-1.5 rounded-full bg-slate-950/80 border border-cyan-500/40 backdrop-blur-md text-[10px] font-mono text-cyan-300 flex items-center gap-2">
+        <div class="lg:col-span-6 relative z-10">
+          <div class="relative w-full rounded-3xl overflow-hidden support-glass-card border border-cyan-400/30 shadow-2xl p-3 sm:p-4 group">
+            <img src="{{ url_for('static', filename='images/ai_support/hero_core.jpg') }}" alt="AI Customer Support Core 3D Environment" class="w-full h-auto object-cover rounded-2xl transform group-hover:scale-[1.02] transition-transform duration-700 shadow-2xl" />
+
+            <div class="absolute top-6 left-6 px-3 py-1.5 rounded-xl support-glass-panel border border-cyan-400/40 text-[10px] font-mono font-bold text-cyan-300 flex items-center gap-2 shadow-lg animate-float-slow">
               <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-              <span>INTELLIGENT WORKFLOW CORE</span>
+              <span>FAQs • Auto Response Active</span>
             </div>
 
-            <div class="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-slate-950/90 border border-slate-800 backdrop-blur-md font-mono text-xs flex justify-between items-center text-slate-300">
-              <div class="flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-                <span class="font-bold text-white">AUTONOMOUS ORCHESTRATION</span>
-              </div>
-              <span class="text-[10px] text-cyan-400 font-bold uppercase">Sub-150ms Speed</span>
+            <div class="absolute bottom-6 left-6 px-3 py-1.5 rounded-xl support-glass-panel border border-aqua-400/40 text-[10px] font-mono font-bold text-aqua-300 flex items-center gap-2 shadow-lg">
+              <svg class="w-3.5 h-3.5 text-aqua-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 01-2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>Tickets & Requests Intake</span>
+            </div>
+
+            <div class="absolute bottom-6 right-6 px-3 py-1.5 rounded-xl support-glass-panel border border-coral-400/40 text-[10px] font-mono font-bold text-coral-400 flex items-center gap-2 shadow-lg">
+              <span class="w-2 h-2 rounded-full bg-coral-400 animate-ping"></span>
+              <span>Human Escalation Ready</span>
             </div>
           </div>
         </div>
 
       </div>
-    </div>
-  </section>
+    </section>
 
 
-  <!-- SECTION 9 — PRICING (TRANSPARENT INVESTMENT ARCHITECTURE) -->
-  <section id="pricing" class="py-24 lg:py-36 relative z-10 border-t border-slate-900 bg-black">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    <!-- ========================================================================= -->
+    <!-- 5. KEY FEATURES SECTION (ALTERNATING SCROLLING MARQUEE ROWS) -->
+    <!-- ========================================================================= -->
+    <section id="features" class="py-16 border-t border-slate-200/60 dark:border-cyan-400/20 overflow-hidden">
       
-      <div class="text-center space-y-4 max-w-3xl mx-auto editorial-reveal">
-        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-950 border border-slate-800 text-[10px] font-mono text-slate-400 uppercase tracking-widest">
-          TRANSPARENT PRICING ARCHITECTURE
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-12 px-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full support-glass-panel text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-widest">
+          SYSTEM CAPABILITIES
         </div>
-        <h2 class="text-4xl sm:text-6xl font-serif font-normal text-white tracking-tight">
-          Simple investment. <span class="cyan-glow-text">Predictable scale.</span>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display tracking-tight text-slate-900 dark:text-white">
+          Key Features & Capabilities
         </h2>
-        <p class="text-slate-400 font-sans text-base">
-          Choose the conversation processing capacity suited for your business. No hidden fees or surprise usage surcharges.
+        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-normal">
+          15 enterprise capabilities engineered to automate routine customer inquiries while routing complex issues seamlessly. Hover or touch to pause.
+        </p>
+      </div>
+
+      <!-- Marquee Rows Wrapper -->
+      <div class="space-y-6 py-4">
+        
+        <!-- ROW 1: Left to Right Marquee (Cards 01 to 05) -->
+        <div class="marquee-container overflow-hidden relative select-none">
+          <div class="animate-marquee-ltr">
+            
+            <!-- Track Copy 1 -->
+            <div class="flex gap-6 shrink-0">
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">01. ASSISTANCE</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">24/7 Automated Assistance</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Round-the-clock instant automated support handling customer inquiries without downtime or queue delays.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">02. CONTEXT</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Conversation Context Handling</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Maintains deep dialogue history and context across multi-turn user conversations for coherent answers.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">03. KNOWLEDGE</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">FAQ & Knowledge-Base Answering</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Retrieves exact answers directly from verified organizational FAQs and knowledge-base documents.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">04. VERIFIED INFO</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Approved-Business-Information Responses</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Strict adherence to approved brand policies, official guidelines, and business data without hallucination.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">05. NATIVE NLU</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Natural-Language Conversations</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Understands conversational human language, phrasing variations, idioms, and multi-language inputs.</p>
+              </div>
+            </div>
+
+            <!-- Track Copy 2 -->
+            <div class="flex gap-6 shrink-0">
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">01. ASSISTANCE</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">24/7 Automated Assistance</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Round-the-clock instant automated support handling customer inquiries without downtime or queue delays.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">02. CONTEXT</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Conversation Context Handling</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Maintains deep dialogue history and context across multi-turn user conversations for coherent answers.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">03. KNOWLEDGE</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">FAQ & Knowledge-Base Answering</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Retrieves exact answers directly from verified organizational FAQs and knowledge-base documents.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">04. VERIFIED INFO</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Approved-Business-Information Responses</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Strict adherence to approved brand policies, official guidelines, and business data without hallucination.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">05. NATIVE NLU</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Natural-Language Conversations</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Understands conversational human language, phrasing variations, idioms, and multi-language inputs.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ROW 2: Right to Left Marquee (Cards 06 to 10) -->
+        <div class="marquee-container overflow-hidden relative select-none">
+          <div class="animate-marquee-rtl">
+            
+            <!-- Track Copy 1 -->
+            <div class="flex gap-6 shrink-0">
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">06. CHANNELS</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Multi-Channel Architecture</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Integrates across web portals, mobile applications, chat widgets, and messaging endpoints.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">07. INTAKE</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Support Request Intake</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Structured capture of incoming customer issues, contact details, and initial diagnostic data.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">08. FEEDBACK</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Customer Feedback Collection</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Automated post-interaction surveys and satisfaction tracking to monitor customer sentiment.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">09. TICKETING</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Ticket Creation & Categorization</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Automatically logs support tickets and assigns correct category tags based on issue intent.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">10. IDENTIFICATION</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Common-Issue Identification</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Detects recurring customer friction points and trending problem topics across high volume streams.</p>
+              </div>
+            </div>
+
+            <!-- Track Copy 2 -->
+            <div class="flex gap-6 shrink-0">
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">06. CHANNELS</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Multi-Channel Architecture</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Integrates across web portals, mobile applications, chat widgets, and messaging endpoints.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">07. INTAKE</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Support Request Intake</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Structured capture of incoming customer issues, contact details, and initial diagnostic data.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">08. FEEDBACK</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Customer Feedback Collection</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Automated post-interaction surveys and satisfaction tracking to monitor customer sentiment.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 002 2h14a2 2 0 002-2V7a2 2 0 00-2-2H5z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">09. TICKETING</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Ticket Creation & Categorization</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Automatically logs support tickets and assigns correct category tags based on issue intent.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">10. IDENTIFICATION</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Common-Issue Identification</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Detects recurring customer friction points and trending problem topics across high volume streams.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ROW 3: Left to Right Marquee (Cards 11 to 15) -->
+        <div class="marquee-container overflow-hidden relative select-none">
+          <div class="animate-marquee-ltr">
+            
+            <!-- Track Copy 1 -->
+            <div class="flex gap-6 shrink-0">
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">11. ROUTING</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Issue Classification & Routing</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Routes complex requests to the specialized department or regional team for swift resolution.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">12. ANALYTICS</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Support Analytics & Reporting</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Real-time operational dashboards for resolution speed, conversation counts, and service KPIs.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group border-coral-500/40">
+                <div class="w-10 h-10 rounded-2xl bg-coral-500/10 border border-coral-500/40 text-coral-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-coral-400 uppercase mb-1">13. ESCALATION</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Human Escalation</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Smooth handoff to human support representatives with complete context transcript when human touch is required.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">14. IMPROVEMENT</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Knowledge-Base Improvement Workflow</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Flags unmapped queries and recommends continuous updates to keep organizational FAQs up to date.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 11h14l1 12H4L5 11z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">15. ENQUIRIES</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Order & Service Enquiries</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Instant status updates for order tracking, service bookings, account changes, and policy information.</p>
+              </div>
+            </div>
+
+            <!-- Track Copy 2 -->
+            <div class="flex gap-6 shrink-0">
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">11. ROUTING</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Issue Classification & Routing</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Routes complex requests to the specialized department or regional team for swift resolution.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">12. ANALYTICS</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Support Analytics & Reporting</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Real-time operational dashboards for resolution speed, conversation counts, and service KPIs.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group border-coral-500/40">
+                <div class="w-10 h-10 rounded-2xl bg-coral-500/10 border border-coral-500/40 text-coral-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-coral-400 uppercase mb-1">13. ESCALATION</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Human Escalation</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Smooth handoff to human support representatives with complete context transcript when human touch is required.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">14. IMPROVEMENT</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Knowledge-Base Improvement Workflow</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Flags unmapped queries and recommends continuous updates to keep organizational FAQs up to date.</p>
+              </div>
+
+              <div class="support-glass-card p-6 rounded-3xl w-[310px] sm:w-[360px] shrink-0 relative overflow-hidden group">
+                <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mb-3">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 11h14l1 12H4L5 11z"/></svg>
+                </div>
+                <div class="text-xs font-mono font-bold text-cyan-400 uppercase mb-1">15. ENQUIRIES</div>
+                <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-1.5">Order & Service Enquiries</h3>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Instant status updates for order tracking, service bookings, account changes, and policy information.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- 6. HOW IT WORKS WORKFLOW SECTION -->
+    <!-- ========================================================================= -->
+    <section id="how-it-works" class="py-16 border-t border-slate-200/60 dark:border-cyan-400/20">
+      <div class="text-center max-w-3xl mx-auto space-y-4 mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full support-glass-panel text-[10px] font-mono font-bold text-cyan-400 uppercase tracking-widest">
+          WORKFLOW PIPELINE
+        </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display tracking-tight text-slate-900 dark:text-white">
+          How It Works
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-normal">
+          An end-to-end intelligent customer resolution pipeline with automated knowledge answering and human escalation.
+        </p>
+      </div>
+
+      <div class="relative">
+        <div class="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-aqua-400 to-coral-500 -translate-y-1/2 opacity-30 z-0"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 relative z-10">
+          <div class="support-glass-card p-6 rounded-3xl text-center space-y-3 group hover:border-cyan-400">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mx-auto text-lg font-bold font-mono group-hover:scale-110 transition-transform">
+              01
+            </div>
+            <h4 class="text-base font-bold font-display text-slate-900 dark:text-white">Customer Question</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300">Customer submits inquiry via chat widget, web portal, or app messaging.</p>
+          </div>
+
+          <div class="support-glass-card p-6 rounded-3xl text-center space-y-3 group hover:border-cyan-400">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mx-auto text-lg font-bold font-mono group-hover:scale-110 transition-transform">
+              02
+            </div>
+            <h4 class="text-base font-bold font-display text-slate-900 dark:text-white">AI Understands Request</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300">Natural language engine parses user intent, context, and issue urgency.</p>
+          </div>
+
+          <div class="support-glass-card p-6 rounded-3xl text-center space-y-3 group hover:border-cyan-400">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mx-auto text-lg font-bold font-mono group-hover:scale-110 transition-transform">
+              03
+            </div>
+            <h4 class="text-base font-bold font-display text-slate-900 dark:text-white">Knowledge / FAQ Response</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300">Delivers instant verified answers from official business knowledge documents.</p>
+          </div>
+
+          <div class="support-glass-card p-6 rounded-3xl text-center space-y-3 group hover:border-cyan-400">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-400/30 text-cyan-400 flex items-center justify-center mx-auto text-lg font-bold font-mono group-hover:scale-110 transition-transform">
+              04
+            </div>
+            <h4 class="text-base font-bold font-display text-slate-900 dark:text-white">Ticket / Request Handling</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300">Automatically logs, categorizes, and tracks service requests and status enquiries.</p>
+          </div>
+
+          <div class="support-glass-card p-6 rounded-3xl text-center space-y-3 group border-coral-500/30 hover:border-coral-400">
+            <div class="w-12 h-12 rounded-2xl bg-coral-500/10 border border-coral-400/40 text-coral-400 flex items-center justify-center mx-auto text-lg font-bold font-mono group-hover:scale-110 transition-transform">
+              05
+            </div>
+            <h4 class="text-base font-bold font-display text-slate-900 dark:text-white">Human Escalation</h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300">Routes complex edge cases smoothly to human team members when required.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- 7. WHO CAN USE IT? SECTION (EXACT REFERENCE IMAGE LAYOUT MATCH) -->
+    <!-- ========================================================================= -->
+    <section id="who-can-use-it" class="py-16 border-t border-slate-200/60 dark:border-cyan-400/20">
+      
+      <!-- Section Header with Left Pill Indicator Bar -->
+      <div class="max-w-3xl space-y-3 mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/30 text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-widest">
+          <span class="w-1.5 h-4 bg-cyan-400 rounded-full"></span>
+          <span>INDUSTRIES</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display tracking-tight text-slate-900 dark:text-white">
+          Who Can Use It?
+        </h2>
+        <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-normal">
+          Designed for organizations handling high volumes of routine customer enquiries.
+        </p>
+      </div>
+
+      <!-- Card Grid: Row 1 (4 Columns) + Row 2 (3 Columns) -->
+      <div class="space-y-6">
+        
+        <!-- Row 1: 4 Columns -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          
+          <!-- Card 1: E-commerce -->
+          <div class="support-glass-card p-3 sm:p-4 rounded-3xl group transition-all hover:-translate-y-1.5 hover:shadow-2xl">
+            <div class="h-40 sm:h-44 w-full rounded-2xl overflow-hidden relative mb-3">
+              <img src="{{ url_for('static', filename='images/ai_support/ecommerce.jpg') }}" alt="E-commerce stores and online retailers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 class="text-sm sm:text-base font-bold font-display text-slate-900 dark:text-white leading-snug px-1">
+              E-commerce stores and online retailers
+            </h3>
+          </div>
+
+          <!-- Card 2: Healthcare -->
+          <div class="support-glass-card p-3 sm:p-4 rounded-3xl group transition-all hover:-translate-y-1.5 hover:shadow-2xl">
+            <div class="h-40 sm:h-44 w-full rounded-2xl overflow-hidden relative mb-3">
+              <img src="{{ url_for('static', filename='images/ai_support/healthcare.jpg') }}" alt="Hospitals, clinics and healthcare service providers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 class="text-sm sm:text-base font-bold font-display text-slate-900 dark:text-white leading-snug px-1">
+              Hospitals, clinics and healthcare service providers
+            </h3>
+          </div>
+
+          <!-- Card 3: Travel -->
+          <div class="support-glass-card p-3 sm:p-4 rounded-3xl group transition-all hover:-translate-y-1.5 hover:shadow-2xl">
+            <div class="h-40 sm:h-44 w-full rounded-2xl overflow-hidden relative mb-3">
+              <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80" alt="Travel, aviation and hospitality businesses" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 class="text-sm sm:text-base font-bold font-display text-slate-900 dark:text-white leading-snug px-1">
+              Travel, aviation and hospitality businesses
+            </h3>
+          </div>
+
+          <!-- Card 4: Fintech -->
+          <div class="support-glass-card p-3 sm:p-4 rounded-3xl group transition-all hover:-translate-y-1.5 hover:shadow-2xl">
+            <div class="h-40 sm:h-44 w-full rounded-2xl overflow-hidden relative mb-3">
+              <img src="{{ url_for('static', filename='images/ai_support/fintech.jpg') }}" alt="Banks, fintech and financial-service teams" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 class="text-sm sm:text-base font-bold font-display text-slate-900 dark:text-white leading-snug px-1">
+              Banks, fintech and financial-service teams
+            </h3>
+          </div>
+
+        </div>
+
+        <!-- Row 2: 3 Columns -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          <!-- Card 5: EdTech -->
+          <div class="support-glass-card p-3 sm:p-4 rounded-3xl group transition-all hover:-translate-y-1.5 hover:shadow-2xl">
+            <div class="h-40 sm:h-44 w-full rounded-2xl overflow-hidden relative mb-3">
+              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" alt="Education institutions and edtech businesses" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 class="text-sm sm:text-base font-bold font-display text-slate-900 dark:text-white leading-snug px-1">
+              Education institutions and edtech businesses
+            </h3>
+          </div>
+
+          <!-- Card 6: SaaS -->
+          <div class="support-glass-card p-3 sm:p-4 rounded-3xl group transition-all hover:-translate-y-1.5 hover:shadow-2xl">
+            <div class="h-40 sm:h-44 w-full rounded-2xl overflow-hidden relative mb-3">
+              <img src="{{ url_for('static', filename='images/ai_support/saas.jpg') }}" alt="SaaS, technology and subscription businesses" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 class="text-sm sm:text-base font-bold font-display text-slate-900 dark:text-white leading-snug px-1">
+              SaaS, technology and subscription businesses
+            </h3>
+          </div>
+
+          <!-- Card 7: High Volume -->
+          <div class="support-glass-card p-3 sm:p-4 rounded-3xl group transition-all hover:-translate-y-1.5 hover:shadow-2xl">
+            <div class="h-40 sm:h-44 w-full rounded-2xl overflow-hidden relative mb-3">
+              <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Any organization handling high volumes of routine customer enquiries" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+            <h3 class="text-sm sm:text-base font-bold font-display text-slate-900 dark:text-white leading-snug px-1">
+              Any organization handling high volumes of routine customer enquiries
+            </h3>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- 8. WHY CHOOSE TRAIT SECTION (EXACT REFERENCE IMAGE LAYOUT MATCH) -->
+    <!-- ========================================================================= -->
+    <section id="why-trait" class="py-16 border-t border-slate-200/60 dark:border-cyan-400/20">
+      <div class="support-glass-panel rounded-3xl p-6 sm:p-10 border border-cyan-400/30 relative overflow-hidden">
+        
+        <!-- Top Row: Left Text Content + Right 3D Visual Composition -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center mb-10">
+          
+          <!-- Left Text Content -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-400/10 border border-cyan-400/30 text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-widest">
+              <span class="w-1.5 h-4 bg-cyan-400 rounded-full"></span>
+              <span>ADVANTAGE</span>
+            </div>
+            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-display text-slate-900 dark:text-white">
+              Why Choose TRAIT?
+            </h2>
+            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal max-w-2xl">
+              TRAIT combines conversational AI with business-specific knowledge and workflows, aiming to create a support assistant that understands requests, guides customers and involves people when required.
+            </p>
+          </div>
+
+          <!-- Right 3D Visual Asset Composition -->
+          <div class="lg:col-span-5 relative flex justify-center">
+            <div class="relative w-full max-w-sm rounded-2xl overflow-hidden support-glass-card border border-cyan-400/30 p-2 shadow-2xl">
+              <img src="{{ url_for('static', filename='images/ai_support/hero_core.jpg') }}" alt="TRAIT AI 3D Interface Hub" class="w-full h-48 object-cover rounded-xl shadow-lg" />
+              
+              <div class="absolute -top-3 -right-3 w-12 h-12 rounded-full bg-gradient-to-tr from-cyan-400 to-aqua-400 p-0.5 shadow-xl animate-float-slow">
+                <div class="w-full h-full bg-petrol-900 rounded-full flex items-center justify-center text-cyan-400">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Row: 4 Advantage Pill Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-slate-200/60 dark:border-cyan-400/20">
+          
+          <!-- Advantage Card 1 -->
+          <div class="support-glass-card p-4 rounded-2xl flex items-center gap-3.5 group hover:border-cyan-400">
+            <div class="w-11 h-11 rounded-2xl bg-cyan-400/15 border border-cyan-400/40 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div class="text-xs sm:text-sm font-bold font-display text-slate-900 dark:text-white leading-tight">
+              Business-Specific Knowledge
+            </div>
+          </div>
+
+          <!-- Advantage Card 2 -->
+          <div class="support-glass-card p-4 rounded-2xl flex items-center gap-3.5 group hover:border-cyan-400">
+            <div class="w-11 h-11 rounded-2xl bg-cyan-400/15 border border-cyan-400/40 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </div>
+            <div class="text-xs sm:text-sm font-bold font-display text-slate-900 dark:text-white leading-tight">
+              Intelligent Workflows
+            </div>
+          </div>
+
+          <!-- Advantage Card 3 -->
+          <div class="support-glass-card p-4 rounded-2xl flex items-center gap-3.5 group hover:border-cyan-400">
+            <div class="w-11 h-11 rounded-2xl bg-cyan-400/15 border border-cyan-400/40 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            </div>
+            <div class="text-xs sm:text-sm font-bold font-display text-slate-900 dark:text-white leading-tight">
+              Guides Customers Effectively
+            </div>
+          </div>
+
+          <!-- Advantage Card 4 -->
+          <div class="support-glass-card p-4 rounded-2xl flex items-center gap-3.5 group border-coral-500/30 hover:border-coral-400">
+            <div class="w-11 h-11 rounded-2xl bg-coral-500/15 border border-coral-400/40 text-coral-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </div>
+            <div class="text-xs sm:text-sm font-bold font-display text-slate-900 dark:text-white leading-tight">
+              Human Involvement When Required
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ========================================================================= -->
+    <!-- 9. FINAL CLOSING CTA SECTION -->
+    <!-- ========================================================================= -->
+    <section id="contact-cta" class="py-20 border-t border-slate-200/60 dark:border-cyan-400/20 text-center">
+      <div class="max-w-4xl mx-auto space-y-8">
+        
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full support-glass-panel border border-cyan-400/40 text-[11px] font-mono font-bold text-cyan-400 uppercase tracking-widest shadow-md">
+          ENTERPRISE READY
+        </div>
+
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display tracking-tight text-slate-900 dark:text-white">
+          Explore AI Customer Support Agent
+        </h2>
+
+        <p class="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
+          Connect with the TRAIT Innovation engineering team to integrate conversational customer intelligence into your operational workflow.
         </p>
 
-        <div class="pt-4 flex items-center justify-center gap-4 font-mono text-xs">
-          <span id="billing-label-monthly" class="text-white font-bold">Monthly Billing</span>
-          <button id="billing-toggle-btn" onclick="togglePricingCycle()" class="w-14 h-7 rounded-full bg-slate-900 border border-cyan-500/40 p-1 flex items-center transition-colors cursor-pointer relative">
-            <span id="billing-toggle-dot" class="w-5 h-5 rounded-full bg-cyan-400 shadow-md transition-transform translate-x-0"></span>
-          </button>
-          <span id="billing-label-annual" class="text-slate-400 flex items-center gap-1.5">
-            <span>Annual Billing</span>
-            <span class="px-2 py-0.5 rounded-full bg-cyan-950 border border-cyan-500/40 text-[9px] text-cyan-300 font-bold uppercase">Save 20%</span>
-          </span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-        
-        <!-- TIER 1 -->
-        <div class="void-surface rounded-3xl p-8 border border-slate-800 space-y-8 flex flex-col justify-between relative overflow-hidden group hover:border-slate-700 transition-all">
-          <div class="scanning-beam"></div>
-
-          <div class="space-y-4">
-            <div class="flex justify-between items-start">
-              <div>
-                <span class="text-xs font-mono text-slate-400 font-bold tracking-widest uppercase">STARTER</span>
-                <h3 class="text-2xl font-serif text-white mt-1">Essential Agent</h3>
-              </div>
-            </div>
-
-            <p class="text-xs text-slate-400 font-sans leading-relaxed">
-              Ideal for growing businesses looking to automate routine FAQs, basic support intake, and standard ticket creation.
-            </p>
-
-            <div class="pt-4 border-t border-slate-800/80">
-              <div class="flex items-baseline gap-2">
-                <span id="price-starter" class="text-4xl font-serif text-white font-normal">$499</span>
-                <span class="text-xs font-mono text-slate-400">/ month</span>
-              </div>
-              <div id="subtext-starter" class="text-[10px] font-mono text-slate-500 mt-1">Billed monthly</div>
-            </div>
-
-            <div class="space-y-3 font-mono text-xs text-slate-300 pt-2">
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>Up to 5,000 automated conversations/mo</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>24/7 Automated NLU Answering</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>Knowledge Indexing (Up to 100 Docs)</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>Basic Support Intake & Ticket Categorization</span>
-              </div>
-            </div>
-          </div>
-
-          <button onclick="openExploreModal()" class="w-full py-3.5 rounded-full border border-slate-800 bg-slate-950/80 font-mono text-xs text-slate-200 hover:text-white hover:border-slate-700 transition-all cursor-pointer">
-            Select Essential Agent →
-          </button>
-        </div>
-
-        <!-- TIER 2 -->
-        <div class="void-surface rounded-3xl p-8 border-2 border-cyan-400 space-y-8 flex flex-col justify-between relative overflow-hidden shadow-[0_0_50px_rgba(0,240,255,0.2)]">
-          <div class="scanning-beam"></div>
-
-          <div class="absolute top-0 right-0 px-4 py-1 rounded-bl-2xl bg-cyan-400 text-slate-950 font-mono text-[10px] font-bold uppercase tracking-wider">
-            MOST POPULAR
-          </div>
-
-          <div class="space-y-4">
-            <div class="flex justify-between items-start">
-              <div>
-                <span class="text-xs font-mono text-cyan-400 font-bold tracking-widest uppercase">ENTERPRISE</span>
-                <h3 class="text-2xl font-serif text-white mt-1">Pro Intelligence</h3>
-              </div>
-            </div>
-
-            <p class="text-xs text-slate-300 font-sans leading-relaxed">
-              Full-featured conversational intelligence system with multi-turn memory, ERP order lookup, and seamless human escalation handoffs.
-            </p>
-
-            <div class="pt-4 border-t border-slate-800">
-              <div class="flex items-baseline gap-2">
-                <span id="price-pro" class="text-4xl font-serif text-cyan-300 font-normal">$1,299</span>
-                <span class="text-xs font-mono text-slate-400">/ month</span>
-              </div>
-              <div id="subtext-pro" class="text-[10px] font-mono text-slate-400 mt-1">Billed monthly</div>
-            </div>
-
-            <div class="space-y-3 font-mono text-xs text-slate-200 pt-2">
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span class="font-bold text-white">Up to 25,000 automated conversations/mo</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>Unlimited Grounded Knowledge Network</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>Multi-Turn Conversation Memory</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>Order Status & ERP API Integrations</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-amber-400 font-bold"></span>
-                <span class="text-amber-300 font-bold">Human Escalation Amber Protocol</span>
-              </div>
-            </div>
-          </div>
-
-          <button onclick="openExploreModal()" class="w-full py-4 rounded-full bg-cyan-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/30 hover:bg-cyan-300 hover:scale-105 active:scale-95 transition-all cursor-pointer">
-            Deploy Pro Intelligence →
-          </button>
-        </div>
-
-        <!-- TIER 3 -->
-        <div class="void-surface rounded-3xl p-8 border border-slate-800 space-y-8 flex flex-col justify-between relative overflow-hidden group hover:border-slate-700 transition-all">
-          <div class="scanning-beam"></div>
-
-          <div class="space-y-4">
-            <div class="flex justify-between items-start">
-              <div>
-                <span class="text-xs font-mono text-slate-400 font-bold tracking-widest uppercase">CUSTOM</span>
-                <h3 class="text-2xl font-serif text-white mt-1">Bespoke Ecosystem</h3>
-              </div>
-            </div>
-
-            <p class="text-xs text-slate-400 font-sans leading-relaxed">
-              Tailored for enterprise organizations requiring custom model fine-tuning, air-gapped deployments, and dedicated SLAs.
-            </p>
-
-            <div class="pt-4 border-t border-slate-800/80">
-              <div class="flex items-baseline gap-2">
-                <span class="text-4xl font-serif text-white font-normal">Custom</span>
-              </div>
-              <div class="text-[10px] font-mono text-slate-500 mt-1">Tailored Enterprise Contract</div>
-            </div>
-
-            <div class="space-y-3 font-mono text-xs text-slate-300 pt-2">
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>Unlimited Conversation Volume</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>On-Premises / Private Cloud Deployment</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>Custom CRM/ERP Workflow Connectors</span>
-              </div>
-              <div class="flex items-center gap-2.5">
-                <span class="text-cyan-400 font-bold"></span>
-                <span>Dedicated AI Solutions Engineer & 24/7 SLA</span>
-              </div>
-            </div>
-          </div>
-
-          <button onclick="openExploreModal()" class="w-full py-3.5 rounded-full border border-slate-800 bg-slate-950/80 font-mono text-xs text-slate-200 hover:text-white hover:border-slate-700 transition-all cursor-pointer">
-            Request Enterprise Quote →
+        <div class="pt-4 flex justify-center">
+          <button onclick="openSupportModal()" class="px-10 py-5 rounded-full coral-btn font-extrabold text-sm uppercase tracking-wider flex items-center gap-3 shadow-2xl cursor-pointer">
+            <span>Explore AI Customer Support Agent</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </button>
         </div>
 
       </div>
+    </section>
 
-    </div>
-  </section>
+  </div>
 
 
-  <!-- FINAL CTA (CINEMATIC VISUAL OVERLAY) -->
-  <section id="cta" class="py-28 lg:py-40 relative z-10 border-t border-slate-900 bg-black text-center overflow-hidden">
-    
-    <!-- GENERATED CINEMATIC CTA VOID BACKDROP -->
-    <div class="absolute inset-0 pointer-events-none z-0">
-      <img src="{{ url_for('static', filename='images/cta_void.png') }}" alt="" class="w-full h-full object-cover opacity-50 mix-blend-screen" />
-      <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
-    </div>
+  <!-- INQUIRY FORM MODAL -->
+  <div id="support-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-petrol-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div class="support-glass-panel rounded-3xl p-6 sm:p-8 max-w-lg w-full relative border border-cyan-400/40 shadow-2xl space-y-6">
+      <button onclick="closeSupportModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg p-2 rounded-full hover:bg-petrol-800 transition-colors">✕</button>
 
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
-      
-      <h2 class="text-5xl sm:text-7xl lg:text-8xl font-serif font-normal text-white tracking-tight leading-tight">
-        Every question <br />
-        deserves <span class="cyan-glow-text">an answer.</span>
-      </h2>
-
-      <div class="pt-4">
-        <button onclick="openExploreModal()" class="px-9 py-4.5 rounded-full bg-cyan-400 text-slate-950 font-mono font-bold text-sm uppercase tracking-wider shadow-2xl shadow-cyan-500/40 hover:bg-cyan-300 hover:scale-105 active:scale-95 transition-all cursor-pointer">
-          Explore AI Customer Support Agent →
-        </button>
+      <div class="space-y-2">
+        <div class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-widest">TRAIT INNOVATION INQUIRY</div>
+        <h3 class="text-2xl font-extrabold font-display text-white">Explore AI Support Agent</h3>
       </div>
 
-    </div>
-  </section>
-
-
-  <!-- EXPLORATION REQUEST MODAL -->
-  <div id="explore-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/90 backdrop-blur-md p-4">
-    <div class="void-surface max-w-md w-full p-8 rounded-3xl border border-cyan-500/40 space-y-6 relative shadow-2xl">
-      <button onclick="closeExploreModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl cursor-pointer"></button>
-      
-      <div class="space-y-1">
-        <div class="text-xs font-mono text-cyan-400 font-bold uppercase">Explore Agent</div>
-        <h3 class="text-2xl font-serif text-white">Connect With TRAIT</h3>
-      </div>
-
-      <form id="explore-form" class="space-y-4 font-mono text-xs">
+      <form id="support-inquiry-form" onsubmit="handleSupportSubmit(event)" class="space-y-4">
         <div>
-          <label class="block text-slate-300 mb-1">Full Name</label>
-          <input type="text" required placeholder="Your Name" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-cyan-400" />
+          <label class="block text-xs font-mono font-bold text-slate-300 mb-1">YOUR NAME</label>
+          <input type="text" required placeholder="John Doe" class="w-full px-4 py-3 rounded-2xl bg-petrol-900/90 border border-cyan-400/30 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 transition-colors" />
         </div>
         <div>
-          <label class="block text-slate-300 mb-1">Professional Email</label>
-          <input type="email" required placeholder="name@company.com" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-cyan-400" />
+          <label class="block text-xs font-mono font-bold text-slate-300 mb-1">EMAIL ADDRESS</label>
+          <input type="email" required placeholder="john@company.com" class="w-full px-4 py-3 rounded-2xl bg-petrol-900/90 border border-cyan-400/30 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 transition-colors" />
         </div>
         <div>
-          <label class="block text-slate-300 mb-1">Organization / Practice Area</label>
-          <input type="text" placeholder="Company Name" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-cyan-400" />
+          <label class="block text-xs font-mono font-bold text-slate-300 mb-1">ORGANIZATION / INDUSTRY</label>
+          <input type="text" placeholder="E-commerce / Healthcare / SaaS" class="w-full px-4 py-3 rounded-2xl bg-petrol-900/90 border border-cyan-400/30 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-cyan-400 transition-colors" />
         </div>
-        <button type="submit" class="w-full py-3.5 rounded-xl bg-cyan-400 text-slate-950 font-bold uppercase tracking-wider hover:bg-cyan-300 transition-all cursor-pointer">
-          Submit Exploration Request
+
+        <button type="submit" class="w-full py-4 rounded-2xl coral-btn font-extrabold text-sm uppercase tracking-wider">
+          SUBMIT INQUIRY ↗
         </button>
       </form>
 
-      <div id="form-success-msg" class="hidden text-xs text-cyan-400 font-mono text-center p-3 rounded-xl bg-cyan-950/60 border border-cyan-500/30">
-        Thank you! Your request to explore the AI Customer Support Agent has been submitted. Our team will contact you shortly.
+      <div id="support-modal-success" class="hidden text-center p-6 space-y-3">
+        <div class="w-12 h-12 rounded-full bg-cyan-400/20 text-cyan-400 flex items-center justify-center mx-auto text-xl font-bold">✓</div>
+        <h4 class="text-lg font-bold font-display text-white">Inquiry Received</h4>
+        <p class="text-xs text-slate-300">Thank you for exploring the TRAIT AI Customer Support Agent. Our engineering team will follow up with your organization shortly.</p>
       </div>
     </div>
   </div>
 
-
-  <!-- Custom Application Script -->
+  <!-- SCRIPT INCLUDES -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/service_nav.js') }}"></script>
   <script src="{{ url_for('static', filename='js/ai_support.js') }}"></script>
+
+  <script>
+    function openSupportModal() {
+      const modal = document.getElementById('support-modal');
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none');
+        modal.classList.add('opacity-100', 'pointer-events-auto');
+      }
+    }
+
+    function closeSupportModal() {
+      const modal = document.getElementById('support-modal');
+      if (modal) {
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        modal.classList.remove('opacity-100', 'pointer-events-auto');
+      }
+    }
+
+    function handleSupportSubmit(e) {
+      e.preventDefault();
+      document.getElementById('support-inquiry-form').classList.add('hidden');
+      document.getElementById('support-modal-success').classList.remove('hidden');
+    }
+  </script>
 </body>
 </html>

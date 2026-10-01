@@ -781,5 +781,33 @@ code, pre, .font-mono {
   color: #818CF8;
 }
 
+/* Fast High-End Refined Page Entry Animation (< 350ms) */
+.hero-entry-anim {
+  animation: heroSceneReveal 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes heroSceneReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.988);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-entry-anim,
+  .scroll-reveal,
+  .leadership-reveal {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 
 

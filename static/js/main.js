@@ -1,73 +1,156 @@
-// Main Interactive Application Logic
+/**
+ * TRAIT Innovation — Master Global Application Script
+ * Handles Theme Switching, Global Navigation, Mobile Menu, Fast Page Entrance, and Scroll Reveals
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1. LIGHT / DARK THEME TOGGLE (TARGETS BOTH HTML & BODY FOR TAILWIND DARK MODE)
-  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  // =========================================================================
+  // 1. LIGHT / DARK THEME ENGINE (UNIFIED ACROSS ALL PAGES & COMPONENTS)
+  // =========================================================================
   const htmlEl = document.documentElement;
-  const body = document.body;
+  const bodyEl = document.body;
 
   function applyTheme(isDark) {
     if (isDark) {
       htmlEl.classList.add('dark');
-      body.classList.add('dark');
+      bodyEl.classList.add('dark');
+      htmlEl.classList.remove('light');
+      bodyEl.classList.remove('light');
     } else {
       htmlEl.classList.remove('dark');
-      body.classList.remove('dark');
+      bodyEl.classList.remove('dark');
+      htmlEl.classList.add('light');
+      bodyEl.classList.add('light');
     }
   }
 
-  // Read saved theme from localStorage or default to Light Mode
-  const savedTheme = localStorage.getItem('trait_theme') || 'light';
-  applyTheme(savedTheme === 'dark');
+  // Load saved theme (default to light or system theme if not saved)
+  const savedTheme = localStorage.getItem('trait_theme');
+  if (savedTheme) {
+    applyTheme(savedTheme === 'dark');
+  } else {
+    // Default to light mode for crisp tech aesthetic
+    applyTheme(false);
+  }
 
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      const isDark = !htmlEl.classList.contains('dark');
-      applyTheme(isDark);
-      localStorage.setItem('trait_theme', isDark ? 'dark' : 'light');
+  // Bind all potential theme toggle buttons across templates and components
+  const themeToggleSelectors = [
+    '#global-theme-toggle-btn',
+    '#theme-toggle-btn',
+    '#global-theme-btn',
+    '.theme-toggle-trigger'
+  ];
+
+  themeToggleSelectors.forEach(selector => {
+    document.querySelectorAll(selector).forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isDarkNow = !htmlEl.classList.contains('dark');
+        applyTheme(isDarkNow);
+        localStorage.setItem('trait_theme', isDarkNow ? 'dark' : 'light');
+      });
+    });
+  });
+
+
+  // =========================================================================
+  // 2. GLOBAL NAVBAR ACTIVE STATE & MOBILE DRAWER CONTROLLER
+  // =========================================================================
+  const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+  
+  // Highlight active home dot if on root page
+  const homeNavLinks = document.querySelectorAll('.global-nav-link[data-path="/"]');
+  homeNavLinks.forEach(link => {
+    const dot = link.querySelector('.home-active-dot');
+    if (currentPath === '/' || currentPath === '') {
+      if (dot) dot.classList.remove('opacity-0');
+      link.classList.add('font-bold', 'text-blue-600', 'dark:text-cyan-400');
+    } else {
+      if (dot) dot.classList.add('opacity-0');
+    }
+  });
+
+  // Mobile Drawer Toggle
+  const mobileBtn = document.getElementById('global-mobile-menu-btn') || document.getElementById('mobile-menu-btn');
+  const mobileCloseBtn = document.getElementById('global-mobile-menu-close');
+  const mobileDrawer = document.getElementById('global-mobile-menu') || document.getElementById('mobile-menu');
+
+  if (mobileBtn && mobileDrawer) {
+    mobileBtn.addEventListener('click', () => {
+      mobileDrawer.classList.toggle('hidden');
     });
   }
 
-  // 2. HERO DYNAMIC TEXT CYCLING
-  const dynamicTextEl = document.getElementById('hero-dynamic-text');
-  const headlines = [
-    "Real Impact.",
-    "Smarter Automation.",
-    "Aviation Telemetry.",
-    "Scalable Web SaaS.",
-    "Digital Event Production."
-  ];
-  let headlineIdx = 0;
-
-  if (dynamicTextEl) {
-    setInterval(() => {
-      headlineIdx = (headlineIdx + 1) % headlines.length;
-      dynamicTextEl.style.opacity = '0';
-      dynamicTextEl.style.transform = 'translateY(8px)';
-      setTimeout(() => {
-        dynamicTextEl.textContent = headlines[headlineIdx];
-        dynamicTextEl.style.opacity = '1';
-        dynamicTextEl.style.transform = 'translateY(0px)';
-      }, 300);
-    }, 3500);
+  if (mobileCloseBtn && mobileDrawer) {
+    mobileCloseBtn.addEventListener('click', () => {
+      mobileDrawer.classList.add('hidden');
+    });
   }
 
-  // 3. LEADERSHIP STAGGERED ANIMATED REVEAL ON SCROLL (ONE-TIME PERMANENT REVEAL)
-  const leadershipCards = document.querySelectorAll('.leadership-reveal');
-  if (leadershipCards.length > 0) {
-    const observer = new IntersectionObserver((entries, obs) => {
+
+  // =========================================================================
+  // 3. FAST HIGH-END SCENE ENTRY ANIMATION (LOAD TIME < 350ms)
+  // =========================================================================
+  const mainHero = document.querySelector('section') || document.querySelector('main');
+  if (mainHero) {
+    mainHero.classList.add('hero-entry-anim');
+  }
+
+
+  // =========================================================================
+  // 4. SCROLL REVEAL OBSERVER (SECTION LEVEL)
+  // =========================================================================
+  const revealElements = document.querySelectorAll('.scroll-reveal, .leadership-reveal');
+  if (revealElements.length > 0) {
+    const observerOptions = {
+      threshold: 0.12,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const revealObserver = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
           obs.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, observerOptions);
 
-    leadershipCards.forEach(card => observer.observe(card));
+    revealElements.forEach(el => revealObserver.observe(el));
   }
 
-  // 4. FAQ ACCORDION TOGGLE
+
+  // =========================================================================
+  // 5. HERO DYNAMIC HEADLINE TEXT CYCLING
+  // =========================================================================
+  const dynamicTextEl = document.getElementById('hero-dynamic-text');
+  if (dynamicTextEl) {
+    const headlines = [
+      "Real Impact.",
+      "Smarter Automation.",
+      "Aviation Telemetry.",
+      "Scalable Web SaaS.",
+      "Digital Event Production."
+    ];
+    let headlineIdx = 0;
+
+    setInterval(() => {
+      headlineIdx = (headlineIdx + 1) % headlines.length;
+      dynamicTextEl.style.opacity = '0';
+      dynamicTextEl.style.transform = 'translateY(6px)';
+      setTimeout(() => {
+        dynamicTextEl.textContent = headlines[headlineIdx];
+        dynamicTextEl.style.opacity = '1';
+        dynamicTextEl.style.transform = 'translateY(0px)';
+      }, 250);
+    }, 3200);
+  }
+
+
+  // =========================================================================
+  // 6. FAQ ACCORDION CONTROLLER
+  // =========================================================================
   const faqItems = document.querySelectorAll('.faq-item');
   faqItems.forEach(item => {
     const btn = item.querySelector('.faq-btn');
@@ -76,12 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btn && content) {
       btn.addEventListener('click', () => {
-        const isOpen = content.classList.contains('hidden');
-        // Close all other FAQs
+        const isOpen = !content.classList.contains('hidden');
+        
+        // Close all FAQs first
         document.querySelectorAll('.faq-answer').forEach(ans => ans.classList.add('hidden'));
         document.querySelectorAll('.faq-icon').forEach(ic => ic.style.transform = 'rotate(0deg)');
 
-        if (isOpen) {
+        if (!isOpen) {
           content.classList.remove('hidden');
           if (icon) icon.style.transform = 'rotate(180deg)';
         }
@@ -89,16 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 5. MOBILE MENU TOGGLE
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (mobileMenuBtn && mobileMenu) {
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-    });
-  }
 
-  // 6. FLOATING AI CHATBOT POPOVER TOGGLE & TYPING REVEAL
+  // =========================================================================
+  // 7. FLOATING AI CHATBOT POPOVER & TYPEWRITER REVEAL
+  // =========================================================================
   const chatbotTriggerBtn = document.getElementById('chatbot-trigger-btn');
   const chatbotPopover = document.getElementById('chatbot-popover');
   const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
@@ -120,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       typingTimeout = setTimeout(() => {
         typeWriterMessage(text, element, i + 1);
-      }, 25);
+      }, 20);
     }
   }
 
@@ -132,7 +210,6 @@ document.addEventListener('DOMContentLoaded', () => {
       chatbotPopover.classList.remove('opacity-0', 'translate-y-4', 'scale-95', 'pointer-events-none');
       chatbotPopover.classList.add('opacity-100', 'translate-y-0', 'scale-100', 'pointer-events-auto');
 
-      // Trigger typewriter animation
       if (chatbotTypingText) {
         if (typingTimeout) clearTimeout(typingTimeout);
         typeWriterMessage(fullMessage, chatbotTypingText, 0);
@@ -145,15 +222,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.toggleChatbot = toggleChatbot;
+  if (chatbotTriggerBtn) chatbotTriggerBtn.addEventListener('click', toggleChatbot);
+  if (chatbotCloseBtn) chatbotCloseBtn.addEventListener('click', toggleChatbot);
 
-  if (chatbotTriggerBtn) {
-    chatbotTriggerBtn.addEventListener('click', toggleChatbot);
-  }
-  if (chatbotCloseBtn) {
-    chatbotCloseBtn.addEventListener('click', toggleChatbot);
-  }
 
-  // 7. ANIMATED COMING SOON TOAST FOR SOCIAL MEDIA CLICK EVENTS
+  // =========================================================================
+  // 8. SOCIAL MEDIA & LEGAL DOCUMENT MODAL UTILITIES
+  // =========================================================================
   function showSocialComingSoon(platform) {
     let toast = document.getElementById('social-toast');
     if (!toast) {
@@ -193,47 +268,4 @@ document.addEventListener('DOMContentLoaded', () => {
   window.showSocialComingSoon = showSocialComingSoon;
   window.hideSocialToast = hideSocialToast;
 
-  // 8. LEGAL DOCUMENT "IN PREPARATION" MODAL CONTROLLER
-  function showLegalDocModal(docName) {
-    let modal = document.getElementById('legal-doc-modal');
-    if (!modal) return;
-
-    const nameEl = document.getElementById('legal-doc-name');
-    if (nameEl) {
-      nameEl.textContent = docName || 'Document';
-    }
-
-    modal.classList.remove('opacity-0', 'pointer-events-none');
-    modal.classList.add('opacity-100', 'pointer-events-auto');
-
-    const card = modal.querySelector('.legal-modal-card');
-    if (card) {
-      card.classList.remove('scale-95', 'translate-y-4');
-      card.classList.add('scale-100', 'translate-y-0');
-    }
-  }
-
-  function hideLegalDocModal() {
-    let modal = document.getElementById('legal-doc-modal');
-    if (!modal) return;
-
-    modal.classList.add('opacity-0', 'pointer-events-none');
-    modal.classList.remove('opacity-100', 'pointer-events-auto');
-
-    const card = modal.querySelector('.legal-modal-card');
-    if (card) {
-      card.classList.add('scale-95', 'translate-y-4');
-      card.classList.remove('scale-100', 'translate-y-0');
-    }
-  }
-
-  window.showLegalDocModal = showLegalDocModal;
-  window.hideLegalDocModal = hideLegalDocModal;
-
-  // Close modal on Escape key press
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      hideLegalDocModal();
-    }
-  });
 });

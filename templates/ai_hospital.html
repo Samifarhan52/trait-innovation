@@ -73,54 +73,7 @@
 <body class="bg-hospital-cream text-hospital-charcoal dark:bg-hospital-navyDark dark:text-white transition-colors duration-300">
 
   <!-- NAVBAR -->
-  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-hospital-emerald/20 bg-hospital-cream/90 dark:bg-hospital-navyDark/90 backdrop-blur-xl" id="navbar">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      
-      <!-- Brand Logo -->
-      <a href="/trait-ai-hospital" class="flex items-center gap-3 group">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-hospital-emerald via-hospital-teal to-hospital-cyan p-0.5 shadow-md shadow-hospital-emerald/20 group-hover:scale-105 transition-transform">
-          <div class="w-full h-full bg-hospital-cream dark:bg-hospital-navyDark rounded-[10px] flex items-center justify-center">
-            <svg class="w-5 h-5 text-hospital-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a2 2 0 00-1.022.547l-1.4 1.4A2 2 0 004 20.283M15 11A3 3 0 119 11a3 3 0 016 0z"/>
-            </svg>
-          </div>
-        </div>
-        <div>
-          <div class="flex items-center gap-1.5">
-            <span class="font-display font-bold text-lg text-hospital-charcoal dark:text-white">TRAIT AI Hospital</span>
-          </div>
-          <span class="text-[10px] font-mono font-semibold tracking-wider text-hospital-emerald block -mt-1 uppercase">HEALTHCARE INTELLIGENCE</span>
-        </div>
-      </a>
-
-      <!-- Center Links -->
-      <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-wider text-hospital-charcoal dark:text-slate-200">
-        <a href="#overview" class="hover:text-hospital-emerald transition-colors">Overview</a>
-        <a href="#capabilities" class="hover:text-hospital-emerald transition-colors">Capabilities</a>
-        <a href="#telemetry" class="hover:text-hospital-emerald transition-colors">Patient Telemetry</a>
-        <a href="#use-cases" class="hover:text-hospital-emerald transition-colors">Clinical Use Cases</a>
-        <a href="#trust" class="hover:text-hospital-emerald transition-colors">Compliance & Trust</a>
-      </nav>
-
-      <!-- Right Actions -->
-      <div class="flex items-center gap-3">
-        <a href="/" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-hospital-charcoal dark:text-slate-300 hover:text-hospital-emerald transition-colors px-3.5 py-2 rounded-full border border-hospital-emerald/20 bg-white/80 dark:bg-hospital-navyCard/80">
-          <svg class="w-3.5 h-3.5 text-hospital-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-          Main Website
-        </a>
-
-        <!-- Theme Toggle -->
-        <button id="theme-toggle-btn" class="p-2 rounded-full border border-hospital-emerald/20 text-hospital-charcoal dark:text-slate-300 hover:text-hospital-emerald transition-colors" title="Toggle Theme">
-          <span class="dark:hidden"></span>
-          <span class="hidden dark:inline">️</span>
-        </button>
-
-        <button onclick="openHospitalModal()" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-hospital-emerald via-hospital-teal to-hospital-cyan text-slate-950 font-black text-xs shadow-md shadow-hospital-emerald/30 hover:shadow-lg transition-all flex items-center gap-1.5 uppercase tracking-wider">
-          <span>Schedule Clinical Demo</span> 
-        </button>
-      </div>
-    </div>
-  </header>
+  {% include 'components/navbar.html' %}
 
   <!-- HERO SECTION -->
   <section id="overview" class="relative pt-32 pb-24 min-h-[90vh] flex items-center justify-center overflow-hidden">
@@ -461,5 +414,6 @@
 
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   <script src="{{ url_for('static', filename='js/hospital.js') }}"></script>
+<script src="{{ url_for('static', filename='js/service_nav.js') }}"></script>
 </body>
 </html>
