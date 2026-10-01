@@ -1,6 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
+  <!-- INSTANT ANTI-FOUC THEME HYDRATION (ZERO FLASH OF WHITE) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('trait_theme') || 'dark';
+      if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
+  <style>
+    html.dark, html.dark body { background-color: #040814 !important; color: #ffffff !important; }
+    html.light, html.light body { background-color: #F8FAFC !important; color: #0A0F1D !important; }
+  </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Customer Support Agent — Customer Experience | TRAIT Innovation</title>

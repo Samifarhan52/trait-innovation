@@ -1,5 +1,9 @@
 // Dynamic Responsive 3D Revolving Orbital Service Cards around Central 'T' Emblem
+// Optimized for 120FPS GPU Butter-Smooth Performance (SleekFlow, GlideWeb, VelvetCode)
+
 document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
   const orbitContainer = document.getElementById('hero-orbit-container');
   if (!orbitContainer) return;
 
@@ -13,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let angle = 0;
   let direction = 1;
+  let isVisible = true;
+  let animId = null;
 
   let centerX = 300;
   let centerY = 280;
@@ -55,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const svgNS = "http://www.w3.org/2000/svg";
   let ellipseEl = null;
   const lineEls = [];
+  const cardElements = [];
 
   if (svgNetwork) {
     svgNetwork.innerHTML = '';
@@ -98,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   updateDimensions();
-  window.addEventListener('resize', updateDimensions);
+  window.addEventListener('resize', updateDimensions, { passive: true });
 
   setInterval(() => {
     direction = -direction;
@@ -107,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 10000);
 
-  // Render initial card elements
+  // Render initial card elements and cache node references
   if (orbitCardsWrapper) {
     orbitCardsWrapper.innerHTML = '';
     cardsData.forEach((card, index) => {
@@ -125,14 +132,18 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="text-[8px] sm:text-[9px] text-slate-500 dark:text-slate-400 font-mono mt-0.5 truncate">${card.subtitle}</div>
       `;
       orbitCardsWrapper.appendChild(cardEl);
+      cardElements.push(cardEl);
     });
   }
 
-  // Animation Loop - Zero GC allocations per frame
+  // Zero GC Allocation Animation Loop
   function animate() {
-    angle += 0.007 * direction;
+    if (!isVisible) return;
 
-    cardsData.forEach((card, index) => {
+    angle += 0.006 * direction;
+
+    for (let index = 0; index < cardsData.length; index++) {
+      const card = cardsData[index];
       const currentAngle = angle + card.baseAngle;
       const x = centerX + Math.cos(currentAngle) * radiusX;
       const y = centerY + Math.sin(currentAngle) * radiusY;
@@ -156,14 +167,30 @@ document.addEventListener('DOMContentLoaded', () => {
         endCircle.setAttribute('cy', y);
       }
 
-      const cardEl = document.getElementById(`orbit-card-${index}`);
+      const cardEl = cardElements[index];
       if (cardEl) {
         cardEl.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
       }
-    });
+    }
 
-    requestAnimationFrame(animate);
+    animId = requestAnimationFrame(animate);
   }
 
-  requestAnimationFrame(animate);
+  // IntersectionObserver to pause loop when out of viewport
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        if (!animId) animId = requestAnimationFrame(animate);
+      } else {
+        if (animId) {
+          cancelAnimationFrame(animId);
+          animId = null;
+        }
+      }
+    });
+  }, { threshold: 0.05 });
+
+  observer.observe(orbitContainer);
+  animId = requestAnimationFrame(animate);
 });

@@ -25,14 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Load saved theme (default to light or system theme if not saved)
-  const savedTheme = localStorage.getItem('trait_theme');
-  if (savedTheme) {
-    applyTheme(savedTheme === 'dark');
-  } else {
-    // Default to light mode for crisp tech aesthetic
-    applyTheme(false);
-  }
+  // Load saved theme (default to dark for sleek tech aesthetic)
+  const savedTheme = localStorage.getItem('trait_theme') || 'dark';
+  applyTheme(savedTheme === 'dark');
 
   // Bind all potential theme toggle buttons across templates and components
   const themeToggleSelectors = [

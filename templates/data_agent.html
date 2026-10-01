@@ -1,6 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
+  <!-- INSTANT ANTI-FOUC THEME HYDRATION (ZERO FLASH OF WHITE) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('trait_theme') || 'dark';
+      if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
+  <style>
+    html.dark, html.dark body { background-color: #040814 !important; color: #ffffff !important; }
+    html.light, html.light body { background-color: #F8FAFC !important; color: #0A0F1D !important; }
+  </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TRAIT AI Data Analysis Agent — Raw Data to Decisive Strategy | TRAIT Innovation</title>
@@ -149,8 +166,111 @@
   <!-- NAVBAR -->
   {% include 'components/navbar.html' %}
 
+  <!-- 2. INDEPENDENT FLOATING SECONDARY DATA AGENT SERVICE NAVBAR (STICKY RIGHT CONTROL PANEL) -->
+  <aside id="data-service-nav" class="fixed right-3 sm:right-6 top-28 z-40 select-none transition-all duration-400 ease-out">
+    <div id="data-nav-container" class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-graphite-950/95 dark:bg-graphite-900/95 text-white border border-emerald-500/40 shadow-2xl backdrop-blur-2xl transition-all duration-400 ease-out w-14 sm:w-16">
+      
+      <!-- HEADER CONTROL -->
+      <div class="flex items-center justify-between p-3 sm:p-3.5 border-b border-emerald-500/20">
+        <a href="#overview" class="flex items-center gap-3 group shrink-0">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-emerald-600 to-lime-400 p-0.5 shadow-md shrink-0 flex items-center justify-center">
+            <div class="w-full h-full bg-graphite-950 rounded-[9px] flex items-center justify-center">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+            </div>
+          </div>
+          
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap overflow-hidden">
+            <span class="font-display font-bold text-xs tracking-wider text-white uppercase">DATA <span class="text-emerald-400 font-sans">AGENT</span></span>
+            <span class="text-[9px] font-mono text-emerald-400/80 tracking-widest uppercase">EXECUTIVE OBSERVATORY</span>
+          </div>
+        </a>
+
+        <button id="data-nav-trigger" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-emerald-600 text-emerald-400 hover:text-white flex items-center justify-center transition-all cursor-pointer shrink-0" title="Toggle Side Menu">
+          <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- SECTION LINKS -->
+      <nav class="p-2 space-y-1 max-h-[calc(100vh-220px)] overflow-y-auto custom-scrollbar">
+        <!-- 01: OVERVIEW -->
+        <a href="#overview" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-emerald-400 rounded-r-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-emerald-400 flex items-center justify-center shrink-0 group-hover/link:bg-emerald-600 group-hover/link:text-white transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-emerald-400">01.</span> Overview
+            </div>
+            <div class="text-[9px] text-slate-400">Data Observatory</div>
+          </div>
+        </a>
+
+        <!-- 02: TRANSFORMATION -->
+        <a href="#transformation" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-emerald-400 rounded-r-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-emerald-400 flex items-center justify-center shrink-0 group-hover/link:bg-emerald-600 group-hover/link:text-white transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-emerald-400">02.</span> Pipeline
+            </div>
+            <div class="text-[9px] text-slate-400">4-Stage Transformation</div>
+          </div>
+        </a>
+
+        <!-- 03: CAPABILITIES -->
+        <a href="#capabilities" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-emerald-400 rounded-r-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-emerald-400 flex items-center justify-center shrink-0 group-hover/link:bg-emerald-600 group-hover/link:text-white transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-emerald-400">03.</span> Simulator
+            </div>
+            <div class="text-[9px] text-slate-400">NLQ Query Sandbox</div>
+          </div>
+        </a>
+
+        <!-- 04: DASHBOARD -->
+        <a href="#dashboard" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-emerald-400 rounded-r-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-emerald-400 flex items-center justify-center shrink-0 group-hover/link:bg-emerald-600 group-hover/link:text-white transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-emerald-400">04.</span> Dashboard
+            </div>
+            <div class="text-[9px] text-slate-400">Executive Control Room</div>
+          </div>
+        </a>
+
+        <!-- 05: INSIGHTS -->
+        <a href="#insights" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-emerald-400 rounded-r-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-emerald-400 flex items-center justify-center shrink-0 group-hover/link:bg-emerald-600 group-hover/link:text-white transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h-4a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-emerald-400">05.</span> Insights
+            </div>
+            <div class="text-[9px] text-slate-400">Tactical Briefings</div>
+          </div>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
   <!-- HERO SECTION: EXECUTIVE DATA OBSERVATORY -->
-  <section class="relative min-h-screen pt-32 pb-20 flex items-center justify-center overflow-hidden scanline-bg">
+  <section id="overview" class="relative min-h-screen pt-32 pb-20 flex items-center justify-center overflow-hidden scanline-bg bg-graphite-950 dark:bg-[#05070A]">
     <!-- Three.js 3D Background Canvas -->
     <canvas id="hero-canvas"></canvas>
 

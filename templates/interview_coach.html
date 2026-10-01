@@ -1,6 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en">
 <head>
+  <!-- INSTANT ANTI-FOUC THEME HYDRATION (ZERO FLASH OF WHITE) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('trait_theme') || 'dark';
+      if (saved === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+      }
+    })();
+  </script>
+  <style>
+    html.dark, html.dark body { background-color: #040814 !important; color: #ffffff !important; }
+    html.light, html.light body { background-color: #F8FAFC !important; color: #0A0F1D !important; }
+  </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TRAIT AI Interview Coach — Practice Today, Perform Tomorrow | TRAIT Innovation</title>
@@ -118,6 +135,95 @@
 
   <!-- NAVBAR -->
   {% include 'components/navbar.html' %}
+
+  <!-- 2. INDEPENDENT FLOATING SECONDARY INTERVIEW COACH SERVICE NAVBAR (STICKY RIGHT CONTROL PANEL) -->
+  <aside id="coach-service-nav" class="fixed right-3 sm:right-6 top-28 z-40 select-none transition-all duration-400 ease-out">
+    <div id="coach-nav-container" class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-coach-charcoal/95 dark:bg-coach-burgundy/95 text-white border border-coach-wine/40 shadow-2xl backdrop-blur-2xl transition-all duration-400 ease-out w-14 sm:w-16">
+      
+      <!-- HEADER CONTROL -->
+      <div class="flex items-center justify-between p-3 sm:p-3.5 border-b border-white/10">
+        <a href="#overview" class="flex items-center gap-3 group shrink-0">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-coach-winered to-coach-coral p-0.5 shadow-md shrink-0 flex items-center justify-center">
+            <div class="w-full h-full bg-coach-charcoal dark:bg-coach-deepburgundy rounded-[9px] flex items-center justify-center">
+              <svg class="w-4 h-4 text-coach-coral" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/>
+              </svg>
+            </div>
+          </div>
+          
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap overflow-hidden">
+            <span class="font-serif-legal font-bold text-xs tracking-wider text-white uppercase">INTERVIEW <span class="text-coach-coral font-sans">COACH</span></span>
+            <span class="text-[9px] font-mono text-coach-coral/80 tracking-widest uppercase">REAL-TIME PRACTICE</span>
+          </div>
+        </a>
+
+        <button id="coach-nav-trigger" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-coach-winered text-coach-coral hover:text-white flex items-center justify-center transition-all cursor-pointer shrink-0" title="Toggle Side Menu">
+          <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- SECTION LINKS -->
+      <nav class="p-2 space-y-1 max-h-[calc(100vh-220px)] overflow-y-auto custom-scrollbar">
+        <!-- 01: OVERVIEW -->
+        <a href="#overview" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-coach-coral rounded-r-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-coach-coral flex items-center justify-center shrink-0 group-hover/link:bg-coach-winered group-hover/link:text-white transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-coach-coral">01.</span> Overview
+            </div>
+            <div class="text-[9px] text-slate-400">Practice Suite</div>
+          </div>
+        </a>
+
+        <!-- 02: SIMULATOR -->
+        <a href="#simulator" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-coach-coral rounded-r-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-coach-coral flex items-center justify-center shrink-0 group-hover/link:bg-coach-winered group-hover/link:text-white transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-coach-coral">02.</span> Simulator
+            </div>
+            <div class="text-[9px] text-slate-400">Mock Interview Studio</div>
+          </div>
+        </a>
+
+        <!-- 03: FEEDBACK -->
+        <a href="#feedback" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-coach-coral rounded-r-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-coach-coral flex items-center justify-center shrink-0 group-hover/link:bg-coach-winered group-hover/link:text-white transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-coach-coral">03.</span> Feedback
+            </div>
+            <div class="text-[9px] text-slate-400">Speech & Pace Analysis</div>
+          </div>
+        </a>
+
+        <!-- 04: FEATURES -->
+        <a href="#features" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-coach-coral rounded-r-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-coach-coral flex items-center justify-center shrink-0 group-hover/link:bg-coach-winered group-hover/link:text-white transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-coach-coral">04.</span> Features
+            </div>
+            <div class="text-[9px] text-slate-400">Core Capabilities</div>
+          </div>
+        </a>
+      </nav>
+    </div>
+  </aside>
 
   <!-- 1. HERO SECTION -->
   <section id="overview" class="relative min-h-screen pt-28 pb-20 flex items-center justify-center overflow-hidden">

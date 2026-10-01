@@ -1,4 +1,7 @@
-/**
+import os, re
+
+# Update service_nav.js first
+service_nav_js = """/**
  * TRAIT Innovation — Master Service-Page Secondary Navigation Script
  * Handles Hover Expansion, Smooth Scrolling, Scroll-Spy Active Highlighting, and Mobile/Desktop Toggles
  * Works seamlessly across ALL 9 TRAIT service pages!
@@ -156,3 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+"""
+
+with open('static/js/service_nav.js', 'w', encoding='utf-8') as f:
+    f.write(service_nav_js)
+
+print("Updated service_nav.js successfully.")
