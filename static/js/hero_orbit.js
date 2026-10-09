@@ -194,5 +194,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.05 });
 
   observer.observe(orbitContainer);
+
+  // Recalculate dimensions post-intro reveal
+  setTimeout(updateDimensions, 500);
+  setTimeout(updateDimensions, 5400);
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      isVisible = true;
+      if (!animId) animId = requestAnimationFrame(animate);
+    }
+  });
+
   animId = requestAnimationFrame(animate);
 });
