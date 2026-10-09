@@ -1,0 +1,689 @@
+<!-- ==========================================================================
+     TRAIT INNOVATION — ULTRA-SLEEK 3D ENTRY REVEAL SEQUENCE (2.5s)
+     Sequence: Deep Cyber Void -> 3D Holographic Logo & Orbital Rings -> Quantum Ignition Flash ->
+               "TRAIT INNOVATION" Name & Tagline Reveal -> Seamless Dissolve into Site.
+     ========================================================================== -->
+
+<div id="trait-entry-overlay" class="trait-reveal-overlay" role="dialog" aria-modal="true" aria-label="Trait Innovation Intro">
+  <!-- Inline Critical Styles for Instant Anti-FOUC 60FPS Hardware Acceleration -->
+  <style>
+    .trait-reveal-overlay {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      z-index: 999999 !important;
+      background: radial-gradient(circle at 50% 48%, #07122a 0%, #030816 48%, #010309 100%) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      overflow: hidden !important;
+      pointer-events: auto;
+      user-select: none;
+      -webkit-user-select: none;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+      will-change: opacity, transform, filter;
+    }
+
+    .trait-reveal-overlay.trait-reveal-exit {
+      opacity: 0 !important;
+      transform: scale(1.06) !important;
+      filter: blur(8px) !important;
+      pointer-events: none !important;
+    }
+
+    /* Ambient 3D Cyber Perspective Grid Floor */
+    .trait-reveal-grid-floor {
+      position: absolute;
+      bottom: -40%;
+      left: -20%;
+      width: 140%;
+      height: 80%;
+      background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 102, 255, 0.12) 1px, transparent 1px);
+      background-size: 50px 50px;
+      transform: perspective(600px) rotateX(76deg);
+      transform-origin: center bottom;
+      mask-image: radial-gradient(ellipse at 50% 60%, rgba(0,0,0,0.85) 0%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 60%, rgba(0,0,0,0.85) 0%, transparent 75%);
+      animation: traitGridFloat 8s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes traitGridFloat {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 50px; }
+    }
+
+    /* Radial Ambient Nebula Glow */
+    .trait-reveal-nebula {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(90vw, 650px);
+      height: min(90vw, 650px);
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.18) 0%, rgba(0, 102, 255, 0.12) 35%, transparent 70%);
+      filter: blur(50px);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 2;
+      animation: traitNebulaPulse 2.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes traitNebulaPulse {
+      0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.6; }
+      100% { transform: translate(-50%, -50%) scale(1.15); opacity: 0.95; }
+    }
+
+    /* Skip Intro Button */
+    .trait-reveal-skip-btn {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 50;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.95rem;
+      border-radius: 9999px;
+      background: rgba(10, 20, 42, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      color: #00F0FF;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(0, 240, 255, 0.15);
+      transition: all 0.25s ease;
+    }
+
+    .trait-reveal-skip-btn:hover {
+      background: rgba(0, 240, 255, 0.18);
+      border-color: #00F0FF;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 25px rgba(0, 240, 255, 0.3);
+    }
+
+    /* 3D Main Scene Stage */
+    .trait-reveal-stage {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      perspective: 1200px;
+      transform-style: preserve-3d;
+      padding: 1.5rem;
+      max-width: 95vw;
+    }
+
+    /* 3D LOGO CONTAINER */
+    .trait-reveal-logo-wrapper {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+      /* Phase 1: Logo 3D Swoop In */
+      animation: traitLogo3DEnter 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                 traitLogoHover 3s ease-in-out 0.75s infinite alternate;
+      will-change: transform, opacity;
+    }
+
+    @media (min-width: 640px) {
+      .trait-reveal-logo-wrapper {
+        width: 155px;
+        height: 155px;
+      }
+    }
+
+    @keyframes traitLogo3DEnter {
+      0% {
+        opacity: 0;
+        transform: perspective(1000px) translateZ(-250px) rotateY(-60deg) rotateX(30deg) scale(0.35);
+        filter: blur(8px) brightness(1.8);
+      }
+      60% {
+        opacity: 1;
+        filter: blur(0px) brightness(1.2);
+      }
+      100% {
+        opacity: 1;
+        transform: perspective(1000px) translateZ(0) rotateY(0deg) rotateX(0deg) scale(1);
+        filter: blur(0px) brightness(1);
+      }
+    }
+
+    @keyframes traitLogoHover {
+      0% {
+        transform: perspective(1000px) translateZ(0) rotateY(-4deg) rotateX(3deg) translateY(0px);
+      }
+      100% {
+        transform: perspective(1000px) translateZ(15px) rotateY(5deg) rotateX(-3deg) translateY(-6px);
+      }
+    }
+
+    /* 3D ORBITAL ENERGY RINGS */
+    .trait-reveal-orbital-ring {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      transform-style: preserve-3d;
+    }
+
+    .trait-reveal-ring-1 {
+      width: 180px;
+      height: 180px;
+      border: 1.5px solid rgba(0, 240, 255, 0.7);
+      box-shadow: 0 0 18px rgba(0, 240, 255, 0.45), inset 0 0 12px rgba(0, 240, 255, 0.25);
+      animation: traitRingRotate1 4s linear infinite;
+    }
+
+    @media (min-width: 640px) {
+      .trait-reveal-ring-1 {
+        width: 220px;
+        height: 220px;
+      }
+    }
+
+    @keyframes traitRingRotate1 {
+      0% {
+        transform: rotateX(72deg) rotateY(16deg) rotateZ(0deg);
+      }
+      100% {
+        transform: rotateX(72deg) rotateY(16deg) rotateZ(360deg);
+      }
+    }
+
+    .trait-reveal-ring-2 {
+      width: 195px;
+      height: 195px;
+      border: 1.2px dashed rgba(59, 130, 246, 0.85);
+      box-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
+      animation: traitRingRotate2 5.5s linear infinite reverse;
+    }
+
+    @media (min-width: 640px) {
+      .trait-reveal-ring-2 {
+        width: 240px;
+        height: 240px;
+      }
+    }
+
+    @keyframes traitRingRotate2 {
+      0% {
+        transform: rotateX(62deg) rotateY(-34deg) rotateZ(0deg);
+      }
+      100% {
+        transform: rotateX(62deg) rotateY(-34deg) rotateZ(360deg);
+      }
+    }
+
+    /* SATELLITE QUANTUM BEAD ON RING 1 */
+    .trait-reveal-satellite {
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #00F0FF, 0 0 20px #00F0FF;
+    }
+
+    /* QUANTUM SHOCKWAVE BURST (Triggers at 0.72s) */
+    .trait-reveal-shockwave {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.2);
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 240, 255, 0.95);
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.8), inset 0 0 25px rgba(0, 240, 255, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      animation: traitShockwaveBurst 0.65s cubic-bezier(0.1, 0.8, 0.2, 1) 0.72s forwards;
+    }
+
+    @keyframes traitShockwaveBurst {
+      0% {
+        opacity: 0.95;
+        transform: translate(-50%, -50%) scale(0.3);
+      }
+      60% {
+        opacity: 0.8;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(3.2);
+        border-width: 1px;
+      }
+    }
+
+    /* CENTER QUANTUM FLARE LIGHT BURST */
+    .trait-reveal-flare {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.2);
+      width: 90px;
+      height: 90px;
+      background: radial-gradient(circle, #FFFFFF 0%, rgba(0, 240, 255, 0.9) 35%, rgba(0, 102, 255, 0.4) 65%, transparent 80%);
+      border-radius: 50%;
+      filter: blur(6px);
+      opacity: 0;
+      pointer-events: none;
+      animation: traitFlareBurst 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.72s forwards;
+    }
+
+    @keyframes traitFlareBurst {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.4);
+      }
+      40% {
+        opacity: 0.95;
+        transform: translate(-50%, -50%) scale(2.4);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(3.6);
+      }
+    }
+
+    /* 3D ISOMETRIC LOGO SVG */
+    .trait-reveal-cube-svg {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 15px 30px rgba(0, 102, 255, 0.45)) drop-shadow(0 0 20px rgba(0, 240, 255, 0.3));
+      transform-style: preserve-3d;
+    }
+
+    /* =========================================================================
+       PHASE 2: BRAND TYPOGRAPHY REVEAL ("TRAIT INNOVATION")
+       Triggers immediately after logo apex & shockwave at 0.85s
+       ========================================================================= */
+    .trait-reveal-typography {
+      margin-top: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+      animation: traitTypeReveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards;
+      will-change: opacity, transform;
+    }
+
+    @media (min-width: 640px) {
+      .trait-reveal-typography {
+        margin-top: 2.25rem;
+      }
+    }
+
+    @keyframes traitTypeReveal {
+      0% {
+        opacity: 0;
+        transform: translateY(22px) scale(0.94);
+        filter: blur(6px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    /* BRAND TITLE: TRAIT INNOVATION */
+    .trait-reveal-title {
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(1.85rem, 6.5vw, 3.75rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45em;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* "TRAIT" — Razor-sharp Platinum Silver with Cyan Edge Glow */
+    .trait-reveal-word-trait {
+      background: linear-gradient(180deg, #FFFFFF 20%, #E0F7FF 60%, #A5F3FC 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.65));
+      letter-spacing: 0.18em;
+    }
+
+    /* "INNOVATION" — Electric Cyan Gradient with Shimmer Sweep */
+    .trait-reveal-word-innovation {
+      background: linear-gradient(90deg, #00F0FF 0%, #38BDF8 25%, #60A5FA 50%, #00F0FF 75%, #38BDF8 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 30px rgba(0, 102, 255, 0.8));
+      font-weight: 700;
+      animation: traitTextShimmer 2.2s linear infinite 0.9s;
+    }
+
+    @keyframes traitTextShimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    /* HORIZONTAL LASER EXPANSION LINE */
+    .trait-reveal-laser-line {
+      margin-top: 0.85rem;
+      margin-bottom: 0.75rem;
+      height: 2px;
+      width: 0;
+      background: linear-gradient(90deg, transparent 0%, #0066FF 25%, #00F0FF 50%, #0066FF 75%, transparent 100%);
+      box-shadow: 0 0 14px #00F0FF;
+      border-radius: 9999px;
+      position: relative;
+      animation: traitLaserExpand 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards;
+    }
+
+    @keyframes traitLaserExpand {
+      0% { width: 0; opacity: 0; }
+      100% { width: clamp(160px, 45vw, 320px); opacity: 1; }
+    }
+
+    /* TAGLINE: "BUILT TO THINK. DESIGNED TO TRANSFORM" */
+    .trait-reveal-tagline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: clamp(0.58rem, 2.1vw, 0.82rem);
+      font-weight: 700;
+      letter-spacing: clamp(0.18em, 0.6vw, 0.35em);
+      text-transform: uppercase;
+      color: rgba(165, 243, 252, 0.88);
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+      opacity: 0;
+      transform: translateY(8px);
+      animation: traitTaglineFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.15s forwards;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    @keyframes traitTaglineFade {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .trait-reveal-dot {
+      color: #00F0FF;
+      font-size: 0.7em;
+      filter: drop-shadow(0 0 6px #00F0FF);
+    }
+  </style>
+
+  <!-- Ambient 3D Space Elements -->
+  <div class="trait-reveal-nebula" aria-hidden="true"></div>
+  <div class="trait-reveal-grid-floor" aria-hidden="true"></div>
+
+  <!-- Skip Intro Button (Instant Dismiss) -->
+  <button id="trait-skip-intro-btn" class="trait-reveal-skip-btn" type="button" aria-label="Skip Introduction">
+    <span>Skip</span>
+    <span class="trait-reveal-dot">✕</span>
+  </button>
+
+  <!-- 3D Entry Stage -->
+  <div class="trait-reveal-stage" id="trait-reveal-stage">
+    
+    <!-- 1. 3D Logo Assembly (First Element to Appear) -->
+    <div class="trait-reveal-logo-wrapper" id="trait-logo-assembly" aria-hidden="true">
+      
+      <!-- Quantum Shockwave Ring (Bursts at 0.72s) -->
+      <div class="trait-reveal-shockwave"></div>
+      
+      <!-- Center Light Flare Explosion -->
+      <div class="trait-reveal-flare"></div>
+
+      <!-- 3D Orbital Ring 1 (Rotates in 3D X/Y axes) -->
+      <div class="trait-reveal-orbital-ring trait-reveal-ring-1">
+        <div class="trait-reveal-satellite"></div>
+      </div>
+
+      <!-- 3D Orbital Ring 2 (Dashed Counter-Rotation) -->
+      <div class="trait-reveal-orbital-ring trait-reveal-ring-2"></div>
+
+      <!-- Isometric 3D Hexagonal Cube SVG with Gradients -->
+      <svg class="trait-reveal-cube-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Top Facet Gradient (Bright Cyan to Royal Blue) -->
+          <linearGradient id="traitIsoTop" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#38BDF8" />
+            <stop offset="50%" stop-color="#00F0FF" />
+            <stop offset="100%" stop-color="#0066FF" />
+          </linearGradient>
+
+          <!-- Left Facet Gradient (Deep High-Tech Cobalt) -->
+          <linearGradient id="traitIsoLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0052CC" />
+            <stop offset="70%" stop-color="#002D80" />
+            <stop offset="100%" stop-color="#03153D" />
+          </linearGradient>
+
+          <!-- Right Facet Gradient (Vibrant Azure Glow) -->
+          <linearGradient id="traitIsoRight" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0099FF" />
+            <stop offset="60%" stop-color="#0066FF" />
+            <stop offset="100%" stop-color="#003399" />
+          </linearGradient>
+
+          <!-- Neon Glow Filter -->
+          <filter id="traitIsoNeon" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="2.5" result="glow" />
+            <feMerge>
+              <feMergeNode in="glow" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <!-- Outer Isometric Silhouette Hexagon (Glow Halo) -->
+        <polygon points="50,10 88,31 88,73 50,94 12,73 12,31" 
+                 fill="rgba(0, 240, 255, 0.08)" 
+                 stroke="#00F0FF" 
+                 stroke-width="1.6" 
+                 stroke-opacity="0.85" 
+                 filter="url(#traitIsoNeon)" />
+
+        <!-- 3D Cube Top Face (Rhombus) -->
+        <polygon points="50,14 84,33 50,52 16,33" 
+                 fill="url(#traitIsoTop)" 
+                 stroke="#E0F7FF" 
+                 stroke-width="1" />
+
+        <!-- 3D Cube Left Face -->
+        <polygon points="16,33 50,52 50,90 16,71" 
+                 fill="url(#traitIsoLeft)" 
+                 stroke="#00F0FF" 
+                 stroke-width="0.8" 
+                 stroke-opacity="0.9" />
+
+        <!-- 3D Cube Right Face -->
+        <polygon points="50,52 84,33 84,71 50,90" 
+                 fill="url(#traitIsoRight)" 
+                 stroke="#38BDF8" 
+                 stroke-width="0.8" 
+                 stroke-opacity="0.9" />
+
+        <!-- Center T Core Pillar (White & Cyan Energy Ridge) -->
+        <path d="M50 14 L50 90" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" opacity="0.95" filter="url(#traitIsoNeon)" />
+        <path d="M16 33 L84 33" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" opacity="0.95" filter="url(#traitIsoNeon)" />
+        
+        <!-- Diagonal Isometric Edge Accents -->
+        <path d="M50 52 L84 33" stroke="#00F0FF" stroke-width="1.5" />
+        <path d="M50 52 L16 33" stroke="#00F0FF" stroke-width="1.5" />
+
+        <!-- Central Diamond Quantum Core Core Accent -->
+        <polygon points="50,47 55,52 50,57 45,52" fill="#FFFFFF" filter="url(#traitIsoNeon)" />
+      </svg>
+    </div>
+
+    <!-- 2. Brand Typography Assembly (Reveals at 0.85s) -->
+    <div class="trait-reveal-typography" id="trait-text-assembly">
+      
+      <!-- Brand Name: TRAIT INNOVATION -->
+      <h1 class="trait-reveal-title">
+        <span class="trait-reveal-word-trait">TRAIT</span>
+        <span class="trait-reveal-word-innovation">INNOVATION</span>
+      </h1>
+
+      <!-- High-Tech Cyan Laser Divider -->
+      <div class="trait-reveal-laser-line" aria-hidden="true"></div>
+
+      <!-- Tagline -->
+      <p class="trait-reveal-tagline">
+        <span>Built to Think</span>
+        <span class="trait-reveal-dot">◆</span>
+        <span>Designed to Transform</span>
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Intro Timeline Controller Script -->
+  <script>
+    (function initTraitEntryReveal() {
+      var overlay = document.getElementById('trait-entry-overlay');
+      if (!overlay) return;
+
+      var skipBtn = document.getElementById('trait-skip-intro-btn');
+      var isDismissed = false;
+
+      // Smooth Dismissal Function (Transitions into main page)
+      function dismissIntro() {
+        if (isDismissed) return;
+        isDismissed = true;
+
+        if (overlay) {
+          overlay.classList.add('trait-reveal-exit');
+
+          // Clean DOM removal at 520ms after smooth fade
+          setTimeout(function() {
+            try {
+              if (overlay.parentNode) {
+                overlay.parentNode.removeChild(overlay);
+              }
+            } catch (e) {}
+          }, 520);
+        }
+      }
+
+      // 1. Skip Button Click
+      if (skipBtn) {
+        skipBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          dismissIntro();
+        });
+      }
+
+      // 2. Keyboard Accessibility (Escape or Space to Skip)
+      function onKeyDown(e) {
+        if (e.key === 'Escape' || e.key === ' ' || e.keyCode === 27 || e.keyCode === 32) {
+          dismissIntro();
+          window.removeEventListener('keydown', onKeyDown);
+        }
+      }
+      window.addEventListener('keydown', onKeyDown);
+
+      // 3. Web Audio Synthesizer (High-Tech Cinematic Acoustic Swell at 0.72s)
+      function triggerAcousticSwell() {
+        try {
+          var AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          var ctx = new AudioCtx();
+          if (ctx.state === 'suspended') {
+            ctx.resume();
+          }
+
+          // Sub-bass resonance (40Hz -> 85Hz)
+          var osc1 = ctx.createOscillator();
+          var gain1 = ctx.createGain();
+          osc1.type = 'sine';
+          osc1.frequency.setValueAtTime(42, ctx.currentTime);
+          osc1.frequency.exponentialRampToValueAtTime(84, ctx.currentTime + 0.6);
+
+          gain1.gain.setValueAtTime(0.001, ctx.currentTime);
+          gain1.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.25);
+          gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+
+          osc1.connect(gain1);
+          gain1.connect(ctx.destination);
+          osc1.start();
+          osc1.stop(ctx.currentTime + 1.25);
+
+          // Crystalline Shimmer Harmonic at 0.72s apex
+          setTimeout(function() {
+            try {
+              var osc2 = ctx.createOscillator();
+              var gain2 = ctx.createGain();
+              osc2.type = 'triangle';
+              osc2.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+              osc2.frequency.exponentialRampToValueAtTime(1046.5, ctx.currentTime + 0.5); // C6
+
+              gain2.gain.setValueAtTime(0.001, ctx.currentTime);
+              gain2.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 0.15);
+              gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.9);
+
+              osc2.connect(gain2);
+              gain2.connect(ctx.destination);
+              osc2.start();
+              osc2.stop(ctx.currentTime + 0.95);
+            } catch (err) {}
+          }, 700);
+
+        } catch (e) {
+          // Autoplay restrictions safely caught
+        }
+      }
+
+      // Attempt subtle sound if interaction or permitted
+      try {
+        triggerAcousticSwell();
+      } catch (e) {}
+
+      // 4. TIMING: EXACT 2.5s - 2.6s DURATION
+      // 0.0s - 0.75s: 3D Logo swoops into center with 3D depth & orbital rings
+      // 0.72s - 0.85s: Quantum flare & shockwave pulse
+      // 0.85s - 1.8s: "TRAIT INNOVATION" brand text reveals with cyber shimmer & laser expand
+      // 2.45s: Smooth exit transition begins
+      // 2.95s: Full DOM cleanup & website active
+      var mainSequenceTimer = setTimeout(function() {
+        dismissIntro();
+      }, 2450);
+
+      // Hard safety timer at 2.95s max (guarantees intro never blocks UX under any condition)
+      setTimeout(function() {
+        dismissIntro();
+      }, 2950);
+
+    })();
+  </script>
+</div>
