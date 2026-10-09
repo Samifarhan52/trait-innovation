@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, send_from_directory
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -84,6 +84,16 @@ def ai_aviation():
 def ai_hospital():
     """Render dedicated TRAIT AI Hospital service page."""
     return render_template('ai_hospital.html')
+
+@app.route('/robots.txt')
+def robots():
+    """Serve robots.txt for search engines."""
+    return send_from_directory('static', 'robots.txt', mimetype='text/plain')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    """Serve sitemap.xml for Google Search Console and crawlers."""
+    return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
 
 @app.route('/api/contact', methods=['POST'])
 def contact():
