@@ -541,7 +541,40 @@
             Inquire Turnkey Package
           </button>
         </div>
-      </div>
+      
+
+        <!-- Interactive Turnkey Package Customizer & Estimator -->
+        <div class="mt-8 pt-8 border-t border-rose-500/20 space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="text-[10px] font-mono text-rose-400 uppercase tracking-widest font-bold">INTERACTIVE PLANNER</span>
+              <h3 class="text-xl font-display font-bold text-white">Customize Your Turnkey Package</h3>
+            </div>
+            <span class="px-3 py-1 rounded-full bg-rose-500/20 text-rose-300 font-mono text-xs font-bold">
+              ALL-INCLUSIVE CO-ORDINATION
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <button onclick="selectEventBundle('wedding')" id="bundle-btn-wedding" class="event-bundle-btn p-3 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-mono text-xs font-bold text-center shadow-lg transition-all">
+              Wedding &amp; Reception
+            </button>
+            <button onclick="selectEventBundle('corporate')" id="bundle-btn-corporate" class="event-bundle-btn p-3 rounded-xl bg-slate-900/80 border border-slate-700 text-slate-300 font-mono text-xs font-bold text-center hover:border-rose-500 transition-all">
+              Corporate Summit
+            </button>
+            <button onclick="selectEventBundle('gala')" id="bundle-btn-gala" class="event-bundle-btn p-3 rounded-xl bg-slate-900/80 border border-slate-700 text-slate-300 font-mono text-xs font-bold text-center hover:border-rose-500 transition-all">
+              VIP Gala &amp; Awards
+            </button>
+            <button onclick="selectEventBundle('private')" id="bundle-btn-private" class="event-bundle-btn p-3 rounded-xl bg-slate-900/80 border border-slate-700 text-slate-300 font-mono text-xs font-bold text-center hover:border-rose-500 transition-all">
+              Private Celebration
+            </button>
+          </div>
+
+          <div id="bundle-display-box" class="p-5 rounded-2xl bg-slate-950/80 border border-rose-500/30 space-y-4">
+            <!-- Dynamic Output -->
+          </div>
+        </div>
+</div>
 
       <!-- ALL 17 EVENT CAPABILITIES & SPECIALIZED SERVICES -->
       <div id="all-17-events" class="mt-20 pt-16 border-t border-event-lightborder dark:border-slate-800">

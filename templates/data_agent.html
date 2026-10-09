@@ -356,6 +356,23 @@
         </a>
       </div>
 
+      <!-- Prominent Data Analytics Operations Center Visual Frame -->
+      <div class="mt-12 rounded-3xl overflow-hidden border border-emerald-500/30 shadow-2xl relative max-w-5xl mx-auto h-72 sm:h-96 group">
+        <img src="{{ url_for('static', filename='images/data_analysis_hero.jpg') }}" alt="AI Data Analysis Telemetry Operations Center" class="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-all duration-700" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#05070A] via-[#05070A]/30 to-transparent flex items-end p-6 sm:p-8">
+          <div class="text-left space-y-1">
+            <span class="px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono text-[10px] font-bold uppercase tracking-wider">
+              CENTRAL OBSERVATORY TELEMETRY
+            </span>
+            <h3 class="text-lg sm:text-xl font-display font-bold text-white">Interactive Business Intelligence Cockpit</h3>
+            <p class="text-xs text-slate-300 max-w-2xl font-sans">
+              Transforming distributed enterprise databases into predictive charts, multi-dimensional KPIs, and executive action points in seconds.
+            </p>
+          </div>
+        </div>
+      </div>
+
+
       <!-- 4 Core Pillars Ticker -->
       <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-slate-200/80 dark:border-graphite-800/80">
         <div class="p-4 rounded-2xl bg-white/90 dark:bg-graphite-900/40 border border-emerald-500/20 text-left shadow-sm">
@@ -793,6 +810,47 @@
     </div>
   </section>
 
+  <!-- INTERACTIVE BUSINESS KPI & NATURAL LANGUAGE QUERY SIMULATOR -->
+  <section id="kpi-suggestions" class="py-20 bg-slate-100 dark:bg-[#070B14] border-y border-emerald-500/20 transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
+          INTERACTIVE SIMULATOR • NATURAL LANGUAGE QUERIES
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-display font-black text-slate-900 dark:text-white">
+          Ask Real-Time Business Data Questions
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+          Select an industry domain below to see how the Data Analysis Agent translates everyday natural language questions into SQL pipelines, charts, and strategic insights.
+        </p>
+      </div>
+
+      <!-- Domain Selector Tabs -->
+      <div class="flex flex-wrap justify-center gap-3">
+        <button onclick="selectDataDomain('ecommerce')" id="kpi-btn-ecommerce" class="kpi-domain-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20 transition-all">
+          E-Commerce &amp; Retail
+        </button>
+        <button onclick="selectDataDomain('fintech')" id="kpi-btn-fintech" class="kpi-domain-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all">
+          Fintech &amp; Banking
+        </button>
+        <button onclick="selectDataDomain('healthcare')" id="kpi-btn-healthcare" class="kpi-domain-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all">
+          Hospital &amp; Healthcare
+        </button>
+        <button onclick="selectDataDomain('logistics')" id="kpi-btn-logistics" class="kpi-domain-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 transition-all">
+          Logistics &amp; Supply Chain
+        </button>
+      </div>
+
+      <!-- Dynamic KPI Card Box -->
+      <div id="kpi-suggestion-display" class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-slate-900 border border-emerald-500/30 shadow-2xl transition-all duration-300">
+        <!-- Rendered via JS -->
+      </div>
+
+    </div>
+  </section>
+
+
   <!-- SECTION 4: AI INSIGHTS REVEAL & VISUAL REPORTS -->
   <section id="insights" class="py-24 relative bg-graphite-900/40 border-t border-graphite-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1197,5 +1255,112 @@
   <script src="{{ url_for('static', filename='js/data_agent.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script src="{{ url_for('static', filename='js/service_nav.js') }}"></script>
+
+<script>
+  const kpiDomainsData = {
+    ecommerce: {
+      question: "Which product categories drove our highest repeat margins this quarter?",
+      query: "SELECT category, SUM(revenue), AVG(gross_margin) FROM sales_data WHERE date >= '2026-07-01' GROUP BY category ORDER BY gross_margin DESC LIMIT 5;",
+      metrics: [
+        { label: "Top Margin Driver", val: "Premium Audio (+41.2%)", color: "text-emerald-500" },
+        { label: "Repeat Purchase Rate", val: "68.4% of total volume", color: "text-lime-500" },
+        { label: "Inventory Velocity", val: "14.2 Days Stock Turn", color: "text-cyan-500" }
+      ],
+      insight: "Audio accessories outperform apparel margins by 2.4x. Reallocating marketing ad spend toward premium audio is projected to lift overall blended margin.",
+      action: "Suggested Action: Trigger automatic replenishment for top 4 audio SKUs and schedule targeted newsletter campaign."
+    },
+    fintech: {
+      question: "Identify unusual disbursement transaction surges across tier-2 regional nodes.",
+      query: "SELECT region_id, COUNT(txn_id), STDDEV(amount) FROM txn_stream WHERE status = 'COMPLETED' GROUP BY region_id HAVING z_score > 2.8;",
+      metrics: [
+        { label: "Anomalous Nodes", val: "2 Regional Hubs Detected", color: "text-amber-500" },
+        { label: "Peak Velocity", val: "480 txns/minute", color: "text-emerald-500" },
+        { label: "Fraud Risk Level", val: "NORMAL (Merchant Verified)", color: "text-cyan-500" }
+      ],
+      insight: "Volume spike is correlated with regional agricultural subsidy dispersals rather than credential stuffing or illicit transfers.",
+      action: "Suggested Action: Temporarily raise automated rate-limit thresholds for approved rural banking cooperatives."
+    },
+    healthcare: {
+      question: "Show OPD department wait time distribution against specialist doctor shift availability.",
+      query: "SELECT dept_name, AVG(wait_time_minutes), COUNT(specialist_id) FROM opd_queue JOIN doctor_roster USING(dept_id) GROUP BY dept_name;",
+      metrics: [
+        { label: "Longest Average Wait", val: "Orthopedics (38 Mins)", color: "text-amber-500" },
+        { label: "Fastest Throughput", val: "Cardiology (12 Mins)", color: "text-emerald-500" },
+        { label: "Total Check-ins", val: "1,240 Patients Today", color: "text-lime-500" }
+      ],
+      insight: "Orthopedics encounters afternoon bottleneck between 14:00-16:00 when 2 specialists transition to inpatient surgery.",
+      action: "Suggested Action: Re-balance OPD appointment slots toward morning window or stagger surgery scheduling."
+    },
+    logistics: {
+      question: "Analyze route delays caused by inter-modal transshipment container transfers.",
+      query: "SELECT port_terminal, AVG(dwell_hours), delay_variance FROM container_telemetry WHERE transit_type = 'INTERMODAL' GROUP BY port_terminal;",
+      metrics: [
+        { label: "Avg Dwell Delay", val: "4.8 Hours at Pier 7", color: "text-amber-500" },
+        { label: "On-Time Dispatch", val: "91.8% Network Wide", color: "text-emerald-500" },
+        { label: "Fuel Efficiency Index", val: "+8.4% Optimization", color: "text-lime-500" }
+      ],
+      insight: "Pier 7 rail-to-truck crane queue accounts for 74% of variance. Evening off-peak transfers experience zero delay.",
+      action: "Suggested Action: Shift 35% of container drop-offs to off-peak night gate windows to bypass terminal choke points."
+    }
+  };
+
+  function selectDataDomain(key) {
+    const data = kpiDomainsData[key];
+    if (!data) return;
+
+    document.querySelectorAll('.kpi-domain-btn').forEach(btn => {
+      btn.classList.remove('bg-emerald-500', 'text-slate-950', 'shadow-lg');
+      btn.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300');
+    });
+
+    const active = document.getElementById('kpi-btn-' + key);
+    if (active) {
+      active.classList.add('bg-emerald-500', 'text-slate-950', 'shadow-lg');
+      active.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300');
+    }
+
+    const box = document.getElementById('kpi-suggestion-display');
+    if (!box) return;
+
+    box.innerHTML = `
+      <div class="space-y-6 animate-fadeIn">
+        <div class="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">NATURAL LANGUAGE PROMPT</span>
+            <div class="text-base sm:text-lg font-display font-bold text-slate-900 dark:text-white mt-0.5">"${data.question}"</div>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-emerald-500 text-slate-950 font-mono text-[11px] font-black uppercase shrink-0">
+            AI PARSED
+          </span>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-950 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800">
+          <div class="text-[10px] text-slate-500 uppercase mb-1">AUTOMATED SQL PIPELINE GENERATION</div>
+          <code>${data.query}</code>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          ${data.metrics.map(m => `
+            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800">
+              <div class="text-xs font-mono text-slate-500">${m.label}</div>
+              <div class="text-lg font-bold font-display ${m.color} mt-1">${m.val}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 space-y-2">
+          <div class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase">SYNTHESIZED BUSINESS INSIGHT</div>
+          <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed">${data.insight}</p>
+          <div class="text-xs font-mono text-slate-600 dark:text-slate-400 pt-1 border-t border-slate-200 dark:border-slate-800">${data.action}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    selectDataDomain('ecommerce');
+  });
+</script>
+
 </body>
 </html>

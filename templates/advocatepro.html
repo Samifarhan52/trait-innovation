@@ -279,12 +279,9 @@
   <!-- 3. SECTION 01 — HERO: "THE CASE FILE COMES TO LIFE" -->
   <section id="hero" class="relative pt-12 pb-24 lg:pt-20 lg:pb-32 overflow-hidden min-h-[90vh] flex items-center justify-center">
     
-    <!-- Background Courtroom Video Layer with Dark Editorial Overlay -->
-    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-25 dark:opacity-40">
-      <video autoplay loop muted playsinline class="w-full h-full object-cover filter brightness-75 contrast-125">
-        <source src="{{ url_for('static', filename='videos/law_video.mp4') }}" type="video/mp4">
-        <source src="/videos/law-justice-litigation-concept-with-gavel-and-hammer-ytmp4.savetube.vip.mp4" type="video/mp4">
-      </video>
+    <!-- Background Law Library Image & Video Layer with Editorial Overlay -->
+    <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      <img src="{{ url_for('static', filename='images/hero_law_library.jpg') }}" alt="Legal Library and Jurisprudence Repository" class="w-full h-full object-cover opacity-25 dark:opacity-30 filter brightness-75 contrast-110 scale-105" />
       <div class="absolute inset-0 bg-gradient-to-b from-advocate-ivory via-advocate-ivory/80 to-advocate-ivory dark:from-advocate-darkNavy dark:via-advocate-darkNavy/85 dark:to-advocate-darkNavy"></div>
     </div>
 
@@ -502,8 +499,16 @@
           </div>
         </div>
 
-        <!-- Interactive Document Interface -->
-        <div class="lg:col-span-7">
+        <!-- Interactive Document Interface & Visual Showcase -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="rounded-2xl overflow-hidden border border-advocate-borderLight dark:border-advocate-borderDark shadow-xl h-56 relative">
+            <img src="{{ url_for('static', filename='images/legal_document_analysis.jpg') }}" alt="AI Legal Document Analysis and Clause Comparison" class="w-full h-full object-cover filter brightness-90 hover:scale-105 transition-all duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+              <div class="text-white font-mono text-xs">
+                <span class="text-advocate-brass font-bold uppercase">Document Comparison Engine:</span> Automated Cross-Contract Provision Mapping
+              </div>
+            </div>
+          </div>
           <div class="document-page-surface rounded-3xl p-6 sm:p-8 border border-advocate-borderLight dark:border-advocate-borderDark space-y-4">
             <div class="flex items-center justify-between text-xs font-mono border-b border-advocate-borderLight dark:border-advocate-borderDark pb-3">
               <span class="font-bold text-advocate-burgundy dark:text-advocate-brass">CONTRACT ANALYSIS INTERFACE</span>
@@ -578,6 +583,47 @@
     </div>
   </section>
 
+  <!-- INTERACTIVE LEGAL ASSISTANT & DRAFTING SUGGESTION ENGINE -->
+  <section id="legal-suggestions" class="py-20 bg-advocate-cream/60 dark:bg-advocate-darkNavy/80 border-b border-advocate-borderLight dark:border-advocate-borderDark transition-colors duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-advocate-burgundy/10 dark:bg-advocate-burgundy/40 border border-advocate-burgundy/30 text-[10px] font-mono font-bold text-advocate-burgundy dark:text-advocate-brass uppercase tracking-widest">
+          PRACTICE BENCHMARK • WORKFLOW SUGGESTIONS
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-serif-legal font-bold text-advocate-charcoal dark:text-white">
+          Interactive Legal Assistant &amp; Drafting Suggestions
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+          Select a legal task below to preview how AdvocatePro AI structures approved sources, risk checklists, and drafting outlines for professional review.
+        </p>
+      </div>
+
+      <!-- Workflow Selectors -->
+      <div class="flex flex-wrap justify-center gap-3">
+        <button onclick="selectLegalTask('contracts')" id="btn-task-contracts" class="legal-task-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-advocate-burgundy text-white shadow-md transition-all">
+          Commercial Contract Review
+        </button>
+        <button onclick="selectLegalTask('litigation')" id="btn-task-litigation" class="legal-task-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-white dark:bg-advocate-cardDark text-slate-700 dark:text-slate-300 border border-advocate-borderLight dark:border-advocate-borderDark hover:border-advocate-brass transition-all">
+          Litigation Brief Drafting
+        </button>
+        <button onclick="selectLegalTask('notice')" id="btn-task-notice" class="legal-task-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-white dark:bg-advocate-cardDark text-slate-700 dark:text-slate-300 border border-advocate-borderLight dark:border-advocate-borderDark hover:border-advocate-brass transition-all">
+          Statutory Legal Notice
+        </button>
+        <button onclick="selectLegalTask('compliance')" id="btn-task-compliance" class="legal-task-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-white dark:bg-advocate-cardDark text-slate-700 dark:text-slate-300 border border-advocate-borderLight dark:border-advocate-borderDark hover:border-advocate-brass transition-all">
+          Corporate Compliance Review
+        </button>
+      </div>
+
+      <!-- Dynamic Suggestion Display Box -->
+      <div id="legal-suggestion-box" class="p-6 sm:p-8 rounded-3xl bg-white dark:bg-advocate-cardDark border border-advocate-brass/30 shadow-2xl transition-all duration-300">
+        <!-- Injected via selectLegalTask -->
+      </div>
+
+    </div>
+  </section>
+
+
 
   <!-- 7. SECTION 05 — LEGAL RESEARCH -->
   <section id="research" class="py-24 bg-white dark:bg-advocate-darkNavy transition-colors duration-300">
@@ -598,7 +644,15 @@
           </p>
         </div>
 
-        <div class="lg:col-span-7">
+        <div class="lg:col-span-7 space-y-6">
+          <div class="rounded-2xl overflow-hidden border border-advocate-borderLight dark:border-advocate-borderDark shadow-xl h-56 relative">
+            <img src="{{ url_for('static', filename='images/attorney_workflow_desk.jpg') }}" alt="Attorney Precedent Research Workstation" class="w-full h-full object-cover filter brightness-90 hover:scale-105 transition-all duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+              <div class="text-white font-mono text-xs">
+                <span class="text-advocate-brass font-bold uppercase">Precedent Research:</span> High Court & Statutory Citation Retrieval
+              </div>
+            </div>
+          </div>
           <div class="p-6 rounded-3xl bg-advocate-cream/80 dark:bg-advocate-cardDark border border-advocate-borderLight dark:border-advocate-borderDark space-y-4 font-mono text-xs">
             <div class="p-3.5 rounded-xl bg-white dark:bg-advocate-darkNavy border border-advocate-brass/40 flex items-center justify-between">
               <span class="text-slate-500">QUERY: "Limitation of liability in SaaS SLA breach"</span>
@@ -764,8 +818,13 @@
 
 
   <!-- 11. FINAL CTA -->
-  <section id="contact" class="py-24 bg-advocate-burgundy dark:bg-advocate-deepBurgundy text-white transition-colors duration-300">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+  <section id="contact" class="relative py-28 text-white overflow-hidden transition-colors duration-300">
+    <!-- Classical Courtroom Columns Background -->
+    <div class="absolute inset-0 pointer-events-none z-0">
+      <img src="{{ url_for('static', filename='images/courtroom_columns_cta.jpg') }}" alt="Courtroom Columns Architecture" class="w-full h-full object-cover opacity-20 filter brightness-75 scale-105" />
+      <div class="absolute inset-0 bg-gradient-to-br from-advocate-burgundy/95 via-advocate-deepBurgundy/90 to-advocate-darkNavy/95"></div>
+    </div>
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
       
       <h2 class="text-4xl sm:text-6xl font-serif-legal font-extrabold tracking-tight">
         Bring Intelligence Into the Legal Workflow.
@@ -805,5 +864,154 @@
   <script src="{{ url_for('static', filename='js/advocatepro.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script src="{{ url_for('static', filename='js/service_nav.js') }}"></script>
+
+<script>
+  const legalTasksData = {
+    contracts: {
+      title: "Commercial Contract Review & Analysis",
+      desc: "Automated cross-clause indexing, liability cap scrutiny, and non-standard termination clause flagging.",
+      sources: ["Indian Contract Act, 1872", "Approved Firm MSA Master Repository", "High Court Precedents on Liquidated Damages"],
+      checklist: [
+        "Flag liability clauses lacking monetary indemnity ceiling",
+        "Check non-compete and non-solicitation validity under Section 27",
+        "Verify governing arbitration tribunal venue and seat consistency",
+        "Assess multi-tier escalation timelines prior to litigation"
+      ],
+      outline: [
+        "1. Executive Summary & Parties Recitals",
+        "2. Key Commercial Consideration & Payment Milestone Triggers",
+        "3. Risk Mitigation Schedule & Indemnification Carve-outs",
+        "4. Dispute Resolution & Governing Law Alignment"
+      ],
+      humanGate: "Senior Partner Review Required before execution"
+    },
+    litigation: {
+      title: "High Court Litigation Brief & Synopsis",
+      desc: "Synthesize multi-volume case depositions, evidentiary exhibits, and statutory limitation timelines.",
+      sources: ["Code of Civil Procedure, 1908", "State High Court Appellate Rules", "Certified Trial Court Record Chronology"],
+      checklist: [
+        "Affirm jurisdiction under relevant pecuniary and territorial thresholds",
+        "Calculate strict limitation period compliance with condonation affidavit if needed",
+        "Verify documentary exhibits meet Indian Evidence Act admissibility criteria",
+        "Cross-reference respondent written statement admissions and contradictions"
+      ],
+      outline: [
+        "1. Index of Authorities & List of Relevant Dates",
+        "2. Brief Factual Synopsis & Matrix of Events",
+        "3. Question of Law & Primary Substantive Grounds of Appeal",
+        "4. Specific Relief & Prayer Clause Formatting"
+      ],
+      humanGate: "Advocate on Record Verification & Signature Required"
+    },
+    notice: {
+      title: "Statutory Formal Legal Notice Formulation",
+      desc: "Draft unambiguous demand notices with statutory citation, clear default timeline, and evidentiary proofs.",
+      sources: ["Negotiable Instruments Act / Specific Relief Act", "Standard Form Evidentiary Notice Templates", "Certified Bank & Postal Tracking Records"],
+      checklist: [
+        "Specify explicit statutory 15 or 30-day demand cure period",
+        "Reference exact transactional invoice and dishonor memo details",
+        "Enumerate consequential civil and criminal remedies upon non-compliance",
+        "Ensure delivery via registered post with acknowledgment due (RPAD)"
+      ],
+      outline: [
+        "1. Advocate Retainer Statement & Client Identification",
+        "2. Specific Breach Event, Dishonored Instrument, or Default Summary",
+        "3. Exact Monetary / Specific Performance Quantification",
+        "4. Formal 15-Day Cure Demand & Legal Escalation Sanction"
+      ],
+      humanGate: "Client Attestation & Final Advocate Review Required"
+    },
+    compliance: {
+      title: "Corporate Governance & Regulatory Audit",
+      desc: "Periodic compliance verification across statutory corporate filings, fiduciary disclosures, and labor laws.",
+      sources: ["Companies Act, 2013 & MCA Rules", "SEBI Listing Regulations (LODR)", "Enterprise Secretarial Audit Guidelines"],
+      checklist: [
+        "Audit director interested party disclosures under Section 184",
+        "Verify annual return filing dates and board resolution quorums",
+        "Inspect statutory register of members and charge satisfaction filings",
+        "Cross-check CSR contribution obligations and committee approvals"
+      ],
+      outline: [
+        "1. Secretarial Audit Scope & Period Under Review",
+        "2. Register of Compliance Observations & Gap Analysis",
+        "3. High Priority Remediations & MCA Filing Timelines",
+        "4. Board Resolution & Management Response Action Plan"
+      ],
+      humanGate: "Company Secretary / Compliance Officer Review Required"
+    }
+  };
+
+  function selectLegalTask(key) {
+    const data = legalTasksData[key];
+    if (!data) return;
+
+    document.querySelectorAll('.legal-task-btn').forEach(btn => {
+      btn.classList.remove('bg-advocate-burgundy', 'text-white', 'shadow-md');
+      btn.classList.add('bg-white', 'dark:bg-advocate-cardDark', 'text-slate-700', 'dark:text-slate-300');
+    });
+
+    const activeBtn = document.getElementById('btn-task-' + key);
+    if (activeBtn) {
+      activeBtn.classList.add('bg-advocate-burgundy', 'text-white', 'shadow-md');
+      activeBtn.classList.remove('bg-white', 'dark:bg-advocate-cardDark', 'text-slate-700', 'dark:text-slate-300');
+    }
+
+    const box = document.getElementById('legal-suggestion-box');
+    if (!box) return;
+
+    box.innerHTML = `
+      <div class="space-y-6 animate-fadeIn">
+        <div class="flex flex-wrap items-center justify-between border-b border-advocate-borderLight dark:border-advocate-borderDark pb-4 gap-2">
+          <div>
+            <h3 class="text-xl font-serif-legal font-bold text-advocate-charcoal dark:text-white">${data.title}</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">${data.desc}</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-advocate-burgundy/10 text-advocate-burgundy dark:text-advocate-brass font-mono text-[11px] font-bold">
+            STATUS: AI SUGGESTION GENERATED
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-4 rounded-2xl bg-advocate-cream/50 dark:bg-advocate-darkNavy/50 border border-advocate-borderLight dark:border-advocate-borderDark space-y-3">
+            <div class="font-mono text-[11px] font-bold text-advocate-burgundy dark:text-advocate-brass uppercase">
+              Approved Knowledge Sources
+            </div>
+            <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+              ${data.sources.map(s => `<li class="flex items-start gap-2"><span class="text-advocate-brass font-bold">•</span><span>${s}</span></li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-advocate-cream/50 dark:bg-advocate-darkNavy/50 border border-advocate-borderLight dark:border-advocate-borderDark space-y-3">
+            <div class="font-mono text-[11px] font-bold text-advocate-burgundy dark:text-advocate-brass uppercase">
+              Risk &amp; Clause Checklist
+            </div>
+            <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+              ${data.checklist.map(c => `<li class="flex items-start gap-2"><span class="text-emerald-500 font-bold">✓</span><span>${c}</span></li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-advocate-cream/50 dark:bg-advocate-darkNavy/50 border border-advocate-borderLight dark:border-advocate-borderDark space-y-3">
+            <div class="font-mono text-[11px] font-bold text-advocate-burgundy dark:text-advocate-brass uppercase">
+              Suggested Draft Outline
+            </div>
+            <ul class="space-y-2 text-xs font-mono text-slate-700 dark:text-slate-300">
+              ${data.outline.map(o => `<li>${o}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-800 dark:text-amber-200 flex items-center justify-between font-mono">
+          <span><strong>Human Review Gate:</strong> ${data.humanGate}</span>
+          <span class="text-[10px] uppercase text-slate-500 dark:text-slate-400">Professional Control Retained</span>
+        </div>
+      </div>
+    `;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    selectLegalTask('contracts');
+  });
+</script>
+
 </body>
 </html>

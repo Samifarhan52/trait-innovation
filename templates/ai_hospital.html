@@ -273,7 +273,15 @@
       </div>
 
       <!-- Hero Right Interactive Mockup -->
-      <div class="lg:col-span-5 relative">
+      <div class="lg:col-span-5 relative space-y-6">
+        <div class="rounded-3xl overflow-hidden border border-hospital-emerald/30 shadow-2xl relative h-60 group">
+          <img src="{{ url_for('static', filename='images/hospital_hero_medical.jpg') }}" alt="Hospital Operations Center & Medical Staff" class="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-all duration-700" />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-4">
+            <div class="text-white font-mono text-xs">
+              <span class="text-hospital-emerald font-bold uppercase">Hospital Command Center:</span> Centralized Digital Inquiries &amp; Doctor Roster Telemetry
+            </div>
+          </div>
+        </div>
         <div class="glass-hospital-card rounded-3xl p-6 sm:p-8 space-y-5 border border-hospital-emerald/30 shadow-2xl">
           
           <div class="flex items-center justify-between pb-3 border-b border-hospital-emerald/20 text-xs font-mono text-hospital-emerald">
@@ -571,6 +579,20 @@
     <!-- SECTION 2: REAL-WORLD EXAMPLE USE CASES    -->
     <!-- ========================================== -->
     <section id="use-cases" class="scroll-mt-24 space-y-8">
+      
+      <!-- Patient Check-In Lobby Showcase -->
+      <div class="rounded-3xl overflow-hidden border border-hospital-teal/30 shadow-xl relative h-64 sm:h-80 group">
+        <img src="{{ url_for('static', filename='images/hospital_patient_kiosk.jpg') }}" alt="Hospital Patient Check-In & Reception Lobby" class="w-full h-full object-cover filter brightness-95 group-hover:scale-105 transition-all duration-700" />
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent flex items-end p-6">
+          <div class="text-white space-y-1">
+            <span class="px-2.5 py-0.5 rounded bg-hospital-teal/20 text-cyan-400 font-mono text-[10px] font-bold uppercase">
+              PATIENT RECEPTION &amp; TOUCHPOINTS
+            </span>
+            <h3 class="text-lg font-display font-bold">Empathetic Digital Assistance &amp; Staff Enablement</h3>
+            <p class="text-xs text-slate-300">Helping patients effortlessly navigate appointment kiosks, department halls, and hospital facilities.</p>
+          </div>
+        </div>
+      </div>
       <div class="border-b border-hospital-borderLight dark:border-hospital-borderDark pb-6 space-y-2">
         <span class="px-3.5 py-1 rounded-full bg-hospital-teal/10 border border-hospital-teal/30 text-hospital-teal dark:text-cyan-400 font-mono text-xs font-bold uppercase tracking-widest">
           INTERACTIVE PATIENT WORKFLOWS
@@ -745,6 +767,43 @@
 
       </div>
     </section>
+
+  <!-- INTERACTIVE PATIENT ENQUIRY & ESCALATION SIMULATOR -->
+  <section id="hospital-simulator" class="py-16 bg-hospital-emerald/5 dark:bg-slate-900/60 rounded-3xl border border-hospital-emerald/20 p-6 sm:p-10 space-y-8">
+    <div class="text-center max-w-3xl mx-auto space-y-3">
+      <span class="px-3 py-1 rounded-full bg-hospital-emerald/10 text-hospital-emerald font-mono text-[10px] font-bold uppercase tracking-widest">
+        LIVE SIMULATOR • PATIENT WORKFLOW ASSISTANT
+      </span>
+      <h2 class="text-3xl font-display font-black text-hospital-charcoal dark:text-white">
+        Test Patient Enquiry &amp; Escalation Scenarios
+      </h2>
+      <p class="text-xs sm:text-sm text-hospital-muted dark:text-slate-300 max-w-2xl mx-auto">
+        Select a patient question to observe how HospitalAI classifies queries, presents approved hospital data, and determines when human staff escalation is required.
+      </p>
+    </div>
+
+    <!-- Scenario Buttons -->
+    <div class="flex flex-wrap justify-center gap-3">
+      <button onclick="selectHospScenario('cardio')" id="hosp-btn-cardio" class="hosp-sim-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-hospital-emerald text-slate-950 shadow-md transition-all">
+        Cardiology Appointment
+      </button>
+      <button onclick="selectHospScenario('radiology')" id="hosp-btn-radiology" class="hosp-sim-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-hospital-emerald transition-all">
+        Radiology Wayfinding
+      </button>
+      <button onclick="selectHospScenario('billing')" id="hosp-btn-billing" class="hosp-sim-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-hospital-emerald transition-all">
+        Insurance &amp; Billing
+      </button>
+      <button onclick="selectHospScenario('emergency')" id="hosp-btn-emergency" class="hosp-sim-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-hospital-emerald transition-all">
+        Acute / Emergency Symptom
+      </button>
+    </div>
+
+    <!-- Simulator Output Display -->
+    <div id="hosp-sim-display" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-hospital-emerald/30 shadow-xl transition-all duration-300">
+      <!-- Rendered via JS -->
+    </div>
+  </section>
+
 
     <!-- ========================================== -->
     <!-- SECTION 4: CUSTOMER SEGMENTS & WHY CHOOSE  -->
@@ -959,5 +1018,95 @@
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   <script src="{{ url_for('static', filename='js/hospital.js') }}"></script>
   <script src="{{ url_for('static', filename='js/service_nav.js') }}"></script>
+
+<script>
+  const hospScenariosData = {
+    cardio: {
+      patientQuery: "I need to book a consultation with a cardiologist for my father next Tuesday.",
+      classification: "APPOINTMENT BOOKING • NON-EMERGENCY",
+      response: "Checking approved cardiology OPD roster: Dr. V. Mehta (Morning slot 10:30 AM) and Dr. S. Rao (Afternoon slot 2:30 PM) have open slots next Tuesday.",
+      actionTaken: "Slot hold requested via hospital scheduling system; SMS confirmation sent with OPD registration barcode.",
+      escalationLevel: "AUTOMATED • No staff escalation needed",
+      levelClass: "text-emerald-500"
+    },
+    radiology: {
+      patientQuery: "Where is the MRI scanning center in this building?",
+      classification: "WAYFINDING & HOSPITAL FACILITIES",
+      response: "The Advanced Diagnostic & MRI Center is located in Wing B, Basement Level 1. Take the central glass elevators next to the main pharmacy.",
+      actionTaken: "Interactive indoor route map sent to patient's mobile with accessibility elevator directions.",
+      escalationLevel: "AUTOMATED • Navigation guide active",
+      levelClass: "text-teal-500"
+    },
+    billing: {
+      patientQuery: "Does your hospital support cashless settlement for Star Health insurance?",
+      classification: "ADMINISTRATIVE & TPA ENQUIRY",
+      response: "Yes, Star Health is on our approved cashless network. The TPA Help Desk is located in the Ground Floor Admission Lounge.",
+      actionTaken: "Pre-authorization checklist generated; ticket created for TPA insurance desk duty officer.",
+      escalationLevel: "HYBRID • Ticket created for billing team",
+      levelClass: "text-cyan-500"
+    },
+    emergency: {
+      patientQuery: "My grandfather has severe acute chest pain and shortness of breath right now.",
+      classification: "SAFETY ALERT: ACUTE MEDICAL SYMPTOM",
+      response: "IMMEDIATE ATTENTION REQUIRED: Please proceed immediately to the Emergency Department Triage or call Emergency Response at +91 98765 43210 (Direct Dial: 108).",
+      actionTaken: "Automated symptom triage alert sent to Emergency Room Duty Desk; patient directed to nearest ER trauma bay.",
+      escalationLevel: "HUMAN ESCALATION • IMMEDIATE CLINICAL HANDOFF",
+      levelClass: "text-rose-500 font-bold"
+    }
+  };
+
+  function selectHospScenario(key) {
+    const data = hospScenariosData[key];
+    if (!data) return;
+
+    document.querySelectorAll('.hosp-sim-btn').forEach(btn => {
+      btn.classList.remove('bg-hospital-emerald', 'text-slate-950', 'shadow-md');
+      btn.classList.add('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300');
+    });
+
+    const active = document.getElementById('hosp-btn-' + key);
+    if (active) {
+      active.classList.add('bg-hospital-emerald', 'text-slate-950', 'shadow-md');
+      active.classList.remove('bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-300');
+    }
+
+    const box = document.getElementById('hosp-sim-display');
+    if (!box) return;
+
+    box.innerHTML = `
+      <div class="space-y-4 animate-fadeIn">
+        <div class="flex flex-wrap items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 gap-2">
+          <div>
+            <span class="text-[10px] font-mono text-slate-500 uppercase">CLASSIFICATION</span>
+            <div class="text-xs font-mono font-bold text-hospital-emerald">${data.classification}</div>
+          </div>
+          <span class="text-xs font-mono font-bold ${data.levelClass}">
+            ${data.escalationLevel}
+          </span>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs">
+          <span class="text-[10px] font-mono text-slate-500 uppercase block mb-1">PATIENT INPUT</span>
+          <span class="font-medium text-slate-800 dark:text-slate-200">"${data.patientQuery}"</span>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-hospital-emerald/10 border border-hospital-emerald/30 text-xs space-y-1">
+          <span class="text-[10px] font-mono text-hospital-emerald font-bold uppercase block">HOSPITALAI RESPONSE</span>
+          <p class="text-slate-800 dark:text-slate-100">${data.response}</p>
+        </div>
+
+        <div class="text-xs font-mono text-slate-600 dark:text-slate-400 flex items-center gap-2 pt-1">
+          <span class="text-hospital-emerald font-bold">✓</span>
+          <span>${data.actionTaken}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    selectHospScenario('cardio');
+  });
+</script>
+
 </body>
 </html>

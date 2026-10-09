@@ -164,6 +164,23 @@
         </button>
       </div>
 
+      <!-- Prominent HR Talent Acquisition & Recruitment Showcase Frame -->
+      <div class="mt-12 rounded-3xl overflow-hidden border border-talent-terracotta/40 shadow-2xl relative max-w-5xl mx-auto h-72 sm:h-96 group">
+        <img src="{{ url_for('static', filename='images/hire_ai_hero.jpg') }}" alt="AI HR Talent Recruitment Operations Center" class="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-all duration-700" />
+        <div class="absolute inset-0 bg-gradient-to-t from-talent-dark via-talent-dark/30 to-transparent flex items-end p-6 sm:p-8">
+          <div class="text-left space-y-1">
+            <span class="px-2.5 py-0.5 rounded bg-talent-terracotta/20 text-talent-gold font-mono text-[10px] font-bold uppercase tracking-wider">
+              TALENT MATCHING WORKSPACE
+            </span>
+            <h3 class="text-lg sm:text-xl font-display font-bold text-white">Intelligent Candidate & Job Spec Harmonizer</h3>
+            <p class="text-xs text-slate-300 max-w-2xl font-sans">
+              Streamlining multi-channel candidate intake, capability mapping, and human-in-the-loop interview shortlisting.
+            </p>
+          </div>
+        </div>
+      </div>
+
+
       <!-- SECTION LINKS -->
       <nav class="p-2 space-y-1 max-h-[calc(100vh-220px)] overflow-y-auto custom-scrollbar">
         <!-- 01: OVERVIEW -->
@@ -455,6 +472,47 @@
 
     </div>
   </section>
+
+  <!-- INTERACTIVE TALENT MATCHING & CANDIDATE SCORING SANDBOX -->
+  <section id="talent-matcher" class="py-20 bg-talent-card/60 border-y border-talent-terracotta/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-talent-terracotta/10 border border-talent-terracotta/30 text-[10px] font-mono font-bold text-talent-gold uppercase tracking-widest">
+          INTERACTIVE PROTOTYPE • RECRUITER ASSISTANT
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-display font-bold text-white">
+          Intelligent Candidate Matching &amp; Rubric Harmonizer
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto">
+          Select an enterprise role below to preview how HireAI harmonizes job specifications, scoring weights, and interview rubrics.
+        </p>
+      </div>
+
+      <!-- Role Selectors -->
+      <div class="flex flex-wrap justify-center gap-3">
+        <button onclick="selectTalentRole('ai_eng')" id="role-btn-ai_eng" class="talent-role-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-gradient-to-r from-talent-terracotta to-talent-gold text-slate-950 shadow-md transition-all">
+          Senior AI Solutions Engineer
+        </button>
+        <button onclick="selectTalentRole('product')" id="role-btn-product" class="talent-role-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-talent-card border border-slate-700 text-slate-300 hover:border-talent-terracotta transition-all">
+          Lead Product Designer
+        </button>
+        <button onclick="selectTalentRole('sales')" id="role-btn-sales" class="talent-role-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-talent-card border border-slate-700 text-slate-300 hover:border-talent-terracotta transition-all">
+          Enterprise Account Executive
+        </button>
+        <button onclick="selectTalentRole('clinical')" id="role-btn-clinical" class="talent-role-btn px-5 py-2.5 rounded-xl font-mono text-xs font-bold bg-talent-card border border-slate-700 text-slate-300 hover:border-talent-terracotta transition-all">
+          Healthcare Data Analyst
+        </button>
+      </div>
+
+      <!-- Dynamic Role Spec Box -->
+      <div id="talent-spec-box" class="p-6 sm:p-8 rounded-3xl bg-talent-dark/90 border border-talent-terracotta/30 shadow-2xl transition-all duration-300">
+        <!-- Rendered via JS -->
+      </div>
+
+    </div>
+  </section>
+
 
   <!-- 5. CANDIDATE SOURCING & FILTERING -->
   <section class="py-24 relative bg-talent-dark border-t border-slate-800">
@@ -830,5 +888,142 @@
   <script src="{{ url_for('static', filename='js/hire_ai.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 <script src="{{ url_for('static', filename='js/service_nav.js') }}"></script>
+
+<script>
+  const talentRolesData = {
+    ai_eng: {
+      role: "Senior AI Solutions Engineer",
+      team: "Core Platform & Neural Systems",
+      rubric: [
+        { skill: "LLM Orchestration & Prompting", weight: "30%", score: "HIGH PROFICIENCY" },
+        { skill: "Python / PyTorch / Distributed Inference", weight: "25%", score: "VERIFIED BENCHMARK" },
+        { skill: "Enterprise API Integration & Security", weight: "25%", score: "ARCHITECTURE READY" },
+        { skill: "Client Technical Communication", weight: "20%", score: "DEMONSTRATED" }
+      ],
+      prompts: [
+        "Explain how you design fallback pipelines when third-party AI provider rate limits trigger.",
+        "Walk through your methodology for evaluating token compression trade-offs vs output fidelity."
+      ],
+      decisionWorkflow: "Stage 2: Technical deep-dive followed by Human Recruiter cultural interview."
+    },
+    product: {
+      role: "Lead Product Designer",
+      team: "Design Systems & User Experience",
+      rubric: [
+        { skill: "Design Systems (Figma & Tokens)", weight: "35%", score: "EXEMPLARY PORTFOLIO" },
+        { skill: "Complex Enterprise Workflow UX", weight: "30%", score: "HIGH ALIGNMENT" },
+        { skill: "User Research & Usability Testing", weight: "20%", score: "STRONG EVIDENCE" },
+        { skill: "Cross-Functional Engineering Alignment", weight: "15%", score: "VERIFIED" }
+      ],
+      prompts: [
+        "How do you establish accessibility and high contrast guidelines in data-heavy dark mode interfaces?",
+        "Describe a design problem where eliminating UI elements created a more powerful user experience."
+      ],
+      decisionWorkflow: "Stage 2: Design exercise walkthrough followed by VP Design alignment."
+    },
+    sales: {
+      role: "Enterprise Account Executive",
+      team: "Global Growth & Strategic Partnerships",
+      rubric: [
+        { skill: "B2B Technology Sales Track Record", weight: "35%", score: "QUOTA EXCEEDED" },
+        { skill: "C-Level Executive Stakeholder Management", weight: "30%", score: "ENTERPRISE PROVEN" },
+        { skill: "Complex Legal & Commercial Contract Negotiation", weight: "20%", score: "EXPERIENCED" },
+        { skill: "Consultative Solution Selling", weight: "15%", score: "HIGH ALIGNMENT" }
+      ],
+      prompts: [
+        "How do you qualify multi-stakeholder enterprise deals when evaluating AI readiness?",
+        "Share an example of turning a hesitant legal or security team into an internal champion."
+      ],
+      decisionWorkflow: "Stage 2: Mock executive pitch presentation followed by Founder alignment."
+    },
+    clinical: {
+      role: "Healthcare Data Analyst",
+      team: "Health Informatics & Hospital Operations",
+      rubric: [
+        { skill: "EHR / Hospital System Data Ingestion", weight: "35%", score: "SPECIALIZED DOMAIN" },
+        { skill: "HIPAA & Patient Privacy Compliance", weight: "30%", score: "GOVERNANCE VERIFIED" },
+        { skill: "SQL & Operational KPI Dashboards", weight: "20%", score: "ADVANCED TELEMETRY" },
+        { skill: "Clinical Staff Requirement Translation", weight: "15%", score: "DEMONSTRATED" }
+      ],
+      prompts: [
+        "How do you safeguard protected health information (PHI) while structuring telemetry logs?",
+        "Explain your approach to forecasting hospital emergency bed capacity under seasonal surges."
+      ],
+      decisionWorkflow: "Stage 2: Data modeling case review followed by Clinical Operations Director interview."
+    }
+  };
+
+  function selectTalentRole(key) {
+    const data = talentRolesData[key];
+    if (!data) return;
+
+    document.querySelectorAll('.talent-role-btn').forEach(btn => {
+      btn.classList.remove('bg-gradient-to-r', 'from-talent-terracotta', 'to-talent-gold', 'text-slate-950', 'shadow-md');
+      btn.classList.add('bg-talent-card', 'border', 'border-slate-700', 'text-slate-300');
+    });
+
+    const active = document.getElementById('role-btn-' + key);
+    if (active) {
+      active.classList.add('bg-gradient-to-r', 'from-talent-terracotta', 'to-talent-gold', 'text-slate-950', 'shadow-md');
+      active.classList.remove('bg-talent-card', 'border', 'border-slate-700', 'text-slate-300');
+    }
+
+    const box = document.getElementById('talent-spec-box');
+    if (!box) return;
+
+    box.innerHTML = `
+      <div class="space-y-6 animate-fadeIn">
+        <div class="flex flex-wrap items-center justify-between border-b border-slate-800 pb-4 gap-2">
+          <div>
+            <h3 class="text-xl font-display font-bold text-white">${data.role}</h3>
+            <p class="text-xs text-talent-gold mt-0.5">${data.team}</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-talent-terracotta/20 text-talent-terracotta font-mono text-[11px] font-bold">
+            STATUS: EVALUATION RUBRIC GENERATED
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-4 rounded-2xl bg-talent-card/60 border border-slate-800 space-y-3">
+            <div class="text-xs font-mono font-bold text-talent-terracotta uppercase">Candidate Assessment Rubric</div>
+            <div class="space-y-2">
+              ${data.rubric.map(r => `
+                <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between text-xs">
+                  <div>
+                    <span class="text-slate-200 font-medium">${r.skill}</span>
+                    <span class="text-[10px] text-slate-500 font-mono ml-2">Weight: ${r.weight}</span>
+                  </div>
+                  <span class="text-[10px] font-mono text-talent-gold font-bold">${r.score}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-talent-card/60 border border-slate-800 space-y-3">
+            <div class="text-xs font-mono font-bold text-talent-gold uppercase">Suggested Interview Inquiry Prompts</div>
+            <ul class="space-y-2 text-xs text-slate-300">
+              ${data.prompts.map(p => `
+                <li class="p-3 rounded-xl bg-slate-950/80 border border-slate-800 flex items-start gap-2">
+                  <span class="text-talent-terracotta font-bold">→</span>
+                  <span>"${p}"</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-300 flex items-center justify-between font-mono">
+          <span><strong>Next Workflow Step:</strong> ${data.decisionWorkflow}</span>
+          <span class="text-[10px] uppercase text-slate-400">Recruiter Discretion Applied</span>
+        </div>
+      </div>
+    `;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    selectTalentRole('ai_eng');
+  });
+</script>
+
 </body>
 </html>

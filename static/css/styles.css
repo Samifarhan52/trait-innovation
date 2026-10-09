@@ -371,27 +371,20 @@ code, pre, .font-mono {
   margin: 0 auto;
 }
 
-/* Symmetrical 3-Column Grid for Executive Leadership */
+/* Symmetrical 2-Column Grid for Executive Leadership (Founder & Co-Founder) */
 .leadership-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2rem;
-  max-width: 82rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem;
+  max-width: 58rem;
   margin: 0 auto;
   align-items: stretch;
 }
 
-@media (max-width: 1024px) {
-  .leadership-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 54rem;
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .leadership-grid {
     grid-template-columns: 1fr;
-    max-width: 26rem;
+    max-width: 28rem;
     gap: 2rem;
   }
 }
