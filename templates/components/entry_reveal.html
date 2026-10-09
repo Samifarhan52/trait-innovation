@@ -1,7 +1,8 @@
 <!-- ==========================================================================
-     TRAIT INNOVATION — ULTRA-SLEEK 3D ENTRY REVEAL SEQUENCE (2.5s)
+     TRAIT INNOVATION — ULTRA-SLEEK 3D ENTRY REVEAL SEQUENCE (5 SECONDS)
      Sequence: Deep Cyber Void -> 3D Holographic Logo & Orbital Rings -> Quantum Ignition Flash ->
-               "TRAIT INNOVATION" Name & Tagline Reveal -> Seamless Dissolve into Site.
+               "TRAIT INNOVATION" Name & Tagline Reveal -> Brand Hold -> Seamless Dissolve into Site.
+     Duration: Exactly 5.0 Seconds
      ========================================================================== -->
 
 <div id="trait-entry-overlay" class="trait-reveal-overlay" role="dialog" aria-modal="true" aria-label="Trait Innovation Intro">
@@ -24,13 +25,13 @@
       -webkit-user-select: none;
       opacity: 1;
       visibility: visible;
-      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+      transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), filter 0.55s ease;
       will-change: opacity, transform, filter;
     }
 
     .trait-reveal-overlay.trait-reveal-exit {
       opacity: 0 !important;
-      transform: scale(1.06) !important;
+      transform: scale(1.08) !important;
       filter: blur(8px) !important;
       pointer-events: none !important;
     }
@@ -73,7 +74,7 @@
       border-radius: 50%;
       pointer-events: none;
       z-index: 2;
-      animation: traitNebulaPulse 2.4s ease-in-out infinite alternate;
+      animation: traitNebulaPulse 3s ease-in-out infinite alternate;
     }
 
     @keyframes traitNebulaPulse {
@@ -138,9 +139,9 @@
       align-items: center;
       justify-content: center;
       transform-style: preserve-3d;
-      /* Phase 1: Logo 3D Swoop In */
-      animation: traitLogo3DEnter 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-                 traitLogoHover 3s ease-in-out 0.75s infinite alternate;
+      /* Phase 1: Logo 3D Swoop In (0.0s - 1.35s) followed by smooth floating hover */
+      animation: traitLogo3DEnter 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                 traitLogoHover 3.5s ease-in-out 1.35s infinite alternate;
       will-change: transform, opacity;
     }
 
@@ -154,12 +155,12 @@
     @keyframes traitLogo3DEnter {
       0% {
         opacity: 0;
-        transform: perspective(1000px) translateZ(-250px) rotateY(-60deg) rotateX(30deg) scale(0.35);
+        transform: perspective(1000px) translateZ(-280px) rotateY(-65deg) rotateX(32deg) scale(0.32);
         filter: blur(8px) brightness(1.8);
       }
-      60% {
-        opacity: 1;
-        filter: blur(0px) brightness(1.2);
+      50% {
+        opacity: 0.95;
+        filter: blur(2px) brightness(1.3);
       }
       100% {
         opacity: 1;
@@ -173,7 +174,7 @@
         transform: perspective(1000px) translateZ(0) rotateY(-4deg) rotateX(3deg) translateY(0px);
       }
       100% {
-        transform: perspective(1000px) translateZ(15px) rotateY(5deg) rotateX(-3deg) translateY(-6px);
+        transform: perspective(1000px) translateZ(16px) rotateY(5deg) rotateX(-3deg) translateY(-8px);
       }
     }
 
@@ -190,7 +191,7 @@
       height: 180px;
       border: 1.5px solid rgba(0, 240, 255, 0.7);
       box-shadow: 0 0 18px rgba(0, 240, 255, 0.45), inset 0 0 12px rgba(0, 240, 255, 0.25);
-      animation: traitRingRotate1 4s linear infinite;
+      animation: traitRingRotate1 4.5s linear infinite;
     }
 
     @media (min-width: 640px) {
@@ -214,7 +215,7 @@
       height: 195px;
       border: 1.2px dashed rgba(59, 130, 246, 0.85);
       box-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
-      animation: traitRingRotate2 5.5s linear infinite reverse;
+      animation: traitRingRotate2 6s linear infinite reverse;
     }
 
     @media (min-width: 640px) {
@@ -246,7 +247,7 @@
       box-shadow: 0 0 12px #00F0FF, 0 0 20px #00F0FF;
     }
 
-    /* QUANTUM SHOCKWAVE BURST (Triggers at 0.72s) */
+    /* QUANTUM SHOCKWAVE BURST (Triggers at 1.35s) */
     .trait-reveal-shockwave {
       position: absolute;
       top: 50%;
@@ -259,7 +260,7 @@
       box-shadow: 0 0 35px rgba(0, 240, 255, 0.8), inset 0 0 25px rgba(0, 240, 255, 0.5);
       opacity: 0;
       pointer-events: none;
-      animation: traitShockwaveBurst 0.65s cubic-bezier(0.1, 0.8, 0.2, 1) 0.72s forwards;
+      animation: traitShockwaveBurst 0.85s cubic-bezier(0.1, 0.8, 0.2, 1) 1.35s forwards;
     }
 
     @keyframes traitShockwaveBurst {
@@ -267,12 +268,12 @@
         opacity: 0.95;
         transform: translate(-50%, -50%) scale(0.3);
       }
-      60% {
-        opacity: 0.8;
+      50% {
+        opacity: 0.85;
       }
       100% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(3.2);
+        transform: translate(-50%, -50%) scale(3.4);
         border-width: 1px;
       }
     }
@@ -285,12 +286,12 @@
       transform: translate(-50%, -50%) scale(0.2);
       width: 90px;
       height: 90px;
-      background: radial-gradient(circle, #FFFFFF 0%, rgba(0, 240, 255, 0.9) 35%, rgba(0, 102, 255, 0.4) 65%, transparent 80%);
+      background: radial-gradient(circle, #FFFFFF 0%, rgba(0, 240, 255, 0.95) 35%, rgba(0, 102, 255, 0.45) 65%, transparent 80%);
       border-radius: 50%;
       filter: blur(6px);
       opacity: 0;
       pointer-events: none;
-      animation: traitFlareBurst 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.72s forwards;
+      animation: traitFlareBurst 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.35s forwards;
     }
 
     @keyframes traitFlareBurst {
@@ -300,11 +301,11 @@
       }
       40% {
         opacity: 0.95;
-        transform: translate(-50%, -50%) scale(2.4);
+        transform: translate(-50%, -50%) scale(2.5);
       }
       100% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(3.6);
+        transform: translate(-50%, -50%) scale(3.8);
       }
     }
 
@@ -318,7 +319,7 @@
 
     /* =========================================================================
        PHASE 2: BRAND TYPOGRAPHY REVEAL ("TRAIT INNOVATION")
-       Triggers immediately after logo apex & shockwave at 0.85s
+       Triggers right after logo apex & shockwave at 1.6s
        ========================================================================= */
     .trait-reveal-typography {
       margin-top: 1.75rem;
@@ -327,8 +328,8 @@
       align-items: center;
       text-align: center;
       opacity: 0;
-      transform: translateY(18px) scale(0.96);
-      animation: traitTypeReveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.85s forwards;
+      transform: translateY(20px) scale(0.96);
+      animation: traitTypeReveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards;
       will-change: opacity, transform;
     }
 
@@ -385,7 +386,7 @@
       -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 0 30px rgba(0, 102, 255, 0.8));
       font-weight: 700;
-      animation: traitTextShimmer 2.2s linear infinite 0.9s;
+      animation: traitTextShimmer 2.5s linear infinite 1.6s;
     }
 
     @keyframes traitTextShimmer {
@@ -403,7 +404,7 @@
       box-shadow: 0 0 14px #00F0FF;
       border-radius: 9999px;
       position: relative;
-      animation: traitLaserExpand 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.05s forwards;
+      animation: traitLaserExpand 0.85s cubic-bezier(0.16, 1, 0.3, 1) 1.95s forwards;
     }
 
     @keyframes traitLaserExpand {
@@ -422,7 +423,7 @@
       text-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
       opacity: 0;
       transform: translateY(8px);
-      animation: traitTaglineFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.15s forwards;
+      animation: traitTaglineFade 0.75s cubic-bezier(0.16, 1, 0.3, 1) 2.15s forwards;
       display: flex;
       align-items: center;
       gap: 0.5em;
@@ -456,7 +457,7 @@
     <!-- 1. 3D Logo Assembly (First Element to Appear) -->
     <div class="trait-reveal-logo-wrapper" id="trait-logo-assembly" aria-hidden="true">
       
-      <!-- Quantum Shockwave Ring (Bursts at 0.72s) -->
+      <!-- Quantum Shockwave Ring (Bursts at 1.35s) -->
       <div class="trait-reveal-shockwave"></div>
       
       <!-- Center Light Flare Explosion -->
@@ -540,12 +541,12 @@
         <path d="M50 52 L84 33" stroke="#00F0FF" stroke-width="1.5" />
         <path d="M50 52 L16 33" stroke="#00F0FF" stroke-width="1.5" />
 
-        <!-- Central Diamond Quantum Core Core Accent -->
+        <!-- Central Diamond Quantum Core Accent -->
         <polygon points="50,47 55,52 50,57 45,52" fill="#FFFFFF" filter="url(#traitIsoNeon)" />
       </svg>
     </div>
 
-    <!-- 2. Brand Typography Assembly (Reveals at 0.85s) -->
+    <!-- 2. Brand Typography Assembly (Reveals at 1.6s) -->
     <div class="trait-reveal-typography" id="trait-text-assembly">
       
       <!-- Brand Name: TRAIT INNOVATION -->
@@ -585,14 +586,14 @@
         if (overlay) {
           overlay.classList.add('trait-reveal-exit');
 
-          // Clean DOM removal at 520ms after smooth fade
+          // Clean DOM removal at 550ms after smooth fade
           setTimeout(function() {
             try {
               if (overlay.parentNode) {
                 overlay.parentNode.removeChild(overlay);
               }
             } catch (e) {}
-          }, 520);
+          }, 550);
         }
       }
 
@@ -613,7 +614,7 @@
       }
       window.addEventListener('keydown', onKeyDown);
 
-      // 3. Web Audio Synthesizer (High-Tech Cinematic Acoustic Swell at 0.72s)
+      // 3. Web Audio Synthesizer (High-Tech Cinematic Acoustic Swell synced to 1.35s apex)
       function triggerAcousticSwell() {
         try {
           var AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -628,36 +629,36 @@
           var gain1 = ctx.createGain();
           osc1.type = 'sine';
           osc1.frequency.setValueAtTime(42, ctx.currentTime);
-          osc1.frequency.exponentialRampToValueAtTime(84, ctx.currentTime + 0.6);
+          osc1.frequency.exponentialRampToValueAtTime(84, ctx.currentTime + 1.2);
 
           gain1.gain.setValueAtTime(0.001, ctx.currentTime);
-          gain1.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.25);
-          gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.2);
+          gain1.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.6);
+          gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2.4);
 
           osc1.connect(gain1);
           gain1.connect(ctx.destination);
           osc1.start();
-          osc1.stop(ctx.currentTime + 1.25);
+          osc1.stop(ctx.currentTime + 2.5);
 
-          // Crystalline Shimmer Harmonic at 0.72s apex
+          // Crystalline Shimmer Harmonic at 1.35s apex
           setTimeout(function() {
             try {
               var osc2 = ctx.createOscillator();
               var gain2 = ctx.createGain();
               osc2.type = 'triangle';
               osc2.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-              osc2.frequency.exponentialRampToValueAtTime(1046.5, ctx.currentTime + 0.5); // C6
+              osc2.frequency.exponentialRampToValueAtTime(1046.5, ctx.currentTime + 0.8); // C6
 
               gain2.gain.setValueAtTime(0.001, ctx.currentTime);
-              gain2.gain.linearRampToValueAtTime(0.18, ctx.currentTime + 0.15);
-              gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.9);
+              gain2.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.25);
+              gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.5);
 
               osc2.connect(gain2);
               gain2.connect(ctx.destination);
               osc2.start();
-              osc2.stop(ctx.currentTime + 0.95);
+              osc2.stop(ctx.currentTime + 1.6);
             } catch (err) {}
-          }, 700);
+          }, 1300);
 
         } catch (e) {
           // Autoplay restrictions safely caught
@@ -669,20 +670,21 @@
         triggerAcousticSwell();
       } catch (e) {}
 
-      // 4. TIMING: EXACT 2.5s - 2.6s DURATION
-      // 0.0s - 0.75s: 3D Logo swoops into center with 3D depth & orbital rings
-      // 0.72s - 0.85s: Quantum flare & shockwave pulse
-      // 0.85s - 1.8s: "TRAIT INNOVATION" brand text reveals with cyber shimmer & laser expand
-      // 2.45s: Smooth exit transition begins
-      // 2.95s: Full DOM cleanup & website active
+      // 4. TIMING: EXACT 5.0 SECONDS DURATION
+      // 0.0s - 1.35s: 3D Logo swoops into center with 3D depth, rotation & orbital rings
+      // 1.35s - 1.6s: Quantum flare & shockwave pulse
+      // 1.6s - 3.2s: "TRAIT INNOVATION" brand text reveals with cyber shimmer & laser expand
+      // 3.2s - 4.75s: Brand holding stage (user absorbs logo & identity)
+      // 4.75s: Smooth exit transition begins
+      // 5.3s: Full DOM cleanup & website active
       var mainSequenceTimer = setTimeout(function() {
         dismissIntro();
-      }, 2450);
+      }, 4750);
 
-      // Hard safety timer at 2.95s max (guarantees intro never blocks UX under any condition)
+      // Hard safety timer at 5.5s max (guarantees intro never blocks UX under any condition)
       setTimeout(function() {
         dismissIntro();
-      }, 2950);
+      }, 5500);
 
     })();
   </script>
