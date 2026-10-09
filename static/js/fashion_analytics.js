@@ -71,16 +71,17 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // 3. RENDER RECOMMENDATIONS PRODUCTS
-  window.switchRecommendationCategory = function(catKey) {
+  window.switchRecommendationCategory = function(catKey, ev) {
     const btns = document.querySelectorAll('.rec-tab-btn');
     btns.forEach(btn => {
       btn.classList.remove('bg-purple-600', 'text-white', 'shadow-sm');
       btn.classList.add('text-slate-600', 'dark:text-slate-300');
     });
 
-    if (event && event.currentTarget) {
-      event.currentTarget.classList.remove('text-slate-600', 'dark:text-slate-300');
-      event.currentTarget.classList.add('bg-purple-600', 'text-white', 'shadow-sm');
+    const evt = ev || (typeof window !== 'undefined' && window.event ? window.event : null);
+    if (evt && evt.currentTarget) {
+      evt.currentTarget.classList.remove('text-slate-600', 'dark:text-slate-300');
+      evt.currentTarget.classList.add('bg-purple-600', 'text-white', 'shadow-sm');
     }
 
     const grid = document.getElementById('recommendation-products-grid');
@@ -106,19 +107,24 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Initial render of Makeup recommendations
-  switchRecommendationCategory('makeup');
+  try {
+    switchRecommendationCategory('makeup');
+  } catch(e) {
+    console.warn('Init makeup error:', e);
+  }
 
   // 4. RENDER COMPLETE YOUR LOOK OUTFIT CARDS
-  window.switchOutfitOccasion = function(occKey) {
+  window.switchOutfitOccasion = function(occKey, ev) {
     const btns = document.querySelectorAll('.outfit-tab-btn');
     btns.forEach(btn => {
       btn.classList.remove('bg-purple-600', 'text-white', 'shadow-sm');
       btn.classList.add('bg-slate-100', 'dark:bg-fashion-darkCard', 'text-slate-600', 'dark:text-slate-300');
     });
 
-    if (event && event.currentTarget) {
-      event.currentTarget.classList.remove('bg-slate-100', 'dark:bg-fashion-darkCard', 'text-slate-600', 'dark:text-slate-300');
-      event.currentTarget.classList.add('bg-purple-600', 'text-white', 'shadow-sm');
+    const evt = ev || (typeof window !== 'undefined' && window.event ? window.event : null);
+    if (evt && evt.currentTarget) {
+      evt.currentTarget.classList.remove('bg-slate-100', 'dark:bg-fashion-darkCard', 'text-slate-600', 'dark:text-slate-300');
+      evt.currentTarget.classList.add('bg-purple-600', 'text-white', 'shadow-sm');
     }
 
     const grid = document.getElementById('outfit-cards-grid');
@@ -171,9 +177,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const captureBtn = document.getElementById('capture-btn');
   const captureBtnText = document.getElementById('capture-btn-text');
   const retakeBtn = document.getElementById('retake-photo-btn');
+  const reanalyzeBtn = document.getElementById('reanalyze-photo-btn');
   const postCaptureControls = document.getElementById('post-capture-controls');
+  const topUploadBtn = document.getElementById('top-upload-btn');
+  const overlayUploadBtn = document.getElementById('overlay-upload-btn');
+  const barUploadBtn = document.getElementById('bar-upload-btn');
+  const errorUploadBtn = document.getElementById('error-upload-btn');
   const uploadInput = document.getElementById('image-upload-input');
-  const fallbackUploadInput = document.getElementById('fallback-upload-input');
   const statusText = document.getElementById('camera-status-text');
   const statusDot = document.getElementById('camera-status-dot');
   const flash = document.getElementById('camera-flash');
@@ -203,12 +213,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch(e) {}
   }
 
-  // Opens and streams live camera with proper constraints
+  // Opens and streams live camera with proper constraints and fallback
   window.openCamera = async function() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       if (errorOverlay) {
         errorOverlay.classList.remove('hidden');
-        document.getElementById('camera-error-msg').textContent = 'Camera API is not supported in this browser environment. You can upload a photo to analyze instead!';
+        document.getElementById('camera-error-msg').textContent = 'Camera API is not supported in this browser. Please click "Upload Photo" to select a photo from your device!';
       }
       return;
     }
@@ -220,24 +230,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (statusText) statusText.textContent = 'Requesting Camera Access...';
 
-      const constraints = {
-        video: {
-          facingMode: facingMode,
-          width: { ideal: 1280 },
-          height: { ideal: 720 }
-        },
-        audio: false
-      };
+      let stream = null;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: facingMode, width: { ideal: 1280 }, height: { ideal: 720 } },
+          audio: false
+        });
+      } catch (err1) {
+        // Fallback for devices that reject specific resolution or facingMode
+        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      }
 
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       currentStream = stream;
       isCameraActive = true;
       isSnapshotMode = false;
 
       if (video) {
         video.srcObject = stream;
+        video.muted = true;
+        video.setAttribute('playsinline', '');
+        video.setAttribute('muted', '');
         video.classList.remove('hidden');
-        await video.play();
+        try {
+          await video.play();
+        } catch (playErr) {
+          console.warn('Video play delay:', playErr);
+        }
       }
       if (fallbackImg) fallbackImg.classList.add('hidden');
       if (canvas) canvas.classList.add('hidden');
@@ -251,33 +269,30 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (captureBtnText) captureBtnText.textContent = 'Take Live Photo & Analyze';
 
-      showFashionToast('Live camera connected! Align your face inside the scan frame.');
+      showFashionToast('Live camera connected! Position your face inside the scan frame.');
     } catch (err) {
       console.warn('Camera access error:', err);
       isCameraActive = false;
       if (startOverlay) startOverlay.classList.add('hidden');
       if (errorOverlay) {
         errorOverlay.classList.remove('hidden');
-        let msg = 'Camera access was blocked or dismissed. Please allow camera in your browser address bar permissions, or upload a photo!';
+        let msg = 'Camera access was dismissed or blocked. You can click "Upload Photo" below to select any photo or selfie from your device!';
         if (err.name === 'NotFoundError') {
-          msg = 'No camera found on this device. You can upload any photo or selfie to test real-time AI analysis.';
-        } else if (err.name === 'NotReadableError') {
-          msg = 'Camera is currently locked by another application. Please close other camera apps and retry.';
+          msg = 'No camera found on this device. Click "Upload Photo" to select a selfie and test the real-time AI analysis.';
         }
         document.getElementById('camera-error-msg').textContent = msg;
       }
-      if (statusText) statusText.textContent = 'Upload / Demo Mode';
+      if (statusText) statusText.textContent = 'Upload Photo Mode';
       if (statusDot) {
         statusDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400';
       }
-      showFashionToast('Could not access live camera. You can upload a photo to analyze!');
+      showFashionToast('Camera blocked. You can upload any selfie photo instead!');
     }
   };
 
   // Takes snapshot of live camera video frame
   window.takeLivePhotoAndAnalyze = function() {
     if (!isCameraActive || !video || video.videoWidth === 0) {
-      // If camera not yet opened, open it first!
       openCamera();
       return;
     }
@@ -342,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const W = activeCanvas.width;
     const H = activeCanvas.height;
 
-    // Sample facial region (center 30% x 30%)
+    // Sample facial region (center 30% x 32%)
     const faceX = Math.floor(W * 0.35);
     const faceY = Math.floor(H * 0.32);
     const faceW = Math.max(1, Math.floor(W * 0.30));
@@ -351,17 +366,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const imgData = ctx.getImageData(faceX, faceY, faceW, faceH).data;
     let totalR = 0, totalG = 0, totalB = 0, count = 0;
 
+    // Skin heuristic filter
     for (let i = 0; i < imgData.length; i += 4) {
       const r = imgData[i];
       const g = imgData[i + 1];
       const b = imgData[i + 2];
-      const sum = r + g + b;
-      // Filter out shadows and washed-out highlights
-      if (sum > 60 && sum < 730) {
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      // True human skin spectral distribution check
+      if (r > 50 && g > 35 && b > 20 && (max - min) > 12 && r > g && r > b && (r - g) >= 8) {
         totalR += r;
         totalG += g;
         totalB += b;
         count++;
+      }
+    }
+
+    // Fallback if no specific skin pixels matched (e.g. shadow or high lighting)
+    if (count === 0) {
+      for (let i = 0; i < imgData.length; i += 4) {
+        const r = imgData[i];
+        const g = imgData[i + 1];
+        const b = imgData[i + 2];
+        const sum = r + g + b;
+        if (sum > 70 && sum < 720) {
+          totalR += r;
+          totalG += g;
+          totalB += b;
+          count++;
+        }
       }
     }
 
@@ -374,7 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const avgG = Math.round(totalG / count);
     const avgB = Math.round(totalB / count);
 
-    // Sample hair region (top crown)
+    // Sample hair region (upper crown area)
     const hairX = Math.floor(W * 0.35);
     const hairY = Math.floor(H * 0.08);
     const hairW = Math.max(1, Math.floor(W * 0.30));
@@ -481,7 +514,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500';
       }
 
-      showFashionToast(`✨ Live analysis complete! Detected ${toneDepth} (${undertone}). Soaps, shampoos & facial regimen updated!`);
+      showFashionToast(`✨ Live analysis complete! Detected ${toneDepth} (${undertone}) ${skinHex}. Soaps, shampoos & facial regimen updated!`);
     }, 900);
   }
 
@@ -498,10 +531,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (video) video.classList.add('hidden');
         if (fallbackImg) fallbackImg.classList.add('hidden');
 
-        canvas.width = img.width;
-        canvas.height = img.height;
+        // Scale large images to max 1280px width preserving aspect ratio
+        let w = img.width;
+        let h = img.height;
+        const maxDim = 1280;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+
+        canvas.width = w;
+        canvas.height = h;
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
+        ctx.drawImage(img, 0, 0, w, h);
         canvas.classList.remove('hidden');
         isSnapshotMode = true;
 
@@ -517,6 +564,27 @@ document.addEventListener('DOMContentLoaded', () => {
       img.src = e.target.result;
     };
     reader.readAsDataURL(file);
+  }
+
+  // Master Upload Trigger
+  const triggerMasterUpload = (e) => {
+    if (e && e.stopPropagation) e.stopPropagation();
+    const fileInput = document.getElementById('image-upload-input');
+    if (fileInput) fileInput.click();
+  };
+
+  // Event Listeners for Upload Buttons
+  if (topUploadBtn) topUploadBtn.addEventListener('click', triggerMasterUpload);
+  if (overlayUploadBtn) overlayUploadBtn.addEventListener('click', triggerMasterUpload);
+  if (barUploadBtn) barUploadBtn.addEventListener('click', triggerMasterUpload);
+  if (errorUploadBtn) errorUploadBtn.addEventListener('click', triggerMasterUpload);
+
+  if (uploadInput) {
+    uploadInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleImageFile(e.target.files[0]);
+      }
+    });
   }
 
   // Event Listeners for Camera Actions
@@ -550,19 +618,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (retakeBtn) {
     retakeBtn.addEventListener('click', () => retakePhoto());
   }
+  if (reanalyzeBtn) {
+    reanalyzeBtn.addEventListener('click', () => {
+      if (canvas) analyzePixelDataFromCanvas(canvas);
+    });
+  }
 
   if (switchCamBtn) {
     switchCamBtn.addEventListener('click', () => {
       facingMode = facingMode === 'user' ? 'environment' : 'user';
       openCamera();
     });
-  }
-
-  if (uploadInput) {
-    uploadInput.addEventListener('change', (e) => handleImageFile(e.target.files[0]));
-  }
-  if (fallbackUploadInput) {
-    fallbackUploadInput.addEventListener('change', (e) => handleImageFile(e.target.files[0]));
   }
 
   // Hook any "Start Live Analysis" anchor links to auto-scroll & start camera
