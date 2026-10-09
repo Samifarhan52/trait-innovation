@@ -39,14 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isMobileSmall = window.innerWidth < 480;
     const isMobile = window.innerWidth < 640;
-    const cardHalfWidth = isMobileSmall ? 52 : (isMobile ? 65 : 85);
-    const cardHalfHeight = isMobileSmall ? 38 : (isMobile ? 45 : 55);
+    const cardHalfWidth = isMobileSmall ? 48 : (isMobile ? 60 : 85);
+    const cardHalfHeight = isMobileSmall ? 35 : (isMobile ? 44 : 55);
 
-    const availableX = (width / 2) - cardHalfWidth - 8;
-    const availableY = (height / 2) - cardHalfHeight - 8;
+    const availableX = (width / 2) - cardHalfWidth - 6;
+    const availableY = (height / 2) - cardHalfHeight - 6;
 
-    radiusX = Math.max(isMobileSmall ? 70 : 90, Math.min(availableX, 220));
-    radiusY = Math.max(isMobileSmall ? 60 : 75, Math.min(availableY, 170));
+    radiusX = Math.max(isMobileSmall ? 85 : 105, Math.min(availableX, 220));
+    radiusY = Math.max(isMobileSmall ? 100 : 125, Math.min(availableY, 170));
 
     if (svgNetwork) {
       svgNetwork.setAttribute('viewBox', `0 0 ${width} ${height}`);
@@ -122,16 +122,16 @@ document.addEventListener('DOMContentLoaded', () => {
     cardsData.forEach((card, index) => {
       const cardEl = document.createElement('div');
       cardEl.id = `orbit-card-${index}`;
-      cardEl.className = 'absolute p-1.5 sm:p-2 rounded-xl sm:rounded-2xl glass-panel border border-white/90 dark:border-cyan-500/30 shadow-xl shadow-brand-500/20 w-[105px] sm:w-[155px] md:w-[170px] pointer-events-auto hover:scale-105 transition-transform duration-300 cursor-pointer group -translate-x-1/2 -translate-y-1/2 z-30 will-change-transform';
+      cardEl.className = 'absolute p-1 sm:p-2 rounded-xl sm:rounded-2xl glass-panel border border-white/90 dark:border-cyan-500/30 shadow-xl shadow-brand-500/20 w-[96px] sm:w-[155px] md:w-[170px] pointer-events-auto hover:scale-105 transition-transform duration-300 cursor-pointer group -translate-x-1/2 -translate-y-1/2 z-30 will-change-transform';
       cardEl.onclick = () => { window.location.href = card.link; };
       cardEl.innerHTML = `
-        <div class="w-full h-11 sm:h-18 rounded-lg sm:rounded-xl overflow-hidden mb-1 sm:mb-1.5 relative">
+        <div class="w-full h-10 sm:h-18 rounded-lg sm:rounded-xl overflow-hidden mb-1 sm:mb-1.5 relative">
           <img src="${card.image}" alt="${card.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-          <span class="absolute bottom-1 left-1.5 text-[7px] sm:text-[9px] font-mono text-cyan-400 font-bold uppercase tracking-tight">${card.tag}</span>
+          <span class="absolute bottom-1 left-1.5 text-[6.5px] sm:text-[9px] font-mono text-cyan-400 font-bold uppercase tracking-tight">${card.tag}</span>
         </div>
-        <div class="text-[9px] sm:text-xs font-extrabold text-slate-900 dark:text-white font-display leading-tight truncate">${card.title}</div>
-        <div class="text-[7.5px] sm:text-[9px] text-slate-500 dark:text-slate-400 font-mono mt-0.5 truncate">${card.subtitle}</div>
+        <div class="text-[8px] sm:text-xs font-extrabold text-slate-900 dark:text-white font-display leading-tight truncate">${card.title}</div>
+        <div class="text-[7px] sm:text-[9px] text-slate-500 dark:text-slate-400 font-mono mt-0.5 truncate">${card.subtitle}</div>
       `;
       orbitCardsWrapper.appendChild(cardEl);
       cardElements.push(cardEl);

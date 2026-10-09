@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('background-3d-canvas-container');
   if (!container) return;
 
+  // On mobile (< 768px), disable canvas entirely for zero GPU overhead and crystal clear mobile typography
+  if (window.innerWidth < 768) {
+    container.style.display = 'none';
+    return;
+  }
+
   container.innerHTML = '';
 
   const canvas = document.createElement('canvas');
@@ -51,12 +57,12 @@ document.addEventListener('DOMContentLoaded', () => {
     sCtx.translate(c, c);
 
     if (isDark) {
-      // Dark Mode Glass Sprite
+      // Dark Mode Glass Sprite — Subtle Ambient Shimmer
       const grad = sCtx.createRadialGradient(-r * 0.3, -r * 0.3, r * 0.05, 0, 0, r);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 0.35)');
-      grad.addColorStop(0.4, 'rgba(15, 23, 42, 0.25)');
-      grad.addColorStop(0.8, 'rgba(0, 240, 255, 0.2)');
-      grad.addColorStop(1, 'rgba(0, 240, 255, 0.45)');
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+      grad.addColorStop(0.4, 'rgba(15, 23, 42, 0.1)');
+      grad.addColorStop(0.8, 'rgba(0, 240, 255, 0.08)');
+      grad.addColorStop(1, 'rgba(0, 240, 255, 0.16)');
 
       sCtx.fillStyle = grad;
       sCtx.beginPath();
@@ -64,25 +70,25 @@ document.addEventListener('DOMContentLoaded', () => {
       sCtx.fill();
 
       // Outer Cyan Edge
-      sCtx.strokeStyle = 'rgba(0, 240, 255, 0.6)';
-      sCtx.lineWidth = tier === 2 ? 1.8 : 1.2;
+      sCtx.strokeStyle = 'rgba(0, 240, 255, 0.25)';
+      sCtx.lineWidth = tier === 2 ? 1.2 : 0.8;
       sCtx.stroke();
 
       // Specular Crescent Arc
       if (tier >= 1) {
         sCtx.beginPath();
         sCtx.arc(-r * 0.25, -r * 0.25, r * 0.45, Math.PI * 1.05, Math.PI * 1.75);
-        sCtx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
-        sCtx.lineWidth = tier === 2 ? 2.4 : 1.5;
+        sCtx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+        sCtx.lineWidth = tier === 2 ? 1.5 : 1.0;
         sCtx.stroke();
       }
     } else {
-      // Light Mode Glass Sprite
+      // Light Mode Glass Sprite — Soft Daylight Refraction
       const grad = sCtx.createRadialGradient(-r * 0.35, -r * 0.35, r * 0.05, 0, 0, r);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
-      grad.addColorStop(0.5, 'rgba(224, 242, 254, 0.4)');
-      grad.addColorStop(0.85, 'rgba(0, 102, 255, 0.25)');
-      grad.addColorStop(1, 'rgba(0, 82, 204, 0.5)');
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.35)');
+      grad.addColorStop(0.5, 'rgba(224, 242, 254, 0.15)');
+      grad.addColorStop(0.85, 'rgba(0, 102, 255, 0.08)');
+      grad.addColorStop(1, 'rgba(0, 82, 204, 0.16)');
 
       sCtx.fillStyle = grad;
       sCtx.beginPath();
@@ -90,16 +96,16 @@ document.addEventListener('DOMContentLoaded', () => {
       sCtx.fill();
 
       // Outer Blue Edge
-      sCtx.strokeStyle = 'rgba(0, 82, 204, 0.55)';
-      sCtx.lineWidth = tier === 2 ? 1.8 : 1.2;
+      sCtx.strokeStyle = 'rgba(0, 82, 204, 0.22)';
+      sCtx.lineWidth = tier === 2 ? 1.2 : 0.8;
       sCtx.stroke();
 
       // Specular Refraction Arc
       if (tier >= 1) {
         sCtx.beginPath();
         sCtx.arc(-r * 0.3, -r * 0.3, r * 0.48, Math.PI * 1.1, Math.PI * 1.8);
-        sCtx.strokeStyle = 'rgba(255, 255, 255, 0.95)';
-        sCtx.lineWidth = tier === 2 ? 2.5 : 1.6;
+        sCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        sCtx.lineWidth = tier === 2 ? 1.5 : 1.0;
         sCtx.stroke();
       }
     }
@@ -108,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return sCanvas;
   }
 
-  const radii = [14, 28, 48]; // 3 Depth Tiers
+  const radii = [14, 26, 42]; // 3 Depth Tiers
 
   function initSprites() {
     spriteDark.length = 0;
@@ -140,8 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------------------
   // 2. LIGHTWEIGHT PARTICLE ENGINE
   // -------------------------------------------------------------------
-  const isMobile = width < 768;
-  const bubbleCount = isMobile ? 16 : 28; // Optimal count for smooth 120fps performance
+  const bubbleCount = 18; // Clean subtle ambient particle count
   const bubbles = [];
 
   class LayeredBubble {
@@ -154,18 +159,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (randVal < 0.4) {
         this.tier = 0; // Background
         this.radius = radii[0];
-        this.speedY = Math.random() * 0.25 + 0.12;
-        this.opacity = Math.random() * 0.3 + 0.2;
+        this.speedY = Math.random() * 0.22 + 0.1;
+        this.opacity = Math.random() * 0.08 + 0.05;
       } else if (randVal < 0.8) {
         this.tier = 1; // Midground
         this.radius = radii[1];
-        this.speedY = Math.random() * 0.45 + 0.25;
-        this.opacity = Math.random() * 0.4 + 0.3;
+        this.speedY = Math.random() * 0.38 + 0.18;
+        this.opacity = Math.random() * 0.1 + 0.07;
       } else {
         this.tier = 2; // Foreground
         this.radius = radii[2];
-        this.speedY = Math.random() * 0.65 + 0.35;
-        this.opacity = Math.random() * 0.5 + 0.4;
+        this.speedY = Math.random() * 0.5 + 0.25;
+        this.opacity = Math.random() * 0.12 + 0.08;
       }
 
       this.x = Math.random() * width;
