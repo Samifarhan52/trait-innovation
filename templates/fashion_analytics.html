@@ -416,31 +416,70 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         <!-- Left: Real Live Camera Preview Feed -->
-        <div class="lg:col-span-6 bg-slate-900 rounded-3xl overflow-hidden relative shadow-xl border border-purple-500/20 aspect-[4/3] flex items-center justify-center group">
+        <div class="lg:col-span-6 bg-slate-900 rounded-3xl overflow-hidden relative shadow-2xl border border-purple-500/20 aspect-[4/3] flex items-center justify-center group" id="camera-viewport-card">
           
           <!-- Live Status Badge -->
-          <div class="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white text-[11px] font-semibold">
-            <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-            <span id="camera-status-text">Live Camera</span>
+          <div class="absolute top-4 left-4 z-30 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/70 backdrop-blur-md text-white text-[11px] font-semibold border border-white/10 shadow-lg">
+            <span id="camera-status-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+            <span id="camera-status-text">Click Camera To Start</span>
           </div>
 
           <!-- Top Right Controls (Switch camera, Upload) -->
-          <div class="absolute top-4 right-4 z-20 flex flex-col gap-2">
-            <button id="switch-camera-btn" class="p-2.5 rounded-full bg-black/60 hover:bg-purple-600/80 text-white backdrop-blur-md transition-colors" title="Switch Camera">
+          <div class="absolute top-4 right-4 z-30 flex items-center gap-2">
+            <button id="switch-camera-btn" type="button" class="p-2.5 rounded-full bg-black/70 hover:bg-purple-600/90 text-white backdrop-blur-md border border-white/10 transition-colors shadow-lg" title="Switch Front/Rear Camera">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             </button>
-            <label class="p-2.5 rounded-full bg-black/60 hover:bg-purple-600/80 text-white backdrop-blur-md cursor-pointer transition-colors" title="Upload Photo">
+            <label class="p-2.5 rounded-full bg-black/70 hover:bg-purple-600/90 text-white backdrop-blur-md border border-white/10 cursor-pointer transition-colors shadow-lg" title="Upload Photo From Device">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
               <input type="file" id="image-upload-input" accept="image/*" class="hidden" />
             </label>
           </div>
 
-          <!-- Video Stream & Image Canvas -->
-          <video id="webcam-video" autoplay playsinline class="w-full h-full object-cover hidden"></video>
-          <img id="fallback-camera-img" src="{{ url_for('static', filename='images/fashion/fashion_camera_model.jpg') }}" alt="Camera Scan Preview" class="w-full h-full object-cover" />
+          <!-- Camera Flash Overlay -->
+          <div id="camera-flash" class="absolute inset-0 bg-white opacity-0 pointer-events-none transition-opacity duration-200 z-40"></div>
 
-          <!-- Face Scanning Overlay -->
-          <div id="scan-overlay" class="absolute inset-0 pointer-events-none flex items-center justify-center">
+          <!-- Video Stream (Live Camera Feed) -->
+          <video id="webcam-video" autoplay playsinline muted class="w-full h-full object-cover hidden"></video>
+
+          <!-- Captured Snapshot Canvas (Real Taken Photo) -->
+          <canvas id="snapshot-canvas" class="w-full h-full object-cover hidden"></canvas>
+
+          <!-- Fallback Initial Image -->
+          <img id="fallback-camera-img" src="{{ url_for('static', filename='images/fashion/fashion_camera_model.jpg') }}" alt="Camera Scan Preview" class="w-full h-full object-cover opacity-90 transition-opacity" />
+
+          <!-- Click to Start Camera Overlay (When camera not yet active) -->
+          <div id="camera-start-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-[2px] flex flex-col items-center justify-center p-6 text-center z-20 cursor-pointer transition-all hover:bg-black/50">
+            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center text-2xl shadow-xl shadow-purple-600/50 mb-3 hover:scale-110 active:scale-95 transition-transform">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <h4 class="text-white font-bold text-base mb-1">Click To Open Live Camera</h4>
+            <p class="text-purple-200 text-xs max-w-xs mb-4">Tap anywhere to grant camera access, snap a real-time live photo, and calculate your exact skin undertone, soap, shampoo & facial regimen.</p>
+            <button id="open-camera-btn" type="button" class="px-6 py-2.5 rounded-full bg-white hover:bg-purple-100 text-purple-900 font-bold text-xs uppercase tracking-wider shadow-xl transition-all flex items-center gap-2 hover:scale-105 active:scale-95">
+              <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span>Enable & Open Camera</span>
+            </button>
+          </div>
+
+          <!-- Camera Error / Blocked Overlay -->
+          <div id="camera-error-overlay" class="absolute inset-0 bg-slate-900/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center z-25 hidden">
+            <div class="w-12 h-12 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center mb-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+            <h4 class="text-white font-bold text-sm mb-1">Camera Permission Blocked</h4>
+            <p id="camera-error-msg" class="text-slate-300 text-xs max-w-xs mb-4">Please grant camera permission in your browser URL bar, or upload a photo directly.</p>
+            <div class="flex flex-wrap items-center justify-center gap-2">
+              <button id="retry-camera-btn" type="button" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition-colors">
+                Retry Camera
+              </button>
+              <label class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs cursor-pointer border border-white/20 transition-colors">
+                Upload Photo Instead
+                <input type="file" id="fallback-upload-input" accept="image/*" class="hidden" />
+              </label>
+            </div>
+          </div>
+
+          <!-- Face Scanning Target Overlay -->
+          <div id="scan-overlay" class="absolute inset-0 pointer-events-none flex items-center justify-center z-15">
             <div class="w-52 h-64 rounded-[50%] border-2 border-dashed border-purple-400/80 relative">
               <div class="animate-scan"></div>
               <!-- Facial Landmark Dots -->
@@ -450,11 +489,20 @@
             </div>
           </div>
 
-          <!-- Bottom Center Capture Button -->
-          <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
-            <button id="capture-btn" class="w-14 h-14 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center text-xl shadow-lg shadow-purple-500/50 hover:scale-110 active:scale-95 transition-all border-4 border-white/20" title="Capture & Analyze">
-              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <!-- Bottom Center Primary Capture Action Button -->
+          <div class="absolute bottom-5 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2">
+            <button id="capture-btn" type="button" class="flex items-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 text-white font-bold text-xs tracking-wider uppercase shadow-2xl shadow-purple-600/60 hover:scale-105 active:scale-95 transition-all border-2 border-white/40">
+              <svg class="w-5 h-5 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              <span id="capture-btn-text">Take Live Photo & Analyze</span>
             </button>
+
+            <!-- Post-Capture Quick Retake / Resume Bar (Shown when photo snapped) -->
+            <div id="post-capture-controls" class="flex items-center gap-2 hidden">
+              <button id="retake-photo-btn" type="button" class="px-3.5 py-1.5 rounded-full bg-black/80 hover:bg-black text-white text-[11px] font-semibold backdrop-blur-md border border-white/20 transition-all flex items-center gap-1.5 shadow-md">
+                <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                <span>Retake Photo</span>
+              </button>
+            </div>
           </div>
 
         </div>

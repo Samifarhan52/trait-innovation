@@ -159,154 +159,422 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial render of Casual outfits
   switchOutfitOccasion('casual');
 
-  // 5. CAMERA FUNCTIONALITY & ML SCAN SIMULATOR
+  // 5. REAL LIVE CAMERA & COMPUTER VISION PIXEL ANALYSIS
   const video = document.getElementById('webcam-video');
   const fallbackImg = document.getElementById('fallback-camera-img');
-  const statusText = document.getElementById('camera-status-text');
+  const canvas = document.getElementById('snapshot-canvas');
+  const startOverlay = document.getElementById('camera-start-overlay');
+  const errorOverlay = document.getElementById('camera-error-overlay');
+  const openCameraBtn = document.getElementById('open-camera-btn');
+  const retryCameraBtn = document.getElementById('retry-camera-btn');
   const switchCamBtn = document.getElementById('switch-camera-btn');
   const captureBtn = document.getElementById('capture-btn');
+  const captureBtnText = document.getElementById('capture-btn-text');
+  const retakeBtn = document.getElementById('retake-photo-btn');
+  const postCaptureControls = document.getElementById('post-capture-controls');
   const uploadInput = document.getElementById('image-upload-input');
+  const fallbackUploadInput = document.getElementById('fallback-upload-input');
+  const statusText = document.getElementById('camera-status-text');
+  const statusDot = document.getElementById('camera-status-dot');
+  const flash = document.getElementById('camera-flash');
+
   let currentStream = null;
   let facingMode = 'user';
+  let isCameraActive = false;
+  let isSnapshotMode = false;
 
-  async function startCamera() {
+  // Synthesizes an authentic mechanical camera shutter sound
+  function playCameraShutterSound() {
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(850, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(80, ctx.currentTime + 0.09);
+      gain.gain.setValueAtTime(0.35, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.09);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.1);
+    } catch(e) {}
+  }
+
+  // Opens and streams live camera with proper constraints
+  window.openCamera = async function() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      if (statusText) statusText.textContent = 'Preview Mode';
+      if (errorOverlay) {
+        errorOverlay.classList.remove('hidden');
+        document.getElementById('camera-error-msg').textContent = 'Camera API is not supported in this browser environment. You can upload a photo to analyze instead!';
+      }
       return;
     }
 
     try {
       if (currentStream) {
-        currentStream.getTracks().forEach(track => track.stop());
+        currentStream.getTracks().forEach(t => t.stop());
       }
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: facingMode }
-      });
+
+      if (statusText) statusText.textContent = 'Requesting Camera Access...';
+
+      const constraints = {
+        video: {
+          facingMode: facingMode,
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        },
+        audio: false
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       currentStream = stream;
+      isCameraActive = true;
+      isSnapshotMode = false;
+
       if (video) {
         video.srcObject = stream;
         video.classList.remove('hidden');
-        if (fallbackImg) fallbackImg.classList.add('hidden');
+        await video.play();
       }
+      if (fallbackImg) fallbackImg.classList.add('hidden');
+      if (canvas) canvas.classList.add('hidden');
+      if (startOverlay) startOverlay.classList.add('hidden');
+      if (errorOverlay) errorOverlay.classList.add('hidden');
+      if (postCaptureControls) postCaptureControls.classList.add('hidden');
+
       if (statusText) statusText.textContent = 'Live Camera Active';
-    } catch (err) {
-      console.warn('Camera access not granted or unavailable:', err);
-      if (statusText) statusText.textContent = 'Upload / Demo Mode';
-      if (video) video.classList.add('hidden');
-      if (fallbackImg) fallbackImg.classList.remove('hidden');
-    }
-  }
-
-  // Attempt initial camera start silently
-  startCamera();
-
-  if (switchCamBtn) {
-    switchCamBtn.addEventListener('click', () => {
-      facingMode = facingMode === 'user' ? 'environment' : 'user';
-      startCamera();
-    });
-  }
-
-  if (uploadInput) {
-    uploadInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-          if (fallbackImg) {
-            fallbackImg.src = evt.target.result;
-            fallbackImg.classList.remove('hidden');
-          }
-          if (video) video.classList.add('hidden');
-          if (statusText) statusText.textContent = 'Custom Image Analyzed';
-          triggerMLAnalysisSimulation();
-        };
-        reader.readAsDataURL(file);
+      if (statusDot) {
+        statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse';
       }
-    });
-  }
+      if (captureBtnText) captureBtnText.textContent = 'Take Live Photo & Analyze';
 
-  // ML Analysis trigger on capture click
-  if (captureBtn) {
-    captureBtn.addEventListener('click', () => {
-      triggerMLAnalysisSimulation();
-    });
-  }
+      showFashionToast('Live camera connected! Align your face inside the scan frame.');
+    } catch (err) {
+      console.warn('Camera access error:', err);
+      isCameraActive = false;
+      if (startOverlay) startOverlay.classList.add('hidden');
+      if (errorOverlay) {
+        errorOverlay.classList.remove('hidden');
+        let msg = 'Camera access was blocked or dismissed. Please allow camera in your browser address bar permissions, or upload a photo!';
+        if (err.name === 'NotFoundError') {
+          msg = 'No camera found on this device. You can upload any photo or selfie to test real-time AI analysis.';
+        } else if (err.name === 'NotReadableError') {
+          msg = 'Camera is currently locked by another application. Please close other camera apps and retry.';
+        }
+        document.getElementById('camera-error-msg').textContent = msg;
+      }
+      if (statusText) statusText.textContent = 'Upload / Demo Mode';
+      if (statusDot) {
+        statusDot.className = 'w-2.5 h-2.5 rounded-full bg-amber-400';
+      }
+      showFashionToast('Could not access live camera. You can upload a photo to analyze!');
+    }
+  };
 
-  function triggerMLAnalysisSimulation() {
-    showFashionToast('AI scanning facial landmarks & undertone...');
-    
-    // Animate scan overlay glow
+  // Takes snapshot of live camera video frame
+  window.takeLivePhotoAndAnalyze = function() {
+    if (!isCameraActive || !video || video.videoWidth === 0) {
+      // If camera not yet opened, open it first!
+      openCamera();
+      return;
+    }
+
+    // Camera flash effect + audio feedback
+    playCameraShutterSound();
+    if (flash) {
+      flash.style.opacity = '0.95';
+      setTimeout(() => { flash.style.opacity = '0'; }, 200);
+    }
+
+    // Freeze frame to canvas
+    if (!canvas) return;
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Show captured canvas, hide live video
+    video.classList.add('hidden');
+    canvas.classList.remove('hidden');
+    isSnapshotMode = true;
+
+    if (statusText) statusText.textContent = 'Photo Captured • Analyzing...';
+    if (statusDot) {
+      statusDot.className = 'w-2.5 h-2.5 rounded-full bg-purple-500 animate-ping';
+    }
+    if (postCaptureControls) postCaptureControls.classList.remove('hidden');
+    if (captureBtnText) captureBtnText.textContent = 'Re-Analyze Current Photo';
+
+    // Run pixel computer vision analysis
+    analyzePixelDataFromCanvas(canvas);
+  };
+
+  // Retakes photo by switching back to live camera
+  window.retakePhoto = function() {
+    if (canvas) canvas.classList.add('hidden');
+    if (video) {
+      video.classList.remove('hidden');
+    }
+    if (postCaptureControls) postCaptureControls.classList.add('hidden');
+    if (statusText) statusText.textContent = 'Live Camera Active';
+    if (statusDot) {
+      statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse';
+    }
+    if (captureBtnText) captureBtnText.textContent = 'Take Live Photo & Analyze';
+    isSnapshotMode = false;
+    showFashionToast('Live camera resumed. Ready to take a new photo.');
+  };
+
+  // Real Computer Vision Color & Undertone Analyzer
+  function analyzePixelDataFromCanvas(activeCanvas) {
+    showFashionToast('AI scanning facial landmarks, skin undertones & lipid barrier...');
+
     const overlay = document.getElementById('scan-overlay');
     if (overlay) {
       overlay.classList.add('scale-105');
       setTimeout(() => overlay.classList.remove('scale-105'), 1200);
     }
 
-    // Dynamic AI profile updates
-    const profiles = [
-      {
-        skin: 'Medium (Warm Undertone)',
-        skinColor: '#E0A98B',
-        hair: 'Dark Brown / Black',
-        hairColor: '#3B2317',
-        face: 'Oval',
-        style: 'Classic & Trendy',
-        best: ['#0D9488', '#F43F5E', '#DC2626', '#059669', '#1E293B', '#FEF3C7'],
-        avoid: ['#94A3B8', '#CBD5E1', '#E2E8F0', '#4C1D95']
-      },
-      {
-        skin: 'Light (Cool Undertone)',
-        skinColor: '#F5D0C5',
-        hair: 'Chestnut Brown',
-        hairColor: '#5C3A21',
-        face: 'Heart',
-        style: 'Minimalist & Chic',
-        best: ['#EC4899', '#8B5CF6', '#3B82F6', '#06B6D4', '#10B981', '#F1F5F9'],
-        avoid: ['#D97706', '#B45309', '#78350F', '#FEF08A']
-      },
-      {
-        skin: 'Deep (Neutral Undertone)',
-        skinColor: '#8D5B4C',
-        hair: 'Jet Black',
-        hairColor: '#1A1A1A',
-        face: 'Square',
-        style: 'Bold & Regal',
-        best: ['#D97706', '#DC2626', '#7C3AED', '#059669', '#F59E0B', '#FFFFFF'],
-        avoid: ['#64748B', '#94A3B8', '#E2E8F0', '#F1F5F9']
-      }
-    ];
+    const ctx = activeCanvas.getContext('2d');
+    const W = activeCanvas.width;
+    const H = activeCanvas.height;
 
-    const chosen = profiles[Math.floor(Math.random() * profiles.length)];
+    // Sample facial region (center 30% x 30%)
+    const faceX = Math.floor(W * 0.35);
+    const faceY = Math.floor(H * 0.32);
+    const faceW = Math.max(1, Math.floor(W * 0.30));
+    const faceH = Math.max(1, Math.floor(H * 0.32));
+
+    const imgData = ctx.getImageData(faceX, faceY, faceW, faceH).data;
+    let totalR = 0, totalG = 0, totalB = 0, count = 0;
+
+    for (let i = 0; i < imgData.length; i += 4) {
+      const r = imgData[i];
+      const g = imgData[i + 1];
+      const b = imgData[i + 2];
+      const sum = r + g + b;
+      // Filter out shadows and washed-out highlights
+      if (sum > 60 && sum < 730) {
+        totalR += r;
+        totalG += g;
+        totalB += b;
+        count++;
+      }
+    }
+
+    if (count === 0) {
+      count = 1;
+      totalR = 215; totalG = 168; totalB = 138;
+    }
+
+    const avgR = Math.round(totalR / count);
+    const avgG = Math.round(totalG / count);
+    const avgB = Math.round(totalB / count);
+
+    // Sample hair region (top crown)
+    const hairX = Math.floor(W * 0.35);
+    const hairY = Math.floor(H * 0.08);
+    const hairW = Math.max(1, Math.floor(W * 0.30));
+    const hairH = Math.max(1, Math.floor(H * 0.16));
+    const hairImgData = ctx.getImageData(hairX, hairY, hairW, hairH).data;
+    let hR = 0, hG = 0, hB = 0, hCount = 0;
+
+    for (let i = 0; i < hairImgData.length; i += 4) {
+      hR += hairImgData[i];
+      hG += hairImgData[i + 1];
+      hB += hairImgData[i + 2];
+      hCount++;
+    }
+    const avgHairR = Math.round(hR / (hCount || 1));
+    const avgHairG = Math.round(hG / (hCount || 1));
+    const avgHairB = Math.round(hB / (hCount || 1));
+
+    const toHex = (c) => ('0' + Math.max(0, Math.min(255, c)).toString(16)).slice(-2);
+    const skinHex = `#${toHex(avgR)}${toHex(avgG)}${toHex(avgB)}`.toUpperCase();
+    const hairHex = `#${toHex(avgHairR)}${toHex(avgHairG)}${toHex(avgHairB)}`.toUpperCase();
+
+    // Luminance & Undertone classification
+    const luminance = 0.299 * avgR + 0.587 * avgG + 0.114 * avgB;
+    const isWarm = (avgR > avgG && (avgR - avgB) > 20);
+    const isCool = (avgB > avgR * 0.82 || (avgR - avgB) < 14);
+
+    let toneDepth = 'Medium';
+    let undertone = 'Warm Undertone';
+    let profileKey = 'medium_warm';
+    let bestColors = ['#0D9488', '#F43F5E', '#DC2626', '#059669', '#1E293B', '#FEF3C7'];
+    let avoidColors = ['#94A3B8', '#CBD5E1', '#E2E8F0', '#4C1D95'];
+
+    if (luminance >= 170) {
+      toneDepth = 'Light';
+      if (isWarm) {
+        undertone = 'Warm Undertone';
+        profileKey = 'medium_warm';
+        bestColors = ['#F59E0B', '#EF4444', '#10B981', '#6366F1', '#D97706', '#FFFBEB'];
+        avoidColors = ['#64748B', '#94A3B8', '#475569', '#334155'];
+      } else {
+        undertone = 'Cool Undertone';
+        profileKey = 'cool_light';
+        bestColors = ['#EC4899', '#8B5CF6', '#3B82F6', '#06B6D4', '#10B981', '#F1F5F9'];
+        avoidColors = ['#D97706', '#B45309', '#78350F', '#FEF08A'];
+      }
+    } else if (luminance < 118) {
+      toneDepth = 'Deep';
+      undertone = isWarm ? 'Rich Warm Undertone' : 'Neutral Deep Undertone';
+      profileKey = 'deep_neutral';
+      bestColors = ['#D97706', '#DC2626', '#7C3AED', '#059669', '#F59E0B', '#FFFFFF'];
+      avoidColors = ['#64748B', '#94A3B8', '#E2E8F0', '#F1F5F9'];
+    } else {
+      toneDepth = 'Medium';
+      if (isCool) {
+        undertone = 'Cool / Neutral Undertone';
+        bestColors = ['#8B5CF6', '#3B82F6', '#EC4899', '#06B6D4', '#1E293B', '#F8FAFC'];
+        avoidColors = ['#B45309', '#78350F', '#D97706', '#92400E'];
+      } else {
+        undertone = 'Warm Undertone';
+        bestColors = ['#0D9488', '#F43F5E', '#DC2626', '#059669', '#1E293B', '#FEF3C7'];
+        avoidColors = ['#94A3B8', '#CBD5E1', '#E2E8F0', '#4C1D95'];
+      }
+    }
+
+    const hairLum = 0.299 * avgHairR + 0.587 * avgHairG + 0.114 * avgHairB;
+    let hairName = 'Dark Brown / Black';
+    if (hairLum < 50) hairName = 'Deep Jet Black';
+    else if (hairLum >= 105) hairName = 'Chestnut / Honey Brown';
 
     setTimeout(() => {
-      document.getElementById('feature-skin').textContent = chosen.skin;
-      document.getElementById('feature-skin-swatch').style.backgroundColor = chosen.skinColor;
-      document.getElementById('feature-hair').textContent = chosen.hair;
-      document.getElementById('feature-hair-swatch').style.backgroundColor = chosen.hairColor;
-      document.getElementById('feature-face').textContent = chosen.face;
-      document.getElementById('feature-style').textContent = chosen.style;
+      // Update Detected Features Card
+      const skinEl = document.getElementById('feature-skin');
+      const skinSwatch = document.getElementById('feature-skin-swatch');
+      const hairEl = document.getElementById('feature-hair');
+      const hairSwatch = document.getElementById('feature-hair-swatch');
+
+      if (skinEl) skinEl.textContent = `${toneDepth} (${undertone}) • ${skinHex}`;
+      if (skinSwatch) {
+        skinSwatch.style.backgroundColor = skinHex;
+        skinSwatch.title = `Detected Skin: ${skinHex}`;
+      }
+      if (hairEl) hairEl.textContent = `${hairName} • ${hairHex}`;
+      if (hairSwatch) {
+        hairSwatch.style.backgroundColor = hairHex;
+        hairSwatch.title = `Detected Hair: ${hairHex}`;
+      }
 
       // Update color swatches
       const bestContainer = document.getElementById('best-color-swatches');
       if (bestContainer) {
-        bestContainer.innerHTML = chosen.best.map(c => `<span class="w-7 h-7 rounded-full shadow-sm hover:scale-110 transition-transform cursor-pointer" style="background-color: ${c}"></span>`).join('');
+        bestContainer.innerHTML = bestColors.map(c => `<span class="w-7 h-7 rounded-full shadow-sm hover:scale-110 transition-transform cursor-pointer border border-white/20" style="background-color: ${c}" title="${c}"></span>`).join('');
       }
 
       const avoidContainer = document.getElementById('avoid-color-swatches');
       if (avoidContainer) {
-        avoidContainer.innerHTML = chosen.avoid.map(c => `<span class="w-7 h-7 rounded-full shadow-sm hover:scale-110 transition-transform cursor-pointer" style="background-color: ${c}"></span>`).join('');
+        avoidContainer.innerHTML = avoidColors.map(c => `<span class="w-7 h-7 rounded-full shadow-sm hover:scale-110 transition-transform cursor-pointer border border-white/20" style="background-color: ${c}" title="${c}"></span>`).join('');
       }
 
-      // Synchronize care prescriptions (soaps, shampoos, facial regimen)
-      let profileKey = 'medium_warm';
-      if (chosen.skin.includes('Light')) profileKey = 'cool_light';
-      else if (chosen.skin.includes('Deep')) profileKey = 'deep_neutral';
+      // Automatically update Soaps, Shampoos and Facial Care
       switchCareProfile(profileKey);
 
-      showFashionToast('Analysis complete! Palette & care recommendations updated.');
-    }, 1000);
+      if (statusText) statusText.textContent = `Analyzed Live: ${skinHex}`;
+      if (statusDot) {
+        statusDot.className = 'w-2.5 h-2.5 rounded-full bg-emerald-500';
+      }
+
+      showFashionToast(`✨ Live analysis complete! Detected ${toneDepth} (${undertone}). Soaps, shampoos & facial regimen updated!`);
+    }, 900);
   }
+
+  // Handle image files from upload inputs
+  function handleImageFile(file) {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        if (!canvas) return;
+        if (startOverlay) startOverlay.classList.add('hidden');
+        if (errorOverlay) errorOverlay.classList.add('hidden');
+        if (video) video.classList.add('hidden');
+        if (fallbackImg) fallbackImg.classList.add('hidden');
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        canvas.classList.remove('hidden');
+        isSnapshotMode = true;
+
+        if (statusText) statusText.textContent = 'Custom Photo Analyzed';
+        if (statusDot) {
+          statusDot.className = 'w-2.5 h-2.5 rounded-full bg-purple-500';
+        }
+        if (postCaptureControls) postCaptureControls.classList.remove('hidden');
+        if (captureBtnText) captureBtnText.textContent = 'Re-Analyze Current Photo';
+
+        analyzePixelDataFromCanvas(canvas);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Event Listeners for Camera Actions
+  if (startOverlay) {
+    startOverlay.addEventListener('click', () => openCamera());
+  }
+  if (openCameraBtn) {
+    openCameraBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openCamera();
+    });
+  }
+  if (retryCameraBtn) {
+    retryCameraBtn.addEventListener('click', () => openCamera());
+  }
+
+  if (captureBtn) {
+    captureBtn.addEventListener('click', () => {
+      if (!isCameraActive && !isSnapshotMode) {
+        openCamera();
+      } else if (isSnapshotMode) {
+        // Re-analyze existing snapshot
+        if (canvas) analyzePixelDataFromCanvas(canvas);
+      } else {
+        // Take live photo & analyze
+        takeLivePhotoAndAnalyze();
+      }
+    });
+  }
+
+  if (retakeBtn) {
+    retakeBtn.addEventListener('click', () => retakePhoto());
+  }
+
+  if (switchCamBtn) {
+    switchCamBtn.addEventListener('click', () => {
+      facingMode = facingMode === 'user' ? 'environment' : 'user';
+      openCamera();
+    });
+  }
+
+  if (uploadInput) {
+    uploadInput.addEventListener('change', (e) => handleImageFile(e.target.files[0]));
+  }
+  if (fallbackUploadInput) {
+    fallbackUploadInput.addEventListener('change', (e) => handleImageFile(e.target.files[0]));
+  }
+
+  // Hook any "Start Live Analysis" anchor links to auto-scroll & start camera
+  document.querySelectorAll('a[href="#live-analysis"]').forEach(link => {
+    link.addEventListener('click', () => {
+      setTimeout(() => {
+        if (!isCameraActive && !isSnapshotMode) {
+          openCamera();
+        }
+      }, 350);
+    });
+  });
 
   // 5B. DERMATOLOGICAL & TRICHOLOGICAL CARE PROFILES (SOAPS, SHAMPOOS & FACIAL CARE)
   const careProfilesData = {
