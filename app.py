@@ -95,6 +95,13 @@ def sitemap():
     """Serve sitemap.xml for Google Search Console and crawlers."""
     return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
 
+@app.route('/googlecbf9d8cbd657bf05.html')
+@app.route('/google<hash_val>.html')
+def google_verification(hash_val=None):
+    """Serve Google Search Console ownership verification file."""
+    filename = f"google{hash_val}.html" if hash_val else "googlecbf9d8cbd657bf05.html"
+    return send_from_directory('static', filename, mimetype='text/html')
+
 @app.route('/api/contact', methods=['POST'])
 def contact():
     """Handle contact form submissions."""
