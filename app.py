@@ -86,14 +86,20 @@ def ai_hospital():
     return render_template('ai_hospital.html')
 
 @app.route('/robots.txt')
+@app.route('//robots.txt')
 def robots():
     """Serve robots.txt for search engines."""
-    return send_from_directory('static', 'robots.txt', mimetype='text/plain')
+    resp = send_from_directory('static', 'robots.txt', mimetype='text/plain')
+    resp.headers['Cache-Control'] = 'public, max-age=3600'
+    return resp
 
 @app.route('/sitemap.xml')
+@app.route('//sitemap.xml')
 def sitemap():
     """Serve sitemap.xml for Google Search Console and crawlers."""
-    return send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
+    resp = send_from_directory('static', 'sitemap.xml', mimetype='application/xml')
+    resp.headers['Cache-Control'] = 'public, max-age=3600'
+    return resp
 
 @app.route('/googlecbf9d8cbd657bf05.html')
 @app.route('/google<hash_val>.html')
