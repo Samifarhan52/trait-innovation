@@ -7,14 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // 1. MOBILE / TOUCH CLICK-TO-FLIP FOR LEADERSHIP CARDS
-  document.querySelectorAll('.leadership-card').forEach(card => {
-    card.addEventListener('click', () => {
-      card.classList.toggle('is-flipped');
-    });
-  });
-
-  // 2. "TRAIT ECOSYSTEM" / FLAGSHIP SOLUTIONS (#solutions)
+  // 1. "TRAIT ECOSYSTEM" / FLAGSHIP SOLUTIONS (#solutions)
   const solutionsSection = document.getElementById('solutions');
   if (solutionsSection) {
     const solutionsHeader = solutionsSection.querySelector('.text-center');

@@ -72,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileDrawer = document.getElementById('global-mobile-menu') || document.getElementById('mobile-menu');
 
   if (mobileBtn && mobileDrawer) {
-    mobileBtn.addEventListener('click', () => {
+    mobileBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       mobileDrawer.classList.toggle('hidden');
     });
   }
@@ -82,6 +83,38 @@ document.addEventListener('DOMContentLoaded', () => {
       mobileDrawer.classList.add('hidden');
     });
   }
+
+  // Auto-close mobile drawer when navigating to any link
+  if (mobileDrawer) {
+    mobileDrawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.add('hidden');
+      });
+    });
+  }
+
+  // Click outside to close mobile drawer
+  document.addEventListener('click', (e) => {
+    if (mobileDrawer && !mobileDrawer.classList.contains('hidden')) {
+      if (!mobileDrawer.contains(e.target) && (!mobileBtn || !mobileBtn.contains(e.target))) {
+        mobileDrawer.classList.add('hidden');
+      }
+    }
+  });
+
+  // Escape key to close mobile drawer
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileDrawer && !mobileDrawer.classList.contains('hidden')) {
+      mobileDrawer.classList.add('hidden');
+    }
+  });
+
+  // Tap-to-flip controller for leadership cards (Mobile & Touch support)
+  document.querySelectorAll('.leadership-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      card.classList.toggle('is-flipped');
+    });
+  });
 
 
   // =========================================================================
