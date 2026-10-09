@@ -315,7 +315,7 @@
   </aside>
 
   <!-- HERO SECTION: EXECUTIVE DATA OBSERVATORY -->
-  <section id="overview" class="relative min-h-screen pt-32 pb-20 flex items-center justify-center overflow-hidden scanline-bg bg-graphite-950 dark:bg-[#05070A]">
+  <section id="overview" class="relative min-h-0 lg:min-h-screen pt-14 sm:pt-28 pb-16 sm:pb-20 flex items-center justify-center overflow-hidden scanline-bg bg-graphite-950 dark:bg-[#05070A]">
     <!-- Three.js 3D Background Canvas -->
     <canvas id="hero-canvas"></canvas>
 
@@ -325,39 +325,39 @@
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       
       <!-- Top Badge -->
-      <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-graphite-900/90 dark:bg-graphite-900/90 border border-emerald-500/40 backdrop-blur-md mb-8 shadow-lg shadow-emerald-950/50">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-graphite-900/90 dark:bg-graphite-900/90 border border-emerald-500/40 backdrop-blur-md mb-6 sm:mb-8 shadow-lg shadow-emerald-950/50">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400">AI • DATA ANALYTICS</span>
+        <span class="text-[10px] sm:text-xs font-mono font-bold uppercase tracking-widest text-emerald-400">AI • DATA ANALYTICS</span>
         <span class="text-xs text-slate-500 font-mono">|</span>
-        <span class="text-xs text-slate-300 font-medium">TRAIT INNOVATION</span>
+        <span class="text-[10px] sm:text-xs text-slate-300 font-medium">TRAIT INNOVATION</span>
       </div>
 
       <!-- Main Headline -->
-      <h1 class="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold tracking-tight max-w-5xl mx-auto leading-[1.1] text-slate-900 dark:text-white">
+      <h1 class="text-3xl sm:text-6xl md:text-7xl font-display font-extrabold tracking-tight max-w-5xl mx-auto leading-[1.1] text-slate-900 dark:text-white">
         Ask Your Data Questions. <br class="hidden sm:inline" />
         <span class="text-gradient-emerald">Discover What Your Business Data Is Telling You.</span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="mt-6 text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
+      <p class="mt-4 sm:mt-6 text-sm sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
         The AI Data Analysis Agent helps businesses turn datasets into understandable insights through analysis, visualization, reporting and recommendations.
       </p>
 
       <!-- Action Buttons -->
-      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-        <button onclick="openDemoModal()" class="px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-lime-400 text-graphite-950 font-extrabold text-sm hover:shadow-xl hover:shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+      <div class="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+        <button onclick="openDemoModal()" class="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-lime-400 text-graphite-950 font-extrabold text-xs sm:text-sm hover:shadow-xl hover:shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
           <span>Explore AI Data Analysis Agent</span>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </button>
 
-        <a href="#transformation" class="px-8 py-4 rounded-xl bg-white/80 dark:bg-graphite-900/90 border border-emerald-500/30 hover:border-emerald-500 text-slate-800 dark:text-slate-200 font-semibold text-sm transition-all flex items-center gap-2 backdrop-blur-md">
+        <a href="#transformation" class="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-white/80 dark:bg-graphite-900/90 border border-emerald-500/30 hover:border-emerald-500 text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm transition-all flex items-center gap-2 backdrop-blur-md">
           <span>Explore Transformation Engine</span>
           <svg class="w-4 h-4 text-emerald-500 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
         </a>
       </div>
 
       <!-- Prominent Data Analytics Operations Center Visual Frame -->
-      <div class="mt-12 rounded-3xl overflow-hidden border border-emerald-500/30 shadow-2xl relative max-w-5xl mx-auto h-72 sm:h-96 group">
+      <div class="mt-8 sm:mt-12 rounded-2xl sm:rounded-3xl overflow-hidden border border-emerald-500/30 shadow-2xl relative max-w-5xl mx-auto h-52 sm:h-96 group">
         <img src="{{ url_for('static', filename='images/data_analysis_hero.jpg') }}" alt="AI Data Analysis Telemetry Operations Center" class="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-all duration-700" />
         <div class="absolute inset-0 bg-gradient-to-t from-[#05070A] via-[#05070A]/30 to-transparent flex items-end p-6 sm:p-8">
           <div class="text-left space-y-1">
