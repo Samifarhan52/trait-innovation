@@ -298,9 +298,221 @@ document.addEventListener('DOMContentLoaded', () => {
         avoidContainer.innerHTML = chosen.avoid.map(c => `<span class="w-7 h-7 rounded-full shadow-sm hover:scale-110 transition-transform cursor-pointer" style="background-color: ${c}"></span>`).join('');
       }
 
-      showFashionToast('Analysis complete! Palette & recommendations updated.');
+      // Synchronize care prescriptions (soaps, shampoos, facial regimen)
+      let profileKey = 'medium_warm';
+      if (chosen.skin.includes('Light')) profileKey = 'cool_light';
+      else if (chosen.skin.includes('Deep')) profileKey = 'deep_neutral';
+      switchCareProfile(profileKey);
+
+      showFashionToast('Analysis complete! Palette & care recommendations updated.');
     }, 1000);
   }
+
+  // 5B. DERMATOLOGICAL & TRICHOLOGICAL CARE PROFILES (SOAPS, SHAMPOOS & FACIAL CARE)
+  const careProfilesData = {
+    medium_warm: {
+      badge: 'Medium Warm Skin • Balanced Scalp',
+      soap: {
+        title: 'Ceramide & Colloidal Oat Syndet Cleansing Bar',
+        desc: 'Soap-free syndet formulation that cleanses gently without stripping the acid mantle or creating post-shower dryness and ashiness in medium-to-tan skin tones.',
+        actives: 'Ceramides NP/AP/EOP • 1.5% Colloidal Oatmeal • Shea Butter • Niacinamide',
+        benefit: 'Zero barrier degradation; prevents trans-epidermal moisture loss (TEWL) and maintains smooth skin glow.'
+      },
+      shampoo: {
+        title: 'Rosemary & Peptide Follicle-Balancing Shampoo',
+        desc: 'Clarifies excess sebum build-up along dark hair follicles while keeping natural hydration intact, preserving rich glossy undertone highlights without stripping.',
+        actives: 'Rosemary Leaf Extract • Hydrolyzed Pea Protein • Zinc PCA • Biotin',
+        conditioner: 'Argan & Camellia Seed Lipid Mask (Mid-lengths to tips; leave 3 mins).',
+        frequency: '2 to 3 times weekly (avoids over-washing & dry scalp flakes).'
+      },
+      facial: {
+        step1Name: 'Centella & Green Tea Calming Gel Cleanser',
+        step1Desc: 'Non-stripping low pH (5.5) jelly base; dissolves sebum without tightness.',
+        step2Name: '10% Niacinamide + 1% Zinc PCA + Hyaluronic Serum',
+        step2Desc: 'Fades hyperpigmentation on warm skin tones; tightens pores and stabilizes sebum.',
+        step3Name: 'Invisible Water-Gel SPF 50+ PA++++ (Zero White Cast)',
+        step3Desc: 'Completely translucent on medium/warm skin; non-greasy, non-comedogenic shield.',
+        step4Name: '0.2% Encapsulated Retinoid & Squalane Restorative Cream',
+        step4Desc: 'Stimulates collagen synthesis and cellular turnover overnight for smooth texture.'
+      },
+      avoid: 'Avoid harsh sulfates (SLS/SLES), high-alkaline bar soaps (pH > 8.5), heavy pore-clogging mineral oils (comedogenic index > 3), and denatured alcohols (Ethanol/Alcohol Denat) which cause post-inflammatory hyperpigmentation and rebound oiliness.'
+    },
+    cool_light: {
+      badge: 'Light Cool Skin • Sensitive / Fair Scalp',
+      soap: {
+        title: 'Ultra-Soothing Prebiotic Goat Milk & Honey Body Bar',
+        desc: 'Microbiome-friendly, extra-gentle bar designed for fair skin prone to erythema, rosacea, and flushing, balancing skin pH at 5.4.',
+        actives: 'Fresh Goat Milk Lipids • Manuka Honey Extract • Allantoin • Bisabolol',
+        benefit: 'Calms superficial redness and prevents cold-weather barrier cracks.'
+      },
+      shampoo: {
+        title: 'Chamomile & Hydrolyzed Keratin Brightening Shampoo',
+        desc: 'Sulfate-free formulation that enhances cool ash and chestnut tones, prevents brassiness, and strengthens fine hair strands.',
+        actives: 'Chamomile Flower Extract • Hydrolyzed Keratin • Pro-Vitamin B5 (Panthenol)',
+        conditioner: 'Jojoba & Silk Amino Acid Featherweight Detangler.',
+        frequency: '3 times weekly with lukewarm water.'
+      },
+      facial: {
+        step1Name: 'Milky Oat & Calendula Soothing Cleanser',
+        step1Desc: 'Ultra-mild milky emulsion that cleanses redness-prone skin without rubbing.',
+        step2Name: '5% Azelaic Acid + Centella Asiatica Barrier Serum',
+        step2Desc: 'Targets vascular flushing, calms micro-inflammation, and evens out fair complexion.',
+        step3Name: 'Ceramide Light Mineral SPF 50+ with Micronized Zinc',
+        step3Desc: 'Soothes reactive skin while offering physical photostable UV-A/UV-B shield.',
+        step4Name: 'Bakuchiol & Blue Tansy Restorative Recovery Balm',
+        step4Desc: 'Gentle plant retinoid alternative that firms skin without irritation.'
+      },
+      avoid: 'Avoid synthetic fragrances, citrus essential oils (bergamot, lemon), physical apricot scrubs, and high-strength glycolic peels that cause capillary dilation.'
+    },
+    deep_neutral: {
+      badge: 'Deep Melanin-Rich Skin • Moisture-Lock Scalp',
+      soap: {
+        title: 'Raw African Black Soap with 20% Unrefined Shea Butter',
+        desc: 'Deeply conditioning syndet bar enriched with natural plant ashes and unrefined shea, preventing ashiness and delivering intense lipids.',
+        actives: 'Unrefined Butyrospermum Parkii (Shea Butter) • Plantain Skin Ash • Cocoa Pod Butter',
+        benefit: 'Provides radiant natural sheen, prevents follicular hyperkeratosis and ashy patches.'
+      },
+      shampoo: {
+        title: 'Baobab Oil & Jamaican Black Castor Co-Wash & Shampoo',
+        desc: 'Ultra-moisturizing, low-lather cleanser that detangles curly and coarse textures while sealing moisture into the cortex.',
+        actives: 'Cold-Pressed Baobab Seed Oil • Black Castor Oil • Aloe Vera Leaf Juice',
+        conditioner: 'Raw Cupuaçu Butter & Murumuru Deep Penetrating Treatment Mask.',
+        frequency: '1 to 2 times weekly with co-wash mid-week rinse.'
+      },
+      facial: {
+        step1Name: 'Hydrating Amino Acid & Papaya Enzyme Cleanser',
+        step1Desc: 'Gently loosens dead skin cells without stripping rich melanin moisture.',
+        step2Name: '12% Vitamin C (THD Ascorbate) + Alpha Arbutin Glow Serum',
+        step2Desc: 'Lipid-soluble active that penetrates deeply to illuminate and erase dark spots.',
+        step3Name: 'Clear Essence Chemical SPF 50+ Invisible Gel Sunscreen',
+        step3Desc: '100% invisible clear shield with zero grey cast, non-comedogenic, dewy finish.',
+        step4Name: 'Lactic Acid 5% + Ceramide Complex Overnight Refining Treatment',
+        step4Desc: 'Smooths micro-texture and enhances uniform radiance without discoloration.'
+      },
+      avoid: 'Avoid benzoyl peroxide washes (can cause hypopigmentation patches), drying isopropyl alcohol, and chalky physical sunscreens that leave a ghostly white residue.'
+    },
+    oily_acne: {
+      badge: 'Pore Clarifying • Sebum Control Protocol',
+      soap: {
+        title: 'Tea Tree & Activated Binchotan Charcoal Cleansing Bar',
+        desc: 'Draws out impactions from congested pores along chest, back, and shoulders while zinc PCA regulates daily sebum overproduction.',
+        actives: 'Activated Charcoal • 0.5% Tea Tree Oil • 2% Zinc PCA • Kaolin Clay',
+        benefit: 'Clears bacne, prevents folliculitis, and controls oily shine all day.'
+      },
+      shampoo: {
+        title: 'Apple Cider Vinegar & Salicylic Acid Scalp Clarifier',
+        desc: 'Dissolves stubborn build-up, regulates excess scalp oil, and eliminates dandruff-causing malassezia fungus without drying hair ends.',
+        actives: 'Organic ACV (Fermented) • 1% Salicylic Acid • Peppermint Essential Micro-Dose',
+        conditioner: 'Lightweight Aloe Vera & Hyaluronic Scalp-Safe Conditioner.',
+        frequency: '3 to 4 times weekly or post-workout.'
+      },
+      facial: {
+        step1Name: '2% Salicylic Acid (BHA) Foaming Gel Cleanser',
+        step1Desc: 'Lipid-soluble acid that penetrates deep inside pores to dissolve sebum plugs.',
+        step2Name: '10% Niacinamide + Zinc 1% + Green Tea EGCG Concentrate',
+        step2Desc: 'Visibly reduces pore diameter, minimizes sebum excretion by up to 35%.',
+        step3Name: 'Oil-Free Mattifying Water Gel SPF 50 (Silica-Infused)',
+        step3Desc: 'Absorbs sweat and oil for a 12-hour shine-free velvet matte finish.',
+        step4Name: 'Adapalene 0.1% / Encapsulated Retinol Pore Clarifier Gel',
+        step4Desc: 'Clears acne micro-comedones and normalizes follicular hyperkeratinization.'
+      },
+      avoid: 'Avoid coconut oil, isopropyl myristate, heavy cocoa butter on face/chest, and high-abrasion physical walnut scrubs which spread acne bacteria.'
+    },
+    dry_sensitive: {
+      badge: 'Dry / Sensitive Barrier • Lipid Restorative',
+      soap: {
+        title: 'Barrier Repair Ceramide Shower Oil & Cleansing Cream',
+        desc: 'Transforms into a milky emulsion on contact with water; deposits protective omega-3/6/9 lipids onto parched skin.',
+        actives: '5 Essential Ceramides • Squalane • Sunflower Seed Lipid Complex • Vitamin E',
+        benefit: 'Restores the epidermal barrier, halts chronic itchiness, and softens rough skin.'
+      },
+      shampoo: {
+        title: 'Oat Milk & Marshmallow Root Hydrating Cream Shampoo',
+        desc: 'Cream-to-foam gentle wash that soothes dry, itchy scalp and coats brittle hair shafts with a silky protective moisture veil.',
+        actives: 'Colloidal Oat Extract • Marshmallow Root Mucilage • Panthenol • Shea Olein',
+        conditioner: 'Ultra-Rich Shea & Jojoba Intense Moisture Butter Mask.',
+        frequency: '1 to 2 times weekly; use cool water rinse.'
+      },
+      facial: {
+        step1Name: 'Ultra-Gentle Squalane Cleansing Balm & Lotion',
+        step1Desc: 'Melts away impurities without foaming agents, leaving skin supple and cushioned.',
+        step2Name: 'Multi-Weight Hyaluronic Acid + Polyglutamic Acid Barrier Quencher',
+        step2Desc: 'Delivers 5-layer hydration, pulling water deep into the dermis.',
+        step3Name: 'Ceramide & Lipid Recovery Day Cream + SPF 50 Mineral Defense',
+        step3Desc: 'Rich yet breathable barrier shield preventing flaking and tightness all day.',
+        step4Name: 'Pure Plant Squalane & Ceramide NP Night Barrier Seal Oil',
+        step4Desc: 'Locks in all nighttime hydration, soothing dry tightness completely by morning.'
+      },
+      avoid: 'Avoid foaming sodium sulfates, essential oils with limonene/linalool, witch hazel, astringents, and harsh AHAs during barrier recovery.'
+    }
+  };
+
+  window.switchCareProfile = function(profileKey) {
+    const data = careProfilesData[profileKey];
+    if (!data) return;
+
+    // Update active tab styling
+    document.querySelectorAll('.care-profile-btn').forEach(btn => {
+      if (btn.getAttribute('data-care-profile') === profileKey) {
+        btn.classList.remove('text-slate-600', 'dark:text-slate-300', 'hover:text-purple-600', 'dark:hover:text-purple-400');
+        btn.classList.add('bg-purple-600', 'text-white', 'shadow-sm');
+      } else {
+        btn.classList.remove('bg-purple-600', 'text-white', 'shadow-sm');
+        btn.classList.add('text-slate-600', 'dark:text-slate-300', 'hover:text-purple-600', 'dark:hover:text-purple-400');
+      }
+    });
+
+    // Badge
+    const badge = document.getElementById('active-profile-badge');
+    if (badge) badge.textContent = data.badge;
+
+    // Soap
+    const soapTitle = document.getElementById('soap-title');
+    const soapDesc = document.getElementById('soap-desc');
+    const soapActives = document.getElementById('soap-actives');
+    const soapBenefit = document.getElementById('soap-benefit');
+    if (soapTitle) soapTitle.textContent = data.soap.title;
+    if (soapDesc) soapDesc.textContent = data.soap.desc;
+    if (soapActives) soapActives.textContent = data.soap.actives;
+    if (soapBenefit) soapBenefit.textContent = data.soap.benefit;
+
+    // Shampoo
+    const shampooTitle = document.getElementById('shampoo-title');
+    const shampooDesc = document.getElementById('shampoo-desc');
+    const shampooActives = document.getElementById('shampoo-actives');
+    const shampooCond = document.getElementById('shampoo-cond');
+    const shampooFreq = document.getElementById('shampoo-freq');
+    if (shampooTitle) shampooTitle.textContent = data.shampoo.title;
+    if (shampooDesc) shampooDesc.textContent = data.shampoo.desc;
+    if (shampooActives) shampooActives.textContent = data.shampoo.actives;
+    if (shampooCond) shampooCond.textContent = data.shampoo.conditioner;
+    if (shampooFreq) shampooFreq.textContent = data.shampoo.frequency;
+
+    // Facial
+    const f1Name = document.getElementById('facial-step1-name');
+    const f1Desc = document.getElementById('facial-step1-desc');
+    const f2Name = document.getElementById('facial-step2-name');
+    const f2Desc = document.getElementById('facial-step2-desc');
+    const f3Name = document.getElementById('facial-step3-name');
+    const f3Desc = document.getElementById('facial-step3-desc');
+    const f4Name = document.getElementById('facial-step4-name');
+    const f4Desc = document.getElementById('facial-step4-desc');
+    if (f1Name) f1Name.textContent = data.facial.step1Name;
+    if (f1Desc) f1Desc.textContent = data.facial.step1Desc;
+    if (f2Name) f2Name.textContent = data.facial.step2Name;
+    if (f2Desc) f2Desc.textContent = data.facial.step2Desc;
+    if (f3Name) f3Name.textContent = data.facial.step3Name;
+    if (f3Desc) f3Desc.textContent = data.facial.step3Desc;
+    if (f4Name) f4Name.textContent = data.facial.step4Name;
+    if (f4Desc) f4Desc.textContent = data.facial.step4Desc;
+
+    // Avoided ingredients
+    const avoidText = document.getElementById('avoid-ingredients-text');
+    if (avoidText) avoidText.textContent = data.avoid;
+  };
+
+  // Initial render of care prescription profile
+  switchCareProfile('medium_warm');
 
   // 6. TOAST NOTIFICATIONS
   window.showFashionToast = function(msg) {

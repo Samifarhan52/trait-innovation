@@ -155,6 +155,14 @@
       <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-xs font-bold text-purple-100 group-hover/item:text-white">Live Camera Scan</span>
     </a>
 
+    <!-- Item 3B: Care & Products Regimen -->
+    <a href="#personal-care-recommendations" class="flex items-center gap-3 px-2 py-2 rounded-2xl bg-purple-950/60 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600 text-purple-100 font-bold text-xs transition-all border border-purple-900/60 hover:border-purple-400/80 shadow-sm shrink-0 group/item">
+      <div class="w-7 h-7 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-950/60 group-hover/item:scale-110 transition-transform">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+      </div>
+      <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap text-xs font-bold text-purple-100 group-hover/item:text-white">Care & Regimen</span>
+    </a>
+
     <!-- Item 4: Recommendations -->
     <a href="#recommendations" class="flex items-center gap-3 px-2 py-2 rounded-2xl bg-purple-950/60 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600 text-purple-100 font-bold text-xs transition-all border border-purple-900/60 hover:border-purple-400/80 shadow-sm shrink-0 group/item">
       <div class="w-7 h-7 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-purple-950/60 group-hover/item:scale-110 transition-transform">
@@ -534,6 +542,280 @@
 
           </div>
 
+        </div>
+
+      </div>
+
+      <!-- 6B. PERSONALIZED CARE & PRODUCT RECOMMENDATIONS (SOAPS, SHAMPOOS & FACIAL CARE) -->
+      <div id="personal-care-recommendations" class="mt-14 pt-12 border-t border-purple-100 dark:border-fashion-darkBorder">
+        
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-950/80 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 text-xs font-mono font-bold uppercase mb-2">
+              <svg class="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+              <span>AI Dermatological & Trichological Prescriptions</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-bold font-serif-title text-slate-900 dark:text-white">
+              Personalized <span class="text-gradient-purple italic font-normal">Care Regimen</span> & Products
+            </h3>
+            <p class="mt-1.5 text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-2xl">
+              Scientifically paired soaps, shampoos, and multi-step facial treatments calibrated to your detected undertone, lipid barrier integrity, and hair cuticle health.
+            </p>
+          </div>
+
+          <!-- Active Profile Indicator Pill -->
+          <div class="flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-50 dark:bg-fashion-darkCard border border-purple-200/60 dark:border-fashion-darkBorder shadow-sm shrink-0">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <div class="text-[11px]">
+              <span class="text-slate-400 font-medium">Active Prescription: </span>
+              <span id="active-profile-badge" class="font-bold text-purple-600 dark:text-purple-400">Medium Warm Skin • Balanced Scalp</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Profile Selector Tabs -->
+        <div class="flex flex-wrap items-center gap-2 mb-8 p-1.5 rounded-2xl bg-slate-100/80 dark:bg-fashion-darkCard border border-purple-100/80 dark:border-fashion-darkBorder w-fit">
+          <button type="button" onclick="switchCareProfile('medium_warm')" data-care-profile="medium_warm" class="care-profile-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all bg-purple-600 text-white shadow-sm">
+            Medium & Warm Undertone (Current Scan)
+          </button>
+          <button type="button" onclick="switchCareProfile('cool_light')" data-care-profile="cool_light" class="care-profile-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400">
+            Light & Cool Undertone
+          </button>
+          <button type="button" onclick="switchCareProfile('deep_neutral')" data-care-profile="deep_neutral" class="care-profile-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400">
+            Deep & Melanin-Rich
+          </button>
+          <button type="button" onclick="switchCareProfile('oily_acne')" data-care-profile="oily_acne" class="care-profile-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400">
+            Pore & Oil Control Focus
+          </button>
+          <button type="button" onclick="switchCareProfile('dry_sensitive')" data-care-profile="dry_sensitive" class="care-profile-btn px-4 py-2 rounded-xl text-xs font-semibold transition-all text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400">
+            Dry & Barrier Repair Focus
+          </button>
+        </div>
+
+        <!-- 3 Pillars Grid: Soaps, Shampoos, and 4-Step Facial Care -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          
+          <!-- Pillar 1: Soaps & Body Cleansers (col-span-4) -->
+          <div class="lg:col-span-4 bg-white dark:bg-fashion-darkCard rounded-3xl p-6 border border-purple-100 dark:border-fashion-darkBorder shadow-sm flex flex-col justify-between hover:border-purple-300 transition-all">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold text-lg border border-amber-200/50">
+                    🫧
+                  </div>
+                  <div>
+                    <span class="text-[10px] font-mono font-bold uppercase text-amber-600 dark:text-amber-400 tracking-wider">Pillar 01 • Body Lipid Barrier</span>
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">Recommended Soaps</h4>
+                  </div>
+                </div>
+                <span class="text-[10px] px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-mono font-semibold">pH 5.5 Balanced</span>
+              </div>
+
+              <!-- Product Card -->
+              <div class="p-4 rounded-2xl bg-slate-50 dark:bg-fashion-darkBg border border-slate-200/60 dark:border-fashion-darkBorder space-y-3 mb-4">
+                <div class="flex items-start justify-between gap-2">
+                  <h5 id="soap-title" class="text-sm font-bold text-slate-900 dark:text-white leading-snug">
+                    Ceramide & Colloidal Oat Syndet Cleansing Bar
+                  </h5>
+                  <span class="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 text-[10px] font-semibold shrink-0">Syndet Bar</span>
+                </div>
+                <p id="soap-desc" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Soap-free syndet formulation that cleanses gently without stripping the acid mantle or creating post-shower dryness and ashiness in medium-to-tan skin tones.
+                </p>
+                <div class="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                  <div>
+                    <div class="text-[10px] font-mono text-slate-400 uppercase">Key Active Ingredients:</div>
+                    <div id="soap-actives" class="text-xs font-semibold text-purple-600 dark:text-purple-300">
+                      Ceramides NP/AP/EOP • 1.5% Colloidal Oatmeal • Shea Butter • Niacinamide
+                    </div>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-mono text-slate-400 uppercase">Primary Skin Benefit:</div>
+                    <div id="soap-benefit" class="text-xs text-slate-700 dark:text-slate-300">
+                      Zero barrier degradation; prevents trans-epidermal moisture loss (TEWL) and maintains smooth skin glow.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Usage Protocol -->
+              <div class="text-xs text-slate-500 dark:text-slate-400 space-y-1.5 p-3 rounded-2xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40">
+                <div class="font-bold text-amber-800 dark:text-amber-300 text-[11px] flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <span>Application Protocol:</span>
+                </div>
+                <p class="text-[11px] leading-relaxed">
+                  Lather with lukewarm water (never scalding) using bare hands or soft konjac sponge. Avoid rough plastic loofahs which cause micro-tears in the epidermal layer.
+                </p>
+              </div>
+            </div>
+
+            <button type="button" onclick="showFashionToast('Soap & Cleansing Bar prescription added to your routine checklist!')" class="mt-5 w-full py-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-600 hover:text-white text-purple-600 dark:text-purple-300 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 border border-purple-200 dark:border-purple-800">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+              <span>Add Soap To Routine</span>
+            </button>
+          </div>
+
+          <!-- Pillar 2: Shampoos & Haircare (col-span-4) -->
+          <div class="lg:col-span-4 bg-white dark:bg-fashion-darkCard rounded-3xl p-6 border border-purple-100 dark:border-fashion-darkBorder shadow-sm flex flex-col justify-between hover:border-purple-300 transition-all">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold text-lg border border-indigo-200/50">
+                    💆
+                  </div>
+                  <div>
+                    <span class="text-[10px] font-mono font-bold uppercase text-indigo-600 dark:text-indigo-400 tracking-wider">Pillar 02 • Trichology & Scalp</span>
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">Recommended Shampoo</h4>
+                  </div>
+                </div>
+                <span class="text-[10px] px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-mono font-semibold">Sulfate-Free</span>
+              </div>
+
+              <!-- Product Card -->
+              <div class="p-4 rounded-2xl bg-slate-50 dark:bg-fashion-darkBg border border-slate-200/60 dark:border-fashion-darkBorder space-y-3 mb-4">
+                <div class="flex items-start justify-between gap-2">
+                  <h5 id="shampoo-title" class="text-sm font-bold text-slate-900 dark:text-white leading-snug">
+                    Rosemary & Peptide Follicle-Balancing Shampoo
+                  </h5>
+                  <span class="px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 text-[10px] font-semibold shrink-0">Trichological</span>
+                </div>
+                <p id="shampoo-desc" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Clarifies excess sebum build-up along dark hair follicles while keeping natural hydration intact, preserving rich glossy undertone highlights without stripping.
+                </p>
+                <div class="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-2">
+                  <div>
+                    <div class="text-[10px] font-mono text-slate-400 uppercase">Key Active Ingredients:</div>
+                    <div id="shampoo-actives" class="text-xs font-semibold text-purple-600 dark:text-purple-300">
+                      Rosemary Leaf Extract • Hydrolyzed Pea Protein • Zinc PCA • Biotin
+                    </div>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-mono text-slate-400 uppercase">Recommended Companion Conditioner:</div>
+                    <div id="shampoo-cond" class="text-xs text-slate-700 dark:text-slate-300">
+                      Argan & Camellia Seed Lipid Mask (Mid-lengths to tips; leave 3 mins).
+                    </div>
+                  </div>
+                  <div>
+                    <div class="text-[10px] font-mono text-slate-400 uppercase">Optimal Wash Schedule:</div>
+                    <div id="shampoo-freq" class="text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                      2 to 3 times weekly (avoids over-washing & dry scalp flakes).
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Usage Protocol -->
+              <div class="text-xs text-slate-500 dark:text-slate-400 space-y-1.5 p-3 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900/40">
+                <div class="font-bold text-indigo-800 dark:text-indigo-300 text-[11px] flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <span>Scalp Application Tip:</span>
+                </div>
+                <p class="text-[11px] leading-relaxed">
+                  Massage into roots with finger pads for 90 seconds to activate micro-circulation before rinsing thoroughly. Never scratch scalp with nails.
+                </p>
+              </div>
+            </div>
+
+            <button type="button" onclick="showFashionToast('Shampoo & Scalp regimen added to your hair wellness schedule!')" class="mt-5 w-full py-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-600 hover:text-white text-purple-600 dark:text-purple-300 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 border border-purple-200 dark:border-purple-800">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+              <span>Add Shampoo To Routine</span>
+            </button>
+          </div>
+
+          <!-- Pillar 3: 4-Step Facial Care Regimen (col-span-4) -->
+          <div class="lg:col-span-4 bg-white dark:bg-fashion-darkCard rounded-3xl p-6 border border-purple-100 dark:border-fashion-darkBorder shadow-sm flex flex-col justify-between hover:border-purple-300 transition-all">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-lg border border-rose-200/50">
+                    ✨
+                  </div>
+                  <div>
+                    <span class="text-[10px] font-mono font-bold uppercase text-rose-600 dark:text-rose-400 tracking-wider">Pillar 03 • Facial Dermatology</span>
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">4-Step Facial Regimen</h4>
+                  </div>
+                </div>
+                <span class="text-[10px] px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-mono font-semibold">AM & PM Protocol</span>
+              </div>
+
+              <!-- 4 Step Cards -->
+              <div class="space-y-3">
+                <!-- Step 1 -->
+                <div class="p-3 rounded-2xl bg-slate-50 dark:bg-fashion-darkBg border border-slate-200/60 dark:border-fashion-darkBorder">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-mono font-bold text-purple-600 dark:text-purple-400 uppercase">Step 01 • Face Wash / Cleanser</span>
+                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-medium">AM + PM</span>
+                  </div>
+                  <div id="facial-step1-name" class="text-xs font-bold text-slate-900 dark:text-white">Centella & Green Tea Calming Gel Cleanser</div>
+                  <div id="facial-step1-desc" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Non-stripping low pH (5.5) jelly base; dissolves sebum without tightness.</div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="p-3 rounded-2xl bg-slate-50 dark:bg-fashion-darkBg border border-slate-200/60 dark:border-fashion-darkBorder">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-mono font-bold text-purple-600 dark:text-purple-400 uppercase">Step 02 • Targeted Treatment Serum</span>
+                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-medium">AM + PM</span>
+                  </div>
+                  <div id="facial-step2-name" class="text-xs font-bold text-slate-900 dark:text-white">10% Niacinamide + 1% Zinc PCA + Hyaluronic Serum</div>
+                  <div id="facial-step2-desc" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Fades hyperpigmentation on warm skin tones; tightens pores and stabilizes sebum.</div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="p-3 rounded-2xl bg-slate-50 dark:bg-fashion-darkBg border border-slate-200/60 dark:border-fashion-darkBorder">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-mono font-bold text-purple-600 dark:text-purple-400 uppercase">Step 03 • Day Moisturizer + SPF 50+</span>
+                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 font-medium">AM Routine</span>
+                  </div>
+                  <div id="facial-step3-name" class="text-xs font-bold text-slate-900 dark:text-white">Invisible Water-Gel SPF 50+ PA++++ (Zero White Cast)</div>
+                  <div id="facial-step3-desc" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Completely translucent on medium/warm skin; non-greasy, non-comedogenic shield.</div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="p-3 rounded-2xl bg-slate-50 dark:bg-fashion-darkBg border border-slate-200/60 dark:border-fashion-darkBorder">
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-mono font-bold text-purple-600 dark:text-purple-400 uppercase">Step 04 • Night Repair Elixir</span>
+                    <span class="text-[9px] px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 font-medium">PM Routine</span>
+                  </div>
+                  <div id="facial-step4-name" class="text-xs font-bold text-slate-900 dark:text-white">0.2% Encapsulated Retinoid & Squalane Restorative Cream</div>
+                  <div id="facial-step4-desc" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Stimulates collagen synthesis and cellular turnover overnight for smooth texture.</div>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" onclick="showFashionToast('Complete 4-Step Facial Protocol saved to your personalized morning & evening regimen!')" class="mt-5 w-full py-2.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-600 hover:text-white text-purple-600 dark:text-purple-300 font-bold text-xs transition-colors flex items-center justify-center gap-1.5 border border-purple-200 dark:border-purple-800">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+              <span>Add 4-Step Facial Care</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Banner: Ingredients to Avoid / Dermatologist Safety Flag -->
+        <div class="mt-8 p-6 rounded-3xl bg-gradient-to-r from-red-50 via-rose-50 to-orange-50 dark:from-red-950/20 dark:via-rose-950/20 dark:to-orange-950/20 border border-red-200/60 dark:border-red-900/40">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-2xl bg-red-100 dark:bg-red-900/60 text-red-600 dark:text-red-300 flex items-center justify-center font-bold text-lg shrink-0">
+                ⚠️
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <span>Ingredients To Strictly Avoid For This Profile</span>
+                  <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300">Safety Flag</span>
+                </h4>
+                <p id="avoid-ingredients-text" class="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                  Avoid harsh sulfates (SLS/SLES), high-alkaline bar soaps (pH &gt; 8.5), heavy pore-clogging mineral oils (comedogenic index &gt; 3), and denatured alcohols (Ethanol/Alcohol Denat) which cause post-inflammatory hyperpigmentation and rebound oiliness.
+                </p>
+              </div>
+            </div>
+            <div class="shrink-0 flex items-center gap-2">
+              <span class="px-3 py-1.5 rounded-xl bg-white dark:bg-fashion-darkCard text-[11px] font-semibold text-slate-700 dark:text-slate-300 border border-red-200 dark:border-red-900/60 shadow-sm flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                Dermatologically Screened
+              </span>
+            </div>
+          </div>
         </div>
 
       </div>
