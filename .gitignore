@@ -11,3 +11,4 @@ ENV/
 .env
 .DS_Store
 .vercel/
+.vscode/

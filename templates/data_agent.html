@@ -91,39 +91,84 @@
     }
     
     .bg-obs-card {
-      background: rgba(11, 14, 20, 0.75);
+      background: rgba(11, 14, 20, 0.85);
       backdrop-filter: blur(16px);
-      border: 1px solid rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.2);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .bg-obs-card:hover {
-      border-color: rgba(16, 185, 129, 0.35);
-      box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.15);
+      border-color: rgba(52, 211, 153, 0.7);
+      box-shadow: 0 15px 40px -10px rgba(16, 185, 129, 0.35);
+    }
+
+    html.light .bg-obs-card {
+      background: rgba(255, 255, 255, 0.96) !important;
+      border-color: rgba(16, 185, 129, 0.25) !important;
+      box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.12) !important;
+      color: #0f172a !important;
+    }
+
+    html.light .bg-obs-card h2,
+    html.light .bg-obs-card h3,
+    html.light .bg-obs-card h4 {
+      color: #0f172a !important;
+    }
+
+    html.light .bg-obs-card p {
+      color: #475569 !important;
     }
 
     .emerald-glow {
-      box-shadow: 0 0 35px -5px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 0 45px 5px rgba(16, 185, 129, 0.45);
     }
 
     .lime-glow {
-      box-shadow: 0 0 35px -5px rgba(132, 204, 22, 0.25);
+      box-shadow: 0 0 45px 5px rgba(132, 204, 22, 0.35);
     }
 
     .text-gradient-emerald {
-      background: linear-gradient(135deg, #FFFFFF 0%, #34D399 50%, #84CC16 100%);
+      background: linear-gradient(135deg, #FFFFFF 0%, #10B981 40%, #84CC16 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    html.light .text-gradient-emerald {
+      background: linear-gradient(135deg, #065F46 0%, #059669 50%, #4D7C0F 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .text-gradient-lime {
-      background: linear-gradient(135deg, #84CC16 0%, #34D399 100%);
+      background: linear-gradient(135deg, #A3E635 0%, #34D399 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
+    html.light body {
+      background-color: #F8FCF9 !important;
+      color: #0F172A !important;
+    }
+
+    html.light #overview,
+    html.light #transformation,
+    html.light #dashboard,
+    html.light #pipeline,
+    html.light #human-ai,
+    html.light footer {
+      background-color: #F8FCF9 !important;
+    }
+
+    html.light #capabilities,
+    html.light #insights,
+    html.light #usecases {
+      background-color: #F0FDF4 !important;
+    }
+
     /* Scanline effect for data aesthetic */
     .scanline-bg {
-      background: linear-gradient(rgba(16, 185, 129, 0.03) 50%, rgba(0, 0, 0, 0) 50%);
+      background: linear-gradient(rgba(16, 185, 129, 0.05) 50%, rgba(0, 0, 0, 0) 50%);
       background-size: 100% 4px;
     }
 
@@ -280,58 +325,58 @@
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       
       <!-- Top Badge -->
-      <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-graphite-900/90 border border-emerald-500/30 backdrop-blur-md mb-8 shadow-lg shadow-emerald-950/50">
+      <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-graphite-900/90 dark:bg-graphite-900/90 border border-emerald-500/40 backdrop-blur-md mb-8 shadow-lg shadow-emerald-950/50">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span class="text-xs font-mono font-semibold uppercase tracking-widest text-emerald-400">SERVICE #3 • AI DATA ANALYSIS AGENT</span>
+        <span class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400">AI • DATA ANALYTICS</span>
         <span class="text-xs text-slate-500 font-mono">|</span>
         <span class="text-xs text-slate-300 font-medium">TRAIT INNOVATION</span>
       </div>
 
       <!-- Main Headline -->
-      <h1 class="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold tracking-tight max-w-5xl mx-auto leading-[1.1] text-white">
-        Raw Data Into <br class="hidden sm:inline" />
-        <span class="text-gradient-emerald">Decisive Executive Strategy.</span>
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold tracking-tight max-w-5xl mx-auto leading-[1.1] text-slate-900 dark:text-white">
+        Ask Your Data Questions. <br class="hidden sm:inline" />
+        <span class="text-gradient-emerald">Discover What Your Business Data Is Telling You.</span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
-        Analyses enterprise data silos in real time to synthesize natural language insights, predictive visual reports, and automated operational recommendations for C-suite leaders.
+      <p class="mt-6 text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
+        The AI Data Analysis Agent helps businesses turn datasets into understandable insights through analysis, visualization, reporting and recommendations.
       </p>
 
       <!-- Action Buttons -->
       <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
-        <button onclick="openDemoModal()" class="px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-lime-400 text-graphite-950 font-bold text-sm hover:shadow-lg hover:shadow-emerald-500/25 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          <span>Launch Interactive Data Sandbox</span>
+        <button onclick="openDemoModal()" class="px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-lime-400 text-graphite-950 font-extrabold text-sm hover:shadow-xl hover:shadow-emerald-500/30 transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+          <span>Explore AI Data Analysis Agent</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
         </button>
 
-        <a href="#transformation" class="px-8 py-4 rounded-xl bg-graphite-900/90 border border-graphite-700 hover:border-emerald-500/50 text-slate-200 font-semibold text-sm transition-all flex items-center gap-2 backdrop-blur-md">
+        <a href="#transformation" class="px-8 py-4 rounded-xl bg-white/80 dark:bg-graphite-900/90 border border-emerald-500/30 hover:border-emerald-500 text-slate-800 dark:text-slate-200 font-semibold text-sm transition-all flex items-center gap-2 backdrop-blur-md">
           <span>Explore Transformation Engine</span>
-          <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+          <svg class="w-4 h-4 text-emerald-500 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
         </a>
       </div>
 
-      <!-- Live Analytical Ticker -->
-      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-graphite-800/80">
-        <div class="p-4 rounded-2xl bg-graphite-900/40 border border-graphite-800 text-left">
-          <div class="text-xs font-mono text-emerald-400 font-semibold uppercase">Processing Speed</div>
-          <div class="text-2xl font-display font-bold text-white mt-1">10M+ rows/sec</div>
-          <div class="text-[11px] text-slate-400 mt-0.5">Sub-second vector indexing</div>
+      <!-- 4 Core Pillars Ticker -->
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-slate-200/80 dark:border-graphite-800/80">
+        <div class="p-4 rounded-2xl bg-white/90 dark:bg-graphite-900/40 border border-emerald-500/20 text-left shadow-sm">
+          <div class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold uppercase">Natural Language</div>
+          <div class="text-xl font-display font-bold text-slate-900 dark:text-white mt-1">NLQ Interface</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Plain-English questions to insights</div>
         </div>
-        <div class="p-4 rounded-2xl bg-graphite-900/40 border border-graphite-800 text-left">
-          <div class="text-xs font-mono text-lime-400 font-semibold uppercase">Synthesis Latency</div>
-          <div class="text-2xl font-display font-bold text-white mt-1">&lt; 45 ms</div>
-          <div class="text-[11px] text-slate-400 mt-0.5">Real-time LLM inference</div>
+        <div class="p-4 rounded-2xl bg-white/90 dark:bg-graphite-900/40 border border-emerald-500/20 text-left shadow-sm">
+          <div class="text-xs font-mono text-lime-600 dark:text-lime-400 font-semibold uppercase">Data Analytics</div>
+          <div class="text-xl font-display font-bold text-slate-900 dark:text-white mt-1">Predictive Models</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Trends, patterns & anomaly detection</div>
         </div>
-        <div class="p-4 rounded-2xl bg-graphite-900/40 border border-graphite-800 text-left">
-          <div class="text-xs font-mono text-emerald-400 font-semibold uppercase">Anomaly Precision</div>
-          <div class="text-2xl font-display font-bold text-white mt-1">99.84%</div>
-          <div class="text-[11px] text-slate-400 mt-0.5">Zero false positives</div>
+        <div class="p-4 rounded-2xl bg-white/90 dark:bg-graphite-900/40 border border-emerald-500/20 text-left shadow-sm">
+          <div class="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-semibold uppercase">Visual Intelligence</div>
+          <div class="text-xl font-display font-bold text-slate-900 dark:text-white mt-1">Visual Reports</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Dynamic charts & automated summaries</div>
         </div>
-        <div class="p-4 rounded-2xl bg-graphite-900/40 border border-graphite-800 text-left">
-          <div class="text-xs font-mono text-lime-400 font-semibold uppercase">Query Interface</div>
-          <div class="text-2xl font-display font-bold text-white mt-1">100% NLQ</div>
-          <div class="text-[11px] text-slate-400 mt-0.5">Plain English to SQL/Python</div>
+        <div class="p-4 rounded-2xl bg-white/90 dark:bg-graphite-900/40 border border-emerald-500/20 text-left shadow-sm">
+          <div class="text-xs font-mono text-lime-600 dark:text-lime-400 font-semibold uppercase">Actionable Direction</div>
+          <div class="text-xl font-display font-bold text-slate-900 dark:text-white mt-1">Recommendations</div>
+          <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Practical guidance for leadership</div>
         </div>
       </div>
 
@@ -420,17 +465,185 @@
     </div>
   </section>
 
-  <!-- SECTION 2: INTERACTIVE CAPABILITY SELECTOR & LIVE SIMULATOR -->
-  <section id="capabilities" class="py-24 relative bg-graphite-900/60 border-t border-graphite-800">
+  <!-- SECTION 2: KEY FEATURES & CAPABILITIES -->
+  <section id="capabilities" class="py-24 relative bg-graphite-900/60 dark:bg-graphite-900/60 border-t border-slate-200/80 dark:border-graphite-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-3xl mx-auto mb-12">
-        <div class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400 mb-2">ANALYTICAL CAPABILITIES</div>
-        <h2 class="text-3xl sm:text-4xl font-display font-bold text-white">
-          Ask Plain Questions. Get Executive Strategy.
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-3">
+          SYSTEM CAPABILITIES
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-display font-extrabold text-slate-900 dark:text-white">
+          Key Features & Capabilities
         </h2>
-        <p class="mt-3 text-slate-400 text-sm">
-          Select a business question below to test how the AI Data Analysis Agent ingests data and builds immediate strategic visual answers.
+        <p class="mt-4 text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+          15 purpose-built capabilities engineered to turn complex business data into understandable insights, visual reports, and practical recommendations.
+        </p>
+      </div>
+
+      <!-- 15 Features Grid (3 Columns) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-20">
+        
+        <!-- 01 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">01 • QUERYING</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Natural-Language Questions</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Ask questions about your data in plain English without writing complex SQL queries or formulas.</p>
+        </div>
+
+        <!-- 02 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">02 • CATALOG</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Inventory & Product Analysis</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Analyze stock levels, turnover rates, product velocity, catalog performance, and reorder triggers.</p>
+        </div>
+
+        <!-- 03 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">03 • STRUCTURED</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">CSV & Structured-Data Analysis</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Direct upload and instant querying across spreadsheets, tabular datasets, and structured records.</p>
+        </div>
+
+        <!-- 04 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">04 • BEHAVIOR</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Customer & Behavioral Analysis</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Understand customer retention, segmentation, purchase patterns, and lifecycle behavior over time.</p>
+        </div>
+
+        <!-- 05 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">05 • HYGIENE</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Data Cleaning & Preparation</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Automates missing value handling, deduplication, schema normalization, and data sanitization.</p>
+        </div>
+
+        <!-- 06 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">06 • FORECASTING</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Predictive Analytics Workflows</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Forward-looking scenario models and outcome simulations to anticipate changes before they occur.</p>
+        </div>
+
+        <!-- 07 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">07 • PROFILING</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Automatic Data Profiling</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Instant summary profiles of dataset shape, distribution metrics, cardinality, and column types.</p>
+        </div>
+
+        <!-- 08 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">08 • PLANNING</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Demand Forecasting</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Forecast product and service demand trends based on historical cyclicality and seasonal factors.</p>
+        </div>
+
+        <!-- 09 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">09 • STATISTICS</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Descriptive Statistics</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Calculates mean, median, variance, standard deviations, and quartile splits automatically.</p>
+        </div>
+
+        <!-- 10 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">10 • SURVEILLANCE</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Anomaly Detection</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Spots unexpected operational deviations, unusual spending, sudden drops, and metric outliers.</p>
+        </div>
+
+        <!-- 11 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">11 • PATTERNS</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Trend & Pattern Identification</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Reveals recurring business cycles, growth trajectories, and shifts across performance periods.</p>
+        </div>
+
+        <!-- 12 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">12 • METRICS</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Business KPI Analysis</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Tracks and deconstructs core metrics like revenue, margins, CAC, churn, and operational costs.</p>
+        </div>
+
+        <!-- 13 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">13 • CHARTS</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Data Visualizations</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Generates high-clarity bar, line, scatter, and cohort charts designed for executive presentation.</p>
+        </div>
+
+        <!-- 14 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h-4a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">14 • STRATEGY</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Insight Summaries & Guidance</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Provides concise executive bullet points explaining what the data means and what steps to consider.</p>
+        </div>
+
+        <!-- 15 -->
+        <div class="bg-obs-card p-6 rounded-3xl relative group">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
+          <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">15 • REPORTING</div>
+          <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Automated Report Generation</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Produce structured periodic business reports ready for team review and executive distribution.</p>
+        </div>
+
+      </div>
+
+      <!-- Live Simulator Header -->
+      <div class="text-center max-w-3xl mx-auto mb-10 pt-10 border-t border-slate-200/80 dark:border-graphite-800">
+        <div class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-500 dark:text-emerald-400 mb-2">INTERACTIVE SIMULATOR</div>
+        <h3 class="text-2xl sm:text-3xl font-display font-bold text-slate-900 dark:text-white">
+          Experience Natural-Language Querying Live
+        </h3>
+        <p class="mt-2 text-slate-600 dark:text-slate-300 text-sm">
+          Select a sample business question below to see how the analysis agent synthesizes data into visual insight.
         </p>
       </div>
 
@@ -691,39 +904,103 @@
     </div>
   </section>
 
-  <!-- SECTION 6: RADIAL / ORBITAL USE CASES MATRIX -->
-  <section id="usecases" class="py-24 relative bg-graphite-900/50 border-t border-graphite-800">
+  <!-- SECTION 6: WHO CAN USE IT? -->
+  <section id="usecases" class="py-24 relative bg-graphite-900/50 dark:bg-graphite-900/50 border-t border-slate-200/80 dark:border-graphite-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <div class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400 mb-2">CROSS-INDUSTRY APPLICATION</div>
-        <h2 class="text-3xl sm:text-5xl font-display font-bold text-white">Tailored Enterprise Solutions</h2>
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest mb-3">
+          TARGET SEGMENTS
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-display font-extrabold text-slate-900 dark:text-white">
+          Who Can Use It?
+        </h2>
+        <p class="mt-4 text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+          Suggested customer segments derived from the documented project purpose and capabilities.
+        </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- 7 Customer Segments: Row 1 (4 columns) + Row 2 (3 columns) -->
+      <div class="space-y-6">
         
-        <div class="p-6 rounded-2xl bg-obs-card border border-graphite-800">
-          <div class="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-800 text-emerald-400 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <!-- Row 1: 4 Columns -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          
+          <!-- Segment 01 -->
+          <div class="bg-obs-card p-6 rounded-3xl relative group transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">SMBs</div>
+            <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Small & Medium Businesses</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Growing companies without dedicated in-house data teams looking for instant analytical clarity.</p>
           </div>
-          <h3 class="text-lg font-bold text-white font-display">FinTech & Asset Management</h3>
-          <p class="text-xs text-slate-400 mt-2">Portfolio stress testing, credit risk clustering, and instant fraud anomaly alerting.</p>
+
+          <!-- Segment 02 -->
+          <div class="bg-obs-card p-6 rounded-3xl relative group transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            </div>
+            <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">EXECUTIVE</div>
+            <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Business Owners & Founders</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Leadership teams seeking immediate strategic answers without waiting for manual spreadsheet reports.</p>
+          </div>
+
+          <!-- Segment 03 -->
+          <div class="bg-obs-card p-6 rounded-3xl relative group transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            </div>
+            <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">OPERATIONS</div>
+            <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Operations & Inventory</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Supply chain and inventory managers tracking stock velocity, reorder triggers, and logistics bottlenecks.</p>
+          </div>
+
+          <!-- Segment 04 -->
+          <div class="bg-obs-card p-6 rounded-3xl relative group transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
+            </div>
+            <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">GROWTH</div>
+            <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Sales & Marketing Teams</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Commercial teams measuring campaign ROI, lead conversions, CAC trends, and regional channel shifts.</p>
+          </div>
+
         </div>
 
-        <div class="p-6 rounded-2xl bg-obs-card border border-graphite-800">
-          <div class="w-10 h-10 rounded-xl bg-lime-950 border border-lime-800 text-lime-400 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <!-- Row 2: 3 Columns -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          <!-- Segment 05 -->
+          <div class="bg-obs-card p-6 rounded-3xl relative group transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+            </div>
+            <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">COMMERCE</div>
+            <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">E-Commerce Businesses</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Online merchants seeking instant demand forecasting, customer churn signals, and basket size insights.</p>
           </div>
-          <h3 class="text-lg font-bold text-white font-display">Global E-Commerce & Retail</h3>
-          <p class="text-xs text-slate-400 mt-2">Dynamic markdown optimization, supplier scorecards, and predictive basket analysis.</p>
-        </div>
 
-        <div class="p-6 rounded-2xl bg-obs-card border border-graphite-800">
-          <div class="w-10 h-10 rounded-xl bg-emerald-950 border border-emerald-800 text-emerald-400 flex items-center justify-center mb-4">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+          <!-- Segment 06 -->
+          <div class="bg-obs-card p-6 rounded-3xl relative group transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">FINANCE</div>
+            <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Finance & Accounts Teams</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Finance professionals needing rapid margin decomposition, revenue variance tracking, and cashflow modeling.</p>
           </div>
-          <h3 class="text-lg font-bold text-white font-display">Healthcare & Life Sciences</h3>
-          <p class="text-xs text-slate-400 mt-2">Clinical trial throughput metrics, resource utilization, and compliance tracking.</p>
+
+          <!-- Segment 07 -->
+          <div class="bg-obs-card p-6 rounded-3xl relative group transition-all hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center mb-4">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            </div>
+            <div class="text-[10px] font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase mb-1">ANALYTICS</div>
+            <h3 class="text-base font-bold font-display text-slate-900 dark:text-white mb-2">Data & Business Analysts</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Analysts looking for faster exploratory workflows, automated profiling, and instant chart generation.</p>
+          </div>
+
         </div>
 
       </div>
@@ -731,53 +1008,71 @@
     </div>
   </section>
 
-  <!-- SECTION 7: HUMAN + AI DECISION MAKING -->
-  <section id="human-ai" class="py-24 relative bg-graphite-950 border-t border-graphite-900">
+  <!-- SECTION 7: WHY CHOOSE TRAIT? -->
+  <section id="human-ai" class="py-24 relative bg-graphite-950 dark:bg-graphite-950 border-t border-slate-200/80 dark:border-graphite-900">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="bg-obs-card rounded-3xl p-8 sm:p-12 border border-emerald-500/20 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-        <div>
-          <div class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400 mb-2">EXECUTIVE CO-PILOT ARCHITECTURE</div>
-          <h2 class="text-3xl sm:text-4xl font-display font-bold text-white">Augmenting Human Judgement, Not Replacing It.</h2>
-          <p class="mt-4 text-slate-300 text-sm leading-relaxed">
-            The AI Data Analysis Agent takes over the heavy lifting of raw query processing, statistical calculations, and pattern detection — allowing enterprise executives to focus exclusively on high-stakes strategic choices.
-          </p>
-          <div class="mt-6 space-y-3">
-            <div class="flex items-center gap-3 text-xs font-semibold text-slate-200">
-              <span class="w-5 h-5 rounded-full bg-emerald-950 border border-emerald-700 text-emerald-400 flex items-center justify-center font-bold"></span>
-              <span>AI handles 24/7 repository scanning & unbiased anomaly flagging</span>
+      <div class="bg-obs-card rounded-3xl p-8 sm:p-12 border border-emerald-500/30 shadow-2xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          <div class="lg:col-span-7 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[10px] font-mono font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
+              VALUE PROPOSITION
             </div>
-            <div class="flex items-center gap-3 text-xs font-semibold text-slate-200">
-              <span class="w-5 h-5 rounded-full bg-emerald-950 border border-emerald-700 text-emerald-400 flex items-center justify-center font-bold"></span>
-              <span>Human executives retain 100% final capital allocation control</span>
-            </div>
-            <div class="flex items-center gap-3 text-xs font-semibold text-slate-200">
-              <span class="w-5 h-5 rounded-full bg-emerald-950 border border-emerald-700 text-emerald-400 flex items-center justify-center font-bold"></span>
-              <span>Strict RBAC governance ensure confidential data remains private</span>
-            </div>
-          </div>
-        </div>
+            <h2 class="text-3xl sm:text-5xl font-display font-extrabold text-slate-900 dark:text-white">
+              Why Choose TRAIT?
+            </h2>
+            <p class="text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+              TRAIT transforms raw datasets into visual summaries, trend insights and practical recommendations, designed to make data intelligence accessible to non-technical business users.
+            </p>
 
-        <div class="bg-graphite-950 rounded-2xl p-6 border border-graphite-800 space-y-4">
-          <div class="text-xs font-mono text-emerald-400 font-bold border-b border-graphite-800 pb-2">GOVERNANCE & PRIVACY COMPLIANCE</div>
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-slate-400">DATA PRIVACY:</span>
-            <span class="text-white font-bold">ZERO-TRAINING GUARANTEE</span>
+            <div class="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="p-4 rounded-2xl bg-white/60 dark:bg-graphite-900/60 border border-emerald-500/20">
+                <div class="text-xs font-bold text-slate-900 dark:text-white mb-1">Accessible Intelligence</div>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Empowers business leaders and non-technical teams to explore data independently.</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-white/60 dark:bg-graphite-900/60 border border-emerald-500/20">
+                <div class="text-xs font-bold text-slate-900 dark:text-white mb-1">Visual Summaries</div>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Automatically builds high-clarity charts, dashboards, and executive briefs.</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-white/60 dark:bg-graphite-900/60 border border-emerald-500/20">
+                <div class="text-xs font-bold text-slate-900 dark:text-white mb-1">Practical Recommendations</div>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Converts complex statistical trends into actionable operational next steps.</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-white/60 dark:bg-graphite-900/60 border border-emerald-500/20">
+                <div class="text-xs font-bold text-slate-900 dark:text-white mb-1">Human-in-the-Control</div>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Preserves final decision-making and strategic review with your leadership team.</p>
+              </div>
+            </div>
           </div>
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-slate-400">DEPLOYMENT:</span>
-            <span class="text-white font-bold">VPC / ON-PREM SUPPORTED</span>
-          </div>
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-slate-400">SECURITY AUDIT:</span>
-            <span class="text-white font-bold">SOC2 TYPE II READY</span>
-          </div>
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-slate-400">ORGANIZATION:</span>
-            <span class="text-emerald-400 font-bold">TRAIT INNOVATION LLP</span>
-          </div>
-        </div>
 
+          <div class="lg:col-span-5 flex flex-col justify-center">
+            <div class="p-6 rounded-2xl bg-graphite-950 border border-emerald-500/30 text-white space-y-4 shadow-xl">
+              <div class="text-xs font-mono text-emerald-400 font-bold border-b border-graphite-800 pb-2 flex items-center justify-between">
+                <span>DATA ARCHITECTURE BRIEF</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              </div>
+              <div class="space-y-2 text-xs font-mono">
+                <div class="flex justify-between text-slate-300">
+                  <span>INPUT:</span> <span class="text-white">Structured, CSV, DBs</span>
+                </div>
+                <div class="flex justify-between text-slate-300">
+                  <span>SYNTHESIS:</span> <span class="text-emerald-400">Natural-Language Query</span>
+                </div>
+                <div class="flex justify-between text-slate-300">
+                  <span>OUTPUT:</span> <span class="text-lime-400">Visuals + Recommendations</span>
+                </div>
+                <div class="flex justify-between text-slate-300">
+                  <span>DECISION:</span> <span class="text-white">Executive Control</span>
+                </div>
+              </div>
+              <button onclick="openDemoModal()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-lime-400 text-graphite-950 font-extrabold text-xs uppercase tracking-wider hover:opacity-90 transition-all mt-4">
+                Explore AI Data Analysis Agent →
+              </button>
+            </div>
+          </div>
+
+        </div>
       </div>
 
     </div>
@@ -843,6 +1138,11 @@
           <a href="/" class="px-8 py-3.5 rounded-xl bg-graphite-900 border border-graphite-700 text-white font-semibold text-sm hover:border-emerald-400 transition-all">
             ← Back to Main Website
           </a>
+        </div>
+
+        <!-- Approved Website Maker Note Banner -->
+        <div class="mt-8 p-3.5 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-center text-xs text-slate-400 max-w-xl mx-auto">
+          <span class="font-mono font-bold text-emerald-400 uppercase tracking-wider">Note:</span> Pricing, integrations, certifications, performance claims and production availability will be confirmed by TRAIT Innovation upon formal release.
         </div>
       </div>
 

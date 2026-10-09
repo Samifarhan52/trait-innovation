@@ -20,8 +20,8 @@
   </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TRAIT AI Hospital — Healthcare Operational Intelligence | Trait Innovation</title>
-  <meta name="description" content="Dedicated healthcare AI solution for hospital analytics, patient flow optimization, ER queue management, bed capacity forecasting, clinical workflow support, and operational resource planning." />
+  <title>TRAIT HospitalAI — Hospital Services & Patient Support AI | Trait Innovation</title>
+  <meta name="description" content="AI-powered hospital assistance and service-management solution helping patients and staff access information, manage appointments, and navigate hospital workflows." />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -57,7 +57,7 @@
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 
   <!-- Custom CSS -->
@@ -74,13 +74,13 @@
     }
 
     .glass-hospital-card {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(20px);
       border: 1px solid rgba(16, 185, 129, 0.18);
       box-shadow: 0 20px 40px -15px rgba(16, 185, 129, 0.08);
     }
     .dark .glass-hospital-card {
-      background: rgba(8, 23, 46, 0.85);
+      background: rgba(8, 23, 46, 0.88);
       backdrop-filter: blur(20px);
       border: 1px solid rgba(16, 185, 129, 0.25);
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
@@ -98,24 +98,24 @@
       
       <!-- HEADER CONTROL -->
       <div class="flex items-center justify-between p-3 sm:p-3.5 border-b border-white/10">
-        <a href="#hero" class="flex items-center gap-3 group shrink-0">
+        <a href="#overview" class="flex items-center gap-3 group shrink-0">
           <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-hospital-emerald to-hospital-cyan p-0.5 shadow-md shrink-0 flex items-center justify-center">
-            <div class="w-full h-full bg-hospital-charcoal dark:bg-[#070D14] rounded-[9px] flex items-center justify-center">
+            <div class="w-full h-full bg-hospital-charcoal rounded-[9px] flex items-center justify-center">
               <svg class="w-4 h-4 text-hospital-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a2 2 0 00-1.022.547l-1.4 1.4A2 2 0 004 20.283M15 11A3 3 0 119 11a3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
               </svg>
             </div>
           </div>
           
           <div class="sidebar-text-content hidden flex-col whitespace-nowrap overflow-hidden">
-            <span class="font-display font-bold text-xs tracking-wider text-white uppercase">AI <span class="text-hospital-emerald font-sans">HOSPITAL</span></span>
-            <span class="text-[9px] font-mono text-hospital-emerald/80 tracking-widest uppercase">CLINICAL INTELLIGENCE</span>
+            <span class="font-display font-bold text-xs tracking-wider text-white uppercase">TRAIT <span class="text-hospital-emerald font-sans">HOSPITALAI</span></span>
+            <span class="text-[9px] font-mono text-hospital-emerald/80 tracking-widest uppercase">HEALTHCARE INTELLIGENCE</span>
           </div>
         </a>
 
         <button id="hospital-nav-trigger" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-hospital-emerald text-hospital-emerald hover:text-slate-950 flex items-center justify-center transition-all cursor-pointer shrink-0" title="Toggle Side Menu">
           <svg class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
           </svg>
         </button>
       </div>
@@ -123,8 +123,8 @@
       <!-- SECTION LINKS -->
       <nav class="p-2 space-y-1 max-h-[calc(100vh-220px)] overflow-y-auto custom-scrollbar">
         <!-- 01: OVERVIEW -->
-        <a href="#hero" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
-          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-hospital-emerald rounded-r-full opacity-0 transition-opacity"></div>
+        <a href="#overview" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-hospital-emerald rounded-l-full opacity-0 transition-opacity"></div>
           <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-hospital-emerald flex items-center justify-center shrink-0 group-hover/link:bg-hospital-emerald group-hover/link:text-slate-950 transition-all">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
           </div>
@@ -132,49 +132,77 @@
             <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
               <span class="text-[10px] font-mono text-hospital-emerald">01.</span> Overview
             </div>
-            <div class="text-[9px] text-slate-400">Clinical Suite</div>
+            <div class="text-[9px] text-slate-400">HospitalAI Platform</div>
           </div>
         </a>
 
-        <!-- 02: CLINICAL HUD -->
-        <a href="#hud" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
-          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-hospital-emerald rounded-r-full opacity-0 transition-opacity"></div>
+        <!-- 02: CAPABILITIES -->
+        <a href="#capabilities" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-hospital-emerald rounded-l-full opacity-0 transition-opacity"></div>
           <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-hospital-emerald flex items-center justify-center shrink-0 group-hover/link:bg-hospital-emerald group-hover/link:text-slate-950 transition-all">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
           </div>
           <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
             <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
-              <span class="text-[10px] font-mono text-hospital-emerald">02.</span> Clinical HUD
+              <span class="text-[10px] font-mono text-hospital-emerald">02.</span> 30 Capabilities
             </div>
-            <div class="text-[9px] text-slate-400">ICU & Bed Capacity</div>
+            <div class="text-[9px] text-slate-400">Features Across 6 Domains</div>
           </div>
         </a>
 
-        <!-- 03: ER QUEUE -->
-        <a href="#er-queue" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
-          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-hospital-emerald rounded-r-full opacity-0 transition-opacity"></div>
+        <!-- 03: USE CASES -->
+        <a href="#use-cases" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-hospital-emerald rounded-l-full opacity-0 transition-opacity"></div>
           <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-hospital-emerald flex items-center justify-center shrink-0 group-hover/link:bg-hospital-emerald group-hover/link:text-slate-950 transition-all">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
           </div>
           <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
             <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
-              <span class="text-[10px] font-mono text-hospital-emerald">03.</span> ER Queue
+              <span class="text-[10px] font-mono text-hospital-emerald">03.</span> Use Cases
             </div>
-            <div class="text-[9px] text-slate-400">Triage Optimization</div>
+            <div class="text-[9px] text-slate-400">Cardiology, Radiology, Info</div>
           </div>
         </a>
 
-        <!-- 04: COMPLIANCE -->
-        <a href="#compliance" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
-          <div class="nav-active-pill absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-hospital-emerald rounded-r-full opacity-0 transition-opacity"></div>
+        <!-- 04: HUMAN ESCALATION -->
+        <a href="#human-escalation" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-hospital-emerald rounded-l-full opacity-0 transition-opacity"></div>
           <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-hospital-emerald flex items-center justify-center shrink-0 group-hover/link:bg-hospital-emerald group-hover/link:text-slate-950 transition-all">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
           </div>
           <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
             <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
-              <span class="text-[10px] font-mono text-hospital-emerald">04.</span> Compliance
+              <span class="text-[10px] font-mono text-hospital-emerald">04.</span> Human Escalation
             </div>
-            <div class="text-[9px] text-slate-400">HIPAA & Security</div>
+            <div class="text-[9px] text-slate-400">5-Step Clinical Handover</div>
+          </div>
+        </a>
+
+        <!-- 05: DISCLAIMER -->
+        <a href="#disclaimer" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-hospital-emerald rounded-l-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-hospital-emerald flex items-center justify-center shrink-0 group-hover/link:bg-hospital-emerald group-hover/link:text-slate-950 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-hospital-emerald">05.</span> Healthcare Notice
+            </div>
+            <div class="text-[9px] text-slate-400">Ethical & Safety Scope</div>
+          </div>
+        </a>
+
+        <!-- 06: CONTACT CTA -->
+        <a href="#contact-cta" class="group/link flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 transition-all duration-200 relative">
+          <div class="nav-active-pill absolute right-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-hospital-emerald rounded-l-full opacity-0 transition-opacity"></div>
+          <div class="w-8 h-8 rounded-lg bg-white/5 border border-white/10 text-hospital-emerald flex items-center justify-center shrink-0 group-hover/link:bg-hospital-emerald group-hover/link:text-slate-950 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </div>
+          <div class="sidebar-text-content hidden flex-col whitespace-nowrap">
+            <div class="text-xs font-bold text-slate-100 flex items-center gap-2">
+              <span class="text-[10px] font-mono text-hospital-emerald">06.</span> Connect
+            </div>
+            <div class="text-[9px] text-slate-400">Consultation & Demos</div>
           </div>
         </a>
       </nav>
@@ -186,340 +214,750 @@
     <!-- Ambient Background Glows -->
     <div class="absolute inset-0 pointer-events-none opacity-40">
       <div class="absolute -top-32 -left-32 w-96 h-96 bg-hospital-emerald/20 rounded-full blur-[140px]"></div>
-      <div class="absolute top-1/2 -right-32 w-96 h-96 bg-hospital-cyan/20 rounded-full blur-[140px]"></div>
+      <div class="absolute top-1/2 -right-32 w-96 h-96 bg-hospital-cyan/15 rounded-full blur-[140px]"></div>
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
       
-      <!-- Left Content -->
+      <!-- Hero Left Copy -->
       <div class="lg:col-span-7 space-y-6">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-hospital-emerald/10 border border-hospital-emerald/30 text-[10px] sm:text-xs font-mono text-hospital-emerald font-bold uppercase tracking-widest">
-          <span class="w-2 h-2 rounded-full bg-hospital-emerald animate-ping"></span>
-          HEALTHCARE × ARTIFICIAL INTELLIGENCE × DATA INTELLIGENCE
+          <span class="w-2 h-2 rounded-full bg-hospital-emerald animate-pulse"></span>
+          AI • HEALTHCARE TECHNOLOGY • PATIENT ASSISTANCE
         </div>
 
         <h1 class="text-4xl sm:text-6xl font-black font-display tracking-tight leading-[1.08] text-hospital-charcoal dark:text-white">
-          Intelligent Healthcare Operations. <br />
-          <span class="gradient-hospital-text">Better Patient Care.</span>
+          11. TRAIT <span class="gradient-hospital-text">HospitalAI</span>
         </h1>
 
-        <p class="text-base text-hospital-muted dark:text-slate-300 max-w-2xl font-normal leading-relaxed">
-          TRAIT AI Hospital empowers medical leaders and clinical administrators with predictive capacity planning, patient flow optimization, ER queue management, and resource allocation intelligence.
+        <p class="text-xl font-semibold text-hospital-teal dark:text-hospital-cyan">
+          Making hospital services simpler through intelligent assistance.
         </p>
 
-        <div class="flex flex-wrap items-center gap-4 pt-4">
-          <button onclick="openHospitalModal()" class="px-7 py-3.5 rounded-full bg-gradient-to-r from-hospital-emerald via-hospital-teal to-hospital-cyan text-slate-950 font-black text-xs sm:text-sm shadow-xl shadow-hospital-emerald/25 hover:scale-105 transition-all uppercase tracking-wide">
-            EXPLORE HEALTHCARE AI 
+        <p class="text-base text-hospital-muted dark:text-slate-300 max-w-2xl font-normal leading-relaxed">
+          TRAIT HospitalAI is an AI-powered hospital assistance and service-management solution designed to help patients and hospital staff access information, manage appointments and navigate common hospital-service workflows through an intelligent digital assistant.
+        </p>
+
+        <!-- Official Brand Positioning Banner -->
+        <div class="p-3.5 rounded-xl bg-hospital-emerald/5 border border-hospital-emerald/20 text-xs font-mono text-hospital-muted dark:text-slate-300 flex items-center gap-3">
+          <svg class="w-4 h-4 text-hospital-emerald shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Brand Positioning: <strong class="text-hospital-charcoal dark:text-white font-sans">Multiple Services. Specialized Solutions. Intelligent Products.</strong></span>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 pt-2">
+          <button onclick="openHospitalModal()" class="px-8 py-4 rounded-full bg-gradient-to-r from-hospital-emerald to-hospital-teal text-slate-950 font-black text-xs sm:text-sm shadow-xl shadow-hospital-emerald/25 hover:scale-105 transition-all uppercase tracking-wide">
+            EXPLORE TRAIT HOSPITALAI
           </button>
-          <a href="#telemetry" class="px-7 py-3.5 rounded-full border border-hospital-emerald/30 bg-white/70 dark:bg-hospital-navyCard/70 backdrop-blur-md font-bold text-xs sm:text-sm text-hospital-charcoal dark:text-white hover:border-hospital-emerald transition-all uppercase tracking-wide">
-            VIEW CLINICAL DEMO
+          <a href="#use-cases" class="px-8 py-4 rounded-full border border-hospital-emerald/40 bg-white/40 dark:bg-slate-900/40 backdrop-blur-md font-bold text-xs sm:text-sm text-hospital-charcoal dark:text-white hover:border-hospital-emerald transition-all uppercase tracking-wide">
+            EXPLORE USE CASES
           </a>
         </div>
 
-        <!-- Metric Badges -->
-        <div class="pt-8 grid grid-cols-3 gap-6 border-t border-hospital-emerald/10 dark:border-hospital-borderDark">
-          <div>
-            <div class="text-2xl font-black font-display text-hospital-emerald">-34%</div>
-            <div class="text-[10px] font-mono text-hospital-muted dark:text-slate-400 uppercase tracking-wider">ER Wait Time Reduction</div>
+        <!-- Capability Domain Highlights (Master Rule: Zero Fabricated Stats) -->
+        <div class="pt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-hospital-emerald/20">
+          <div class="p-3.5 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-hospital-emerald/15">
+            <div class="text-sm font-bold font-display text-hospital-emerald">Patient Support</div>
+            <div class="text-[11px] font-mono text-hospital-muted dark:text-slate-400 mt-1">24/7 Enquiries & FAQs</div>
           </div>
-          <div>
-            <div class="text-2xl font-black font-display text-hospital-teal dark:text-cyan-400">96.4%</div>
-            <div class="text-[10px] font-mono text-hospital-muted dark:text-slate-400 uppercase tracking-wider">Bed Capacity Accuracy</div>
+          <div class="p-3.5 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-hospital-emerald/15">
+            <div class="text-sm font-bold font-display text-hospital-teal dark:text-hospital-cyan">Appointment Intake</div>
+            <div class="text-[11px] font-mono text-hospital-muted dark:text-slate-400 mt-1">Doctor & Department Info</div>
           </div>
-          <div>
-            <div class="text-2xl font-black font-display text-hospital-cyan">100%</div>
-            <div class="text-[10px] font-mono text-hospital-muted dark:text-slate-400 uppercase tracking-wider">HIPAA/GDPR Compliant</div>
+          <div class="p-3.5 rounded-xl bg-white/40 dark:bg-slate-900/40 border border-hospital-emerald/15">
+            <div class="text-sm font-bold font-display text-hospital-cyan">Human Escalation</div>
+            <div class="text-[11px] font-mono text-hospital-muted dark:text-slate-400 mt-1">Safe Staff Handoff</div>
           </div>
         </div>
       </div>
 
-      <!-- Right Clinical HUD Mockup -->
+      <!-- Hero Right Interactive Mockup -->
       <div class="lg:col-span-5 relative">
-        <div class="glass-hospital-card rounded-3xl p-6 relative overflow-hidden shadow-2xl border border-hospital-emerald/30 space-y-4">
+        <div class="glass-hospital-card rounded-3xl p-6 sm:p-8 space-y-5 border border-hospital-emerald/30 shadow-2xl">
           
           <div class="flex items-center justify-between pb-3 border-b border-hospital-emerald/20 text-xs font-mono text-hospital-emerald">
             <span class="flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-hospital-emerald animate-ping"></span>
-              METROPOLITAN GENERAL HOSPITAL
+              PATIENT SERVICE ASSISTANT
             </span>
-            <span>ICU & ER HUD</span>
+            <span>CENTRAL INTERFACE</span>
           </div>
 
-            <div class="space-y-3">
-              <div class="p-3.5 rounded-xl bg-hospital-emerald/5 dark:bg-hospital-navyDark border border-hospital-emerald/20 flex items-center justify-between text-xs">
-                <div class="flex items-center gap-3">
-                  <span class="p-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-hospital-emerald shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.12a2 2 0 00-1.022.547l-1.4 1.4A2 2 0 004 20.283M15 11A3 3 0 119 11a3 3 0 016 0z"/></svg>
-                  </span>
-                  <div>
-                    <div class="font-bold text-hospital-charcoal dark:text-white">ICU Capacity & Beds</div>
-                    <div class="text-[10px] text-hospital-muted dark:text-slate-400 font-mono">6 Beds Available • 2 Discharge Pending</div>
-                  </div>
-                </div>
-                <span class="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 text-[10px] font-mono font-bold">STABLE</span>
-              </div>
-
-              <div class="p-3.5 rounded-xl bg-hospital-teal/5 dark:bg-hospital-navyDark border border-hospital-teal/20 flex items-center justify-between text-xs">
-                <div class="flex items-center gap-3">
-                  <span class="p-1.5 rounded-lg bg-teal-100 dark:bg-teal-950 text-hospital-teal shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                  </span>
-                  <div>
-                    <div class="font-bold text-hospital-charcoal dark:text-white">Emergency Triage Queue</div>
-                    <div class="text-[10px] text-hospital-muted dark:text-slate-400 font-mono">Avg Wait Time: 11 Mins</div>
-                  </div>
-                </div>
-                <span class="px-2 py-0.5 rounded bg-teal-100 dark:bg-teal-950 text-teal-700 dark:text-teal-400 text-[10px] font-mono font-bold">OPTIMAL</span>
-              </div>
-
-              <div class="p-3.5 rounded-xl bg-hospital-cyan/5 dark:bg-hospital-navyDark border border-hospital-cyan/20 flex items-center justify-between text-xs">
-                <div class="flex items-center gap-3">
-                  <span class="p-1.5 rounded-lg bg-cyan-100 dark:bg-cyan-950 text-hospital-cyan shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                  </span>
-                  <div>
-                    <div class="font-bold text-hospital-charcoal dark:text-white">Operating Room 4</div>
-                    <div class="text-[10px] text-hospital-muted dark:text-slate-400 font-mono">Procedure Completed • Prep in 8 Mins</div>
-                  </div>
-                </div>
-                <span class="px-2 py-0.5 rounded bg-cyan-100 dark:bg-cyan-950 text-cyan-700 dark:text-cyan-400 text-[10px] font-mono font-bold">ON SCHEDULE</span>
-              </div>
+          <!-- Conversational Dialogue Snippet -->
+          <div class="space-y-3 font-sans text-xs">
+            <div class="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 space-y-1">
+              <span class="text-[10px] font-mono text-hospital-teal font-bold uppercase">PATIENT ENQUIRY</span>
+              <p class="text-slate-700 dark:text-slate-200 font-medium">"I want to book an appointment with a cardiologist."</p>
             </div>
-
-          <div class="pt-2 text-[10px] font-mono text-hospital-muted dark:text-slate-400 flex items-center justify-between">
-            <span>PREDICTIVE ACCURACY: 97.9%</span>
-            <span class="text-hospital-emerald font-bold">CLINICAL SUPPORT ACTIVE</span>
+            
+            <div class="p-3.5 rounded-2xl bg-hospital-emerald/10 border border-hospital-emerald/30 space-y-1">
+              <span class="text-[10px] font-mono text-hospital-emerald font-bold uppercase">HOSPITALAI RESPONSE</span>
+              <p class="text-slate-800 dark:text-slate-100 leading-relaxed">
+                "Checking cardiology department schedules. Dr. Mehta and Dr. Rao have consult slots open this Thursday. Would you like morning or afternoon booking assistance?"
+              </p>
+            </div>
           </div>
 
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-white/50 dark:bg-hospital-navyDark/60 border border-hospital-emerald/20 flex items-center justify-between">
+              <span class="text-slate-600 dark:text-slate-300">Administrative Assistance</span>
+              <span class="font-mono text-hospital-emerald font-bold">AUTOMATED</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-white/50 dark:bg-hospital-navyDark/60 border border-hospital-emerald/20 flex items-center justify-between">
+              <span class="text-slate-600 dark:text-slate-300">Staff Intervention Required</span>
+              <span class="font-mono text-amber-500 font-bold">5-STEP ROUTING</span>
+            </div>
+          </div>
+
+          <button onclick="openHospitalModal()" class="w-full py-3 rounded-xl bg-hospital-emerald/10 hover:bg-hospital-emerald/20 border border-hospital-emerald/40 text-hospital-emerald font-bold text-xs uppercase tracking-wider transition-all">
+            REQUEST HOSPITAL ASSISTANCE DEMO
+          </button>
         </div>
       </div>
 
     </div>
   </section>
 
-  <!-- CAPABILITIES SECTION -->
-  <section id="capabilities" class="py-24 bg-white/50 dark:bg-hospital-navyCard/50 border-y border-hospital-emerald/10 dark:border-hospital-borderDark">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-        <span class="text-xs font-mono text-hospital-emerald font-bold uppercase tracking-widest">CLINICAL CAPABILITIES</span>
-        <h2 class="text-3xl sm:text-4xl font-black font-display text-hospital-charcoal dark:text-white">AI-Powered Hospital Operational Suite</h2>
-        <p class="text-hospital-muted dark:text-slate-300 text-sm">Designed to assist healthcare administrators and clinical teams without replacing human medical judgment.</p>
+  <!-- OFFICIAL WEBSITE MAKER NOTE BANNER -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+    <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-700 dark:text-amber-300 flex items-start gap-3">
+      <svg class="w-5 h-5 text-amber-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <div>
+        <strong class="font-bold font-mono uppercase tracking-wider">WEBSITE MAKER NOTE:</strong>
+        Pricing, integrations, certifications, performance claims and production availability should be added only after TRAIT confirms them. Features described as concepts or potential capabilities are presented accordingly.
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        
-        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
-          <div class="w-12 h-12 rounded-2xl bg-hospital-emerald/10 text-hospital-emerald flex items-center justify-center border border-hospital-emerald/20 mb-6 font-bold text-xl">
-            
-          </div>
-          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">Hospital Operational Analytics</h3>
-          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
-            Aggregates facility-wide data to provide executive dashboards on bed occupancy, staffing efficiency, department throughput, and resource utilization.
-          </p>
-        </div>
-
-        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
-          <div class="w-12 h-12 rounded-2xl bg-hospital-teal/10 text-hospital-teal flex items-center justify-center border border-hospital-teal/20 mb-6 font-bold text-xl">
-            
-          </div>
-          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">ER Queue & Triage Optimization</h3>
-          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
-            Forecasts emergency room arrival spikes, assisting triage teams in prioritizing patient check-in workflows and reducing waiting room crowding.
-          </p>
-        </div>
-
-        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
-          <div class="w-12 h-12 rounded-2xl bg-hospital-cyan/10 text-hospital-cyan flex items-center justify-center border border-hospital-cyan/20 mb-6 font-bold text-xl">
-            ️
-          </div>
-          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">Bed Capacity & Discharge Forecasting</h3>
-          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
-            Predicts inpatient discharge timelines 24 hours in advance, allowing floor managers to streamline bed turnover and admit incoming transfers smoothly.
-          </p>
-        </div>
-
-        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
-          <div class="w-12 h-12 rounded-2xl bg-hospital-emerald/10 text-hospital-emerald flex items-center justify-center border border-hospital-emerald/20 mb-6 font-bold text-xl">
-            🩺
-          </div>
-          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">Clinical Workflow Decision Support</h3>
-          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
-            Assists medical staff with administrative documentation, shift handoff summaries, and routine checklist automation while keeping clinicians in full control.
-          </p>
-        </div>
-
-        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
-          <div class="w-12 h-12 rounded-2xl bg-hospital-teal/10 text-hospital-teal flex items-center justify-center border border-hospital-teal/20 mb-6 font-bold text-xl">
-            
-          </div>
-          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">Appointment & Staff Scheduling</h3>
-          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
-            Matches doctor availability and nurse staffing schedules against predicted patient appointment volumes, preventing staff burnout and missed slots.
-          </p>
-        </div>
-
-        <div class="p-8 rounded-3xl glass-hospital-card hover:border-hospital-emerald transition-all group">
-          <div class="w-12 h-12 rounded-2xl bg-hospital-cyan/10 text-hospital-cyan flex items-center justify-center border border-hospital-cyan/20 mb-6 font-bold text-xl">
-            
-          </div>
-          <h3 class="text-xl font-bold font-display mb-2 text-hospital-charcoal dark:text-white group-hover:text-hospital-emerald transition-colors">Interoperable Data Integration</h3>
-          <p class="text-hospital-muted dark:text-slate-300 text-xs leading-relaxed">
-            Seamlessly connects with existing Electronic Health Record (EHR) systems via secure HL7/FHIR protocols with zero compromise on patient privacy.
-          </p>
-        </div>
-
-      </div>
-
     </div>
-  </section>
+  </div>
 
-  <!-- INTERACTIVE TELEMETRY DASHBOARD -->
-  <section id="telemetry" class="py-24 relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <!-- MAIN CONTENT -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+
+    <!-- ========================================== -->
+    <!-- SECTION 1: 30 KEY FEATURES & CAPABILITIES  -->
+    <!-- ========================================== -->
+    <section id="capabilities" class="scroll-mt-24 space-y-12">
       
-      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-        <span class="text-xs font-mono text-hospital-emerald font-bold uppercase tracking-widest">REAL-TIME SIMULATION</span>
-        <h2 class="text-3xl sm:text-4xl font-black font-display text-hospital-charcoal dark:text-white">Hospital Operational Dashboard</h2>
-        <p class="text-hospital-muted dark:text-slate-300 text-sm">Select a department below to inspect live hospital resource allocation telemetry.</p>
+      <div class="border-b border-hospital-borderLight dark:border-hospital-borderDark pb-6 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <span class="px-3.5 py-1 rounded-full bg-hospital-emerald/10 border border-hospital-emerald/30 text-hospital-emerald font-mono text-xs font-bold uppercase tracking-widest">
+            COMPREHENSIVE CAPABILITY ARCHITECTURE
+          </span>
+          <span class="text-xs font-mono text-hospital-muted dark:text-slate-400">Source: Section 11 Specifications</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-black font-display text-hospital-charcoal dark:text-white">
+          Key Features & Capabilities (30)
+        </h2>
+        <p class="text-sm text-hospital-muted dark:text-slate-300 max-w-3xl">
+          A centralized digital assistant providing administrative support, appointment workflows, and service navigation across six foundational healthcare operational domains.
+        </p>
       </div>
 
-      <div class="glass-hospital-card rounded-3xl p-8 border border-hospital-emerald/30 shadow-2xl">
-        <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-hospital-emerald/20">
-          <div class="flex gap-3" id="hospital-tabs">
-            <button onclick="switchHospitalTab('er')" class="hosp-tab-btn active px-4 py-2 rounded-full text-xs font-bold bg-hospital-emerald text-slate-950">Emergency Room</button>
-            <button onclick="switchHospitalTab('beds')" class="hosp-tab-btn px-4 py-2 rounded-full text-xs font-bold bg-hospital-emerald/10 text-hospital-charcoal dark:text-slate-300">Inpatient Bed Flow</button>
-            <button onclick="switchHospitalTab('staff')" class="hosp-tab-btn px-4 py-2 rounded-full text-xs font-bold bg-hospital-emerald/10 text-hospital-charcoal dark:text-slate-300">Staffing Load</button>
+      <!-- Domain 1: Patient Facing & Reception Support (01-05) -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold font-display text-hospital-emerald flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-hospital-emerald"></span>
+          Domain 01: Patient Support & Reception (01-05)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-emerald font-bold">01</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">AI-Powered Hospital Customer Support</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Automating routine enquiries and guiding visitors.</p>
           </div>
-          <span class="text-[10px] font-mono text-hospital-emerald font-bold">NODE: MED-CENTRAL-01</span>
-        </div>
-
-        <div id="hospital-tab-content" class="pt-6">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="p-5 rounded-2xl bg-hospital-emerald/5 dark:bg-hospital-navyDark border border-hospital-emerald/20 space-y-2">
-              <div class="text-xs font-mono text-hospital-emerald">TRIAGE ZONE A</div>
-              <div class="text-lg font-bold text-hospital-charcoal dark:text-white font-display">ER Wait Time: 11 Mins</div>
-              <div class="text-xs text-hospital-muted dark:text-slate-300">Queue volume 14% below peak • 4 Triage lanes active</div>
-              <div class="text-[10px] font-mono text-emerald-500 font-bold">STATUS: OPTIMAL</div>
-            </div>
-            <div class="p-5 rounded-2xl bg-hospital-teal/5 dark:bg-hospital-navyDark border border-hospital-teal/20 space-y-2">
-              <div class="text-xs font-mono text-hospital-teal">TRAUMA BAY 2</div>
-              <div class="text-lg font-bold text-hospital-charcoal dark:text-white font-display">Resource Readiness</div>
-              <div class="text-xs text-hospital-muted dark:text-slate-300">Trauma team pre-alert active • Prep complete</div>
-              <div class="text-[10px] font-mono text-teal-500 font-bold">STATUS: READY</div>
-            </div>
-            <div class="p-5 rounded-2xl bg-hospital-cyan/5 dark:bg-hospital-navyDark border border-hospital-cyan/20 space-y-2">
-              <div class="text-xs font-mono text-hospital-cyan">PEDIATRIC ER</div>
-              <div class="text-lg font-bold text-hospital-charcoal dark:text-white font-display">Shift Capacity</div>
-              <div class="text-xs text-hospital-muted dark:text-slate-300">Predicted arrival influx at 20:00 (+4 patients)</div>
-              <div class="text-[10px] font-mono text-cyan-500 font-bold">PREDICTIVE ALLOCATION ON</div>
-            </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-emerald font-bold">02</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">24/7 Patient Enquiry Assistance</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Always-available assistance for common hospital questions.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-emerald font-bold">03</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Hospital Information & FAQ Assistance</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Rapid retrieval of visiting hours, policies, and parking.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-emerald font-bold">04</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Doctor & Department Information</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Specialist credentials, OPD timings, and department info.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-emerald font-bold">05</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Patient Enquiry Intake</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Structured collection of patient questions and contact info.</p>
           </div>
         </div>
       </div>
 
-    </div>
-  </section>
+      <!-- Domain 2: Appointment & Scheduling Workflows (06-10) -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold font-display text-hospital-teal dark:text-hospital-cyan flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-hospital-teal"></span>
+          Domain 02: Appointment & Scheduling Workflows (06-10)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-teal font-bold">06</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Appointment Booking Assistance</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Guiding patients through self-service consult requests.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-teal font-bold">07</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Appointment Enquiry & Scheduling</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Checking scheduled dates, times, and upcoming slots.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-teal font-bold">08</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Doctor Availability Information</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Real-time availability when connected to approved data.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-teal font-bold">09</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Appointment Confirmation Assistance</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Sending booking confirmations and visit instructions.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-teal font-bold">10</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Rescheduling & Cancellation Workflow</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Self-serve rescheduling where supported by hospital policy.</p>
+          </div>
+        </div>
+      </div>
 
-  <!-- TRUST & COMPLIANCE SECTION -->
-  <section id="trust" class="py-24 bg-white/50 dark:bg-hospital-navyCard/50 border-t border-hospital-emerald/10 dark:border-hospital-borderDark">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-        <span class="text-xs font-mono text-hospital-emerald font-bold uppercase tracking-widest">ETHICAL & TRUSTED AI</span>
-        <h2 class="text-3xl sm:text-4xl font-black font-display text-hospital-charcoal dark:text-white">Responsible Healthcare AI Principles</h2>
-        <p class="text-hospital-muted dark:text-slate-300 text-sm">Our platform is strictly designed to assist healthcare professionals, optimize workflows, and enhance operational efficiency.</p>
+      <!-- Domain 3: Hospital Services & Wayfinding (11-15) -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold font-display text-hospital-cyan flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-hospital-cyan"></span>
+          Domain 03: Hospital Services & Navigation (11-15)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-cyan font-bold">11</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Department & Specialty Info</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Explanations of services offered by medical specialties.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-cyan font-bold">12</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Hospital Service Information</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Details on health checks, daycare, and rehabilitation.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-cyan font-bold">13</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Hospital Navigation & Facilities</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Wayfinding directions to wards, cafeterias, and labs.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-cyan font-bold">14</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Laboratory / Service Info</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Guidance on diagnostic labs, blood tests, and imaging.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-cyan font-bold">15</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Pharmacy / Service Enquiry</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Outpatient pharmacy location and operational timings.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Domain 4: Administrative, Billing & Escalation (16-20) -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold font-display text-hospital-emerald flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-hospital-emerald"></span>
+          Domain 04: Administration & Escalation (16-20)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-emerald font-bold">16</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Billing & Administrative Enquiries</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Support for insurance desk, billing desks, and receipts.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-emerald font-bold">17</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Ticket / Request Creation</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Logging structured help tickets for non-immediate tasks.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-emerald font-bold">18</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Issue Classification & Routing</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Directing questions to admissions, billing, or nursing.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-emerald font-bold">19</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Human Staff Escalation</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Graceful transfer to live hospital personnel when needed.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-emerald font-bold">20</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Patient-Support Conversations</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Polite, empathetic conversational guidance.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Domain 5: Knowledge Base & Multi-language (21-25) -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold font-display text-hospital-teal dark:text-hospital-cyan flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-hospital-teal"></span>
+          Domain 05: Knowledge Base & Multilingual (21-25)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-teal font-bold">21</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Conversation History / Context</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Maintaining multi-turn continuity during queries.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-teal font-bold">22</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Knowledge-Base Integration</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Directly referencing verified hospital documentation.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-teal font-bold">23</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Approved Hospital Responses</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Zero AI hallucinations; answers restricted to approved data.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-teal font-bold">24</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Multi-Language Potential</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Flexible translation support for diverse patient groups.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-teal font-bold">25</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Patient Feedback Collection</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Gathering post-interaction feedback on service quality.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Domain 6: Operational Analytics & Systems (26-30) -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold font-display text-hospital-cyan flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-hospital-cyan"></span>
+          Domain 06: Analytics & Systems Integration (26-30)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-cyan font-bold">26</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Hospital Support Analytics</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Tracking inquiry volumes, peak times, and topic demand.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-cyan font-bold">27</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Frequently Asked Question Management</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Tools for updating answers to recurring patient questions.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-cyan font-bold">28</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Knowledge-Base Improvement</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Identifying unanswered queries to expand knowledge base.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-cyan font-bold">29</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Staff Information Retrieval</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Internal quick-reference tool for reception and nurses.</p>
+          </div>
+          <div class="p-4 rounded-2xl glass-hospital-card space-y-2">
+            <span class="text-xs font-mono text-hospital-cyan font-bold">30</span>
+            <h4 class="text-sm font-bold text-hospital-charcoal dark:text-white">Integration-Ready Architecture</h4>
+            <p class="text-xs text-hospital-muted dark:text-slate-300">Ready to interface with authorized hospital HMS systems.</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 2: REAL-WORLD EXAMPLE USE CASES    -->
+    <!-- ========================================== -->
+    <section id="use-cases" class="scroll-mt-24 space-y-8">
+      <div class="border-b border-hospital-borderLight dark:border-hospital-borderDark pb-6 space-y-2">
+        <span class="px-3.5 py-1 rounded-full bg-hospital-teal/10 border border-hospital-teal/30 text-hospital-teal dark:text-cyan-400 font-mono text-xs font-bold uppercase tracking-widest">
+          INTERACTIVE PATIENT WORKFLOWS
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-black font-display text-hospital-charcoal dark:text-white">
+          Example Use Cases
+        </h2>
+        <p class="text-sm text-hospital-muted dark:text-slate-300">
+          How TRAIT HospitalAI handles routine patient inquiries while adhering strictly to verified hospital protocols.
+        </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         
-        <div class="p-8 rounded-3xl glass-hospital-card space-y-3">
-          <div class="text-2xl">‍️</div>
-          <h3 class="text-xl font-bold font-display text-hospital-charcoal dark:text-white">Human-In-The-Loop</h3>
+        <!-- Use Case 1 -->
+        <div class="p-6 rounded-3xl glass-hospital-card space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="px-3 py-1 rounded-lg bg-hospital-emerald/10 text-hospital-emerald font-mono text-[11px] font-bold inline-block">
+              USE CASE 01 • APPOINTMENT BOOKING
+            </div>
+            <div class="text-xs font-mono text-slate-500">Patient asks:</div>
+            <blockquote class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-l-4 border-hospital-emerald text-xs font-medium italic text-slate-700 dark:text-slate-200">
+              "I want to book an appointment with a cardiologist."
+            </blockquote>
+            <div class="text-xs font-mono text-hospital-emerald font-bold pt-2">HospitalAI can:</div>
+            <ul class="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2">
+                <span class="text-hospital-emerald font-bold">→</span>
+                <span>Identify the department / specialty</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-hospital-emerald font-bold">→</span>
+                <span>Provide available doctor info from approved hospital data</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-hospital-emerald font-bold">→</span>
+                <span>Guide patient through appointment booking</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-hospital-emerald font-bold">→</span>
+                <span>Confirm appointment or transfer request to staff</span>
+              </li>
+            </ul>
+          </div>
+          <div class="pt-4 border-t border-hospital-borderLight dark:border-hospital-borderDark text-[11px] font-mono text-hospital-muted dark:text-slate-400">
+            Status: Guided Workflow Ready
+          </div>
+        </div>
+
+        <!-- Use Case 2 -->
+        <div class="p-6 rounded-3xl glass-hospital-card space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="px-3 py-1 rounded-lg bg-hospital-teal/10 text-hospital-teal font-mono text-[11px] font-bold inline-block">
+              USE CASE 02 • HOSPITAL NAVIGATION
+            </div>
+            <div class="text-xs font-mono text-slate-500">Patient asks:</div>
+            <blockquote class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-l-4 border-hospital-teal text-xs font-medium italic text-slate-700 dark:text-slate-200">
+              "Where is the radiology department?"
+            </blockquote>
+            <div class="text-xs font-mono text-hospital-teal font-bold pt-2">HospitalAI can:</div>
+            <ul class="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2">
+                <span class="text-hospital-teal font-bold">→</span>
+                <span>Provide approved hospital facility & location information</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-hospital-teal font-bold">→</span>
+                <span>Guide the patient to the relevant department</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-hospital-teal font-bold">→</span>
+                <span>Highlight elevator access, wing details, and desk contact</span>
+              </li>
+            </ul>
+          </div>
+          <div class="pt-4 border-t border-hospital-borderLight dark:border-hospital-borderDark text-[11px] font-mono text-hospital-muted dark:text-slate-400">
+            Status: Location Retrieval Ready
+          </div>
+        </div>
+
+        <!-- Use Case 3 -->
+        <div class="p-6 rounded-3xl glass-hospital-card space-y-4 flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="px-3 py-1 rounded-lg bg-hospital-cyan/10 text-hospital-cyan font-mono text-[11px] font-bold inline-block">
+              USE CASE 03 • SERVICES DISCOVERY
+            </div>
+            <div class="text-xs font-mono text-slate-500">Patient asks:</div>
+            <blockquote class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900 border-l-4 border-hospital-cyan text-xs font-medium italic text-slate-700 dark:text-slate-200">
+              "What services does this hospital provide?"
+            </blockquote>
+            <div class="text-xs font-mono text-hospital-cyan font-bold pt-2">HospitalAI can:</div>
+            <ul class="space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-2">
+                <span class="text-hospital-cyan font-bold">→</span>
+                <span>Retrieve information from approved hospital knowledge base</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-hospital-cyan font-bold">→</span>
+                <span>Present relevant medical departments & specialities</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-hospital-cyan font-bold">→</span>
+                <span>Provide links to OPD schedules and diagnostic services</span>
+              </li>
+            </ul>
+          </div>
+          <div class="pt-4 border-t border-hospital-borderLight dark:border-hospital-borderDark text-[11px] font-mono text-hospital-muted dark:text-slate-400">
+            Status: Knowledge Base Synced
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 3: 5-STEP HUMAN ESCALATION         -->
+    <!-- ========================================== -->
+    <section id="human-escalation" class="scroll-mt-24 space-y-8">
+      <div class="border-b border-hospital-borderLight dark:border-hospital-borderDark pb-6 space-y-2">
+        <span class="px-3.5 py-1 rounded-full bg-hospital-emerald/10 border border-hospital-emerald/30 text-hospital-emerald font-mono text-xs font-bold uppercase tracking-widest">
+          CLINICAL OVERSIGHT PIPELINE
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-black font-display text-hospital-charcoal dark:text-white">
+          Human Assistance & Escalation Workflow
+        </h2>
+        <p class="text-sm text-hospital-muted dark:text-slate-300 max-w-3xl">
+          HospitalAI includes a structured 5-step Human Assistance / Escalate to Staff workflow. When the AI cannot confidently answer a question or when a request requires hospital staff intervention, it follows these exact steps:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        
+        <div class="p-5 rounded-2xl glass-hospital-card space-y-3 relative overflow-hidden">
+          <div class="w-8 h-8 rounded-xl bg-hospital-emerald/20 text-hospital-emerald font-mono text-sm font-bold flex items-center justify-center">1</div>
+          <h3 class="text-sm font-bold text-hospital-charcoal dark:text-white">Step 1: Identify Need</h3>
           <p class="text-xs text-hospital-muted dark:text-slate-300 leading-relaxed">
-            All clinical recommendations and resource allocation alerts require human review and approval. The AI does not make independent medical decisions.
+            Identify that human assistance is required due to query ambiguity or special hospital policies.
           </p>
         </div>
 
-        <div class="p-8 rounded-3xl glass-hospital-card space-y-3">
-          <div class="text-2xl"></div>
-          <h3 class="text-xl font-bold font-display text-hospital-charcoal dark:text-white">Patient Data Privacy</h3>
+        <div class="p-5 rounded-2xl glass-hospital-card space-y-3 relative overflow-hidden">
+          <div class="w-8 h-8 rounded-xl bg-hospital-emerald/20 text-hospital-emerald font-mono text-sm font-bold flex items-center justify-center">2</div>
+          <h3 class="text-sm font-bold text-hospital-charcoal dark:text-white">Step 2: Collect Details</h3>
           <p class="text-xs text-hospital-muted dark:text-slate-300 leading-relaxed">
-            Zero patient data is used for external model training. Data processing is fully encrypted end-to-end adhering to strict HIPAA and GDPR standards.
+            Collect only the necessary enquiry details to ensure patient privacy and rapid resolution.
           </p>
         </div>
 
-        <div class="p-8 rounded-3xl glass-hospital-card space-y-3">
-          <div class="text-2xl">🩺</div>
-          <h3 class="text-xl font-bold font-display text-hospital-charcoal dark:text-white">Operational Focus</h3>
+        <div class="p-5 rounded-2xl glass-hospital-card space-y-3 relative overflow-hidden">
+          <div class="w-8 h-8 rounded-xl bg-hospital-emerald/20 text-hospital-emerald font-mono text-sm font-bold flex items-center justify-center">3</div>
+          <h3 class="text-sm font-bold text-hospital-charcoal dark:text-white">Step 3: Create & Route</h3>
           <p class="text-xs text-hospital-muted dark:text-slate-300 leading-relaxed">
-            Focused specifically on hospital logistics, capacity management, ER queue optimization, and administrative workflow efficiency.
+            Create and route the structured support request to the appropriate department queue.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl glass-hospital-card space-y-3 relative overflow-hidden">
+          <div class="w-8 h-8 rounded-xl bg-hospital-emerald/20 text-hospital-emerald font-mono text-sm font-bold flex items-center justify-center">4</div>
+          <h3 class="text-sm font-bold text-hospital-charcoal dark:text-white">Step 4: Transfer to Staff</h3>
+          <p class="text-xs text-hospital-muted dark:text-slate-300 leading-relaxed">
+            Transfer context directly to the appropriate hospital team or duty desk personnel.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl glass-hospital-card space-y-3 relative overflow-hidden">
+          <div class="w-8 h-8 rounded-xl bg-hospital-emerald/20 text-hospital-emerald font-mono text-sm font-bold flex items-center justify-center">5</div>
+          <h3 class="text-sm font-bold text-hospital-charcoal dark:text-white">Step 5: User Confirmation</h3>
+          <p class="text-xs text-hospital-muted dark:text-slate-300 leading-relaxed">
+            Provide the user with a transparent confirmation message, ticket ID, and expected response time.
           </p>
         </div>
 
       </div>
+    </section>
 
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section id="contact-cta" class="py-24 bg-gradient-to-br from-hospital-navyDark via-hospital-navyCard to-hospital-navyDark text-white text-center">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-      <span class="px-4 py-1.5 rounded-full bg-hospital-emerald/20 border border-hospital-emerald/40 text-hospital-emerald text-xs font-mono font-bold uppercase tracking-widest">TRANSFORM HEALTHCARE OPERATIONS</span>
-      <h2 class="text-4xl sm:text-5xl font-black font-display">Schedule a TRAIT AI Hospital Demo</h2>
-      <p class="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed">
-        Discover how TRAIT AI Hospital can optimize your medical facility's patient flow, ER queue times, and capacity planning.
-      </p>
-      <div class="pt-4 flex flex-wrap justify-center gap-4">
-        <button onclick="openHospitalModal()" class="px-8 py-4 rounded-full bg-gradient-to-r from-hospital-emerald via-hospital-teal to-hospital-cyan text-slate-950 font-black text-xs uppercase tracking-wider hover:scale-105 transition-all shadow-xl shadow-hospital-emerald/30">
-          SCHEDULE CLINICAL DEMO 
-        </button>
-        <a href="/" class="px-8 py-4 rounded-full border border-slate-700 bg-slate-950 font-bold text-xs uppercase tracking-wider text-slate-200 hover:border-hospital-emerald transition-all">
-          EXPLORE ALL TRAIT SERVICES
-        </a>
+    <!-- ========================================== -->
+    <!-- SECTION 4: CUSTOMER SEGMENTS & WHY CHOOSE  -->
+    <!-- ========================================== -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- Customer Segments (11 Segments from Section 11) -->
+      <div class="glass-hospital-card rounded-3xl p-8 space-y-4">
+        <h3 class="text-base font-bold font-display text-hospital-charcoal dark:text-white flex items-center gap-2">
+          <svg class="w-5 h-5 text-hospital-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Who Can Use It? — Suggested Customer Segments (11)
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600 dark:text-slate-300">
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Hospitals</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Multi-specialty hospitals</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Clinics and healthcare centers</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Diagnostic centers</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Hospital chains</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Healthcare service providers</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Hospital reception & help desks</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Appointment/booking departments</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Patient-support teams</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Hospital administration teams</span>
+          </div>
+          <div class="flex items-center gap-2 sm:col-span-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-hospital-emerald"></span>
+            <span>Patients and attendants as end users</span>
+          </div>
+        </div>
       </div>
+
+      <!-- Why Choose TRAIT HospitalAI? -->
+      <div class="glass-hospital-card rounded-3xl p-8 space-y-6 flex flex-col justify-between">
+        <div class="space-y-4">
+          <h3 class="text-base font-bold font-display text-hospital-charcoal dark:text-white flex items-center gap-2">
+            <svg class="w-5 h-5 text-hospital-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Why Choose TRAIT HospitalAI?
+          </h3>
+          <p class="text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+            TRAIT HospitalAI combines conversational AI with hospital-specific information and service workflows to help patients access information and assistance more easily while reducing repetitive enquiries handled manually by hospital staff.
+          </p>
+          <p class="text-xs leading-relaxed font-semibold text-hospital-teal dark:text-hospital-cyan">
+            The system is designed to support hospital staff and patient-service workflows, not replace medical professionals.
+          </p>
+        </div>
+
+        <div class="pt-4 border-t border-hospital-borderLight dark:border-hospital-borderDark space-y-3">
+          <button onclick="openHospitalModal()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-hospital-emerald to-hospital-teal text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg hover:shadow-emerald-500/20 transition-all">
+            EXPLORE TRAIT HOSPITALAI
+          </button>
+          <div class="text-[11px] font-mono text-center text-hospital-muted dark:text-slate-400">
+            Suggested CTA: Explore TRAIT HospitalAI
+          </div>
+        </div>
+      </div>
+
     </div>
-  </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 5: HEALTHCARE DISCLAIMER (MANDATORY) -->
+    <!-- ========================================== -->
+    <section id="disclaimer" class="scroll-mt-24">
+      <div class="p-8 rounded-3xl bg-red-500/10 border-2 border-red-500/30 text-hospital-charcoal dark:text-white space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-red-500/20 text-red-500 flex items-center justify-center shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold font-display text-red-600 dark:text-red-400">
+              Important Healthcare Disclaimer
+            </h3>
+            <span class="text-xs font-mono text-hospital-muted dark:text-slate-300">Mandatory Regulatory & Safety Policy</span>
+          </div>
+        </div>
+
+        <p class="text-xs leading-relaxed text-slate-700 dark:text-slate-200">
+          TRAIT HospitalAI must not be presented as a medical diagnosis or treatment system unless TRAIT specifically develops and validates such functionality.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div class="p-4 rounded-2xl bg-white/50 dark:bg-slate-900/50 border border-emerald-500/30 space-y-1">
+            <div class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">WHAT HOSPITALAI PROVIDES:</div>
+            <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1 list-disc list-inside">
+              <li>Administrative assistance</li>
+              <li>Appointment assistance</li>
+              <li>Hospital / service information</li>
+              <li>Customer & visitor support</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-2xl bg-white/50 dark:bg-slate-900/50 border border-red-500/30 space-y-1">
+            <div class="text-xs font-mono font-bold text-red-600 dark:text-red-400">WHAT HOSPITALAI DOES NOT PROVIDE:</div>
+            <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1 list-disc list-inside">
+              <li>Medical diagnosis</li>
+              <li>Medical treatment decisions</li>
+              <li>Emergency medical advice</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="text-xs font-semibold text-slate-800 dark:text-slate-100 pt-2">
+          For emergencies, the system directs users to appropriate emergency services / hospital personnel rather than attempting to replace professional medical care.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- SECTION 6: CONTACT & CONSULTATION CTA      -->
+    <!-- ========================================== -->
+    <section id="contact-cta" class="relative rounded-3xl overflow-hidden bg-gradient-to-br from-hospital-navyDark via-hospital-navyCard to-hospital-navyDark text-white p-8 sm:p-14 text-center border border-hospital-emerald/30 shadow-2xl space-y-6">
+      
+      <div class="max-w-3xl mx-auto space-y-4">
+        <span class="px-4 py-1.5 rounded-full bg-hospital-emerald/20 border border-hospital-emerald/40 text-hospital-emerald text-xs font-mono font-bold uppercase tracking-widest">
+          HOSPITAL AI CONSULTATION
+        </span>
+        <h2 class="text-3xl sm:text-5xl font-black font-display">
+          Ready to Streamline Hospital Enquiries & Appointments?
+        </h2>
+        <p class="text-sm text-slate-300 max-w-xl mx-auto">
+          Explore how TRAIT HospitalAI can support your healthcare facility with intelligent patient assistance and administrative workflows.
+        </p>
+        <div class="pt-4 flex flex-wrap justify-center gap-4">
+          <button onclick="openHospitalModal()" class="px-8 py-4 rounded-full bg-gradient-to-r from-hospital-emerald to-hospital-teal text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider shadow-lg hover:scale-105 transition-all">
+            TALK TO TRAIT HEALTHCARE TEAM
+          </button>
+          <a href="/#about" class="px-8 py-4 rounded-full border border-hospital-emerald/40 bg-slate-900/70 text-white font-bold text-xs sm:text-sm uppercase tracking-wider hover:border-hospital-emerald transition-all">
+            LEARN ABOUT TRAIT INNOVATION
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <!-- FOOTER -->
-  <footer class="py-12 border-t border-hospital-emerald/10 dark:border-hospital-borderDark bg-hospital-cream dark:bg-hospital-navyDark text-xs text-hospital-muted dark:text-slate-400">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center gap-3">
-        <span class="font-display font-black text-hospital-charcoal dark:text-white uppercase">TRAIT INNOVATION</span>
-        <span>•</span>
-        <span>TRAIT AI Hospital</span>
-      </div>
-      <div>© 2026 TRAIT Innovation. All rights reserved. Built to Think. Designed to Transform.</div>
-    </div>
-  </footer>
+  {% include 'components/footer.html' %}
 
-  <!-- MODAL -->
-  <div id="hospital-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
-    <div class="bg-hospital-cream dark:bg-hospital-navyCard border border-hospital-emerald/30 rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl relative">
-      <button onclick="closeHospitalModal()" class="absolute top-4 right-4 text-hospital-muted hover:text-hospital-emerald font-bold text-lg"></button>
-      <h3 class="text-2xl font-bold font-display text-hospital-charcoal dark:text-white mb-2">Request Healthcare AI Demo</h3>
-      <p class="text-xs text-hospital-muted dark:text-slate-300 mb-6">Leave your details and a TRAIT healthcare operations specialist will reach out to arrange a demo.</p>
-      
+  <!-- DEMO / CONSULTATION MODAL -->
+  <div id="hospital-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300">
+    <div class="relative w-full max-w-lg rounded-3xl bg-slate-900 border border-hospital-emerald/40 p-6 sm:p-8 shadow-2xl space-y-6">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+        <div>
+          <h3 class="text-lg font-bold font-display text-white">Request TRAIT HospitalAI Consultation</h3>
+          <p class="text-xs text-slate-400 font-mono">Healthcare Assistance Briefing</p>
+        </div>
+        <button onclick="closeHospitalModal()" class="w-8 h-8 rounded-full bg-white/10 text-slate-300 hover:text-white flex items-center justify-center">&times;</button>
+      </div>
+
       <form onsubmit="handleHospitalForm(event)" class="space-y-4">
         <div>
-          <label class="block text-[10px] font-mono font-bold uppercase mb-1 text-hospital-charcoal dark:text-slate-300">Your Name</label>
-          <input type="text" id="hosp-name" required class="w-full px-4 py-2.5 rounded-xl border border-hospital-emerald/20 bg-white dark:bg-hospital-navyDark text-xs text-hospital-charcoal dark:text-white focus:outline-none focus:border-hospital-emerald" placeholder="Dr. Sarah Jenkins" />
+          <label class="block text-xs font-mono text-slate-300 mb-1">Full Name</label>
+          <input type="text" id="hosp-name" required class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:border-hospital-emerald focus:outline-none" placeholder="Dr. or Administrator Name">
         </div>
         <div>
-          <label class="block text-[10px] font-mono font-bold uppercase mb-1 text-hospital-charcoal dark:text-slate-300">Work Email</label>
-          <input type="email" id="hosp-email" required class="w-full px-4 py-2.5 rounded-xl border border-hospital-emerald/20 bg-white dark:bg-hospital-navyDark text-xs text-hospital-charcoal dark:text-white focus:outline-none focus:border-hospital-emerald" placeholder="s.jenkins@healthsystem.org" />
+          <label class="block text-xs font-mono text-slate-300 mb-1">Hospital / Healthcare Organization</label>
+          <input type="text" required class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:border-hospital-emerald focus:outline-none" placeholder="e.g. Memorial Hospital, Diagnostic Center">
         </div>
         <div>
-          <label class="block text-[10px] font-mono font-bold uppercase mb-1 text-hospital-charcoal dark:text-slate-300">Hospital / Healthcare Organization</label>
-          <input type="text" id="hosp-org" class="w-full px-4 py-2.5 rounded-xl border border-hospital-emerald/20 bg-white dark:bg-hospital-navyDark text-xs text-hospital-charcoal dark:text-white focus:outline-none focus:border-hospital-emerald" placeholder="Saint Mary Medical Center" />
+          <label class="block text-xs font-mono text-slate-300 mb-1">Primary Area of Interest</label>
+          <select class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:border-hospital-emerald focus:outline-none">
+            <option>Patient Support & Enquiry Assistance</option>
+            <option>Appointment Scheduling & Department Routing</option>
+            <option>Hospital Navigation & Facility FAQs</option>
+            <option>Enterprise Integration with Hospital Systems</option>
+          </select>
         </div>
-        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-hospital-emerald via-hospital-teal to-hospital-cyan text-slate-950 font-black text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all">SUBMIT REQUEST </button>
+        <div>
+          <label class="block text-xs font-mono text-slate-300 mb-1">Work Email</label>
+          <input type="email" required class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs focus:border-hospital-emerald focus:outline-none" placeholder="administrator@hospital.org">
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-hospital-emerald to-hospital-teal text-slate-950 font-black text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all">
+          SUBMIT CONSULTATION REQUEST
+        </button>
       </form>
     </div>
   </div>
 
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   <script src="{{ url_for('static', filename='js/hospital.js') }}"></script>
-<script src="{{ url_for('static', filename='js/service_nav.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/service_nav.js') }}"></script>
 </body>
 </html>

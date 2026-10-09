@@ -104,8 +104,8 @@
     }
 
     .light body, html.light body {
-      background-color: #F0F7FA;
-      color: #061E29;
+      background-color: #F0F7FA !important;
+      color: #061E29 !important;
     }
 
     /* Petrol Glass Panels */
@@ -118,12 +118,13 @@
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .light .support-glass-panel {
-      background: rgba(255, 255, 255, 0.88);
+    .light .support-glass-panel, html.light .support-glass-panel {
+      background: rgba(255, 255, 255, 0.94) !important;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(15, 58, 75, 0.15);
-      box-shadow: 0 20px 40px -15px rgba(6, 30, 41, 0.08);
+      border: 1px solid rgba(15, 58, 75, 0.15) !important;
+      box-shadow: 0 10px 30px -10px rgba(6, 30, 41, 0.08) !important;
+      color: #061E29 !important;
     }
 
     .support-glass-card {
@@ -134,11 +135,28 @@
       transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .light .support-glass-card {
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 247, 250, 0.9) 100%);
+    .light .support-glass-card, html.light .support-glass-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f0f7fa 100%) !important;
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(15, 58, 75, 0.15);
-      box-shadow: 0 15px 35px -10px rgba(6, 30, 41, 0.06);
+      border: 1px solid rgba(15, 58, 75, 0.15) !important;
+      box-shadow: 0 10px 30px -10px rgba(6, 30, 41, 0.06) !important;
+    }
+
+    html.light .support-side-nav-link span {
+      color: #334155 !important;
+    }
+
+    html.light .support-side-nav-link:hover span {
+      color: #0284c7 !important;
+    }
+
+    html.light .support-glass-card h3,
+    html.light .support-glass-card h4 {
+      color: #0f172a !important;
+    }
+
+    html.light .support-glass-card p {
+      color: #475569 !important;
     }
 
     .support-glass-card:hover {
@@ -211,7 +229,7 @@
     }
   </style>
 </head>
-<body class="bg-petrol-950 text-petrol-50 dark:bg-petrol-950 dark:text-petrol-50 transition-colors duration-500 font-sans selection:bg-coral-500 selection:text-white">
+<body class="bg-[#F0F7FA] text-slate-900 dark:bg-petrol-950 dark:text-petrol-50 transition-colors duration-500 font-sans selection:bg-coral-500 selection:text-white">
 
   <!-- 3D Background Volumetric Canvas Container -->
   <div id="support-3d-bg-canvas" class="fixed inset-0 pointer-events-none z-0"></div>
@@ -222,22 +240,22 @@
   <!-- MAIN PAGE CONTENT CONTAINER -->
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-24">
 
-    <!-- 2. INDEPENDENT DESKTOP LEFT SERVICE SIDEBAR NAVIGATION -->
-    <aside id="support-service-nav" class="fixed left-3 sm:left-6 top-28 z-40 select-none hidden lg:block transition-all duration-300">
-      <div id="support-nav-container" class="support-glass-panel rounded-3xl p-3 w-16 hover:w-60 group overflow-hidden transition-all duration-300">
-        
-        <!-- Sidebar Header -->
-        <div class="flex items-center gap-3 pb-3 mb-2 border-b border-cyan-400/20 px-1.5 shrink-0">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-petrol-800 to-cyan-500 text-cyan-400 flex items-center justify-center shrink-0 border border-cyan-400/40 shadow-md">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-            </svg>
-          </div>
-          <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap flex flex-col">
-            <span class="font-display font-bold text-xs tracking-wider text-white dark:text-white uppercase">AI SUPPORT AGENT</span>
-            <span class="text-[9px] font-mono text-cyan-400 uppercase tracking-widest">7 STAGES • NAVIGATION</span>
-          </div>
+  <!-- 2. INDEPENDENT DESKTOP LEFT SERVICE SIDEBAR NAVIGATION -->
+  <aside id="support-service-nav" class="fixed left-3 sm:left-6 top-28 z-40 select-none hidden lg:block transition-all duration-300">
+    <div id="support-nav-container" class="support-glass-panel rounded-3xl p-3 w-16 hover:w-60 group overflow-hidden transition-all duration-300">
+      
+      <!-- Sidebar Header -->
+      <div class="flex items-center gap-3 pb-3 mb-2 border-b border-cyan-400/20 px-1.5 shrink-0">
+        <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-petrol-800 to-cyan-500 text-cyan-400 flex items-center justify-center shrink-0 border border-cyan-400/40 shadow-md">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+          </svg>
         </div>
+        <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap flex flex-col">
+          <span class="font-display font-bold text-xs tracking-wider text-slate-900 dark:text-white uppercase">AI SUPPORT AGENT</span>
+          <span class="text-[9px] font-mono text-cyan-500 dark:text-cyan-400 uppercase tracking-widest">7 STAGES • NAVIGATION</span>
+        </div>
+      </div>
 
         <!-- Vertical Section Navigation Links -->
         <nav class="space-y-1.5">
@@ -998,6 +1016,11 @@
             <span>Explore AI Customer Support Agent</span>
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </button>
+        </div>
+
+        <!-- Approved Website Maker Note Banner -->
+        <div class="mt-8 p-4 rounded-2xl border border-cyan-400/20 bg-cyan-400/5 text-center text-xs text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+          <span class="font-mono font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Note:</span> Pricing, integrations, certifications, performance claims and production availability will be confirmed by TRAIT Innovation upon formal release.
         </div>
 
       </div>
