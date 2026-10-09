@@ -71,18 +71,18 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // 3. RENDER RECOMMENDATIONS PRODUCTS
-  window.switchRecommendationCategory = function(catKey, ev) {
+  function switchRecommendationCategory(catKey, ev) {
     const btns = document.querySelectorAll('.rec-tab-btn');
     btns.forEach(btn => {
-      btn.classList.remove('bg-purple-600', 'text-white', 'shadow-sm');
-      btn.classList.add('text-slate-600', 'dark:text-slate-300');
+      const onclickAttr = btn.getAttribute('onclick') || '';
+      if (onclickAttr.includes(`'${catKey}'`) || onclickAttr.includes(`"${catKey}"`)) {
+        btn.classList.remove('text-slate-600', 'dark:text-slate-300');
+        btn.classList.add('bg-purple-600', 'text-white', 'shadow-sm');
+      } else {
+        btn.classList.remove('bg-purple-600', 'text-white', 'shadow-sm');
+        btn.classList.add('text-slate-600', 'dark:text-slate-300');
+      }
     });
-
-    const evt = ev || (typeof window !== 'undefined' && window.event ? window.event : null);
-    if (evt && evt.currentTarget) {
-      evt.currentTarget.classList.remove('text-slate-600', 'dark:text-slate-300');
-      evt.currentTarget.classList.add('bg-purple-600', 'text-white', 'shadow-sm');
-    }
 
     const grid = document.getElementById('recommendation-products-grid');
     if (!grid) return;
@@ -104,7 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
     `).join('');
-  };
+  }
+  window.switchRecommendationCategory = switchRecommendationCategory;
 
   // Initial render of Makeup recommendations
   try {
@@ -114,18 +115,18 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 4. RENDER COMPLETE YOUR LOOK OUTFIT CARDS
-  window.switchOutfitOccasion = function(occKey, ev) {
+  function switchOutfitOccasion(occKey, ev) {
     const btns = document.querySelectorAll('.outfit-tab-btn');
     btns.forEach(btn => {
-      btn.classList.remove('bg-purple-600', 'text-white', 'shadow-sm');
-      btn.classList.add('bg-slate-100', 'dark:bg-fashion-darkCard', 'text-slate-600', 'dark:text-slate-300');
+      const onclickAttr = btn.getAttribute('onclick') || '';
+      if (onclickAttr.includes(`'${occKey}'`) || onclickAttr.includes(`"${occKey}"`)) {
+        btn.classList.remove('bg-slate-100', 'dark:bg-fashion-darkCard', 'text-slate-600', 'dark:text-slate-300');
+        btn.classList.add('bg-purple-600', 'text-white', 'shadow-sm');
+      } else {
+        btn.classList.remove('bg-purple-600', 'text-white', 'shadow-sm');
+        btn.classList.add('bg-slate-100', 'dark:bg-fashion-darkCard', 'text-slate-600', 'dark:text-slate-300');
+      }
     });
-
-    const evt = ev || (typeof window !== 'undefined' && window.event ? window.event : null);
-    if (evt && evt.currentTarget) {
-      evt.currentTarget.classList.remove('bg-slate-100', 'dark:bg-fashion-darkCard', 'text-slate-600', 'dark:text-slate-300');
-      evt.currentTarget.classList.add('bg-purple-600', 'text-white', 'shadow-sm');
-    }
 
     const grid = document.getElementById('outfit-cards-grid');
     if (!grid) return;
@@ -160,7 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
     `).join('');
-  };
+  }
+  window.switchOutfitOccasion = switchOutfitOccasion;
 
   // Initial render of Casual outfits
   switchOutfitOccasion('casual');
@@ -214,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Opens and streams live camera with proper constraints and fallback
-  window.openCamera = async function() {
+  async function openCamera() {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       if (errorOverlay) {
         errorOverlay.classList.remove('hidden');
@@ -288,10 +290,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       showFashionToast('Camera blocked. You can upload any selfie photo instead!');
     }
-  };
+  }
+  window.openCamera = openCamera;
 
   // Takes snapshot of live camera video frame
-  window.takeLivePhotoAndAnalyze = function() {
+  function takeLivePhotoAndAnalyze() {
     if (!isCameraActive || !video || video.videoWidth === 0) {
       openCamera();
       return;
@@ -325,10 +328,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Run pixel computer vision analysis
     analyzePixelDataFromCanvas(canvas);
-  };
+  }
+  window.takeLivePhotoAndAnalyze = takeLivePhotoAndAnalyze;
 
   // Retakes photo by switching back to live camera
-  window.retakePhoto = function() {
+  function retakePhoto() {
     if (canvas) canvas.classList.add('hidden');
     if (video) {
       video.classList.remove('hidden');
@@ -341,7 +345,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (captureBtnText) captureBtnText.textContent = 'Take Live Photo & Analyze';
     isSnapshotMode = false;
     showFashionToast('Live camera resumed. Ready to take a new photo.');
-  };
+  }
+  window.retakePhoto = retakePhoto;
 
   // Real Computer Vision Color & Undertone Analyzer
   function analyzePixelDataFromCanvas(activeCanvas) {
@@ -570,7 +575,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const triggerMasterUpload = (e) => {
     if (e && e.stopPropagation) e.stopPropagation();
     const fileInput = document.getElementById('image-upload-input');
-    if (fileInput) fileInput.click();
+    if (fileInput) {
+      fileInput.value = ''; // Reset value to ensure change event fires even if same file is re-selected
+      fileInput.click();
+    }
   };
 
   // Event Listeners for Upload Buttons
@@ -583,6 +591,16 @@ document.addEventListener('DOMContentLoaded', () => {
     uploadInput.addEventListener('change', (e) => {
       if (e.target.files && e.target.files[0]) {
         handleImageFile(e.target.files[0]);
+      }
+    });
+  }
+
+  // Tap live video feed to take photo & analyze
+  if (video) {
+    video.style.cursor = 'pointer';
+    video.addEventListener('click', () => {
+      if (isCameraActive && !isSnapshotMode) {
+        takeLivePhotoAndAnalyze();
       }
     });
   }
@@ -781,7 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  window.switchCareProfile = function(profileKey) {
+  function switchCareProfile(profileKey) {
     const data = careProfilesData[profileKey];
     if (!data) return;
 
@@ -843,13 +861,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Avoided ingredients
     const avoidText = document.getElementById('avoid-ingredients-text');
     if (avoidText) avoidText.textContent = data.avoid;
-  };
+  }
+  window.switchCareProfile = switchCareProfile;
+
+  // Attach click events to care profile buttons
+  document.querySelectorAll('.care-profile-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = btn.getAttribute('data-care-profile');
+      if (p) switchCareProfile(p);
+    });
+  });
 
   // Initial render of care prescription profile
   switchCareProfile('medium_warm');
 
   // 6. TOAST NOTIFICATIONS
-  window.showFashionToast = function(msg) {
+  function showFashionToast(msg) {
     const toast = document.getElementById('fashion-toast');
     const toastText = document.getElementById('fashion-toast-text');
     if (!toast || !toastText) return;
@@ -863,14 +890,16 @@ document.addEventListener('DOMContentLoaded', () => {
       toast.classList.add('opacity-0', 'translate-y-6', 'pointer-events-none');
       toast.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
     }, 3200);
-  };
+  }
+  window.showFashionToast = showFashionToast;
 
   // 7. NEWSLETTER FORM HANDLER
-  window.handleNewsletterSubmit = function(e) {
+  function handleNewsletterSubmit(e) {
     e.preventDefault();
     const email = document.getElementById('newsletter-email').value;
     showFashionToast(`Thank you! Subscription confirmed for ${email}`);
     e.target.reset();
-  };
+  }
+  window.handleNewsletterSubmit = handleNewsletterSubmit;
 
 });
