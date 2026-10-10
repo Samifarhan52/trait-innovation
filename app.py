@@ -1,7 +1,9 @@
 import os
-from flask import Flask, render_template, request, jsonify, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, jsonify, redirect, url_for, send_from_directory, session
+import admin_store
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
+app.secret_key = os.environ.get('SECRET_KEY', 'trait-innovation-admin-console-secret-2026')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
@@ -156,6 +158,193 @@ def contact():
         'status': 'success',
         'message': f'Thank you {name}! Your inquiry regarding {service} has been received. Our team will contact you at {email} within 24 hours.'
     })
+
+# ================= ADMIN CONSOLE & CMS CONTROLLERS =================
+
+def is_admin_authenticated():
+    return session.get('admin_logged_in') is True
+
+@app.route('/admin')
+@app.route('/admin/')
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    """Admin login and authentication gateway."""
+    if request.method == 'GET':
+        if is_admin_authenticated():
+            return redirect('/admin/dashboard')
+        return render_template('admin/login.html')
+
+    # Handle POST login authentication
+    data = request.get_json() or {}
+    username = data.get('username', '').strip()
+    password = data.get('password', '')
+
+    if admin_store.verify_admin_login(username, password):
+        session['admin_logged_in'] = True
+        session['admin_user'] = username
+        return jsonify({'status': 'success', 'redirect': '/admin/dashboard'})
+    
+    return jsonify({'status': 'error', 'message': 'Invalid administrator ID or password.'}), 401
+
+@app.route('/admin/forgot-password', methods=['POST'])
+def admin_forgot_password():
+    """Confidential security recovery protocol."""
+    data = request.get_json() or {}
+    answer = data.get('answer', '').strip()
+    new_password = data.get('new_password', '')
+
+    if admin_store.verify_security_recovery(answer):
+        if new_password:
+            admin_store.update_admin_password(new_password)
+        session['admin_logged_in'] = True
+        session['admin_user'] = 'Traitinnovation'
+        return jsonify({'status': 'success', 'redirect': '/admin/dashboard'})
+
+    return jsonify({'status': 'error', 'message': 'Incorrect security answer.'}), 403
+
+@app.route('/admin/logout')
+def admin_logout():
+    """End admin session."""
+    session.clear()
+    return redirect('/admin/login')
+
+@app.route('/admin/dashboard')
+def admin_dashboard():
+    """Master Admin Console dashboard."""
+    if not is_admin_authenticated():
+        return redirect('/admin/login')
+    return render_template('admin/dashboard.html')
+
+@app.route('/admin/api/state', methods=['GET'])
+def admin_api_state():
+    """Return consolidated state for admin dashboard."""
+    if not is_admin_authenticated():
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+    
+    full_data = admin_store.load_data()
+    return jsonify({
+        'status': 'success',
+        'pages': admin_store.get_pages_list(),
+        'settings': admin_store.get_site_settings(),
+        'users': admin_store.get_users_list(),
+        'activity_logs': full_data.get('activity_logs', [])
+    })
+
+@app.route('/admin/api/pages/<page_id>', methods=['GET', 'POST'])
+def admin_api_page_content(page_id):
+    """Retrieve or save template code for live page."""
+    if not is_admin_authenticated():
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+    
+    if request.method == 'GET':
+        page_data = admin_store.get_page_content(page_id)
+        if not page_data:
+            return jsonify({'status': 'error', 'message': 'Page not found'}), 404
+        return jsonify({'status': 'success', **page_data})
+    
+    # POST save page
+    data = request.get_json() or {}
+    content = data.get('content', '')
+    if not content:
+        return jsonify({'status': 'error', 'message': 'Content cannot be empty'}), 400
+        
+    if admin_store.save_page_content(page_id, content):
+        return jsonify({'status': 'success', 'message': 'Page published successfully'})
+    return jsonify({'status': 'error', 'message': 'Failed to write template file'}), 500
+
+@app.route('/admin/api/settings', methods=['POST'])
+def admin_api_save_settings():
+    """Update global site settings and propagate contact info."""
+    if not is_admin_authenticated():
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+    
+    data = request.get_json() or {}
+    if admin_store.update_site_settings(data):
+        return jsonify({'status': 'success', 'message': 'Site settings updated successfully'})
+    return jsonify({'status': 'error', 'message': 'Failed to update settings'}), 500
+
+@app.route('/admin/api/upload', methods=['POST'])
+def admin_api_upload():
+    """Upload media image to static assets."""
+    if not is_admin_authenticated():
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+    
+    if 'file' not in request.files:
+        return jsonify({'status': 'error', 'message': 'No file uploaded'}), 400
+        
+    file = request.files['file']
+    if not file or file.filename == '':
+        return jsonify({'status': 'error', 'message': 'Empty file'}), 400
+        
+    import re
+    clean_name = re.sub(r'[^a-zA-Z0-9_.-]', '_', os.path.basename(file.filename))
+    upload_dir = os.path.join(os.path.dirname(__file__), 'static', 'uploads')
+    os.makedirs(upload_dir, exist_ok=True)
+    
+    save_path = os.path.join(upload_dir, clean_name)
+    file.save(save_path)
+    
+    url = f"/static/uploads/{clean_name}"
+    admin_store.log_activity("Media Asset Uploaded", "Admin", f"Saved {clean_name} to {url}")
+    return jsonify({'status': 'success', 'url': url, 'filename': clean_name})
+
+@app.route('/admin/api/users', methods=['POST'])
+def admin_api_add_user():
+    """Register new system user."""
+    if not is_admin_authenticated():
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+    
+    data = request.get_json() or {}
+    name = data.get('name', '').strip()
+    email = data.get('email', '').strip()
+    role = data.get('role', 'Client Analyst')
+    quota = int(data.get('quota', 25000))
+
+    if not name or not email:
+        return jsonify({'status': 'error', 'message': 'Name and Email are required'}), 400
+
+    if admin_store.add_user(name, email, role, quota):
+        return jsonify({'status': 'success', 'message': 'User added'})
+    return jsonify({'status': 'error', 'message': 'Failed to add user'}), 500
+
+@app.route('/admin/api/users/<user_id>/status', methods=['POST'])
+def admin_api_user_status(user_id):
+    """Toggle user active / suspended status."""
+    if not is_admin_authenticated():
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+    
+    data = request.get_json() or {}
+    status = data.get('status', 'Active')
+    if admin_store.update_user_status(user_id, status):
+        return jsonify({'status': 'success', 'message': f'Status updated to {status}'})
+    return jsonify({'status': 'error', 'message': 'Failed to update user status'}), 500
+
+@app.route('/admin/api/users/<user_id>', methods=['DELETE'])
+def admin_api_delete_user(user_id):
+    """Remove user from directory."""
+    if not is_admin_authenticated():
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+    
+    if admin_store.delete_user(user_id):
+        return jsonify({'status': 'success', 'message': 'User removed'})
+    return jsonify({'status': 'error', 'message': 'Failed to remove user'}), 500
+
+@app.route('/admin/api/change-password', methods=['POST'])
+def admin_api_change_password():
+    """Change admin password with current password confirmation."""
+    if not is_admin_authenticated():
+        return jsonify({'status': 'error', 'message': 'Unauthorized'}), 401
+    
+    data = request.get_json() or {}
+    current_password = data.get('current_password', '')
+    new_password = data.get('new_password', '')
+
+    if not admin_store.verify_admin_login('Traitinnovation', current_password):
+        return jsonify({'status': 'error', 'message': 'Current password is incorrect'}), 400
+
+    if admin_store.update_admin_password(new_password):
+        return jsonify({'status': 'success', 'message': 'Password updated successfully'})
+    return jsonify({'status': 'error', 'message': 'Failed to update password'}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

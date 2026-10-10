@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRAIT Control Console — Admin Dashboard</title>
+  {% include 'components/favicon.html' %}
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            trait: {
+              950: '#030611',
+              900: '#060B1C',
+              850: '#091024',
+              800: '#0B1530',
+              700: '#12224A',
+              cyan: '#00F0FF',
+              blue: '#3B82F6',
+              indigo: '#6366F1'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #030611;
+      color: #F8FAFC;
+    }
+    .font-display { font-family: 'Space Grotesk', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .glass-panel {
+      background: rgba(6, 11, 28, 0.78);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 240, 255, 0.15);
+    }
+    .glass-card {
+      background: rgba(11, 21, 48, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #060B1C; }
+    ::-webkit-scrollbar-thumb { background: #12224A; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col md:flex-row antialiased selection:bg-cyan-500 selection:text-black">
+
+  <!-- ================= SIDEBAR NAVIGATION ================= -->
+  <aside class="w-full md:w-64 bg-trait-900 border-r border-slate-800/80 flex flex-col shrink-0 z-30">
+    
+    <!-- Brand Header -->
+    <div class="p-5 border-b border-slate-800/80 flex items-center justify-between">
+      <a href="/" target="_blank" class="flex items-center gap-2.5 group" title="Open live website in new tab">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-2 shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform flex items-center justify-center">
+          <svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 22V12" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 12L21 7" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 12L3 7" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div>
+          <span class="font-display font-black text-sm tracking-tight text-white uppercase block leading-none">
+            TRAIT <span class="text-cyan-400">ADMIN</span>
+          </span>
+          <span class="text-[9px] font-mono text-slate-400 font-bold uppercase tracking-wider">
+            CONTROL CONSOLE
+          </span>
+        </div>
+      </a>
+      <a href="/" target="_blank" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors p-1.5 rounded-lg hover:bg-trait-800" title="View Public Website">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+      </a>
+    </div>
+
+    <!-- Navigation Menu Items -->
+    <nav class="flex-1 p-3 space-y-1 overflow-y-auto">
+      <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-blue-600 to-cyan-500 text-slate-950 shadow-md">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        <span>Dashboard Overview</span>
+      </button>
+
+      <button onclick="switchTab('editor')" id="nav-editor" class="nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-trait-800 transition-all">
+        <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+        <span>Visual & Live Page Editor</span>
+      </button>
+
+      <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-trait-800 transition-all">
+        <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        <span>Global Contact & Details</span>
+      </button>
+
+      <button onclick="switchTab('media')" id="nav-media" class="nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-trait-800 transition-all">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span>Media & Assets Library</span>
+      </button>
+
+      <button onclick="switchTab('users')" id="nav-users" class="nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-trait-800 transition-all">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <span>Users & Usages</span>
+      </button>
+
+      <button onclick="switchTab('security')" id="nav-security" class="nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-trait-800 transition-all">
+        <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        <span>Security & Password</span>
+      </button>
+    </nav>
+
+    <!-- Bottom Admin Profile & Logout -->
+    <div class="p-4 border-t border-slate-800/80 bg-trait-950/60 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center font-bold text-xs text-slate-950">
+          TI
+        </div>
+        <div>
+          <div class="text-xs font-bold text-white">Traitinnovation</div>
+          <div class="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Super Admin
+          </div>
+        </div>
+      </div>
+      <a href="/admin/logout" class="p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors" title="Sign Out">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+      </a>
+    </div>
+
+  </aside>
+
+  <!-- ================= MAIN CONTENT AREA ================= -->
+  <main class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+
+    <!-- Global Top Header Bar -->
+    <header class="h-16 px-6 border-b border-slate-800/80 bg-trait-900/60 backdrop-blur-md flex items-center justify-between sticky top-0 z-20">
+      <div class="flex items-center gap-3">
+        <h1 id="page-title" class="font-display font-bold text-base sm:text-lg text-white">
+          Console Overview
+        </h1>
+        <span class="px-2.5 py-0.5 rounded-full bg-cyan-400/10 border border-cyan-400/30 text-[10px] font-mono text-cyan-400 font-semibold">
+          LIVE VERCEL DEPLOYMENT
+        </span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="/" target="_blank" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-700 bg-trait-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition-colors">
+          <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+          <span>View Live Site</span>
+        </a>
+
+        <button onclick="switchTab('editor')" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          <span>Edit Page</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Global Toast Alert Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 max-w-sm pointer-events-none"></div>
+
+    <!-- TAB 1: DASHBOARD OVERVIEW -->
+    <section id="tab-content-dashboard" class="p-6 space-y-6">
+      
+      <!-- Top Metrics Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div class="glass-panel p-5 rounded-3xl relative overflow-hidden">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono uppercase text-slate-400 font-bold">LIVE WEBPAGES</span>
+            <span class="p-2 rounded-xl bg-cyan-400/10 text-cyan-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </span>
+          </div>
+          <div class="text-3xl font-display font-black text-white" id="stat-pages-count">10</div>
+          <p class="text-[11px] text-emerald-400 font-mono mt-1">100% Operational & Crawlable</p>
+        </div>
+
+        <div class="glass-panel p-5 rounded-3xl relative overflow-hidden">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono uppercase text-slate-400 font-bold">SYSTEM USERS</span>
+            <span class="p-2 rounded-xl bg-blue-500/10 text-blue-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </span>
+          </div>
+          <div class="text-3xl font-display font-black text-white" id="stat-users-count">4</div>
+          <p class="text-[11px] text-slate-400 font-mono mt-1">All Roles & Permissions Synced</p>
+        </div>
+
+        <div class="glass-panel p-5 rounded-3xl relative overflow-hidden">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono uppercase text-slate-400 font-bold">TOTAL USAGE (API)</span>
+            <span class="p-2 rounded-xl bg-amber-400/10 text-amber-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </span>
+          </div>
+          <div class="text-3xl font-display font-black text-white">33,650</div>
+          <p class="text-[11px] text-emerald-400 font-mono mt-1">Within Tier 1 Infrastructure</p>
+        </div>
+
+        <div class="glass-panel p-5 rounded-3xl relative overflow-hidden">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-mono uppercase text-slate-400 font-bold">CONTACT SYNC</span>
+            <span class="p-2 rounded-xl bg-indigo-500/10 text-indigo-400">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            </span>
+          </div>
+          <div class="text-lg font-mono font-bold text-cyan-400 truncate" id="stat-phone-display">+91 79759 26279</div>
+          <p class="text-[11px] text-slate-400 truncate mt-1" id="stat-email-display">contact@traitinnovation.com</p>
+        </div>
+
+      </div>
+
+      <!-- Quick Action Jump Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <div onclick="switchTab('editor')" class="glass-panel p-6 rounded-3xl cursor-pointer hover:border-cyan-400/50 transition-all group">
+          <div class="w-10 h-10 rounded-2xl bg-cyan-400/10 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-base text-white mb-1 group-hover:text-cyan-400 transition-colors">
+            Canvas & Page CMS Editor →
+          </h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Select any of the 10 live website pages, edit section content, tweak design, preview in real time, and publish updates instantly.
+          </p>
+        </div>
+
+        <div onclick="switchTab('settings')" class="glass-panel p-6 rounded-3xl cursor-pointer hover:border-indigo-400/50 transition-all group">
+          <div class="w-10 h-10 rounded-2xl bg-indigo-400/10 text-indigo-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-base text-white mb-1 group-hover:text-indigo-400 transition-colors">
+            Site-Wide Contact Customizer →
+          </h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Update phone numbers, official email address, headquarters location, company name, and taglines across all footers in one click.
+          </p>
+        </div>
+
+        <div onclick="switchTab('users')" class="glass-panel p-6 rounded-3xl cursor-pointer hover:border-amber-400/50 transition-all group">
+          <div class="w-10 h-10 rounded-2xl bg-amber-400/10 text-amber-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-base text-white mb-1 group-hover:text-amber-400 transition-colors">
+            User Usage & Quotas →
+          </h3>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Manage admin and team member credentials, check usage limits, assign roles, and audit security events.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Live Registered Pages Directory Table -->
+      <div class="glass-panel rounded-3xl p-6">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-5">
+          <div>
+            <h3 class="font-display font-bold text-lg text-white">Live Website Pages Directory</h3>
+            <p class="text-xs text-slate-400">All 10 production routes currently active on Trait Innovation.</p>
+          </div>
+          <button onclick="switchTab('editor')" class="px-4 py-2 rounded-xl bg-trait-800 hover:bg-trait-700 text-cyan-400 text-xs font-bold transition-colors">
+            Launch Canvas Editor ↗
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 font-mono uppercase text-[10px]">
+                <th class="pb-3 font-semibold">Page Title & ID</th>
+                <th class="pb-3 font-semibold">Live Route</th>
+                <th class="pb-3 font-semibold">Category</th>
+                <th class="pb-3 font-semibold">Template Path</th>
+                <th class="pb-3 font-semibold">Status</th>
+                <th class="pb-3 font-semibold text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-pages-table" class="divide-y divide-slate-800/60 font-medium">
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Recent Console Activity Log -->
+      <div class="glass-panel rounded-3xl p-6">
+        <h3 class="font-display font-bold text-base text-white mb-4">Console Audit & Activity Logs</h3>
+        <div id="activity-log-list" class="space-y-3">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 2: VISUAL & LIVE PAGE EDITOR (CANVAS / WORDPRESS STYLE) -->
+    <section id="tab-content-editor" class="hidden p-6 space-y-6">
+      
+      <!-- Top Editor Controls Bar -->
+      <div class="glass-panel p-5 rounded-3xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+        
+        <div class="flex flex-wrap items-center gap-3">
+          <label class="text-xs font-mono uppercase text-slate-400 font-bold">Select Page:</label>
+          <select id="editor-page-select" onchange="loadSelectedPage()" class="px-4 py-2.5 rounded-xl bg-trait-900 border border-slate-700 text-white font-medium text-xs focus:outline-none focus:border-cyan-400 transition-colors">
+            <!-- Populated via JS -->
+          </select>
+
+          <!-- Editor Mode Toggle -->
+          <div class="flex p-1 rounded-xl bg-trait-900 border border-slate-800 text-xs">
+            <button id="mode-split" onclick="setEditorMode('split')" class="px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold transition-all">
+              Live Split Canvas
+            </button>
+            <button id="mode-code" onclick="setEditorMode('code')" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">
+              Full Code
+            </button>
+            <button id="mode-preview" onclick="setEditorMode('preview')" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">
+              Full Preview
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 w-full lg:w-auto justify-end">
+          <a id="editor-view-live-btn" href="/" target="_blank" class="px-3 py-2 rounded-xl bg-trait-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-semibold flex items-center gap-1.5 transition-colors">
+            <span>View Live Route ↗</span>
+          </a>
+
+          <button onclick="publishCurrentPage()" id="btn-publish" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-cyan-500/20 active:scale-95 transition-all">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+            <span>Publish Updates Live</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Live Canvas & Code Editor Main Workspace -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[640px]">
+        
+        <!-- Left: Code & Content Editor Pane -->
+        <div id="editor-left-pane" class="lg:col-span-6 glass-panel rounded-3xl p-5 flex flex-col">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+              <span id="current-page-filename" class="text-xs font-mono text-slate-300">templates/index.html</span>
+            </div>
+            <div class="text-[10px] font-mono text-slate-400">
+              HTML / Jinja2 Template
+            </div>
+          </div>
+
+          <textarea 
+            id="page-source-code" 
+            spellcheck="false"
+            oninput="handleSourceInput()"
+            class="flex-1 w-full p-4 rounded-2xl bg-trait-950 border border-slate-800 text-slate-100 font-mono text-xs leading-relaxed focus:outline-none focus:border-cyan-400 transition-colors resize-none min-h-[500px]"
+          ></textarea>
+        </div>
+
+        <!-- Right: Real-Time Live Preview Canvas Frame -->
+        <div id="editor-right-pane" class="lg:col-span-6 glass-panel rounded-3xl p-5 flex flex-col">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span class="text-xs font-bold text-white">Live Interactive Canvas Preview</span>
+            </div>
+            
+            <!-- Device Dimension Emulators -->
+            <div class="flex items-center gap-1.5 text-xs text-slate-400">
+              <button onclick="setPreviewSize('desktop')" class="p-1.5 rounded-lg hover:bg-trait-800 hover:text-cyan-400 transition-colors" title="Desktop View">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </button>
+              <button onclick="setPreviewSize('tablet')" class="p-1.5 rounded-lg hover:bg-trait-800 hover:text-cyan-400 transition-colors" title="Tablet View">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+              </button>
+              <button onclick="setPreviewSize('mobile')" class="p-1.5 rounded-lg hover:bg-trait-800 hover:text-cyan-400 transition-colors" title="Mobile View">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex-1 rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 flex justify-center">
+            <iframe id="live-preview-frame" class="w-full h-full min-h-[500px] border-0 bg-trait-950 transition-all duration-300"></iframe>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- TAB 3: SITE-WIDE CONTACT & BRAND SETTINGS -->
+    <section id="tab-content-settings" class="hidden p-6 space-y-6">
+      
+      <div class="glass-panel p-6 sm:p-8 rounded-3xl max-w-4xl">
+        <div class="mb-6 pb-4 border-b border-slate-800">
+          <h2 class="font-display font-bold text-xl text-white">Global Site Settings & Contact Hub</h2>
+          <p class="text-xs text-slate-400 mt-1">
+            Updating the phone number, email, or address here automatically syncs across all footers, contact badges, and inquiry sections site-wide.
+          </p>
+        </div>
+
+        <form id="site-settings-form" onsubmit="handleSaveSettings(event)" class="space-y-6">
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            
+            <div>
+              <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-2">
+                Official Contact Phone Number
+              </label>
+              <input 
+                type="text" 
+                id="setting-phone" 
+                required 
+                value="+91 79759 26279" 
+                class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white font-mono text-sm focus:outline-none focus:border-cyan-400 transition-colors"
+              />
+              <span class="text-[10px] text-slate-500 mt-1 block">Propagates to all tel: links and contact cards</span>
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-2">
+                Official Contact Email Address
+              </label>
+              <input 
+                type="email" 
+                id="setting-email" 
+                required 
+                value="contact@traitinnovation.com" 
+                class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white font-mono text-sm focus:outline-none focus:border-cyan-400 transition-colors"
+              />
+              <span class="text-[10px] text-slate-500 mt-1 block">Propagates to all mailto: links and footer badges</span>
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-2">
+                Headquarters City / Address
+              </label>
+              <input 
+                type="text" 
+                id="setting-address" 
+                value="Bengaluru, India" 
+                class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-2">
+                Company Brand Name
+              </label>
+              <input 
+                type="text" 
+                id="setting-company" 
+                value="TRAIT Innovation" 
+                class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors"
+              />
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-2">
+                Official Brand Slogan / Tagline
+              </label>
+              <input 
+                type="text" 
+                id="setting-tagline" 
+                value="Built to Think. Designed to Transform." 
+                class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white text-sm focus:outline-none focus:border-cyan-400 transition-colors"
+              />
+            </div>
+
+            <div class="md:col-span-2">
+              <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-2">
+                Brand Emblem / Central Logo URL
+              </label>
+              <input 
+                type="text" 
+                id="setting-logo" 
+                value="/static/assets/central_t.jpg" 
+                class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-cyan-400 transition-colors"
+              />
+            </div>
+
+          </div>
+
+          <div class="pt-4 border-t border-slate-800 flex justify-end">
+            <button type="submit" id="btn-save-settings" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg shadow-cyan-500/20 active:scale-95">
+              <span>Save & Propagate Changes Site-Wide</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+    </section>
+
+    <!-- TAB 4: MEDIA & ASSET GALLERY -->
+    <section id="tab-content-media" class="hidden p-6 space-y-6">
+      
+      <!-- Top Upload Card -->
+      <div class="glass-panel p-6 rounded-3xl">
+        <h3 class="font-display font-bold text-base text-white mb-2">Upload Brand Asset or Image</h3>
+        <p class="text-xs text-slate-400 mb-4">
+          Upload any image file (.jpg, .png, .svg, .webp). The asset will be saved to your static directory and made immediately available.
+        </p>
+
+        <form id="media-upload-form" onsubmit="handleImageUpload(event)" class="flex flex-col sm:flex-row items-center gap-4">
+          <input 
+            type="file" 
+            id="media-file-input" 
+            accept="image/*"
+            required
+            class="w-full sm:w-auto flex-1 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-cyan-500 file:text-slate-950 hover:file:bg-cyan-400 text-xs text-slate-300 cursor-pointer"
+          />
+          <button type="submit" id="btn-upload-media" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all cursor-pointer">
+            Upload Asset
+          </button>
+        </form>
+      </div>
+
+      <!-- Asset Gallery Grid -->
+      <div class="glass-panel p-6 rounded-3xl">
+        <h3 class="font-display font-bold text-base text-white mb-4">Core Website Brand Assets</h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" id="media-grid">
+          
+          <div class="glass-card p-3 rounded-2xl flex flex-col items-center group">
+            <div class="w-full h-24 rounded-xl overflow-hidden bg-trait-950 flex items-center justify-center mb-2">
+              <img src="/static/assets/central_t.jpg" alt="Central Emblem" class="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform" />
+            </div>
+            <span class="text-[10px] font-mono font-bold text-white truncate w-full text-center">central_t.jpg</span>
+            <button onclick="copyToClipboard('/static/assets/central_t.jpg')" class="text-[9px] text-cyan-400 hover:underline mt-1">Copy Path</button>
+          </div>
+
+          <div class="glass-card p-3 rounded-2xl flex flex-col items-center group">
+            <div class="w-full h-24 rounded-xl overflow-hidden bg-trait-950 flex items-center justify-center mb-2">
+              <img src="/static/favicon.svg" alt="SVG Favicon" class="w-16 h-16 object-contain group-hover:scale-105 transition-transform" />
+            </div>
+            <span class="text-[10px] font-mono font-bold text-white truncate w-full text-center">favicon.svg</span>
+            <button onclick="copyToClipboard('/static/favicon.svg')" class="text-[9px] text-cyan-400 hover:underline mt-1">Copy Path</button>
+          </div>
+
+          <div class="glass-card p-3 rounded-2xl flex flex-col items-center group">
+            <div class="w-full h-24 rounded-xl overflow-hidden bg-trait-950 flex items-center justify-center mb-2">
+              <img src="/static/images/interview_coach_hero.jpg" alt="Interview Coach" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+            </div>
+            <span class="text-[10px] font-mono font-bold text-white truncate w-full text-center">interview_coach_hero.jpg</span>
+            <button onclick="copyToClipboard('/static/images/interview_coach_hero.jpg')" class="text-[9px] text-cyan-400 hover:underline mt-1">Copy Path</button>
+          </div>
+
+          <div class="glass-card p-3 rounded-2xl flex flex-col items-center group">
+            <div class="w-full h-24 rounded-xl overflow-hidden bg-trait-950 flex items-center justify-center mb-2">
+              <img src="/static/images/airport_hero.jpg" alt="Airport Hero" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+            </div>
+            <span class="text-[10px] font-mono font-bold text-white truncate w-full text-center">airport_hero.jpg</span>
+            <button onclick="copyToClipboard('/static/images/airport_hero.jpg')" class="text-[9px] text-cyan-400 hover:underline mt-1">Copy Path</button>
+          </div>
+
+          <div class="glass-card p-3 rounded-2xl flex flex-col items-center group">
+            <div class="w-full h-24 rounded-xl overflow-hidden bg-trait-950 flex items-center justify-center mb-2">
+              <img src="/static/images/hospital_hero_medical.jpg" alt="Hospital Hero" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+            </div>
+            <span class="text-[10px] font-mono font-bold text-white truncate w-full text-center">hospital_hero_medical.jpg</span>
+            <button onclick="copyToClipboard('/static/images/hospital_hero_medical.jpg')" class="text-[9px] text-cyan-400 hover:underline mt-1">Copy Path</button>
+          </div>
+
+          <div class="glass-card p-3 rounded-2xl flex flex-col items-center group">
+            <div class="w-full h-24 rounded-xl overflow-hidden bg-trait-950 flex items-center justify-center mb-2">
+              <img src="/static/assets/software_solutions.jpg" alt="Solutions" class="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+            </div>
+            <span class="text-[10px] font-mono font-bold text-white truncate w-full text-center">software_solutions.jpg</span>
+            <button onclick="copyToClipboard('/static/assets/software_solutions.jpg')" class="text-[9px] text-cyan-400 hover:underline mt-1">Copy Path</button>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 5: USERS & USAGES MANAGEMENT -->
+    <section id="tab-content-users" class="hidden p-6 space-y-6">
+      
+      <div class="glass-panel p-6 rounded-3xl">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <h2 class="font-display font-bold text-lg text-white">System Users & Resource Quotas</h2>
+            <p class="text-xs text-slate-400">Manage administrator accounts, team members, and API utilization limits.</p>
+          </div>
+          <button onclick="openAddUserModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-slate-950 text-xs font-bold transition-all flex items-center gap-1.5 shadow-md">
+            <span>+ Add New User</span>
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 font-mono uppercase text-[10px]">
+                <th class="pb-3 font-semibold">User Name & ID</th>
+                <th class="pb-3 font-semibold">Email</th>
+                <th class="pb-3 font-semibold">Role</th>
+                <th class="pb-3 font-semibold">API Usage / Quota</th>
+                <th class="pb-3 font-semibold">Status</th>
+                <th class="pb-3 font-semibold text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body" class="divide-y divide-slate-800/60 font-medium">
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- TAB 6: SECURITY & PASSWORD SETTINGS -->
+    <section id="tab-content-security" class="hidden p-6 space-y-6">
+      
+      <div class="glass-panel p-6 sm:p-8 rounded-3xl max-w-xl">
+        <h2 class="font-display font-bold text-xl text-white mb-1">Administrator Security Settings</h2>
+        <p class="text-xs text-slate-400 mb-6">Manage administrator login password and recovery question.</p>
+
+        <form id="change-password-form" onsubmit="handleChangePassword(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-1.5">
+              Current Password
+            </label>
+            <input 
+              type="password" 
+              id="pwd-current" 
+              required 
+              placeholder="••••••••••••"
+              class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white font-mono text-sm focus:outline-none focus:border-cyan-400 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-1.5">
+              New Password
+            </label>
+            <input 
+              type="password" 
+              id="pwd-new" 
+              required 
+              minlength="4"
+              placeholder="Enter new password"
+              class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white font-mono text-sm focus:outline-none focus:border-cyan-400 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-1.5">
+              Confirm New Password
+            </label>
+            <input 
+              type="password" 
+              id="pwd-confirm" 
+              required 
+              placeholder="Confirm new password"
+              class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white font-mono text-sm focus:outline-none focus:border-cyan-400 transition-colors"
+            />
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" id="btn-change-pwd" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider transition-all shadow-md">
+              Update Admin Password
+            </button>
+          </div>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-slate-800">
+          <div class="p-4 rounded-2xl bg-trait-950 border border-slate-800 text-xs space-y-2">
+            <div class="font-mono text-[10px] text-cyan-400 uppercase font-bold">RECOVERY PROTOCOL STATUS</div>
+            <div class="text-slate-300">Question: <strong class="text-white">Who built this site?</strong></div>
+            <div class="text-[11px] text-slate-500">Security Answer hash is encrypted via PBKDF2-HMAC-SHA256.</div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ================= ADD USER MODAL ================= -->
+  <div id="add-user-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel p-6 sm:p-8 rounded-3xl max-w-md w-full relative">
+      <button onclick="closeAddUserModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">✕</button>
+      <h3 class="font-display font-bold text-lg text-white mb-4">Add System User</h3>
+      <form onsubmit="handleCreateUser(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-1">User Full Name</label>
+          <input type="text" id="new-user-name" required placeholder="e.g. Alex Rivera" class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-400" />
+        </div>
+        <div>
+          <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-1">Email Address</label>
+          <input type="email" id="new-user-email" required placeholder="alex@company.com" class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-400" />
+        </div>
+        <div>
+          <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-1">Role</label>
+          <select id="new-user-role" class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-400">
+            <option value="Client Analyst">Client Analyst</option>
+            <option value="Content Editor">Content Editor</option>
+            <option value="System Engineer">System Engineer</option>
+            <option value="Administrator">Administrator</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-mono uppercase text-slate-400 font-bold mb-1">Monthly API Quota</label>
+          <input type="number" id="new-user-quota" value="25000" class="w-full px-4 py-3 rounded-2xl bg-trait-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-cyan-400" />
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-slate-950 font-bold text-xs uppercase tracking-wider mt-2">
+          Create User
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT CONTROLLERS ================= -->
+  <script>
+    let pagesCache = [];
+    let currentPageId = 'index';
+    let previewDebounceTimer = null;
+
+    // Toast Notifications
+    function showToast(type, msg) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `p-4 rounded-2xl shadow-2xl border text-xs font-medium flex items-center gap-3 transition-all duration-300 transform translate-y-2 pointer-events-auto ${
+        type === 'success' 
+          ? 'bg-emerald-950/90 border-emerald-500/40 text-emerald-200' 
+          : 'bg-rose-950/90 border-rose-500/40 text-rose-200'
+      }`;
+      toast.innerHTML = `<span>${type === 'success' ? '✓' : '✕'}</span> <span class="flex-1">${msg}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.remove('translate-y-2');
+        toast.classList.add('translate-y-0');
+      }, 10);
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+      showToast('success', `Copied to clipboard: ${text}`);
+    }
+
+    // Tab Navigation Switcher
+    function switchTab(tabId) {
+      const tabs = ['dashboard', 'editor', 'settings', 'media', 'users', 'security'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`nav-${t}`);
+        const content = document.getElementById(`tab-content-${t}`);
+        if (t === tabId) {
+          btn.className = 'nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition-all bg-gradient-to-r from-blue-600 to-cyan-500 text-slate-950 shadow-md';
+          content.classList.remove('hidden');
+        } else {
+          btn.className = 'nav-btn w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-trait-800 transition-all';
+          content.classList.add('hidden');
+        }
+      });
+
+      const titles = {
+        dashboard: 'Console Overview',
+        editor: 'Live Canvas & Page Editor',
+        settings: 'Global Contact & Brand Settings',
+        media: 'Media Assets & Uploads',
+        users: 'User & Resource Management',
+        security: 'Security & Access Protocols'
+      };
+      document.getElementById('page-title').textContent = titles[tabId] || 'Admin Console';
+      if (tabId === 'editor') {
+        loadSelectedPage();
+      }
+    }
+
+    // Fetch and populate initial state
+    async function initConsole() {
+      try {
+        const res = await fetch('/admin/api/state');
+        if (res.status === 401) {
+          window.location.href = '/admin/login';
+          return;
+        }
+        const data = await res.json();
+        pagesCache = data.pages || [];
+        
+        // Populate pages select dropdown
+        const select = document.getElementById('editor-page-select');
+        select.innerHTML = pagesCache.map(p => `
+          <option value="${p.id}">${p.title} (${p.route})</option>
+        `).join('');
+
+        // Populate dashboard pages table
+        const tbody = document.getElementById('dashboard-pages-table');
+        tbody.innerHTML = pagesCache.map(p => `
+          <tr class="hover:bg-trait-800/40 transition-colors">
+            <td class="py-3">
+              <div class="font-bold text-white">${p.title}</div>
+              <div class="text-[10px] text-slate-500">${p.description}</div>
+            </td>
+            <td class="py-3 font-mono text-cyan-400">${p.route}</td>
+            <td class="py-3"><span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 text-[10px]">${p.category}</span></td>
+            <td class="py-3 font-mono text-slate-400 text-[11px]">${p.template}</td>
+            <td class="py-3"><span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold">● ${p.status}</span></td>
+            <td class="py-3 text-right">
+              <button onclick="selectAndEdit('${p.id}')" class="px-3 py-1 rounded-lg bg-trait-800 hover:bg-cyan-500 hover:text-slate-950 text-cyan-400 font-bold transition-all">
+                Edit Page
+              </button>
+            </td>
+          </tr>
+        `).join('');
+
+        // Populate users table
+        populateUsersTable(data.users || []);
+
+        // Populate stats & settings
+        if (data.settings) {
+          document.getElementById('setting-phone').value = data.settings.phone || '';
+          document.getElementById('setting-email').value = data.settings.email || '';
+          document.getElementById('setting-address').value = data.settings.address || '';
+          document.getElementById('setting-company').value = data.settings.company_name || '';
+          document.getElementById('setting-tagline').value = data.settings.tagline || '';
+          document.getElementById('setting-logo').value = data.settings.logo_url || '';
+          document.getElementById('stat-phone-display').textContent = data.settings.phone || '';
+          document.getElementById('stat-email-display').textContent = data.settings.email || '';
+        }
+
+        // Populate activity logs
+        const logList = document.getElementById('activity-log-list');
+        if (data.activity_logs && data.activity_logs.length > 0) {
+          logList.innerHTML = data.activity_logs.slice(0, 8).map(l => {
+            const dateStr = new Date(l.timestamp * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            return `
+              <div class="p-3 rounded-2xl bg-trait-950/60 border border-slate-800/80 flex items-center justify-between text-xs">
+                <div>
+                  <span class="font-bold text-white">${l.action}</span>
+                  <span class="text-slate-400 ml-2">by ${l.user}</span>
+                  ${l.details ? `<div class="text-[11px] text-slate-500 mt-0.5">${l.details}</div>` : ''}
+                </div>
+                <span class="text-[10px] font-mono text-slate-500">${dateStr}</span>
+              </div>
+            `;
+          }).join('');
+        }
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function populateUsersTable(users) {
+      const tbody = document.getElementById('users-table-body');
+      tbody.innerHTML = users.map(u => {
+        const percent = Math.min(100, Math.round((u.api_requests / (u.quota_limit || 25000)) * 100));
+        return `
+          <tr class="hover:bg-trait-800/40 transition-colors">
+            <td class="py-3">
+              <div class="font-bold text-white">${u.name}</div>
+              <div class="text-[10px] font-mono text-slate-500">${u.id}</div>
+            </td>
+            <td class="py-3 font-mono text-slate-300">${u.email}</td>
+            <td class="py-3"><span class="px-2 py-0.5 rounded-full bg-slate-800 text-cyan-300 font-mono text-[10px]">${u.role}</span></td>
+            <td class="py-3">
+              <div class="flex items-center gap-2">
+                <div class="flex-1 max-w-[120px] h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div class="h-full bg-cyan-400 rounded-full" style="width: ${percent}%"></div>
+                </div>
+                <span class="text-[10px] font-mono text-slate-400">${u.api_requests} / ${u.quota_limit}</span>
+              </div>
+            </td>
+            <td class="py-3">
+              <span class="px-2 py-0.5 rounded-full ${u.status === 'Active' ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'} text-[10px] font-bold">
+                ● ${u.status}
+              </span>
+            </td>
+            <td class="py-3 text-right space-x-1">
+              <button onclick="toggleUserStatus('${u.id}', '${u.status === 'Active' ? 'Suspended' : 'Active'}')" class="px-2.5 py-1 rounded-lg bg-trait-800 hover:bg-slate-700 text-slate-300 text-[10px] font-bold">
+                ${u.status === 'Active' ? 'Suspend' : 'Activate'}
+              </button>
+              ${u.id !== 'usr-1' ? `
+                <button onclick="handleDeleteUser('${u.id}')" class="px-2.5 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 text-[10px] font-bold">
+                  Delete
+                </button>
+              ` : ''}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function selectAndEdit(pageId) {
+      document.getElementById('editor-page-select').value = pageId;
+      switchTab('editor');
+    }
+
+    // Page Editor Loading
+    async function loadSelectedPage() {
+      const pageId = document.getElementById('editor-page-select').value;
+      currentPageId = pageId;
+      const pageObj = pagesCache.find(p => p.id === pageId);
+      if (pageObj) {
+        document.getElementById('current-page-filename').textContent = pageObj.template;
+        document.getElementById('editor-view-live-btn').href = pageObj.route;
+      }
+
+      try {
+        const res = await fetch(`/admin/api/pages/${pageId}`);
+        const data = await res.json();
+        if (data.status === 'success') {
+          document.getElementById('page-source-code').value = data.content;
+          updatePreview(data.content);
+        }
+      } catch (err) {
+        showToast('error', 'Failed to load page content.');
+      }
+    }
+
+    function handleSourceInput() {
+      clearTimeout(previewDebounceTimer);
+      previewDebounceTimer = setTimeout(() => {
+        const content = document.getElementById('page-source-code').value;
+        updatePreview(content);
+      }, 400);
+    }
+
+    function updatePreview(htmlCode) {
+      const iframe = document.getElementById('live-preview-frame');
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      doc.open();
+      // Replace Jinja url_for mock in preview
+      const previewHtml = htmlCode
+        .replace(/\{\{\s*url_for\('static',\s*filename=['"](.*?)['"]\)\s*\}\}/g, '/static/$1')
+        .replace(/\{%\s*include\s*['"]components\/favicon\.html['"]\s*%\}/g, '<link rel="icon" href="/static/favicon.svg">')
+        .replace(/\{%\s*include\s*['"]components\/navbar\.html['"]\s*%\}/g, '<div class="p-4 bg-slate-900 text-center text-xs text-cyan-400 border-b border-slate-800 font-mono">[TRAIT NAVBAR COMPONENT]</div>')
+        .replace(/\{%\s*include\s*['"]components\/footer\.html['"]\s*%\}/g, '<div class="p-6 bg-slate-900 text-center text-xs text-slate-400 border-t border-slate-800 font-mono">[TRAIT FOOTER COMPONENT]</div>');
+      doc.write(previewHtml);
+      doc.close();
+    }
+
+    function setPreviewSize(device) {
+      const frame = document.getElementById('live-preview-frame');
+      if (device === 'mobile') {
+        frame.style.maxWidth = '375px';
+      } else if (device === 'tablet') {
+        frame.style.maxWidth = '768px';
+      } else {
+        frame.style.maxWidth = '100%';
+      }
+    }
+
+    function setEditorMode(mode) {
+      const left = document.getElementById('editor-left-pane');
+      const right = document.getElementById('editor-right-pane');
+      document.querySelectorAll('#mode-split, #mode-code, #mode-preview').forEach(btn => {
+        btn.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all';
+      });
+      document.getElementById(`mode-${mode}`).className = 'px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold transition-all';
+
+      if (mode === 'code') {
+        left.className = 'lg:col-span-12 glass-panel rounded-3xl p-5 flex flex-col';
+        right.classList.add('hidden');
+      } else if (mode === 'preview') {
+        left.classList.add('hidden');
+        right.className = 'lg:col-span-12 glass-panel rounded-3xl p-5 flex flex-col';
+        right.classList.remove('hidden');
+      } else {
+        left.className = 'lg:col-span-6 glass-panel rounded-3xl p-5 flex flex-col';
+        left.classList.remove('hidden');
+        right.className = 'lg:col-span-6 glass-panel rounded-3xl p-5 flex flex-col';
+        right.classList.remove('hidden');
+      }
+    }
+
+    async function publishCurrentPage() {
+      const btn = document.getElementById('btn-publish');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<span class="animate-spin mr-1.5">◌</span> Publishing...`;
+
+      const content = document.getElementById('page-source-code').value;
+      try {
+        const res = await fetch(`/admin/api/pages/${currentPageId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content })
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          showToast('success', `Page published successfully! Auto-backup generated.`);
+        } else {
+          showToast('error', data.message || 'Error publishing page.');
+        }
+      } catch (err) {
+        showToast('error', 'Communication failure while publishing.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    // Save Global Settings
+    async function handleSaveSettings(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-save-settings');
+      const orig = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = 'Propagating...';
+
+      const payload = {
+        phone: document.getElementById('setting-phone').value,
+        email: document.getElementById('setting-email').value,
+        address: document.getElementById('setting-address').value,
+        company_name: document.getElementById('setting-company').value,
+        tagline: document.getElementById('setting-tagline').value,
+        logo_url: document.getElementById('setting-logo').value
+      };
+
+      try {
+        const res = await fetch('/admin/api/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          showToast('success', 'Site settings & contact credentials propagated site-wide!');
+          document.getElementById('stat-phone-display').textContent = payload.phone;
+          document.getElementById('stat-email-display').textContent = payload.email;
+        } else {
+          showToast('error', 'Failed to save settings.');
+        }
+      } catch (err) {
+        showToast('error', 'Error updating site settings.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = orig;
+      }
+    }
+
+    // Media Upload Handler
+    async function handleImageUpload(e) {
+      e.preventDefault();
+      const fileInput = document.getElementById('media-file-input');
+      if (!fileInput.files.length) return;
+
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+
+      const btn = document.getElementById('btn-upload-media');
+      btn.disabled = true;
+      btn.textContent = 'Uploading...';
+
+      try {
+        const res = await fetch('/admin/api/upload', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          showToast('success', `Uploaded! Accessible at: ${data.url}`);
+          // Append to grid
+          const grid = document.getElementById('media-grid');
+          const card = document.createElement('div');
+          card.className = 'glass-card p-3 rounded-2xl flex flex-col items-center group animate-fadeIn';
+          card.innerHTML = `
+            <div class="w-full h-24 rounded-xl overflow-hidden bg-trait-950 flex items-center justify-center mb-2">
+              <img src="${data.url}" class="w-full h-full object-contain p-2" />
+            </div>
+            <span class="text-[10px] font-mono font-bold text-white truncate w-full text-center">${data.filename}</span>
+            <button onclick="copyToClipboard('${data.url}')" class="text-[9px] text-cyan-400 hover:underline mt-1">Copy Path</button>
+          `;
+          grid.prepend(card);
+          fileInput.value = '';
+        } else {
+          showToast('error', data.message || 'Upload failed.');
+        }
+      } catch (err) {
+        showToast('error', 'Error uploading image.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Upload Asset';
+      }
+    }
+
+    // User Management Handlers
+    function openAddUserModal() { document.getElementById('add-user-modal').classList.remove('hidden'); }
+    function closeAddUserModal() { document.getElementById('add-user-modal').classList.add('hidden'); }
+
+    async function handleCreateUser(e) {
+      e.preventDefault();
+      const name = document.getElementById('new-user-name').value;
+      const email = document.getElementById('new-user-email').value;
+      const role = document.getElementById('new-user-role').value;
+      const quota = parseInt(document.getElementById('new-user-quota').value) || 25000;
+
+      try {
+        const res = await fetch('/admin/api/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, role, quota })
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          showToast('success', 'User added successfully!');
+          closeAddUserModal();
+          initConsole();
+        } else {
+          showToast('error', data.message || 'Error creating user.');
+        }
+      } catch (err) {
+        showToast('error', 'Network failure while adding user.');
+      }
+    }
+
+    async function toggleUserStatus(userId, status) {
+      try {
+        const res = await fetch(`/admin/api/users/${userId}/status`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status })
+        });
+        if (res.ok) {
+          showToast('success', `User status updated to ${status}`);
+          initConsole();
+        }
+      } catch (err) {
+        showToast('error', 'Failed to update user status.');
+      }
+    }
+
+    async function handleDeleteUser(userId) {
+      if (!confirm('Are you sure you want to remove this user?')) return;
+      try {
+        const res = await fetch(`/admin/api/users/${userId}`, { method: 'DELETE' });
+        if (res.ok) {
+          showToast('success', 'User deleted.');
+          initConsole();
+        }
+      } catch (err) {
+        showToast('error', 'Error deleting user.');
+      }
+    }
+
+    // Change Password Handler
+    async function handleChangePassword(e) {
+      e.preventDefault();
+      const current_password = document.getElementById('pwd-current').value;
+      const new_password = document.getElementById('pwd-new').value;
+      const confirm = document.getElementById('pwd-confirm').value;
+
+      if (new_password !== confirm) {
+        showToast('error', 'New passwords do not match.');
+        return;
+      }
+
+      const btn = document.getElementById('btn-change-pwd');
+      btn.disabled = true;
+      btn.textContent = 'Updating...';
+
+      try {
+        const res = await fetch('/admin/api/change-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ current_password, new_password })
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          showToast('success', 'Administrator password updated successfully!');
+          document.getElementById('change-password-form').reset();
+        } else {
+          showToast('error', data.message || 'Current password incorrect.');
+        }
+      } catch (err) {
+        showToast('error', 'Error changing password.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Update Admin Password';
+      }
+    }
+
+    // Initialize on DOM load
+    document.addEventListener('DOMContentLoaded', () => {
+      initConsole();
+    });
+  </script>
+
+</body>
+</html>
