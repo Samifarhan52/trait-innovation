@@ -935,13 +935,12 @@
     function updatePreview(htmlCode) {
       const iframe = document.getElementById('live-preview-frame');
       const doc = iframe.contentDocument || iframe.contentWindow.document;
-      doc.open();
-      // Replace Jinja url_for mock in preview
+      // Replace Jinja url_for mock in preview safely
       const previewHtml = htmlCode
-        .replace(/\{\{\s*url_for\('static',\s*filename=['"](.*?)['"]\)\s*\}\}/g, '/static/$1')
-        .replace(/\{%\s*include\s*['"]components\/favicon\.html['"]\s*%\}/g, '<link rel="icon" href="/static/favicon.svg">')
-        .replace(/\{%\s*include\s*['"]components\/navbar\.html['"]\s*%\}/g, '<div class="p-4 bg-slate-900 text-center text-xs text-cyan-400 border-b border-slate-800 font-mono">[TRAIT NAVBAR COMPONENT]</div>')
-        .replace(/\{%\s*include\s*['"]components\/footer\.html['"]\s*%\}/g, '<div class="p-6 bg-slate-900 text-center text-xs text-slate-400 border-t border-slate-800 font-mono">[TRAIT FOOTER COMPONENT]</div>');
+        .replace(new RegExp('[{][{]\\s*url_for\\(\\\'static\\\',\\s*filename=[\'"](.*?)[\'"]\\)\\s*[}][}]', 'g'), '/static/$1')
+        .replace(new RegExp('[{][%]\\s*include\\s*[\'"]components/favicon\\.html[\'"]\\s*[%][}]', 'g'), '<link rel="icon" href="/static/favicon.svg">')
+        .replace(new RegExp('[{][%]\\s*include\\s*[\'"]components/navbar\\.html[\'"]\\s*[%][}]', 'g'), '<div class="p-4 bg-slate-900 text-center text-xs text-cyan-400 border-b border-slate-800 font-mono">[TRAIT NAVBAR COMPONENT]</div>')
+        .replace(new RegExp('[{][%]\\s*include\\s*[\'"]components/footer\\.html[\'"]\\s*[%][}]', 'g'), '<div class="p-6 bg-slate-900 text-center text-xs text-slate-400 border-t border-slate-800 font-mono">[TRAIT FOOTER COMPONENT]</div>');
       doc.write(previewHtml);
       doc.close();
     }
