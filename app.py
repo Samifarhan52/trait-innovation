@@ -108,6 +108,38 @@ def google_verification(hash_val=None):
     filename = f"google{hash_val}.html" if hash_val else "googlecbf9d8cbd657bf05.html"
     return send_from_directory('static', filename, mimetype='text/html')
 
+@app.route('/favicon.ico')
+@app.route('//favicon.ico')
+def favicon():
+    """Serve standard favicon.ico directly at root."""
+    resp = send_from_directory('static', 'favicon.ico', mimetype='image/x-icon')
+    resp.headers['Cache-Control'] = 'public, max-age=86400'
+    return resp
+
+@app.route('/favicon.svg')
+@app.route('//favicon.svg')
+def favicon_svg():
+    """Serve vector SVG favicon directly at root."""
+    resp = send_from_directory('static', 'favicon.svg', mimetype='image/svg+xml')
+    resp.headers['Cache-Control'] = 'public, max-age=86400'
+    return resp
+
+@app.route('/apple-touch-icon.png')
+@app.route('//apple-touch-icon.png')
+def apple_touch_icon():
+    """Serve iOS apple-touch-icon.png directly at root."""
+    resp = send_from_directory('static', 'apple-touch-icon.png', mimetype='image/png')
+    resp.headers['Cache-Control'] = 'public, max-age=86400'
+    return resp
+
+@app.route('/site.webmanifest')
+@app.route('//site.webmanifest')
+def site_webmanifest():
+    """Serve web manifest for mobile / PWA installability."""
+    resp = send_from_directory('static', 'site.webmanifest', mimetype='application/manifest+json')
+    resp.headers['Cache-Control'] = 'public, max-age=86400'
+    return resp
+
 @app.route('/api/contact', methods=['POST'])
 def contact():
     """Handle contact form submissions."""

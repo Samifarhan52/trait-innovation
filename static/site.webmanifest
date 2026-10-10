@@ -1,0 +1,25 @@
+{
+  "name": "TRAIT Innovation",
+  "short_name": "TRAIT",
+  "icons": [
+    {
+      "src": "/static/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#030611",
+  "background_color": "#030611",
+  "display": "standalone",
+  "start_url": "/"
+}
