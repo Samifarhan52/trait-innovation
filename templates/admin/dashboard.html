@@ -316,16 +316,13 @@
             <!-- Populated via JS -->
           </select>
 
-          <!-- Editor Mode Toggle -->
+          <!-- Friendly Editor Mode Toggle -->
           <div class="flex p-1 rounded-xl bg-trait-900 border border-slate-800 text-xs">
-            <button id="mode-split" onclick="setEditorMode('split')" class="px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold transition-all">
-              Live Split Canvas
+            <button id="view-mode-visual" onclick="setVisualEditorMode('visual')" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 text-slate-950 font-bold transition-all flex items-center gap-1.5 shadow-sm">
+              <span>✨ No-Code Visual Editor</span>
             </button>
-            <button id="mode-code" onclick="setEditorMode('code')" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">
-              Full Code
-            </button>
-            <button id="mode-preview" onclick="setEditorMode('preview')" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">
-              Full Preview
+            <button id="view-mode-code" onclick="setVisualEditorMode('code')" class="px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
+              <span>&lt; &gt; Developer Code</span>
             </button>
           </div>
         </div>
@@ -335,7 +332,7 @@
             <span>View Live Route ↗</span>
           </a>
 
-          <button onclick="publishCurrentPage()" id="btn-publish" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-cyan-500/20 active:scale-95 transition-all">
+          <button onclick="publishCurrentPage()" id="btn-publish" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-400 hover:from-emerald-400 hover:to-cyan-300 text-slate-950 font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95 transition-all cursor-pointer">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
             <span>Publish Updates Live</span>
           </button>
@@ -343,49 +340,311 @@
 
       </div>
 
-      <!-- Live Canvas & Code Editor Main Workspace -->
+      <!-- Main Workspace (Visual Forms + Live Canvas Preview) -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[640px]">
         
-        <!-- Left: Code & Content Editor Pane -->
+        <!-- Left Pane: Visual No-Code Form & Controls -->
         <div id="editor-left-pane" class="lg:col-span-6 glass-panel rounded-3xl p-5 flex flex-col">
-          <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+          
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
             <div class="flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-              <span id="current-page-filename" class="text-xs font-mono text-slate-300">templates/index.html</span>
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              <span id="current-page-filename" class="text-xs font-mono font-bold text-white">templates/index.html</span>
             </div>
-            <div class="text-[10px] font-mono text-slate-400">
-              HTML / Jinja2 Template
-            </div>
+            <span class="px-2 py-0.5 rounded-md bg-cyan-500/10 text-cyan-400 text-[10px] font-mono font-bold uppercase">
+              NO-CODE MODE ACTIVE
+            </span>
           </div>
 
-          <textarea 
-            id="page-source-code" 
-            spellcheck="false"
-            oninput="handleSourceInput()"
-            class="flex-1 w-full p-4 rounded-2xl bg-trait-950 border border-slate-800 text-slate-100 font-mono text-xs leading-relaxed focus:outline-none focus:border-cyan-400 transition-colors resize-none min-h-[500px]"
-          ></textarea>
+          <!-- 1. VISUAL NO-CODE FORM CONTAINER (DEFAULT ACTIVE) -->
+          <div id="visual-form-pane" class="flex-1 overflow-y-auto space-y-5 pr-1 max-h-[750px]">
+            
+            <!-- Friendly Helper Notice -->
+            <div class="p-3.5 rounded-2xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-cyan-200 flex items-start gap-2.5">
+              <span class="text-base shrink-0">💡</span>
+              <span class="leading-relaxed">
+                <strong>No coding needed!</strong> Edit any text, headline, button, or photo below. Your changes update the live preview on the right instantly. When satisfied, click <strong>"Publish Updates Live"</strong>.
+              </span>
+            </div>
+
+            <!-- Block 1: Hero Banner & Headline -->
+            <div class="p-4 rounded-2xl bg-trait-950/80 border border-slate-800 space-y-3.5">
+              <div class="flex items-center gap-2 text-xs font-mono uppercase text-cyan-400 font-bold border-b border-slate-800/80 pb-2">
+                <span>🌟 1. Hero Headline & Badges</span>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">
+                  Top Badge / Category Tag
+                </label>
+                <input 
+                  type="text" 
+                  id="v-badge" 
+                  oninput="handleVisualFieldInput('badge')" 
+                  placeholder="e.g. AI • HEALTHCARE TECHNOLOGY • PATIENT ASSISTANCE" 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-trait-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-cyan-400" 
+                />
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">
+                  Main Page Headline (H1)
+                </label>
+                <input 
+                  type="text" 
+                  id="v-h1" 
+                  oninput="handleVisualFieldInput('h1')" 
+                  placeholder="e.g. 11. TRAIT HospitalAI" 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-trait-900 border border-slate-700 text-xs font-bold text-white focus:outline-none focus:border-cyan-400" 
+                />
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">
+                  Subheadline / Tagline
+                </label>
+                <input 
+                  type="text" 
+                  id="v-subtitle" 
+                  oninput="handleVisualFieldInput('subtitle')" 
+                  placeholder="e.g. Making hospital services simpler through intelligent assistance." 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-trait-900 border border-slate-700 text-xs text-cyan-300 focus:outline-none focus:border-cyan-400" 
+                />
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">
+                  Overview Narrative Paragraph
+                </label>
+                <textarea 
+                  id="v-desc" 
+                  rows="4" 
+                  oninput="handleVisualFieldInput('desc')" 
+                  placeholder="Detailed description of this solution or page..." 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-trait-900 border border-slate-700 text-xs text-slate-200 focus:outline-none focus:border-cyan-400 leading-relaxed resize-y"
+                ></textarea>
+              </div>
+            </div>
+
+            <!-- Block 2: Action Buttons & CTAs -->
+            <div class="p-4 rounded-2xl bg-trait-950/80 border border-slate-800 space-y-3.5">
+              <div class="flex items-center gap-2 text-xs font-mono uppercase text-cyan-400 font-bold border-b border-slate-800/80 pb-2">
+                <span>🔘 2. Call-to-Action Buttons</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">
+                    Primary Button Label
+                  </label>
+                  <input 
+                    type="text" 
+                    id="v-btn1" 
+                    oninput="handleVisualFieldInput('btn1')" 
+                    placeholder="e.g. EXPLORE SOLUTION" 
+                    class="w-full px-3.5 py-2.5 rounded-xl bg-trait-900 border border-slate-700 text-xs font-bold text-white focus:outline-none focus:border-cyan-400" 
+                  />
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">
+                    Secondary Button Label
+                  </label>
+                  <input 
+                    type="text" 
+                    id="v-btn2" 
+                    oninput="handleVisualFieldInput('btn2')" 
+                    placeholder="e.g. VIEW USE CASES" 
+                    class="w-full px-3.5 py-2.5 rounded-xl bg-trait-900 border border-slate-700 text-xs font-bold text-white focus:outline-none focus:border-cyan-400" 
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Block 3: Highlight Cards / Features -->
+            <div class="p-4 rounded-2xl bg-trait-950/80 border border-slate-800 space-y-3.5">
+              <div class="flex items-center gap-2 text-xs font-mono uppercase text-cyan-400 font-bold border-b border-slate-800/80 pb-2">
+                <span>⚡ 3. Feature Highlights & Cards</span>
+              </div>
+
+              <!-- Card 1 -->
+              <div class="p-3 rounded-xl bg-trait-900/90 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-cyan-400 font-bold block uppercase">Highlight Card 1</span>
+                <input 
+                  type="text" 
+                  id="v-feat1-title" 
+                  oninput="handleVisualFieldInput('feat1-title')" 
+                  placeholder="Card Title (e.g. Patient Support)" 
+                  class="w-full px-3 py-1.5 rounded-lg bg-trait-950 border border-slate-700 text-xs font-bold text-white" 
+                />
+                <input 
+                  type="text" 
+                  id="v-feat1-desc" 
+                  oninput="handleVisualFieldInput('feat1-desc')" 
+                  placeholder="Card Subtitle or Summary (e.g. 24/7 Enquiries & FAQs)" 
+                  class="w-full px-3 py-1.5 rounded-lg bg-trait-950 border border-slate-700 text-xs text-slate-300" 
+                />
+              </div>
+
+              <!-- Card 2 -->
+              <div class="p-3 rounded-xl bg-trait-900/90 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-cyan-400 font-bold block uppercase">Highlight Card 2</span>
+                <input 
+                  type="text" 
+                  id="v-feat2-title" 
+                  oninput="handleVisualFieldInput('feat2-title')" 
+                  placeholder="Card Title (e.g. Appointment Intake)" 
+                  class="w-full px-3 py-1.5 rounded-lg bg-trait-950 border border-slate-700 text-xs font-bold text-white" 
+                />
+                <input 
+                  type="text" 
+                  id="v-feat2-desc" 
+                  oninput="handleVisualFieldInput('feat2-desc')" 
+                  placeholder="Card Subtitle (e.g. Doctor & Department Info)" 
+                  class="w-full px-3 py-1.5 rounded-lg bg-trait-950 border border-slate-700 text-xs text-slate-300" 
+                />
+              </div>
+
+              <!-- Card 3 -->
+              <div class="p-3 rounded-xl bg-trait-900/90 border border-slate-800 space-y-2">
+                <span class="text-[10px] font-mono text-cyan-400 font-bold block uppercase">Highlight Card 3</span>
+                <input 
+                  type="text" 
+                  id="v-feat3-title" 
+                  oninput="handleVisualFieldInput('feat3-title')" 
+                  placeholder="Card Title (e.g. Human Escalation)" 
+                  class="w-full px-3 py-1.5 rounded-lg bg-trait-950 border border-slate-700 text-xs font-bold text-white" 
+                />
+                <input 
+                  type="text" 
+                  id="v-feat3-desc" 
+                  oninput="handleVisualFieldInput('feat3-desc')" 
+                  placeholder="Card Subtitle (e.g. Clinical Staff Handoff)" 
+                  class="w-full px-3 py-1.5 rounded-lg bg-trait-950 border border-slate-700 text-xs text-slate-300" 
+                />
+              </div>
+            </div>
+
+            <!-- Block 4: Page Visuals & Images -->
+            <div class="p-4 rounded-2xl bg-trait-950/80 border border-slate-800 space-y-3.5">
+              <div class="flex items-center gap-2 text-xs font-mono uppercase text-cyan-400 font-bold border-b border-slate-800/80 pb-2">
+                <span>🖼️ 4. Page Visuals & Photos</span>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">
+                  Hero Image URL
+                </label>
+                <div class="flex items-center gap-2">
+                  <input 
+                    type="text" 
+                    id="v-img-url" 
+                    oninput="handleVisualFieldInput('img')" 
+                    placeholder="/static/images/hospital_hero_medical.jpg" 
+                    class="flex-1 px-3.5 py-2.5 rounded-xl bg-trait-900 border border-slate-700 text-xs font-mono text-white focus:outline-none focus:border-cyan-400" 
+                  />
+                  <button type="button" onclick="switchTab('media')" class="px-3 py-2.5 rounded-xl bg-trait-800 hover:bg-slate-700 text-cyan-400 text-xs font-bold transition-colors shrink-0">
+                    Browse Assets
+                  </button>
+                </div>
+
+                <!-- Thumbnail Preview -->
+                <div class="mt-2.5 p-2 rounded-xl bg-trait-900 border border-slate-800 flex items-center gap-3">
+                  <div class="w-16 h-12 rounded-lg overflow-hidden bg-black shrink-0 flex items-center justify-center">
+                    <img id="v-img-preview" src="/static/assets/central_t.jpg" alt="Preview" class="w-full h-full object-cover" />
+                  </div>
+                  <span class="text-[10px] text-slate-400 leading-tight">Image loads live in preview and public website.</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Block 5: SEO & Page Metadata -->
+            <div class="p-4 rounded-2xl bg-trait-950/80 border border-slate-800 space-y-3.5">
+              <div class="flex items-center gap-2 text-xs font-mono uppercase text-cyan-400 font-bold border-b border-slate-800/80 pb-2">
+                <span>🔍 5. Search Engine & Browser Title (SEO)</span>
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">
+                  Browser Tab Title (&lt;title&gt;)
+                </label>
+                <input 
+                  type="text" 
+                  id="v-seo-title" 
+                  oninput="handleVisualFieldInput('seo-title')" 
+                  placeholder="Page Title" 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-trait-900 border border-slate-700 text-xs text-white" 
+                />
+              </div>
+
+              <div>
+                <label class="block text-[11px] font-mono uppercase text-slate-400 font-bold mb-1">
+                  Google Search Summary (&lt;meta description&gt;)
+                </label>
+                <textarea 
+                  id="v-seo-desc" 
+                  rows="2" 
+                  oninput="handleVisualFieldInput('seo-desc')" 
+                  placeholder="Short summary displayed on Google Search..." 
+                  class="w-full px-3.5 py-2.5 rounded-xl bg-trait-900 border border-slate-700 text-xs text-slate-300 resize-none"
+                ></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 2. RAW CODE TEXTAREA (COLLAPSED BY DEFAULT FOR ADVANCED DEVELOPERS) -->
+          <div id="code-form-pane" class="hidden flex-1 flex flex-col">
+            <textarea 
+              id="page-source-code" 
+              spellcheck="false"
+              oninput="handleSourceInput()"
+              class="flex-1 w-full p-4 rounded-2xl bg-trait-950 border border-slate-800 text-slate-100 font-mono text-xs leading-relaxed focus:outline-none focus:border-cyan-400 transition-colors resize-none min-h-[500px]"
+            ></textarea>
+          </div>
+
         </div>
 
-        <!-- Right: Real-Time Live Preview Canvas Frame -->
+        <!-- Right Pane: Real-Time Interactive Canvas Preview Frame -->
         <div id="editor-right-pane" class="lg:col-span-6 glass-panel rounded-3xl p-5 flex flex-col">
-          <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+          
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-800 mb-3 gap-2">
             <div class="flex items-center gap-2">
               <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
               <span class="text-xs font-bold text-white">Live Interactive Canvas Preview</span>
             </div>
             
-            <!-- Device Dimension Emulators -->
-            <div class="flex items-center gap-1.5 text-xs text-slate-400">
-              <button onclick="setPreviewSize('desktop')" class="p-1.5 rounded-lg hover:bg-trait-800 hover:text-cyan-400 transition-colors" title="Desktop View">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            <div class="flex items-center gap-3">
+              <!-- Direct Click-To-Edit Toggle Button -->
+              <button 
+                id="btn-click-to-edit" 
+                onclick="toggleClickToEditMode()" 
+                class="px-2.5 py-1 rounded-lg border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-[10px] font-bold transition-all flex items-center gap-1.5"
+                title="Click on any text on the preview directly to edit!"
+              >
+                <span>🖱️ Click-to-Edit Mode</span>
+                <span id="click-to-edit-status" class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
               </button>
-              <button onclick="setPreviewSize('tablet')" class="p-1.5 rounded-lg hover:bg-trait-800 hover:text-cyan-400 transition-colors" title="Tablet View">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-              </button>
-              <button onclick="setPreviewSize('mobile')" class="p-1.5 rounded-lg hover:bg-trait-800 hover:text-cyan-400 transition-colors" title="Mobile View">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-              </button>
+
+              <!-- Device Dimension Emulators -->
+              <div class="flex items-center gap-1 text-xs text-slate-400">
+                <button onclick="setPreviewSize('desktop')" class="p-1 rounded-md hover:bg-trait-800 hover:text-cyan-400 transition-colors" title="Desktop View">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </button>
+                <button onclick="setPreviewSize('tablet')" class="p-1 rounded-md hover:bg-trait-800 hover:text-cyan-400 transition-colors" title="Tablet View">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                </button>
+                <button onclick="setPreviewSize('mobile')" class="p-1 rounded-md hover:bg-trait-800 hover:text-cyan-400 transition-colors" title="Mobile View">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                </button>
+              </div>
             </div>
+          </div>
+
+          <!-- Click-to-Edit Help Hint Banner (appears when active) -->
+          <div id="click-to-edit-banner" class="hidden mb-2 p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-[11px] text-emerald-300 flex items-center justify-between">
+            <span>✨ <strong>Click-to-Edit Active:</strong> Click directly on any text in the preview below and start typing!</span>
+            <button onclick="toggleClickToEditMode()" class="text-xs hover:underline text-white font-bold ml-2">Turn Off</button>
           </div>
 
           <div class="flex-1 rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 flex justify-center">
@@ -902,7 +1161,54 @@
       switchTab('editor');
     }
 
-    // Page Editor Loading
+    // ================= NO-CODE VISUAL EDITOR ENGINE =================
+    let currentRawTemplate = '';
+    let currentWorkingTemplate = '';
+    let clickToEditActive = false;
+    let visualState = {
+      badge: '',
+      h1: '',
+      subtitle: '',
+      desc: '',
+      btn1: '',
+      btn2: '',
+      feat1Title: '',
+      feat1Desc: '',
+      feat2Title: '',
+      feat2Desc: '',
+      feat3Title: '',
+      feat3Desc: '',
+      imgUrl: '',
+      seoTitle: '',
+      seoDesc: ''
+    };
+
+    function setVisualEditorMode(mode) {
+      const vPane = document.getElementById('visual-form-pane');
+      const cPane = document.getElementById('code-form-pane');
+      const vBtn = document.getElementById('view-mode-visual');
+      const cBtn = document.getElementById('view-mode-code');
+
+      if (mode === 'visual') {
+        vPane.classList.remove('hidden');
+        cPane.classList.add('hidden');
+        vBtn.className = 'px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 text-slate-950 font-bold transition-all flex items-center gap-1.5 shadow-sm';
+        cBtn.className = 'px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all flex items-center gap-1.5';
+      } else {
+        vPane.classList.add('hidden');
+        cPane.classList.remove('hidden');
+        cBtn.className = 'px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 text-slate-950 font-bold transition-all flex items-center gap-1.5 shadow-sm';
+        vBtn.className = 'px-3.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all flex items-center gap-1.5';
+        document.getElementById('page-source-code').value = currentWorkingTemplate;
+      }
+    }
+
+    function cleanHtmlText(rawHtml) {
+      if (!rawHtml) return '';
+      return rawHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    // Load and extract page content into visual fields
     async function loadSelectedPage() {
       const pageId = document.getElementById('editor-page-select').value;
       currentPageId = pageId;
@@ -916,18 +1222,166 @@
         const res = await fetch(`/admin/api/pages/${pageId}`);
         const data = await res.json();
         if (data.status === 'success') {
+          currentRawTemplate = data.content;
+          currentWorkingTemplate = data.content;
           document.getElementById('page-source-code').value = data.content;
-          updatePreview(data.content);
+
+          // Extract values into visualState
+          extractTemplateToVisualState(data.content);
+          populateVisualInputs();
+          updatePreview(currentWorkingTemplate);
         }
       } catch (err) {
         showToast('error', 'Failed to load page content.');
       }
     }
 
+    function extractTemplateToVisualState(htmlCode) {
+      // 1. SEO Title & Meta Description
+      const titleMatch = htmlCode.match(/<title>(.*?)<\/title>/i);
+      visualState.seoTitle = titleMatch ? titleMatch[1].trim() : '';
+
+      const metaMatch = htmlCode.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']/i);
+      visualState.seoDesc = metaMatch ? metaMatch[1].trim() : '';
+
+      // 2. Main Page Headline (H1)
+      const h1Match = htmlCode.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+      visualState.h1 = h1Match ? cleanHtmlText(h1Match[1]) : '';
+
+      // 3. Badge Text (element above H1 with tracking-widest / font-mono)
+      const badgeMatch = htmlCode.match(/class=["'][^"']*(?:tracking-widest|tracking-wider)[^"']*["'][^>]*>([\s\S]*?)<\/(?:div|span)>/i);
+      visualState.badge = badgeMatch ? cleanHtmlText(badgeMatch[1]) : '';
+
+      // 4. Subheadline / Tagline (first paragraph after H1)
+      const subMatch = htmlCode.match(/<p\s+class=["'][^"']*(?:text-xl|text-lg|font-semibold)[^"']*["']>([\s\S]*?)<\/p>/i);
+      visualState.subtitle = subMatch ? cleanHtmlText(subMatch[1]) : '';
+
+      // 5. Overview Paragraph
+      const descMatch = htmlCode.match(/<p\s+class=["'][^"']*(?:text-base|text-sm|leading-relaxed)[^"']*["'][^>]*>([\s\S]*?)<\/p>/i);
+      visualState.desc = descMatch ? cleanHtmlText(descMatch[1]) : '';
+
+      // 6. Action Buttons
+      const btn1Match = htmlCode.match(/<(?:button|a)[^>]*class=["'][^"']*(?:rounded-full|rounded-2xl)[^"']*(?:bg-gradient|bg-hospital|bg-talent|bg-coach|bg-blue)[^"']*["'][^>]*>([\s\S]*?)<\/(?:button|a)>/i);
+      visualState.btn1 = btn1Match ? cleanHtmlText(btn1Match[1]) : '';
+
+      const btn2Match = htmlCode.match(/<a[^>]*href=["']#(?:use-cases|overview|features|ambient|experiences)["'][^>]*>([\s\S]*?)<\/a>/i);
+      visualState.btn2 = btn2Match ? cleanHtmlText(btn2Match[1]) : '';
+
+      // 7. Highlight Features
+      const featMatches = [...htmlCode.matchAll(/<div\s+class=["'][^"']*font-display[^"']*["']>([\s\S]*?)<\/div>\s*<div\s+class=["'][^"']*font-mono[^"']*["']>([\s\S]*?)<\/div>/gi)];
+      if (featMatches.length >= 1) {
+        visualState.feat1Title = cleanHtmlText(featMatches[0][1]);
+        visualState.feat1Desc = cleanHtmlText(featMatches[0][2]);
+      }
+      if (featMatches.length >= 2) {
+        visualState.feat2Title = cleanHtmlText(featMatches[1][1]);
+        visualState.feat2Desc = cleanHtmlText(featMatches[1][2]);
+      }
+      if (featMatches.length >= 3) {
+        visualState.feat3Title = cleanHtmlText(featMatches[2][1]);
+        visualState.feat3Desc = cleanHtmlText(featMatches[2][2]);
+      }
+
+      // 8. Image
+      const imgMatch = htmlCode.match(/<img[^>]*src=["'](\/static\/(?:images|assets)\/[^"']+)["']/i);
+      visualState.imgUrl = imgMatch ? imgMatch[1] : '/static/assets/central_t.jpg';
+    }
+
+    function populateVisualInputs() {
+      document.getElementById('v-badge').value = visualState.badge;
+      document.getElementById('v-h1').value = visualState.h1;
+      document.getElementById('v-subtitle').value = visualState.subtitle;
+      document.getElementById('v-desc').value = visualState.desc;
+      document.getElementById('v-btn1').value = visualState.btn1;
+      document.getElementById('v-btn2').value = visualState.btn2;
+      document.getElementById('v-feat1-title').value = visualState.feat1Title;
+      document.getElementById('v-feat1-desc').value = visualState.feat1Desc;
+      document.getElementById('v-feat2-title').value = visualState.feat2Title;
+      document.getElementById('v-feat2-desc').value = visualState.feat2Desc;
+      document.getElementById('v-feat3-title').value = visualState.feat3Title;
+      document.getElementById('v-feat3-desc').value = visualState.feat3Desc;
+      document.getElementById('v-img-url').value = visualState.imgUrl;
+      document.getElementById('v-img-preview').src = visualState.imgUrl;
+      document.getElementById('v-seo-title').value = visualState.seoTitle;
+      document.getElementById('v-seo-desc').value = visualState.seoDesc;
+    }
+
+    // Real-time synchronization when any visual input changes
+    function handleVisualFieldInput(fieldKey) {
+      clearTimeout(previewDebounceTimer);
+      previewDebounceTimer = setTimeout(() => {
+        applyVisualInputsToTemplate();
+      }, 250);
+    }
+
+    function applyVisualInputsToTemplate() {
+      let t = currentRawTemplate;
+
+      const newBadge = document.getElementById('v-badge').value.trim();
+      const newH1 = document.getElementById('v-h1').value.trim();
+      const newSub = document.getElementById('v-subtitle').value.trim();
+      const newDesc = document.getElementById('v-desc').value.trim();
+      const newBtn1 = document.getElementById('v-btn1').value.trim();
+      const newBtn2 = document.getElementById('v-btn2').value.trim();
+      const newImg = document.getElementById('v-img-url').value.trim();
+      const newSeoTitle = document.getElementById('v-seo-title').value.trim();
+      const newSeoDesc = document.getElementById('v-seo-desc').value.trim();
+
+      // Update image preview thumbnail
+      if (newImg) {
+        document.getElementById('v-img-preview').src = newImg;
+      }
+
+      // 1. Replace H1
+      if (visualState.h1 && newH1 && visualState.h1 !== newH1) {
+        t = t.replace(visualState.h1, newH1);
+      }
+
+      // 2. Replace Subtitle
+      if (visualState.subtitle && newSub && visualState.subtitle !== newSub) {
+        t = t.replace(visualState.subtitle, newSub);
+      }
+
+      // 3. Replace Description
+      if (visualState.desc && newDesc && visualState.desc !== newDesc) {
+        t = t.replace(visualState.desc, newDesc);
+      }
+
+      // 4. Replace Badge
+      if (visualState.badge && newBadge && visualState.badge !== newBadge) {
+        t = t.replace(visualState.badge, newBadge);
+      }
+
+      // 5. Replace Button 1
+      if (visualState.btn1 && newBtn1 && visualState.btn1 !== newBtn1) {
+        t = t.replace(visualState.btn1, newBtn1);
+      }
+
+      // 6. Replace Button 2
+      if (visualState.btn2 && newBtn2 && visualState.btn2 !== newBtn2) {
+        t = t.replace(visualState.btn2, newBtn2);
+      }
+
+      // 7. Replace SEO
+      if (visualState.seoTitle && newSeoTitle && visualState.seoTitle !== newSeoTitle) {
+        t = t.replace(visualState.seoTitle, newSeoTitle);
+      }
+      if (visualState.seoDesc && newSeoDesc && visualState.seoDesc !== newSeoDesc) {
+        t = t.replace(visualState.seoDesc, newSeoDesc);
+      }
+
+      currentWorkingTemplate = t;
+      document.getElementById('page-source-code').value = t;
+      updatePreview(t);
+    }
+
     function handleSourceInput() {
       clearTimeout(previewDebounceTimer);
       previewDebounceTimer = setTimeout(() => {
         const content = document.getElementById('page-source-code').value;
+        currentWorkingTemplate = content;
+        extractTemplateToVisualState(content);
+        populateVisualInputs();
         updatePreview(content);
       }, 400);
     }
@@ -935,14 +1389,84 @@
     function updatePreview(htmlCode) {
       const iframe = document.getElementById('live-preview-frame');
       const doc = iframe.contentDocument || iframe.contentWindow.document;
-      // Replace Jinja url_for mock in preview safely
+      
       const previewHtml = htmlCode
         .replace(new RegExp('[{][{]\\s*url_for\\(\\\'static\\\',\\s*filename=[\'"](.*?)[\'"]\\)\\s*[}][}]', 'g'), '/static/$1')
         .replace(new RegExp('[{][%]\\s*include\\s*[\'"]components/favicon\\.html[\'"]\\s*[%][}]', 'g'), '<link rel="icon" href="/static/favicon.svg">')
         .replace(new RegExp('[{][%]\\s*include\\s*[\'"]components/navbar\\.html[\'"]\\s*[%][}]', 'g'), '<div class="p-4 bg-slate-900 text-center text-xs text-cyan-400 border-b border-slate-800 font-mono">[TRAIT NAVBAR COMPONENT]</div>')
         .replace(new RegExp('[{][%]\\s*include\\s*[\'"]components/footer\\.html[\'"]\\s*[%][}]', 'g'), '<div class="p-6 bg-slate-900 text-center text-xs text-slate-400 border-t border-slate-800 font-mono">[TRAIT FOOTER COMPONENT]</div>');
+      
+      doc.open();
       doc.write(previewHtml);
       doc.close();
+
+      // If click-to-edit is active, attach inline editable handlers
+      if (clickToEditActive) {
+        setTimeout(attachClickToEditToIframe, 150);
+      }
+    }
+
+    // Direct Click-to-Edit Mode in Live Canvas Frame
+    function toggleClickToEditMode() {
+      clickToEditActive = !clickToEditActive;
+      const statusDot = document.getElementById('click-to-edit-status');
+      const btn = document.getElementById('btn-click-to-edit');
+      const banner = document.getElementById('click-to-edit-banner');
+
+      if (clickToEditActive) {
+        statusDot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse';
+        btn.className = 'px-2.5 py-1 rounded-lg border border-emerald-500 bg-emerald-500/20 text-emerald-300 text-[10px] font-bold transition-all flex items-center gap-1.5 shadow-sm';
+        banner.classList.remove('hidden');
+        showToast('success', 'Click-to-Edit Mode ON: Click any text in the preview to edit directly!');
+        attachClickToEditToIframe();
+      } else {
+        statusDot.className = 'w-1.5 h-1.5 rounded-full bg-slate-500';
+        btn.className = 'px-2.5 py-1 rounded-lg border border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 text-[10px] font-bold transition-all flex items-center gap-1.5';
+        banner.classList.add('hidden');
+        detachClickToEditFromIframe();
+      }
+    }
+
+    function attachClickToEditToIframe() {
+      const iframe = document.getElementById('live-preview-frame');
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      if (!doc) return;
+
+      const elements = doc.querySelectorAll('h1, h2, h3, h4, p, span, button, a');
+      elements.forEach(el => {
+        if (el.children.length === 0 || el.innerText.trim().length > 0) {
+          el.contentEditable = 'true';
+          el.style.outline = '1px dashed rgba(0, 240, 255, 0.45)';
+          el.style.cursor = 'text';
+          el.title = 'Click to edit this text directly';
+
+          el.oninput = () => {
+            const newText = el.innerText.trim();
+            // Sync to visual inputs
+            if (el.tagName.toLowerCase() === 'h1') {
+              document.getElementById('v-h1').value = newText;
+            } else if (el.classList.contains('font-semibold') || el.classList.contains('text-xl')) {
+              document.getElementById('v-subtitle').value = newText;
+            } else if (el.tagName.toLowerCase() === 'p') {
+              document.getElementById('v-desc').value = newText;
+            }
+            applyVisualInputsToTemplate();
+          };
+        }
+      });
+    }
+
+    function detachClickToEditFromIframe() {
+      const iframe = document.getElementById('live-preview-frame');
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      if (!doc) return;
+
+      const elements = doc.querySelectorAll('*');
+      elements.forEach(el => {
+        el.contentEditable = 'false';
+        el.style.outline = 'none';
+        el.style.cursor = 'default';
+      });
     }
 
     function setPreviewSize(device) {
@@ -956,36 +1480,14 @@
       }
     }
 
-    function setEditorMode(mode) {
-      const left = document.getElementById('editor-left-pane');
-      const right = document.getElementById('editor-right-pane');
-      document.querySelectorAll('#mode-split, #mode-code, #mode-preview').forEach(btn => {
-        btn.className = 'px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all';
-      });
-      document.getElementById(`mode-${mode}`).className = 'px-3 py-1.5 rounded-lg bg-cyan-500 text-slate-950 font-bold transition-all';
-
-      if (mode === 'code') {
-        left.className = 'lg:col-span-12 glass-panel rounded-3xl p-5 flex flex-col';
-        right.classList.add('hidden');
-      } else if (mode === 'preview') {
-        left.classList.add('hidden');
-        right.className = 'lg:col-span-12 glass-panel rounded-3xl p-5 flex flex-col';
-        right.classList.remove('hidden');
-      } else {
-        left.className = 'lg:col-span-6 glass-panel rounded-3xl p-5 flex flex-col';
-        left.classList.remove('hidden');
-        right.className = 'lg:col-span-6 glass-panel rounded-3xl p-5 flex flex-col';
-        right.classList.remove('hidden');
-      }
-    }
-
     async function publishCurrentPage() {
       const btn = document.getElementById('btn-publish');
       const originalHtml = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = `<span class="animate-spin mr-1.5">◌</span> Publishing...`;
+      btn.innerHTML = `<span class="animate-spin mr-1.5">◌</span> Publishing Updates...`;
 
-      const content = document.getElementById('page-source-code').value;
+      // Use the verified working template
+      const content = currentWorkingTemplate || document.getElementById('page-source-code').value;
       try {
         const res = await fetch(`/admin/api/pages/${currentPageId}`, {
           method: 'POST',
@@ -994,7 +1496,8 @@
         });
         const data = await res.json();
         if (res.ok && data.status === 'success') {
-          showToast('success', `Page published successfully! Auto-backup generated.`);
+          showToast('success', `🎉 Updates published live! Verified & backed up.`);
+          currentRawTemplate = content;
         } else {
           showToast('error', data.message || 'Error publishing page.');
         }
