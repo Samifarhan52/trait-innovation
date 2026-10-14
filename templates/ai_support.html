@@ -1134,8 +1134,47 @@
 
     function handleSupportSubmit(e) {
       e.preventDefault();
+      const form = document.getElementById('support-inquiry-form');
+      const inputs = form.querySelectorAll('input');
+      const name = inputs[0] ? inputs[0].value.trim() : 'Valued Client';
+      const email = inputs[1] ? inputs[1].value.trim() : '';
+      const org = inputs[2] ? inputs[2].value.trim() : 'Not Specified';
+
+      const waText = 
+`*TRAIT AI Customer Support Agent — Inquiry*
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 *Name:* ${name}
+📧 *Email:* ${email}
+🏢 *Organization/Industry:* ${org}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+_Sent via www.traitinnovation.com/ai-customer-support_`;
+
+      const waUrl = `https://api.whatsapp.com/send?phone=917975926279&text=${encodeURIComponent(waText)}`;
+      
       document.getElementById('support-inquiry-form').classList.add('hidden');
-      document.getElementById('support-modal-success').classList.remove('hidden');
+      const successEl = document.getElementById('support-modal-success');
+      successEl.classList.remove('hidden');
+      successEl.innerHTML = `
+        <div class="w-12 h-12 rounded-full bg-emerald-400/20 text-emerald-400 flex items-center justify-center mx-auto text-xl font-bold">✓</div>
+        <h4 class="text-lg font-bold font-display text-white">Opening WhatsApp Chat</h4>
+        <p class="text-xs text-slate-300">Connecting your inquiry directly to our official WhatsApp at <strong class="text-emerald-400">+91 79759 26279</strong>.</p>
+        <a href="${waUrl}" target="_blank" class="inline-block mt-2 px-6 py-3 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-all shadow-lg">
+          Click Here to Open WhatsApp ↗
+        </a>
+      `;
+
+      try {
+        fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, service: 'AI Customer Support Agent', message: `Organization: ${org}` })
+        }).catch(() => {});
+      } catch (err) {}
+
+      const win = window.open(waUrl, '_blank');
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        window.location.href = waUrl;
+      }
     }
   </script>
 

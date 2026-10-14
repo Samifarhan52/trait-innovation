@@ -897,7 +897,20 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleNewsletterSubmit(e) {
     e.preventDefault();
     const email = document.getElementById('newsletter-email').value;
-    showFashionToast(`Thank you! Subscription confirmed for ${email}`);
+    showFashionToast(`Thank you! Connecting subscription to WhatsApp (+91 79759 26279)...`);
+    
+    const waText = 
+`*TRAIT AI Fashion Analytics — Intelligence Briefing Request*
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+📧 *Subscriber Email:* ${email}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+_Sent via www.traitinnovation.com/trait-fashion-analytics_`;
+
+    const waUrl = `https://api.whatsapp.com/send?phone=917975926279&text=${encodeURIComponent(waText)}`;
+    const win = window.open(waUrl, '_blank');
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      window.location.href = waUrl;
+    }
     e.target.reset();
   }
   window.handleNewsletterSubmit = handleNewsletterSubmit;

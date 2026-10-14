@@ -69,8 +69,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.handleHospitalForm = function(e) {
     e.preventDefault();
-    const name = document.getElementById('hosp-name').value;
-    alert(`Thank you ${name}! Your request for TRAIT AI Hospital clinical demo has been submitted.`);
+    const form = e.target;
+    const inputs = form.querySelectorAll('input');
+    const name = document.getElementById('hosp-name') ? document.getElementById('hosp-name').value.trim() : 'Healthcare Administrator';
+    const hospital = inputs[1] ? inputs[1].value.trim() : 'Hospital Organization';
+    const select = form.querySelector('select');
+    const area = select ? select.value : 'Clinical Assistance';
+    const email = inputs[2] ? inputs[2].value.trim() : '';
+
+    const waText = 
+`*TRAIT HospitalAI — Consultation Request*
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 *Name:* ${name}
+🏥 *Organization:* ${hospital}
+🎯 *Area of Interest:* ${area}
+📧 *Work Email:* ${email}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+_Sent via www.traitinnovation.com/trait-ai-hospital_`;
+
+    const waUrl = `https://api.whatsapp.com/send?phone=917975926279&text=${encodeURIComponent(waText)}`;
+
+    try {
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, service: 'TRAIT HospitalAI', message: `Hospital: ${hospital} | Area: ${area}` })
+      }).catch(() => {});
+    } catch (err) {}
+
     closeHospitalModal();
+    const win = window.open(waUrl, '_blank');
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      window.location.href = waUrl;
+    }
   };
 });

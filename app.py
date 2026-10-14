@@ -144,19 +144,35 @@ def site_webmanifest():
 
 @app.route('/api/contact', methods=['POST'])
 def contact():
-    """Handle contact form submissions."""
+    """Handle contact form submissions, log activity, and route to WhatsApp."""
     data = request.get_json() or {}
     name = data.get('name', 'Valued Client')
     email = data.get('email', '')
     service = data.get('service', 'General Inquiry')
     message = data.get('message', '')
+    whatsapp_number = "917975926279"
 
     if not email:
         return jsonify({'status': 'error', 'message': 'Email address is required.'}), 400
 
+    try:
+        admin_store.log_activity(
+            action="Website Contact Inquiry",
+            user=name,
+            details=f"Service: {service} | Email: {email} | Message: {message[:100]}"
+        )
+    except Exception as e:
+        pass
+
+    wa_text = f"*New Website Inquiry — TRAIT Innovation*\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n👤 *Name:* {name}\n📧 *Email:* {email}\n🎯 *Service Interest:* {service}\n💬 *Message:*\n{message}\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n_Sent via www.traitinnovation.com_"
+    import urllib.parse
+    whatsapp_url = f"https://api.whatsapp.com/send?phone={whatsapp_number}&text={urllib.parse.quote(wa_text)}"
+
     return jsonify({
         'status': 'success',
-        'message': f'Thank you {name}! Your inquiry regarding {service} has been received. Our team will contact you at {email} within 24 hours.'
+        'whatsapp_url': whatsapp_url,
+        'whatsapp_number': whatsapp_number,
+        'message': f'Thank you {name}! Connecting you directly to WhatsApp at +91 79759 26279...'
     })
 
 # ================= ADMIN CONSOLE & CMS CONTROLLERS =================

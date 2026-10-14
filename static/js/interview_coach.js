@@ -308,8 +308,40 @@ function closeInterviewModal() {
 }
 
 function runModalPractice() {
+  const modal = document.getElementById('interview-modal');
+  const input = modal ? modal.querySelector('input') : null;
+  const role = input ? input.value.trim() : 'Software Engineer';
+
+  const waText = 
+`*TRAIT AI Interview Coach — Practice Session Request*
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 *Target Role:* ${role}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+_Sent via www.traitinnovation.com/trait-ai-interview-coach_`;
+
+  const waUrl = `https://api.whatsapp.com/send?phone=917975926279&text=${encodeURIComponent(waText)}`;
   const out = document.getElementById('modal-output');
-  if (out) out.classList.remove('hidden');
+  if (out) {
+    out.classList.remove('hidden');
+    out.innerHTML = `
+      <div class="text-coach-winered dark:text-coach-coral font-bold">✓ MOCK INTERVIEW INQUIRY PREPARED</div>
+      <div class="text-coach-charcoal dark:text-slate-200">Connecting you directly to WhatsApp (+91 79759 26279)...</div>
+      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-coach-winered dark:text-coach-coral font-bold">Click here to open WhatsApp directly</a>
+    `;
+  }
+
+  try {
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'Interview Coach Candidate', email: '', service: 'AI Interview Coach', message: `Target Role: ${role}` })
+    }).catch(() => {});
+  } catch (err) {}
+
+  const win = window.open(waUrl, '_blank');
+  if (!win || win.closed || typeof win.closed === 'undefined') {
+    window.location.href = waUrl;
+  }
 }
 
 function openReportModal() {

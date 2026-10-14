@@ -296,4 +296,95 @@ document.addEventListener('DOMContentLoaded', () => {
   window.showSocialComingSoon = showSocialComingSoon;
   window.hideSocialToast = hideSocialToast;
 
+  // =========================================================================
+  // 9. DIRECT WHATSAPP INQUIRY DISPATCHER (+91 79759 26279)
+  // =========================================================================
+  const TRAIT_WHATSAPP_PHONE = '917975926279';
+
+  function dispatchToWhatsApp(messageText) {
+    const encoded = encodeURIComponent(messageText);
+    const waUrl = `https://api.whatsapp.com/send?phone=${TRAIT_WHATSAPP_PHONE}&text=${encoded}`;
+    const win = window.open(waUrl, '_blank');
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      window.location.href = waUrl;
+    }
+    return waUrl;
+  }
+  window.dispatchToWhatsApp = dispatchToWhatsApp;
+  window.TRAIT_WHATSAPP_PHONE = TRAIT_WHATSAPP_PHONE;
+
+  function handleContactSubmit(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const nameInput = document.getElementById('contact-name');
+    const emailInput = document.getElementById('contact-email');
+    const serviceInput = document.getElementById('contact-service');
+    const messageInput = document.getElementById('contact-message');
+    const respEl = document.getElementById('contact-response');
+
+    const name = nameInput ? nameInput.value.trim() : 'Valued Client';
+    const email = emailInput ? emailInput.value.trim() : '';
+    const service = serviceInput ? serviceInput.value : 'General Inquiry';
+    const message = messageInput ? messageInput.value.trim() : '';
+
+    if (!name || !email || !message) {
+      if (respEl) {
+        respEl.innerHTML = `<span class="text-rose-500 font-bold text-xs">Please provide your name, email, and message.</span>`;
+      }
+      return false;
+    }
+
+    const waText = 
+`*New Website Inquiry — TRAIT Innovation*
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+👤 *Name:* ${name}
+📧 *Email:* ${email}
+🎯 *Service Area:* ${service}
+💬 *Message:*
+${message}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+_Sent via www.traitinnovation.com_`;
+
+    const waUrl = `https://api.whatsapp.com/send?phone=${TRAIT_WHATSAPP_PHONE}&text=${encodeURIComponent(waText)}`;
+
+    if (respEl) {
+      respEl.innerHTML = `
+        <div class="mt-3 p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs text-center space-y-1.5 transition-all">
+          <div class="font-bold flex items-center justify-center gap-1.5">
+            <span>✓</span> Thank you! Opening WhatsApp to connect with +91 79759 26279...
+          </div>
+          <div class="text-[11px] text-slate-600 dark:text-slate-300">
+            If WhatsApp does not open automatically, <a href="${waUrl}" target="_blank" class="underline font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500">click here to open WhatsApp chat</a>.
+          </div>
+        </div>
+      `;
+    }
+
+    // Also record inquiry on backend for administrative visibility
+    try {
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, service, message })
+      }).catch(() => {});
+    } catch (err) {}
+
+    // Dispatch directly to WhatsApp
+    const win = window.open(waUrl, '_blank');
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      window.location.href = waUrl;
+    }
+
+    // Reset inputs
+    if (nameInput) nameInput.value = '';
+    if (emailInput) emailInput.value = '';
+    if (messageInput) messageInput.value = '';
+    return false;
+  }
+  window.handleContactSubmit = handleContactSubmit;
+
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', handleContactSubmit);
+  }
+
 });

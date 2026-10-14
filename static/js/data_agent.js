@@ -321,9 +321,38 @@ function closeDemoModal() {
 }
 
 function runModalDemo() {
+  const input = document.getElementById('demo-input');
+  const query = input ? input.value.trim() : 'Synthesize Q4 revenue forecast by product tier and region.';
+
+  const waText = 
+`*TRAIT AI Data Agent — Business Query Inquiry*
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 *Analysis Query:* ${query}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+_Sent via www.traitinnovation.com/ai-data-analysis_`;
+
+  const waUrl = `https://api.whatsapp.com/send?phone=917975926279&text=${encodeURIComponent(waText)}`;
   const output = document.getElementById('modal-output');
   if (output) {
     output.classList.remove('hidden');
+    output.innerHTML = `
+      <div class="text-emerald-400 font-bold">✓ QUERY FORWARDED</div>
+      <div class="text-slate-300">Connecting you directly to WhatsApp (+91 79759 26279)...</div>
+      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-lime-400 font-bold">Click here to open WhatsApp directly</a>
+    `;
+  }
+
+  try {
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'Data Agent Requester', email: '', service: 'AI Data Analysis Agent', message: `Query: ${query}` })
+    }).catch(() => {});
+  } catch (err) {}
+
+  const win = window.open(waUrl, '_blank');
+  if (!win || win.closed || typeof win.closed === 'undefined') {
+    window.location.href = waUrl;
   }
 }
 

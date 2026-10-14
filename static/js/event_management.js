@@ -68,8 +68,43 @@ function closePlanModal() {
 }
 
 function runModalSubmit() {
+  const modal = document.getElementById('plan-modal');
+  const select = modal ? modal.querySelector('select') : null;
+  const eventType = select ? select.value : 'Event Planning';
+  const input = modal ? modal.querySelector('input') : null;
+  const contact = input ? input.value.trim() : '';
+
+  const waText = 
+`*TRAIT Event Management — Event Planning Inquiry*
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎉 *Event Type:* ${eventType}
+📧 *Contact Info:* ${contact || 'Client Requester'}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+_Sent via www.traitinnovation.com/trait-event-management_`;
+
+  const waUrl = `https://api.whatsapp.com/send?phone=917975926279&text=${encodeURIComponent(waText)}`;
   const output = document.getElementById('modal-output');
-  if (output) output.classList.remove('hidden');
+  if (output) {
+    output.classList.remove('hidden');
+    output.innerHTML = `
+      <div class="text-event-rose font-bold">✓ INQUIRY PREPARED</div>
+      <div class="text-event-charcoal dark:text-slate-200">Connecting you directly to WhatsApp (+91 79759 26279)...</div>
+      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-event-rose font-bold">Click here to open WhatsApp directly</a>
+    `;
+  }
+
+  try {
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'Event Client', email: contact, service: 'TRAIT Event Management', message: `Event Type: ${eventType}` })
+    }).catch(() => {});
+  } catch (err) {}
+
+  const win = window.open(waUrl, '_blank');
+  if (!win || win.closed || typeof win.closed === 'undefined') {
+    window.location.href = waUrl;
+  }
 }
 
 // THEME TOGGLE

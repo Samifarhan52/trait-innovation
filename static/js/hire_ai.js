@@ -215,8 +215,38 @@ function closeDemoModal() {
 }
 
 function runModalDemo() {
+  const emailInput = document.querySelector('#demo-modal input[type="email"]');
+  const email = emailInput ? emailInput.value.trim() : '';
+  const waText = 
+`*TRAIT HireAI — Demo Request*
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+📧 *Work Email:* ${email || 'Client Requester'}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+_Sent via www.traitinnovation.com/trait-hireai_`;
+
+  const waUrl = `https://api.whatsapp.com/send?phone=917975926279&text=${encodeURIComponent(waText)}`;
   const out = document.getElementById('modal-output');
-  if (out) out.classList.remove('hidden');
+  if (out) {
+    out.classList.remove('hidden');
+    out.innerHTML = `
+      <div class="text-talent-terracotta font-bold">✓ DEMO REQUEST PREPARED</div>
+      <div class="text-slate-300">Connecting you directly to WhatsApp (+91 79759 26279)...</div>
+      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-talent-gold font-bold">Click here to open WhatsApp directly</a>
+    `;
+  }
+
+  try {
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: 'HireAI Requester', email, service: 'TRAIT HireAI', message: 'Requested talent sandbox demo' })
+    }).catch(() => {});
+  } catch (err) {}
+
+  const win = window.open(waUrl, '_blank');
+  if (!win || win.closed || typeof win.closed === 'undefined') {
+    window.location.href = waUrl;
+  }
 }
 
 // THEME TOGGLE
