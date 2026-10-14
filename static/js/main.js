@@ -350,10 +350,10 @@ _Sent via www.traitinnovation.com_`;
       respEl.innerHTML = `
         <div class="mt-3 p-3.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs text-center space-y-1.5 transition-all">
           <div class="font-bold flex items-center justify-center gap-1.5">
-            <span>✓</span> Thank you! Opening WhatsApp to connect with +91 79759 26279...
+            <span>✓</span> Thank you! Opening WhatsApp to connect directly with our team...
           </div>
           <div class="text-[11px] text-slate-600 dark:text-slate-300">
-            If WhatsApp does not open automatically, <a href="${waUrl}" target="_blank" class="underline font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500">click here to open WhatsApp chat</a>.
+            If WhatsApp does not open automatically, <a href="${waUrl}" target="_blank" class="underline font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-500">click here to continue to WhatsApp</a>.
           </div>
         </div>
       `;

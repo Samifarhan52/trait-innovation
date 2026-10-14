@@ -230,8 +230,8 @@ _Sent via www.traitinnovation.com/trait-hireai_`;
     out.classList.remove('hidden');
     out.innerHTML = `
       <div class="text-talent-terracotta font-bold">✓ DEMO REQUEST PREPARED</div>
-      <div class="text-slate-300">Connecting you directly to WhatsApp (+91 79759 26279)...</div>
-      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-talent-gold font-bold">Click here to open WhatsApp directly</a>
+      <div class="text-slate-300">Connecting you directly to our WhatsApp team...</div>
+      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-talent-gold font-bold">Click here to continue to WhatsApp</a>
     `;
   }
 

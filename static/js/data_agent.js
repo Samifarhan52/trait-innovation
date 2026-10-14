@@ -337,8 +337,8 @@ _Sent via www.traitinnovation.com/ai-data-analysis_`;
     output.classList.remove('hidden');
     output.innerHTML = `
       <div class="text-emerald-400 font-bold">✓ QUERY FORWARDED</div>
-      <div class="text-slate-300">Connecting you directly to WhatsApp (+91 79759 26279)...</div>
-      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-lime-400 font-bold">Click here to open WhatsApp directly</a>
+      <div class="text-slate-300">Connecting you directly to our WhatsApp team...</div>
+      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-lime-400 font-bold">Click here to continue to WhatsApp</a>
     `;
   }
 

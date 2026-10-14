@@ -172,7 +172,7 @@ def contact():
         'status': 'success',
         'whatsapp_url': whatsapp_url,
         'whatsapp_number': whatsapp_number,
-        'message': f'Thank you {name}! Connecting you directly to WhatsApp at +91 79759 26279...'
+        'message': f'Thank you {name}! Connecting you directly to WhatsApp...'
     })
 
 # ================= ADMIN CONSOLE & CMS CONTROLLERS =================

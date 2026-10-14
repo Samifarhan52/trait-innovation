@@ -325,8 +325,8 @@ _Sent via www.traitinnovation.com/trait-ai-interview-coach_`;
     out.classList.remove('hidden');
     out.innerHTML = `
       <div class="text-coach-winered dark:text-coach-coral font-bold">✓ MOCK INTERVIEW INQUIRY PREPARED</div>
-      <div class="text-coach-charcoal dark:text-slate-200">Connecting you directly to WhatsApp (+91 79759 26279)...</div>
-      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-coach-winered dark:text-coach-coral font-bold">Click here to open WhatsApp directly</a>
+      <div class="text-coach-charcoal dark:text-slate-200">Connecting you directly to our WhatsApp team...</div>
+      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-coach-winered dark:text-coach-coral font-bold">Click here to continue to WhatsApp</a>
     `;
   }
 

@@ -88,8 +88,8 @@ _Sent via www.traitinnovation.com/trait-event-management_`;
     output.classList.remove('hidden');
     output.innerHTML = `
       <div class="text-event-rose font-bold">✓ INQUIRY PREPARED</div>
-      <div class="text-event-charcoal dark:text-slate-200">Connecting you directly to WhatsApp (+91 79759 26279)...</div>
-      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-event-rose font-bold">Click here to open WhatsApp directly</a>
+      <div class="text-event-charcoal dark:text-slate-200">Connecting you directly to our WhatsApp team...</div>
+      <a href="${waUrl}" target="_blank" class="inline-block mt-2 underline text-event-rose font-bold">Click here to continue to WhatsApp</a>
     `;
   }
 
