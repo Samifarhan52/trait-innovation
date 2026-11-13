@@ -3,23 +3,13 @@
   <div class="backdrop-blur-xl bg-white/90 dark:bg-[#0A0F1D]/90 border border-slate-200/90 dark:border-slate-800 rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-xl shadow-slate-950/5 transition-colors duration-300 relative">
     
     <!-- Brand Logo & Tagline -->
-    <a href="/" class="flex items-center gap-3 group shrink-0">
-      <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 flex items-center justify-center p-2 shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform shrink-0">
-        <svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 22V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 12L21 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 12L3 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="flex flex-col">
-        <span class="font-display font-black text-sm sm:text-base md:text-lg tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors uppercase leading-none">
-          TRAIT <span class="font-normal text-blue-600 dark:text-cyan-400">INNOVATION</span>
-        </span>
-        <span class="hidden sm:block text-[8px] sm:text-[8.5px] font-mono text-slate-500 dark:text-slate-400 font-bold tracking-wider uppercase mt-0.5">
-          BUILT TO THINK. DESIGNED TO TRANSFORM
-        </span>
-      </div>
+    <a href="/" class="flex items-center gap-2 sm:gap-3 group shrink-0 py-0.5" aria-label="TRAIT Innovation Home">
+      <img src="{{ url_for('static', filename='assets/trait-logo-light.png') }}?v=20261113" 
+           alt="TRAIT Innovation" 
+           class="h-8 sm:h-9 md:h-10 w-auto object-contain block dark:hidden group-hover:scale-105 transition-transform" />
+      <img src="{{ url_for('static', filename='assets/trait-logo.png') }}?v=20261113" 
+           alt="TRAIT Innovation" 
+           class="h-8 sm:h-9 md:h-10 w-auto object-contain hidden dark:block group-hover:scale-105 transition-transform drop-shadow-[0_0_15px_rgba(234,179,8,0.35)]" />
     </a>
 
     <!-- Desktop Center Navigation Links & Megamenu Dropdown -->

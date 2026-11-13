@@ -31,13 +31,13 @@
   <meta property="og:site_name" content="TRAIT Innovation" />
   <meta property="og:title" content="TRAIT Innovation — Enterprise AI & Technology Systems" />
   <meta property="og:description" content="Enterprise AI, autonomous agent ecosystems, and intelligent software engineering built to transform businesses." />
-  <meta property="og:image" content="https://www.traitinnovation.com/static/assets/central_t.jpg" />
+  <meta property="og:image" content="https://www.traitinnovation.com/static/assets/trait-logo.png" />
   
   <!-- Twitter Card Metadata -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="TRAIT Innovation — Enterprise AI & Technology Systems" />
   <meta name="twitter:description" content="Enterprise AI, autonomous agent ecosystems, and intelligent software engineering." />
-  <meta name="twitter:image" content="https://www.traitinnovation.com/static/assets/central_t.jpg" />
+  <meta name="twitter:image" content="https://www.traitinnovation.com/static/assets/trait-logo.png" />
 
   <!-- Google Rich Results / Schema.org JSON-LD Structured Data -->
   <script type="application/ld+json">
@@ -46,7 +46,7 @@
     "@type": "Organization",
     "name": "TRAIT Innovation",
     "url": "https://www.traitinnovation.com",
-    "logo": "https://www.traitinnovation.com/static/assets/central_t.jpg",
+    "logo": "https://www.traitinnovation.com/static/assets/trait-logo.png",
     "description": "TRAIT Innovation builds enterprise AI solutions, autonomous digital systems, and custom software technologies.",
     "slogan": "Built to Think. Designed to Transform.",
     "knowsAbout": [
@@ -161,9 +161,9 @@
               <div class="absolute w-[145px] h-[145px] sm:w-[300px] sm:h-[300px] md:w-[340px] md:h-[340px] rounded-full border border-dashed border-cyan-400/40 animate-spin pointer-events-none" style="animation-duration: 20s; animation-direction: reverse;"></div>
               <div class="absolute w-28 h-28 sm:w-60 sm:h-60 md:w-68 md:h-68 bg-gradient-to-tr from-blue-600/30 via-cyan-400/25 to-indigo-500/25 blur-[35px] rounded-full pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
 
-              <div class="relative w-20 h-20 sm:w-48 sm:h-48 md:w-52 md:h-52 rounded-2xl sm:rounded-3xl p-1.5 sm:p-2 bg-slate-950/90 border-2 border-blue-500 shadow-2xl shadow-blue-500/60 backdrop-blur-md overflow-hidden group-hover:scale-105 transition-all duration-500">
-                <img src="{{ url_for('static', filename='assets/central_t.jpg') }}" alt="TRAIT Innovation Central Emblem" class="w-full h-full object-contain rounded-xl sm:rounded-2xl drop-shadow-[0_0_30px_rgba(0,240,255,0.9)]" />
-                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent animate-scanline pointer-events-none"></div>
+              <div class="relative w-20 h-20 sm:w-48 sm:h-48 md:w-52 md:h-52 rounded-2xl sm:rounded-3xl p-1.5 sm:p-2 bg-slate-950/90 border-2 border-yellow-500/70 shadow-2xl shadow-yellow-500/40 backdrop-blur-md overflow-hidden group-hover:scale-105 transition-all duration-500">
+                <img src="{{ url_for('static', filename='assets/trait-emblem.png') }}?v=20261113" alt="TRAIT Innovation Central Emblem" class="w-full h-full object-contain rounded-xl sm:rounded-2xl drop-shadow-[0_0_35px_rgba(234,179,8,0.85)]" />
+                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-amber-400/30 to-transparent animate-scanline pointer-events-none"></div>
               </div>
 
               <!-- Direction Badge -->
@@ -999,10 +999,14 @@
           
           <div class="md:col-span-4 space-y-4">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 flex items-center justify-center p-2 shadow-md">
-                <svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="none"><path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" stroke-width="2"/><path d="M12 22V12" stroke="currentColor" stroke-width="2"/></svg>
-              </div>
-              <span class="font-display font-black text-xl tracking-tight uppercase">TRAIT INNOVATION</span>
+              <a href="/" class="inline-block group" aria-label="TRAIT Innovation Home">
+                <img src="{{ url_for('static', filename='assets/trait-logo-light.png') }}?v=20261113" 
+                     alt="TRAIT Innovation" 
+                     class="h-9 sm:h-10 w-auto object-contain block dark:hidden group-hover:scale-105 transition-transform" />
+                <img src="{{ url_for('static', filename='assets/trait-logo.png') }}?v=20261113" 
+                     alt="TRAIT Innovation" 
+                     class="h-9 sm:h-10 w-auto object-contain hidden dark:block group-hover:scale-105 transition-transform drop-shadow-[0_0_15px_rgba(234,179,8,0.35)]" />
+              </a>
             </div>
             <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed max-w-sm">
               Building technology and AI-driven solutions designed to solve real-world challenges and create practical impact.

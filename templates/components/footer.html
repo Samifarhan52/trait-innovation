@@ -6,13 +6,14 @@
       <!-- Brand & Vision -->
       <div class="md:col-span-4 space-y-4">
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 flex items-center justify-center p-2 shadow-md">
-            <svg class="w-full h-full text-white" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M12 22V12" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <span class="font-display font-black text-xl tracking-tight uppercase">TRAIT INNOVATION</span>
+          <a href="/" class="inline-block group" aria-label="TRAIT Innovation Home">
+            <img src="{{ url_for('static', filename='assets/trait-logo-light.png') }}?v=20261113" 
+                 alt="TRAIT Innovation" 
+                 class="h-9 sm:h-10 w-auto object-contain block dark:hidden group-hover:scale-105 transition-transform" />
+            <img src="{{ url_for('static', filename='assets/trait-logo.png') }}?v=20261113" 
+                 alt="TRAIT Innovation" 
+                 class="h-9 sm:h-10 w-auto object-contain hidden dark:block group-hover:scale-105 transition-transform drop-shadow-[0_0_15px_rgba(234,179,8,0.35)]" />
+          </a>
         </div>
         <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed max-w-sm">
           Multiple Services. Specialized Solutions. Intelligent Products. Building technology and AI-driven solutions designed to solve real-world challenges.

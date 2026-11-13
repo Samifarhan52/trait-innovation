@@ -92,20 +92,12 @@
 
     <!-- WordPress / Brand Header Logo -->
     <div class="text-center mb-6">
-      <a href="/" class="inline-flex flex-col items-center gap-2 group">
-        <div class="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-700/60 p-3 shadow-md flex items-center justify-center group-hover:scale-105 transition-transform">
-          <svg class="w-full h-full text-blue-400" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L3 7V17L12 22L21 17V7L12 2Z" stroke="currentColor" stroke-width="2"/>
-            <path d="M12 22V12" stroke="currentColor" stroke-width="2"/>
-            <path d="M12 12L21 7" stroke="currentColor" stroke-width="2"/>
-            <path d="M12 12L3 7" stroke="currentColor" stroke-width="2"/>
-          </svg>
-        </div>
-        <div class="mt-1">
-          <span class="text-xl font-bold text-slate-900 tracking-tight block">
-            TRAIT INNOVATION
-          </span>
-          <span class="text-xs text-slate-500 font-normal">
+      <a href="/" class="inline-flex flex-col items-center gap-2.5 group" title="Return to TRAIT Innovation">
+        <img src="{{ url_for('static', filename='assets/trait-logo-light.png') }}?v=20261113" 
+             alt="TRAIT Innovation" 
+             class="h-12 w-auto object-contain mx-auto group-hover:scale-105 transition-transform" />
+        <div>
+          <span class="text-[11px] text-slate-500 font-semibold tracking-wider uppercase font-mono">
             WordPress Administration Console
           </span>
         </div>

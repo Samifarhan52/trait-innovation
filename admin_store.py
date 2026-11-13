@@ -46,7 +46,7 @@ def get_default_data() -> Dict[str, Any]:
             "phone": "+91 79759 26279",
             "email": "contact@traitinnovation.com",
             "address": "Bengaluru, India",
-            "logo_url": "/static/assets/central_t.jpg",
+            "logo_url": "/static/assets/trait-logo.png",
             "hero_headline": "Multiple Services. Specialized Solutions. Intelligent Products.",
             "primary_color": "#00F0FF",
             "updated_at": int(time.time())

@@ -189,8 +189,8 @@
     .trait-reveal-ring-1 {
       width: 180px;
       height: 180px;
-      border: 1.5px solid rgba(0, 240, 255, 0.7);
-      box-shadow: 0 0 18px rgba(0, 240, 255, 0.45), inset 0 0 12px rgba(0, 240, 255, 0.25);
+      border: 1.5px solid rgba(234, 179, 8, 0.85);
+      box-shadow: 0 0 20px rgba(234, 179, 8, 0.6), inset 0 0 14px rgba(234, 179, 8, 0.35);
       animation: traitRingRotate1 4.5s linear infinite;
     }
 
@@ -213,8 +213,8 @@
     .trait-reveal-ring-2 {
       width: 195px;
       height: 195px;
-      border: 1.2px dashed rgba(59, 130, 246, 0.85);
-      box-shadow: 0 0 22px rgba(59, 130, 246, 0.35);
+      border: 1.2px dashed rgba(0, 240, 255, 0.85);
+      box-shadow: 0 0 22px rgba(0, 240, 255, 0.4);
       animation: traitRingRotate2 6s linear infinite reverse;
     }
 
@@ -244,7 +244,7 @@
       height: 8px;
       background: #FFFFFF;
       border-radius: 50%;
-      box-shadow: 0 0 12px #00F0FF, 0 0 20px #00F0FF;
+      box-shadow: 0 0 12px #FACC15, 0 0 22px #EAB308;
     }
 
     /* QUANTUM SHOCKWAVE BURST (Triggers at 1.35s) */
@@ -256,8 +256,8 @@
       width: 120px;
       height: 120px;
       border-radius: 50%;
-      border: 2px solid rgba(0, 240, 255, 0.95);
-      box-shadow: 0 0 35px rgba(0, 240, 255, 0.8), inset 0 0 25px rgba(0, 240, 255, 0.5);
+      border: 2px solid rgba(234, 179, 8, 0.95);
+      box-shadow: 0 0 35px rgba(234, 179, 8, 0.85), inset 0 0 25px rgba(0, 240, 255, 0.5);
       opacity: 0;
       pointer-events: none;
       animation: traitShockwaveBurst 0.85s cubic-bezier(0.1, 0.8, 0.2, 1) 1.35s forwards;
@@ -286,7 +286,7 @@
       transform: translate(-50%, -50%) scale(0.2);
       width: 90px;
       height: 90px;
-      background: radial-gradient(circle, #FFFFFF 0%, rgba(0, 240, 255, 0.95) 35%, rgba(0, 102, 255, 0.45) 65%, transparent 80%);
+      background: radial-gradient(circle, #FFFFFF 0%, rgba(234, 179, 8, 0.95) 35%, rgba(0, 240, 255, 0.5) 65%, transparent 80%);
       border-radius: 50%;
       filter: blur(6px);
       opacity: 0;
@@ -309,12 +309,31 @@
       }
     }
 
-    /* 3D ISOMETRIC LOGO SVG */
-    .trait-reveal-cube-svg {
+    /* 3D OFFICIAL GOLD EMBLEM */
+    .trait-reveal-emblem-core {
+      position: relative;
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 15px 30px rgba(0, 102, 255, 0.45)) drop-shadow(0 0 20px rgba(0, 240, 255, 0.3));
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transform-style: preserve-3d;
+    }
+
+    .trait-reveal-emblem-img {
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 25px rgba(234, 179, 8, 0.65)) drop-shadow(0 0 35px rgba(0, 240, 255, 0.35));
+      transform-style: preserve-3d;
+      will-change: transform, filter;
+    }
+
+    @media (min-width: 640px) {
+      .trait-reveal-emblem-img {
+        width: 135px;
+        height: 135px;
+      }
     }
 
     /* =========================================================================
@@ -471,79 +490,13 @@
       <!-- 3D Orbital Ring 2 (Dashed Counter-Rotation) -->
       <div class="trait-reveal-orbital-ring trait-reveal-ring-2"></div>
 
-      <!-- Isometric 3D Hexagonal Cube SVG with Gradients -->
-      <svg class="trait-reveal-cube-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <!-- Top Facet Gradient (Bright Cyan to Royal Blue) -->
-          <linearGradient id="traitIsoTop" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#38BDF8" />
-            <stop offset="50%" stop-color="#00F0FF" />
-            <stop offset="100%" stop-color="#0066FF" />
-          </linearGradient>
-
-          <!-- Left Facet Gradient (Deep High-Tech Cobalt) -->
-          <linearGradient id="traitIsoLeft" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#0052CC" />
-            <stop offset="70%" stop-color="#002D80" />
-            <stop offset="100%" stop-color="#03153D" />
-          </linearGradient>
-
-          <!-- Right Facet Gradient (Vibrant Azure Glow) -->
-          <linearGradient id="traitIsoRight" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#0099FF" />
-            <stop offset="60%" stop-color="#0066FF" />
-            <stop offset="100%" stop-color="#003399" />
-          </linearGradient>
-
-          <!-- Neon Glow Filter -->
-          <filter id="traitIsoNeon" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="2.5" result="glow" />
-            <feMerge>
-              <feMergeNode in="glow" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
-        <!-- Outer Isometric Silhouette Hexagon (Glow Halo) -->
-        <polygon points="50,10 88,31 88,73 50,94 12,73 12,31" 
-                 fill="rgba(0, 240, 255, 0.08)" 
-                 stroke="#00F0FF" 
-                 stroke-width="1.6" 
-                 stroke-opacity="0.85" 
-                 filter="url(#traitIsoNeon)" />
-
-        <!-- 3D Cube Top Face (Rhombus) -->
-        <polygon points="50,14 84,33 50,52 16,33" 
-                 fill="url(#traitIsoTop)" 
-                 stroke="#E0F7FF" 
-                 stroke-width="1" />
-
-        <!-- 3D Cube Left Face -->
-        <polygon points="16,33 50,52 50,90 16,71" 
-                 fill="url(#traitIsoLeft)" 
-                 stroke="#00F0FF" 
-                 stroke-width="0.8" 
-                 stroke-opacity="0.9" />
-
-        <!-- 3D Cube Right Face -->
-        <polygon points="50,52 84,33 84,71 50,90" 
-                 fill="url(#traitIsoRight)" 
-                 stroke="#38BDF8" 
-                 stroke-width="0.8" 
-                 stroke-opacity="0.9" />
-
-        <!-- Center T Core Pillar (White & Cyan Energy Ridge) -->
-        <path d="M50 14 L50 90" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" opacity="0.95" filter="url(#traitIsoNeon)" />
-        <path d="M16 33 L84 33" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" opacity="0.95" filter="url(#traitIsoNeon)" />
-        
-        <!-- Diagonal Isometric Edge Accents -->
-        <path d="M50 52 L84 33" stroke="#00F0FF" stroke-width="1.5" />
-        <path d="M50 52 L16 33" stroke="#00F0FF" stroke-width="1.5" />
-
-        <!-- Central Diamond Quantum Core Accent -->
-        <polygon points="50,47 55,52 50,57 45,52" fill="#FFFFFF" filter="url(#traitIsoNeon)" />
-      </svg>
+      <!-- Official High-Resolution 3D Gold Hexagonal Emblem -->
+      <div class="trait-reveal-emblem-core">
+        <div class="absolute inset-0 bg-gradient-to-tr from-amber-500/35 via-yellow-400/20 to-cyan-400/20 blur-2xl rounded-full pointer-events-none animate-pulse"></div>
+        <img src="{{ url_for('static', filename='assets/trait-emblem.png') }}?v=20261113" 
+             alt="TRAIT Innovation Official Emblem" 
+             class="trait-reveal-emblem-img select-none pointer-events-none" />
+      </div>
     </div>
 
     <!-- 2. Brand Typography Assembly (Reveals at 1.6s) -->
