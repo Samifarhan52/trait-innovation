@@ -1,7 +1,7 @@
 <!-- ==========================================================================
      TRAIT INNOVATION — ULTRA-SLEEK 3D ENTRY REVEAL SEQUENCE (5 SECONDS)
      Sequence: Deep Cyber Void -> 3D Holographic Logo & Orbital Rings -> Quantum Ignition Flash ->
-               "TRAIT INNOVATION" Name & Tagline Reveal -> Brand Hold -> Seamless Dissolve into Site.
+               "Trisha Revolutionary Artificial Intelligence Technology" Acronym Reveal -> Brand Hold -> Seamless Dissolve into Site.
      Duration: Exactly 5.0 Seconds
      ========================================================================== -->
 
@@ -371,46 +371,57 @@
       }
     }
 
-    /* BRAND TITLE: TRAIT INNOVATION */
+    /* BRAND TITLE: EXPANDED TRAIT ACRONYM ("Trisha Revolutionary Artificial Intelligence Technology") */
     .trait-reveal-title {
       font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(1.85rem, 6.5vw, 3.75rem);
-      font-weight: 900;
-      line-height: 1.05;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+      font-size: clamp(1.15rem, 3.2vw, 2.35rem);
+      font-weight: 800;
+      line-height: 1.35;
+      letter-spacing: 0.03em;
+      text-transform: none;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      gap: 0.45em;
-      margin: 0;
+      gap: 0.3em 0.55em;
+      max-width: min(92vw, 920px);
+      margin: 0 auto;
       padding: 0;
+      text-align: center;
     }
 
-    /* "TRAIT" — Polished Platinum Silver with Warm Gold Bevel Highlight */
-    .trait-reveal-word-trait {
-      background: linear-gradient(180deg, #FFFFFF 15%, #F8FAFC 55%, #E2E8F0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 22px rgba(255, 255, 255, 0.65)) drop-shadow(0 0 35px rgba(234, 179, 8, 0.4));
-      letter-spacing: 0.18em;
+    .trait-reveal-word {
+      display: inline-flex;
+      align-items: baseline;
+      white-space: nowrap;
     }
 
-    /* "INNOVATION" — 24K Luxury Metallic Gold Gradient with Liquid Gold Shimmer */
-    .trait-reveal-word-innovation {
+    /* ACRONYM INITIALS (T - R - A - I - T): 24K Luxury Gold with Shimmer */
+    .trait-initial {
+      font-weight: 900;
+      font-size: 1.18em;
       background: linear-gradient(90deg, #EAB308 0%, #FDE047 25%, #FFFBEB 50%, #F59E0B 75%, #EAB308 100%);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 25px rgba(234, 179, 8, 0.85)) drop-shadow(0 0 50px rgba(245, 158, 11, 0.55));
-      font-weight: 800;
-      animation: traitTextShimmer 2.5s linear infinite 1.6s;
+      filter: drop-shadow(0 0 14px rgba(234, 179, 8, 0.9)) drop-shadow(0 0 28px rgba(245, 158, 11, 0.55));
+      animation: traitInitialShimmer 3s linear infinite 1.6s;
+      margin-right: 0.02em;
     }
 
-    @keyframes traitTextShimmer {
+    @keyframes traitInitialShimmer {
       0% { background-position: 0% center; }
       100% { background-position: 200% center; }
+    }
+
+    /* WORD REST: Polished Platinum Silver & Brilliant White */
+    .trait-rest {
+      font-weight: 750;
+      background: linear-gradient(180deg, #FFFFFF 15%, #F8FAFC 60%, #E2E8F0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.5));
+      letter-spacing: 0.01em;
     }
 
     /* HORIZONTAL GOLD LASER EXPANSION LINE */
@@ -428,7 +439,7 @@
 
     @keyframes traitLaserExpand {
       0% { width: 0; opacity: 0; }
-      100% { width: clamp(160px, 45vw, 320px); opacity: 1; }
+      100% { width: clamp(200px, 50vw, 420px); opacity: 1; }
     }
 
     /* TAGLINE: "BUILT TO THINK. DESIGNED TO TRANSFORM" */
@@ -502,13 +513,16 @@
     <!-- 2. Brand Typography Assembly (Reveals at 1.6s) -->
     <div class="trait-reveal-typography" id="trait-text-assembly">
       
-      <!-- Brand Name: TRAIT INNOVATION -->
-      <h1 class="trait-reveal-title">
-        <span class="trait-reveal-word-trait">TRAIT</span>
-        <span class="trait-reveal-word-innovation">INNOVATION</span>
+      <!-- Brand Abbreviation: Trisha Revolutionary Artificial Intelligence Technology -->
+      <h1 class="trait-reveal-title" aria-label="Trisha Revolutionary Artificial Intelligence Technology">
+        <span class="trait-reveal-word"><span class="trait-initial">T</span><span class="trait-rest">risha</span></span>
+        <span class="trait-reveal-word"><span class="trait-initial">R</span><span class="trait-rest">evolutionary</span></span>
+        <span class="trait-reveal-word"><span class="trait-initial">A</span><span class="trait-rest">rtificial</span></span>
+        <span class="trait-reveal-word"><span class="trait-initial">I</span><span class="trait-rest">ntelligence</span></span>
+        <span class="trait-reveal-word"><span class="trait-initial">T</span><span class="trait-rest">echnology</span></span>
       </h1>
 
-      <!-- High-Tech Cyan Laser Divider -->
+      <!-- High-Tech Gold Laser Divider -->
       <div class="trait-reveal-laser-line" aria-hidden="true"></div>
 
       <!-- Tagline -->
