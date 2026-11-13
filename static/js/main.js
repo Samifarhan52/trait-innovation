@@ -54,6 +54,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
   
+  // Floating Navbar Scroll Elevation Controller
+  const navbarPill = document.getElementById('global-navbar-pill');
+  if (navbarPill) {
+    const updateNavbarOnScroll = () => {
+      if (window.scrollY > 25) {
+        navbarPill.classList.add('shadow-2xl', 'shadow-slate-950/15', 'dark:shadow-[0_12px_36px_rgba(0,0,0,0.7)]', 'bg-white/95', 'dark:bg-[#0A0F1D]/95');
+      } else {
+        navbarPill.classList.remove('shadow-2xl', 'shadow-slate-950/15', 'dark:shadow-[0_12px_36px_rgba(0,0,0,0.7)]', 'bg-white/95', 'dark:bg-[#0A0F1D]/95');
+      }
+    };
+    window.addEventListener('scroll', updateNavbarOnScroll, { passive: true });
+    updateNavbarOnScroll();
+  }
+  
   // Highlight active home dot if on root page
   const homeNavLinks = document.querySelectorAll('.global-nav-link[data-path="/"]');
   homeNavLinks.forEach(link => {

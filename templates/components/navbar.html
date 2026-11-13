@@ -1,6 +1,7 @@
 <!-- GLOBAL REUSABLE TRAIT INNOVATION NAVBAR COMPONENT -->
-<header class="sticky top-4 z-50 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 select-none">
-  <div class="backdrop-blur-xl bg-white/90 dark:bg-[#0A0F1D]/90 border border-slate-200/90 dark:border-slate-800 rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-xl shadow-slate-950/5 transition-colors duration-300 relative">
+<header id="global-header-navbar" class="fixed top-0 left-0 right-0 z-50 pt-3 sm:pt-4 pointer-events-none select-none transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div id="global-navbar-pill" class="pointer-events-auto backdrop-blur-xl bg-white/90 dark:bg-[#0A0F1D]/90 border border-slate-200/90 dark:border-slate-800 rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-xl shadow-slate-950/5 transition-all duration-300 relative">
     
     <!-- Brand Logo & Tagline -->
     <a href="/" class="flex items-center gap-2 sm:gap-3 group shrink-0 py-0.5" aria-label="TRAIT Innovation Home">
@@ -227,9 +228,10 @@
       </button>
     </div>
   </div>
+  </div>
 
   <!-- Mobile Drawer Menu -->
-  <div id="global-mobile-menu" class="hidden md:hidden mt-3 bg-white/95 dark:bg-[#0A0F1D]/95 backdrop-blur-2xl border border-slate-200/90 dark:border-slate-800 rounded-3xl p-5 space-y-4 font-medium shadow-2xl transition-all max-h-[82vh] overflow-y-auto overscroll-contain">
+  <div id="global-mobile-menu" class="pointer-events-auto hidden md:hidden mt-3 max-w-7xl mx-auto px-4 sm:px-6 bg-white/95 dark:bg-[#0A0F1D]/95 backdrop-blur-2xl border border-slate-200/90 dark:border-slate-800 rounded-3xl p-5 space-y-4 font-medium shadow-2xl transition-all max-h-[82vh] overflow-y-auto overscroll-contain">
     <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
       <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">NAVIGATION</span>
       <button id="global-mobile-menu-close" class="text-xs font-mono text-slate-400 hover:text-slate-700 dark:hover:text-white">CLOSE ✕</button>
@@ -287,3 +289,6 @@
     </div>
   </div>
 </header>
+
+<!-- Global Navbar Height Flow Spacer (Ensures page top content is never obscured by the fixed navbar) -->
+<div class="h-20 sm:h-24 w-full pointer-events-none select-none" aria-hidden="true"></div>
