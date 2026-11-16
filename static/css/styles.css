@@ -557,15 +557,28 @@ code, pre, .font-mono {
 
 /* TYPOGRAPHY FIT - GUARANTEED FULL WORD VISIBILITY WITHOUT CLIPPING */
 .leadership-word {
-  font-size: clamp(2rem, 3.8vw, 3.5rem);
+  font-size: clamp(1.65rem, 3.1vw, 2.85rem);
   font-weight: 900;
   font-family: 'Space Grotesk', sans-serif;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  line-height: 1;
-  white-space: nowrap;
+  line-height: 1.15;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25em 0.35em;
+}
+
+.leadership-word .role-nowrap {
+  white-space: nowrap;
+}
+
+.leadership-amp {
+  font-weight: 700;
+  opacity: 0.92;
+  font-size: 0.88em;
 }
 
 .founder-word {
@@ -723,7 +736,8 @@ code, pre, .font-mono {
     justify-content: center;
   }
   .leadership-word {
-    font-size: clamp(1.6rem, 7.5vw, 2.5rem);
+    font-size: clamp(1.35rem, 6.2vw, 2rem);
+    line-height: 1.2;
   }
 }
 
